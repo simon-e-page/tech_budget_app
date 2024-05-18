@@ -1,0 +1,25 @@
+<div class="flex-me flex-col full-height"  style="margin-right:10px;">
+    <div class="header" anvil-slot="slot-header">
+       <div class="placeholder anvil-designer-only" anvil-if-slot-empty="slot-header" anvil-drop-here>Drop your Header here</div>
+    </div>
+    <div class="content-scroll" anvil-slot="slot-content">
+       <div class="placeholder anvil-designer-only" anvil-if-slot-empty="slot-content" anvil-drop-here>Drop your Content here</div>
+    </div>
+</div>
+
+<style>
+  
+  
+  .no-margin {
+    margin: 0;
+  }
+  
+  .content-scroll {
+    margin: 0;
+    flex: 1 1 auto;
+    overflow-y: auto;
+  }
+ 
+  
+
+</style>

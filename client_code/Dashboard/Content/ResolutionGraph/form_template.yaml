@@ -1,0 +1,28 @@
+container:
+  type: HtmlTemplate
+  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true,
+    role: dash-link, html: "<canvas id=\"myChart\" width=\"400\" height=\"120\"></canvas>\n\
+      <script>\nfunction buildChart(datasets, labels) {\n  if (document.getElementById('myChart'))\
+      \ {\n    Chart.defaults.global.defaultFontSize = 12;\n    var ctx = document.getElementById('myChart').getContext('2d');\n\
+      \    var chart = new Chart(ctx, {\n      // The type of chart we want to create\n\
+      \      type: 'bar',\n\n      // The data for our dataset\n      data: {\n  \
+      \        labels: labels,\n          datasets: datasets,\n\n      },\n\n    \
+      \  // Configuration options go here\n      options: {\n        elements: { \n\
+      \          point: { radius: 0,\n                   hitRadius: 5,\n         \
+      \          hoverRadius: 5\n                 } \n                },\n       \
+      \ layout: {\n              padding: {\n                  left: 50,\n       \
+      \           right: 50,\n                  top: 0,\n                  bottom:\
+      \ 50\n              }\n          },\n        legend: {\n          position:\
+      \ 'top',\n        },\n        scales : {\n          xAxes : [{\n           \
+      \   gridLines : {\n                  display : false\n              }\n    \
+      \      }],\n          yAxes: [{\n            display: true,\n            ticks:\
+      \ {\n                beginAtZero: true   // minimum value will be 0.\n     \
+      \       }\n        }]\n      \t}\t\n       }  \n     });\n   } else {\n  } \n\
+      };\n\n</script>"}
+  event_bindings: {show: form_show}
+components: []
+is_package: true
+custom_component: true
+properties:
+- {name: labels, type: 'text[]', default_value: null, default_binding_prop: true}
+- {name: datasets, type: object, default_value: null}

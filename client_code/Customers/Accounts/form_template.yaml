@@ -1,0 +1,81 @@
+container:
+  type: HtmlTemplate
+  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true,
+    role: null, html: '@theme:scroll_pane.html'}
+components:
+- type: form:Customers.Accounts.AccountsTable
+  properties: {}
+  name: accounts_table
+  layout_properties: {slot: slot-content}
+- type: FlowPanel
+  properties: {role: null, spacing: medium, align: left, tooltip: '', border: '',
+    foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
+  name: flow_panel_1
+  layout_properties: {slot: slot-header}
+  components:
+  - type: FlowPanel
+    properties: {role: null, spacing: medium, align: right, tooltip: '', border: '',
+      foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
+    name: flow_panel_2
+    layout_properties: {width: 413}
+    components:
+    - type: Label
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'Budget for:', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_1
+      layout_properties: {}
+    - type: DropDown
+      properties:
+        role: null
+        align: full
+        tooltip: ''
+        placeholder: Select Financial Year
+        border: ''
+        enabled: true
+        foreground: ''
+        items: []
+        visible: true
+        font_size: null
+        font: ''
+        spacing_above: small
+        spacing_below: small
+        italic: false
+        background: ''
+        bold: false
+        underline: false
+        include_placeholder: true
+      name: fin_year_dropdown
+      layout_properties: {}
+      data_bindings:
+      - {property: items, code: self.fin_years}
+      - {property: selected_value, code: self.fin_year, writeback: true}
+      event_bindings: {change: fin_year_dropdown_change}
+  - type: Button
+    properties: {role: secondary-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: Set All to Default, font_size: null, font: '',
+      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false, icon: 'fa:anchor'}
+    name: default_button
+    layout_properties: {}
+    event_bindings: {click: default_button_click}
+    data_bindings:
+    - {property: visible, code: self.fin_year is not None}
+  - type: Button
+    properties: {role: large-primary-button, align: center, tooltip: '', border: '',
+      enabled: true, foreground: '', visible: true, text: Save, font_size: null, font: '',
+      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: true, underline: false, icon: 'fa:check-square'}
+    name: save_button
+    layout_properties: {}
+    event_bindings: {click: save_button_click}
+  - type: Button
+    properties: {role: large-primary-button, align: center, tooltip: '', border: '',
+      enabled: true, foreground: '', visible: true, text: New, font_size: null, font: '',
+      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: true, underline: false, icon: 'fa:external-link'}
+    name: new_button
+    layout_properties: {}
+    event_bindings: {click: new_button_click}
+is_package: true

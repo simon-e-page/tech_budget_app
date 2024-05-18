@@ -1,0 +1,21 @@
+container:
+  type: HtmlTemplate
+  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true,
+    role: null, html: '@theme:two_slots_customers.html'}
+components:
+- type: form:Customers.Accounts_old.Table
+  properties: {}
+  name: accounts_table
+  layout_properties: {slot: slot-1}
+  data_bindings:
+  - {property: item, code: self.accounts}
+- type: RepeatingPanel
+  properties: {role: null, tooltip: '', border: '', foreground: '', items: null, visible: true,
+    spacing_above: small, spacing_below: none, item_template: Customers.Accounts_old.Letter,
+    background: white}
+  name: letters_repeating_panel
+  layout_properties:
+    col_widths: {}
+    grid_position: CMIJCT,XVKISG
+    slot: slot-2
+is_package: true

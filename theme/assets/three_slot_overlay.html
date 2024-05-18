@@ -1,0 +1,46 @@
+<div class="flex-me row full-height no-margin absolute">
+    <div class="large overlay-form" id="goBack"></div>
+    <div class="slot" anvil-slot-repeat="slot-2"></div>
+    <div class="placeholder anvil-designer-only" anvil-if-slot-empty="slot-2" anvil-drop-slot="slot-2">Drop your Secondary Form here</div>
+    <div class="slot" anvil-slot-repeat="slot-3"></div>
+    <div class="placeholder anvil-designer-only" anvil-if-slot-empty="slot-3" anvil-drop-slot="slot-3">Drop your Third Form here</div>
+</div>
+
+<style>
+  
+  .no-margin {
+    margin: 0;
+  }
+  
+  .large {
+    flex: 1 0 auto;
+  }
+  
+  .slot {
+    width: 22vw;
+  }
+  
+  .absolute {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+    
+  .overlay-form {
+    background-color: #171717b8;
+  }
+  
+
+
+</style>
+
+<script>
+  $(".overlay-form").click(function() {
+    var overlayForm = this;
+    anvil.call(overlayForm, "clear_overlay");
+  });
+  
+  
+</script>

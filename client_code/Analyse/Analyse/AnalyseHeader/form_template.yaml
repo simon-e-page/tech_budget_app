@@ -1,0 +1,72 @@
+container:
+  type: DataRowPanel
+  properties: {role: tickets-repeating-panel, align: left, tooltip: '', border: '',
+    foreground: '', auto_display_data: true, visible: true, font_size: null, font: '',
+    spacing_above: none, spacing_below: none, italic: false, background: '', bold: false,
+    underline: false}
+  data_bindings: []
+components:
+- type: ColumnPanel
+  properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
+    wrap_on: mobile, col_spacing: tiny, spacing_above: none, col_widths: '{"SAFFGG":2,"NBWYNT":15,"JUJBCY":33}',
+    spacing_below: none, background: ''}
+  name: column_panel_1
+  layout_properties: {column: USDYWJ}
+  components:
+  - type: Image
+    properties: {role: null, vertical_align: center, height: 45, tooltip: '', border: '',
+      foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: none,
+      source: '', spacing_below: none, background: '', horizontal_align: center}
+    name: account_image
+    layout_properties: {grid_position: 'ZZIVZE,SAFFGG', full_width_row: true}
+    data_bindings: []
+    event_bindings: {}
+  - type: DropDown
+    properties: {}
+    name: account_dropdown
+    layout_properties: {grid_position: 'ZZIVZE,NBWYNT YCRLFI,ZHGKIO', full_width_row: true}
+    data_bindings:
+    - {property: items, code: self.accounts}
+    event_bindings: {change: account_dropdown_change}
+  - type: Label
+    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+      visible: false, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: rows_label
+    layout_properties: {grid_position: 'ZZIVZE,NBWYNT CYHKRU,TPNVUG'}
+  - type: FlowPanel
+    properties: {}
+    name: flow_panel_1
+    layout_properties: {grid_position: 'ZZIVZE,JUJBCY', full_width_row: true}
+    components:
+    - type: Label
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'Prompt:', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_1
+      layout_properties: {}
+    - type: TextBox
+      properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Ask GPT about this account!,
+        border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
+        font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false}
+      name: prompt_box
+      layout_properties: {width: 603.5}
+      data_bindings:
+      - {property: enabled, code: self.selected_account is not None}
+      - {property: text, code: self.prompt, writeback: false}
+      event_bindings: {change: prompt_box_change, pressed_enter: prompt_box_pressed_enter}
+    - type: Button
+      properties: {role: primary-button, align: center, tooltip: '', border: '', enabled: false,
+        foreground: '', visible: true, text: Go, font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+        underline: false, icon: 'fa:exclamation-circle'}
+      name: go_button
+      layout_properties: {}
+      event_bindings: {click: go_button_click}
+      data_bindings:
+      - {property: enabled, code: self.prompt is not None and len(self.prompt)>0}
+  data_bindings: []
+is_package: true

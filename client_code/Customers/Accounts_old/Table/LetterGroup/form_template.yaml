@@ -1,0 +1,22 @@
+container:
+  type: DataRowPanel
+  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', auto_display_data: true,
+    visible: true, font_size: null, font: '', spacing_above: none, spacing_below: none,
+    italic: false, background: '', bold: false, underline: false}
+components:
+- type: Label
+  properties: {role: customer-letter-label, align: left, tooltip: '', border: '',
+    foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small,
+    icon_align: left, spacing_below: small, italic: false, background: 'theme:Gray
+      800', bold: false, underline: false, icon: ''}
+  name: letter_label
+  layout_properties: {grid_position: 'GAKLXI,UIBESK', full_width_row: true, column: QBAWOM}
+  data_bindings:
+  - {property: text, code: 'self.item[''letter'']'}
+- type: RepeatingPanel
+  properties: {spacing_above: none, spacing_below: none, item_template: Customers.Accounts_old.Table.LetterGroup.AccountRow}
+  name: accounts_repeating_panel
+  layout_properties: {column: null}
+  data_bindings:
+  - {property: items, code: 'self.item[''accounts'']'}
+is_package: true

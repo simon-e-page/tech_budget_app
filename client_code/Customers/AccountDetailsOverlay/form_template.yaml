@@ -1,0 +1,13 @@
+components:
+- type: form:Customers.Account.Details
+  properties: {}
+  name: account_details
+  layout_properties: {slot: slot-2}
+  data_bindings:
+  - {property: item, code: self.item}
+container:
+  type: HtmlTemplate
+  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true,
+    role: null, html: '@theme:one_slot_overlay.html'}
+  event_bindings: {}
+is_package: true

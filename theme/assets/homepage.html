@@ -1,0 +1,192 @@
+<div class="main">
+  
+  <div class="left-sidebar">
+    <div class="avatar" anvil-slot="avatar">
+        <div class="placeholder anvil-designer-only" anvil-if-slot-empty="avatar" anvil-drop-here>Drop avatar here</div>
+    </div>
+    <div class="sidebar-items" anvil-slot="sidebar-items">
+      <div class="placeholder anvil-designer-only" anvil-if-slot-empty="sidebar-items" anvil-drop-here>
+         To add sidebar items,<br> drop a LinearPanel or FlowPanel here.
+      </div>
+    </div>
+    <div class="sidebar-items sidebar-centre" anvil-slot="sidebar-items-2">
+      <div class="placeholder anvil-designer-only" anvil-if-slot-empty="sidebar-items-2" anvil-drop-here>
+         To add sidebar items,<br> drop a LinearPanel or FlowPanel here.
+      </div>
+    </div>
+    <div class="sidebar-items" anvil-slot="sidebar-items-bottom">
+      <div class="placeholder anvil-designer-only" anvil-if-slot-empty="sidebar-items-bottom" anvil-drop-here>
+       To add sidebar items,<br> drop a LinearPanel or FlowPanel here.
+      </div>
+    </div>
+  </div>
+              
+  <div class="right-content">
+    <div class="right-nav">
+      <div class="tab">
+        <div class="title" anvil-slot="title">
+           <div class="placeholder anvil-designer-only" anvil-if-slot-empty="title" anvil-drop-here>Drop title here</div>
+        </div>
+      </div>
+      
+      <div class="search-box" anvil-slot="search-box">
+         <div class="placeholder anvil-designer-only" anvil-if-slot-empty="search-box" anvil-drop-here>Drop TextBox here</div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="absolute-div">
+        <!-- full-height-child applies height:100% to child components of this div -->
+        <div anvil-slot-repeat="default" class="anvil-measure-this full-height full-height-child"></div>
+        <div class="placeholder drop-here" anvil-if-slot-empty="default" anvil-drop-slot="default">Drop a ColumnPanel here.</div>
+      </div>
+      <!-- overlay div used to overlay the customer detail and customer edit views on top of the customers index page -->
+      <div class="overlay" anvil-slot="overlay">
+        <div class="anvil-designer-only" anvil-if-slot-empty="overlay" anvil-drop-here></div>
+      </div>
+    </div>
+  </div> 
+</div>
+<div anvil-drop-default anvil-drop-redirect=".placeholder" anvil-drop-container=".anvil-container"></div>
+
+<style>
+
+/* Top-level div */
+.main {
+  background-color:#3C3569; 
+  height: 100vh;
+  padding-top: 4vh;
+  display: flex;
+  flex-direction: row;
+  /*overflow-y: hidden;*/
+ }
+  
+/* SideBar and items in SideBar */
+.left-sidebar {
+  background-color: #2F2A52;
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  align-items: center;
+  min-width: 12vw;
+  max-width: 25vw;
+  color: white;
+  padding-top: 5vh;
+ }
+  
+.left-sidebar a {
+    color: #8F8F99;
+    font-size: 1.8vh;
+    margin-left: 15px;
+  }
+  
+.left-sidebar a i {
+    color: #8F8F99;
+    font-size: 16px;
+    padding-bottom: 8px;
+  }
+  
+.left-sidebar a.anvil-role-active {
+    color: white;
+  }
+  
+.left-sidebar a.anvil-role-active i {
+    color: #00FFAF;
+  }
+  
+.avatar {
+  margin-bottom: 3vh;
+  }
+  
+.sidebar-items {
+    margin-bottom: 50px;
+    min-width: 150px;
+  }
+  
+.sidebar-items:last-child {
+  margin-bottom: 30px;
+ }
+  
+.sidebar-centre {
+  flex: 1 0 0;
+ }
+
+
+  
+/* Flexbox for content to RHS of SideBar */
+.right-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 0;
+  }
+
+/* Secondary NavBar containing Title and Search Box */
+.right-nav {
+  display: flex;
+  justify-content: space-between;
+  height: 8vh;
+  align-items: center;
+  }
+  
+.tab {
+  height: 30vh;
+  background-color:#2F2A52;
+  color:white;
+  border-radius: 0 22% 0 0;
+  padding: 1.5vh 15vh 2vh 8vh;
+  margin-top: auto;
+}
+  
+.title {
+    padding-top: 6px;
+  }
+  
+.search-box {
+  color: white;
+  padding-right: 30px;
+  padding-top: 20px;
+}
+  
+.search-box input {
+  color: grey;
+  background-color: #302954;
+  width: 35vw;
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: none;
+  background-image: url("/_/theme/purple-search.png");
+  background-position: center right;
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-bottom: 4vh;
+  }
+  
+.search-box .form-control:focus {
+  border-color: #2f2a52 !important;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6) !important;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgb(47, 42, 82) !important;
+}
+  
+/* FlexBox for Main Content of App */ 
+.content {
+  flex: 1 0 0;
+  position: relative;
+  background-color: white;
+  border-radius: 100px 0 0 0;
+  flex: 1 0 0;
+  padding: 0px 30px;
+  overflow: hidden;
+  }
+  
+.content .placeholder {
+  padding: 30px;
+}
+  
+ /* Remove margin from main ContentPanel */
+.anvil-panel-section-container {
+  margin: 0 !important;
+  }
+  
+
+
+
+</style>

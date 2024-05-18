@@ -1,0 +1,36 @@
+components: []
+container:
+  type: HtmlTemplate
+  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true,
+    role: null, html: "<div class=\"progress-chart\"></div>\n\n<style>\n.pie2 {\n\
+      \  margin: 20px;\n}\n\n.pie2 text{\n  font-size: 3vh;\n  font-family: \"Barlow\"\
+      ;\n  fill: #3a3367;\n}\n</style>\n\n<script>\n  \n  function drawChart3(percent,\
+      \ text='') {\n    \n    var div = this.find(\".progress-chart\")[0];\n    console.log(\"\
+      my div is\", div);\n    console.log(this);\n    \n    if (div) {\n      div.innerHTML\
+      \ = \"\";\n    \n      var percent = percent; // 0.0 to 1.0\n      \n      if\
+      \ (text <= 1) {\n        var text = Math.round(percent * 100) + \"%\";\n   \
+      \   } else {\n        var text = text;\n      }\n      \n      var width = 120;\n\
+      \      var height = 120;\n      var thickness = 8;\n      var duration = 750;\n\
+      \      var foregroundColor = \"#7d71d7\";\n      var backgroundColor = \"#cccccc\"\
+      ;\n\n      var radius = Math.min(width, height) / 2;\n      var color = d3.scaleOrdinal([foregroundColor,\
+      \ backgroundColor]);\n\n      var svg = d3.select(div)\n      .append('svg')\n\
+      \      .attr('class', 'pie2')\n      .attr('width', width)\n      .attr('height',\
+      \ height);\n\n      var g = svg.append('g')\n      .attr('transform', 'translate('\
+      \ + (width/2) + ',' + (height/2) + ')');\n\n      var arc = d3.arc()\n     \
+      \ .innerRadius(radius - thickness)\n      .outerRadius(radius);\n\n      var\
+      \ pie = d3.pie()\n      .sort(null);\n\n      var path = g.selectAll('path')\n\
+      \      .data(pie([0, 1]))\n      .enter()\n      .append('path')\n      .attr('d',\
+      \ arc)\n      .attr('fill', function(d, i) {\n        return color(i);\n   \
+      \   })\n      .each(function(d) { this._current = d; });\n\n\n      path.data(pie([percent,\
+      \ 1-percent])).transition()\n        .duration(duration)\n        .attrTween('d',\
+      \ function(d) {\n        var interpolate = d3.interpolate(this._current, d);\n\
+      \        this._current = interpolate(0);\n        return function(t) {\n   \
+      \       return arc(interpolate(t));\n        }\n      });\n\tif (text != '')\
+      \ {\n      g.append('text')\n        .attr('text-anchor', 'middle')\n      \
+      \  .attr('dy', '.35em')\n        .text(text);\n      }\n      \n    }\n    \n\
+      \  }\n  \n // drawChart2(0.5, 0.5);\n  \n\n</script>"}
+  event_bindings: {show: form_show}
+custom_component: true
+properties:
+- {name: percentage, type: number, default_value: 0, default_binding_prop: true}
+- {name: display_value, type: number, default_value: 0}

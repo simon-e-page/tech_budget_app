@@ -1,0 +1,160 @@
+container:
+  type: HtmlTemplate
+  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true,
+    role: null, html: '@theme:scroll_pane.html'}
+components:
+- type: RepeatingPanel
+  properties: {role: null, tooltip: '', border: '', foreground: '', items: null, visible: true,
+    spacing_above: small, spacing_below: small, item_template: Customers.Account.AccountTransactions.AccountTransactionRow,
+    background: ''}
+  name: repeating_panel_1
+  layout_properties: {slot: slot-content}
+  data_bindings:
+  - {property: items, code: self.transactions}
+- type: LinearPanel
+  properties: {}
+  name: linear_panel_2
+  layout_properties: {slot: slot-header}
+  components:
+  - type: FlowPanel
+    properties: {}
+    name: flow_panel_1
+    layout_properties: {slot: slot-header}
+    components:
+    - type: Spacer
+      properties: {height: 32}
+      name: spacer_1
+      layout_properties: {width: 31}
+    - type: Button
+      properties: {role: secondary-button, align: center, tooltip: '', border: '',
+        enabled: true, foreground: '', visible: true, text: Back, font_size: null,
+        font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false, icon: 'fa:step-backward'}
+      name: back_button
+      layout_properties: {}
+      event_bindings: {click: back_button_click}
+    - type: Label
+      properties: {role: header-text, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+        underline: false, icon: ''}
+      name: account_label
+      layout_properties: {}
+      data_bindings:
+      - {property: text, code: 'self.account[''name'']'}
+    - type: Label
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'Period:', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+        underline: false, icon: ''}
+      name: label_1
+      layout_properties: {}
+    - type: DropDown
+      properties:
+        role: dropdown-border
+        align: full
+        tooltip: ''
+        placeholder: Select Period
+        border: ''
+        enabled: true
+        foreground: ''
+        items: []
+        visible: true
+        font_size: null
+        font: ''
+        spacing_above: small
+        spacing_below: small
+        italic: false
+        background: ''
+        bold: false
+        underline: false
+        include_placeholder: true
+      name: period_dropdown
+      layout_properties: {}
+      data_bindings:
+      - {property: items, code: self.periods}
+      event_bindings: {change: period_dropdown_change}
+    - type: Button
+      properties: {role: primary-button, align: center, tooltip: '', border: '', enabled: true,
+        foreground: '', visible: true, text: Reconcile All, font_size: null, font: '',
+        spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false, icon: 'fa:check-square'}
+      name: reconcile_button
+      layout_properties: {}
+      event_bindings: {click: reconcile_button_click}
+      data_bindings:
+      - {property: enabled, code: 'self.account[''reconcile''] and (not self.all_reconciled)'}
+    - type: Button
+      properties: {role: secondary-button, align: center, tooltip: '', border: '',
+        enabled: true, foreground: '', visible: true, text: Match, font_size: null,
+        font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false, icon: ''}
+      name: match_button
+      layout_properties: {}
+      data_bindings:
+      - {property: visible, code: '"Paypal" in self.account[''name'']'}
+      event_bindings: {click: match_button_click}
+    - type: Link
+      properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: Hide, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
+        spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
+        italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-up'}
+      name: hide_link
+      layout_properties: {}
+      data_bindings:
+      - {property: visible, code: 'self.account.type in [''EXPENSE'', ''LIABILITY'']'}
+      event_bindings: {click: hide_link_click}
+    - type: FlowPanel
+      properties: {role: null, spacing: medium, align: right, tooltip: '', border: '',
+        foreground: '', visible: true, spacing_above: small, spacing_below: small,
+        background: ''}
+      name: flow_panel_2
+      layout_properties: {width: 469}
+      components:
+      - type: Label
+        properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+          visible: true, text: 'Balance:', font_size: null, font: '', spacing_above: small,
+          icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+          underline: false, icon: ''}
+        name: label_2
+        layout_properties: {}
+      - type: Label
+        properties: {}
+        name: start_balance
+        layout_properties: {}
+        data_bindings:
+        - {property: text, code: '"${:,.2f}".format(self.starting_balance).replace(''$-'',
+            ''-$'')'}
+      - type: Label
+        properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+          visible: true, text: to, font_size: null, font: '', spacing_above: small,
+          icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+          underline: false, icon: ''}
+        name: label_5
+        layout_properties: {}
+      - type: Label
+        properties: {}
+        name: end_balance
+        layout_properties: {}
+        data_bindings:
+        - {property: text, code: '"${:,.2f}".format(self.ending_balance).replace(''$-'',
+            ''-$'')'}
+    - type: Label
+      properties: {}
+      name: label_4
+      layout_properties: {}
+    - type: Label
+      properties: {}
+      name: label_3
+      layout_properties: {}
+  - type: FlowPanel
+    properties: {}
+    name: plot_panel
+    layout_properties: {}
+    components:
+    - type: Plot
+      properties: {height: 295}
+      name: account_plot
+      layout_properties: {width: 1260}
+      event_bindings: {click: account_plot_click}
+is_package: true

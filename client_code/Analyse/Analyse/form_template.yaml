@@ -1,0 +1,15 @@
+container:
+  type: HtmlTemplate
+  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true,
+    role: null, html: '@theme:scroll_pane.html'}
+  event_bindings: {show: form_show}
+components:
+- type: form:Analyse.Analyse.AnalyseHeader
+  properties: {}
+  name: analyse_header
+  layout_properties: {slot: slot-header}
+- type: form:Analyse.Analyse.AnalyseContent
+  properties: {}
+  name: analyse_content
+  layout_properties: {slot: slot-content}
+is_package: true

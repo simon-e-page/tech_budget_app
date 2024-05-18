@@ -1,0 +1,32 @@
+<div class="flex-me flex-col full-height">
+    <div class="header" anvil-slot="slot-header">
+       <div class="placeholder anvil-designer-only" anvil-if-slot-empty="slot-header" anvil-drop-here>Drop your Header here</div>
+    </div>
+    
+    <div class="expand-content" anvil-slot="slot-content">
+       <div class="placeholder anvil-designer-only" anvil-if-slot-empty="slot-content" anvil-drop-here>Drop your Content here</div>
+    </div>
+    <div class="header" anvil-slot="slot-header-2">
+       <div class="placeholder anvil-designer-only" anvil-if-slot-empty="slot-header-2" anvil-drop-here>Drop your Header here</div>
+    </div>
+</div>
+
+<style>
+    
+  .no-margin {
+    margin: 0;
+  }
+  
+  .placeholder {
+    border: 1px dotted grey;
+    padding: 10px 10px;
+    text-align: center;
+  }
+  
+  .expand-content {
+    flex: 1 0 auto;
+  }
+   
+  
+
+</style>

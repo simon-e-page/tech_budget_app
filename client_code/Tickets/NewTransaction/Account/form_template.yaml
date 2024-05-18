@@ -1,0 +1,203 @@
+container:
+  type: HtmlTemplate
+  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true,
+    role: bg-image-narrow-colour, html: '@theme:scroll_pane.html'}
+  event_bindings: {show: form_show}
+components:
+- type: ColumnPanel
+  properties: {role: horizontal-padding, tooltip: '', border: '', foreground: '',
+    visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
+    spacing_below: small, background: ''}
+  name: column_panel_1
+  layout_properties: {grid_position: 'NEYDPG,ZDTLVC', full_width_row: true, slot: slot-header}
+  components:
+  - type: Label
+    properties: {role: header-text, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: Assign Account, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: medium, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_1
+    layout_properties: {grid_position: 'QQGNMW,CJQPMC', full_width_row: false}
+  - type: ColumnPanel
+    properties: {col_widths: '{}'}
+    name: column_panel_2
+    layout_properties: {grid_position: 'HMJGUS,IZZKLO'}
+    components:
+    - type: TextBox
+      properties: {role: search-box-secondary, align: left, hide_text: false, tooltip: '',
+        placeholder: Search Accounts, border: '', enabled: true, foreground: 'theme:Gray
+          900', visible: true, text: '', font_size: null, font: '', spacing_above: small,
+        type: text, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false}
+      name: text_box_search
+      layout_properties:
+        col_widths: {}
+        grid_position: STDXOD,UJFSON
+        full_width_row: false
+      event_bindings: {focus: text_box_search_focus, pressed_enter: text_box_search_pressed_enter,
+        change: text_box_search_change}
+    - type: FlowPanel
+      properties: {role: null, spacing: tiny, align: center, tooltip: '', border: '',
+        foreground: '', visible: true, spacing_above: medium, spacing_below: small,
+        background: ''}
+      name: flow_panel_1
+      layout_properties:
+        col_widths: {}
+        grid_position: IYFEDJ,RUQVRG
+        full_width_row: true
+      components:
+      - type: Label
+        properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+          visible: true, text: 'or ', font_size: null, font: '', spacing_above: none,
+          icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+          underline: false, icon: ''}
+        name: label_1_copy
+        layout_properties: {grid_position: 'JFVKTS,UXJGGN'}
+      - type: Link
+        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '#7e71da',
+          visible: true, text: Add New, font_size: null, wrap_on: mobile, font: '',
+          col_spacing: medium, spacing_above: none, icon_align: left, col_widths: '',
+          spacing_below: small, italic: false, background: '', bold: false, underline: false,
+          icon: ''}
+        name: new_account_button
+        layout_properties: {}
+        event_bindings: {click: new_account_button_click}
+- type: ColumnPanel
+  properties: {col_widths: '{"NFLICW":10,"XROWZV":40,"NTJYJS":10}'}
+  name: column_panel_3
+  layout_properties: {slot: slot-content}
+  components:
+  - type: Spacer
+    properties: {height: 32}
+    name: spacer_5
+    layout_properties: {grid_position: 'PQYBOU,NFLICW', full_width_row: false}
+  - type: RepeatingPanel
+    properties: {role: null, tooltip: '', border: '', foreground: '', items: null,
+      visible: true, spacing_above: small, spacing_below: small, item_template: Tickets.NewTransaction.Account.AccountSearchRow,
+      background: ''}
+    name: repeating_panel_results
+    layout_properties:
+      col_widths: {}
+      grid_position: PQYBOU,XROWZV
+      full_width_row: false
+  - type: Spacer
+    properties: {height: 32}
+    name: spacer_4
+    layout_properties: {grid_position: 'PQYBOU,NTJYJS', full_width_row: false}
+- type: ColumnPanel
+  properties: {role: new-customer-box, tooltip: '', border: '', foreground: '', visible: false,
+    wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{"VEDURN":10,"UJQYJN":60,"BLHQKJ":10,"HVUNCA":25,"MDWWCD":35,"BWPKKD":25,"DTANNH":35,"THNTGX":25,"GFBTNM":35,"ZHRWXD":25,"RBHMWA":35,"UJMMYJ":25,"XPFYSO":35,"CGLFTE":25,"VDUBRH":35}',
+    spacing_below: small, background: 'theme:White'}
+  name: new_customer_box
+  layout_properties: {slot: slot-content}
+  components:
+  - type: Spacer
+    properties: {height: 32}
+    name: spacer_1
+    layout_properties: {grid_position: 'LFFXAI,VEDURN'}
+  - type: Label
+    properties: {role: muted-text, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'First name: ', font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_2
+    layout_properties: {grid_position: 'LFFXAI,UJQYJN IRBXRG,HVUNCA'}
+  - type: TextBox
+    properties: {role: textbox-input, align: left, hide_text: false, tooltip: '',
+      placeholder: first name, border: '', enabled: true, foreground: '', visible: true,
+      text: '', font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
+      italic: false, background: '', bold: false, underline: false}
+    name: text_box_1
+    layout_properties: {grid_position: 'LFFXAI,UJQYJN IRBXRG,MDWWCD'}
+    data_bindings:
+    - {property: text, code: 'self.new_customer[''first_name'']', writeback: true}
+  - type: Label
+    properties: {role: muted-text, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'Last name:', font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_3
+    layout_properties: {grid_position: 'LFFXAI,UJQYJN IKSEHS,BWPKKD'}
+  - type: TextBox
+    properties: {role: textbox-input, align: left, hide_text: false, tooltip: '',
+      placeholder: last name, border: '', enabled: true, foreground: '', visible: true,
+      text: '', font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
+      italic: false, background: '', bold: false, underline: false}
+    name: text_box_2
+    layout_properties: {grid_position: 'LFFXAI,UJQYJN IKSEHS,DTANNH'}
+    data_bindings:
+    - {property: text, code: 'self.new_customer[''last_name'']', writeback: true}
+  - type: Label
+    properties: {role: muted-text, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'Title:', font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_4
+    layout_properties: {grid_position: 'LFFXAI,UJQYJN EHCGNU,THNTGX'}
+  - type: TextBox
+    properties: {role: textbox-input, align: left, hide_text: false, tooltip: '',
+      placeholder: title, border: '', enabled: true, foreground: '', visible: true,
+      text: '', font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
+      italic: false, background: '', bold: false, underline: false}
+    name: text_box_3
+    layout_properties: {grid_position: 'LFFXAI,UJQYJN EHCGNU,GFBTNM'}
+    data_bindings:
+    - {property: text, code: 'self.new_customer[''title'']', writeback: true}
+  - type: Label
+    properties: {role: muted-text, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'Company:', font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_5
+    layout_properties: {grid_position: 'LFFXAI,UJQYJN RWLNFX,ZHRWXD'}
+  - type: TextBox
+    properties: {role: textbox-input, align: left, hide_text: false, tooltip: '',
+      placeholder: company, border: '', enabled: true, foreground: '', visible: true,
+      text: '', font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
+      italic: false, background: '', bold: false, underline: false}
+    name: text_box_4
+    layout_properties: {grid_position: 'LFFXAI,UJQYJN RWLNFX,RBHMWA'}
+    data_bindings:
+    - {property: text, code: 'self.new_customer[''company'']', writeback: true}
+  - type: Label
+    properties: {role: muted-text, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'Email:
+
+        ', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+      italic: false, background: '', bold: false, underline: false, icon: ''}
+    name: label_6
+    layout_properties: {grid_position: 'LFFXAI,UJQYJN PGJESI,UJMMYJ'}
+  - type: TextBox
+    properties: {role: textbox-input, align: left, hide_text: false, tooltip: '',
+      placeholder: email, border: '', enabled: true, foreground: '', visible: true,
+      text: '', font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
+      italic: false, background: '', bold: false, underline: false}
+    name: text_box_5
+    layout_properties: {grid_position: 'LFFXAI,UJQYJN PGJESI,XPFYSO'}
+    data_bindings:
+    - {property: text, code: 'self.new_customer[''email'']', writeback: true}
+  - type: Label
+    properties: {role: muted-text, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'Phone number:', font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_7
+    layout_properties: {grid_position: 'LFFXAI,UJQYJN BHTJFH,CGLFTE'}
+  - type: TextBox
+    properties: {role: textbox-input, align: left, hide_text: false, tooltip: '',
+      placeholder: phone number, border: '', enabled: true, foreground: '', visible: true,
+      text: '', font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
+      italic: false, background: '', bold: false, underline: false}
+    name: text_box_6
+    layout_properties: {grid_position: 'LFFXAI,UJQYJN BHTJFH,VDUBRH'}
+    data_bindings:
+    - {property: text, code: 'self.new_customer[''phone'']', writeback: true}
+  - type: Spacer
+    properties: {height: 32}
+    name: spacer_3
+    layout_properties: {grid_position: 'LFFXAI,UJQYJN GUBHHM,MUQBVZ'}
+  - type: Spacer
+    properties: {height: 0}
+    name: spacer_2
+    layout_properties: {grid_position: 'LFFXAI,BLHQKJ'}
+is_package: true

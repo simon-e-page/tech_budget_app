@@ -1,0 +1,272 @@
+container:
+  type: HtmlTemplate
+  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true,
+    role: background-colour, html: '@theme:scroll_pane.html'}
+  event_bindings: {show: form_show, refreshing_data_bindings: form_refreshing_data_bindings}
+components:
+- type: ColumnPanel
+  properties: {col_widths: '{"ZHPIBQ":10,"YYLREV":50}'}
+  name: column_panel_1
+  layout_properties: {slot: slot-header}
+  components:
+  - type: Image
+    properties: {role: null, vertical_align: center, height: 99, tooltip: '', border: '',
+      foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: small,
+      source: '', spacing_below: small, background: white, horizontal_align: center}
+    name: avatar_image
+    layout_properties: {grid_position: 'OUPOWO,ZHPIBQ'}
+    data_bindings:
+    - {property: source, code: 'self.get_icon(self.account_copy[''icon_id''])'}
+  - type: FlowPanel
+    properties: {role: null, spacing: medium, align: justify, tooltip: '', border: '',
+      foreground: '', visible: true, spacing_above: small, spacing_below: medium,
+      background: ''}
+    name: flow_panel_1
+    layout_properties:
+      col_widths: {}
+      grid_position: OUPOWO,YYLREV
+    components:
+    - type: Label
+      properties: {role: header-text, align: left, tooltip: '', border: '', foreground: '#00FFB0',
+        visible: true, text: Account Details, font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_1
+      layout_properties: {grid_position: 'NPWDLT,IKNOZY'}
+    - type: FlowPanel
+      properties: {role: null, spacing: medium, align: right, tooltip: '', border: '',
+        foreground: '', visible: true, spacing_above: small, spacing_below: small,
+        background: ''}
+      name: flow_panel_3
+      layout_properties: {grid_position: 'RPECNJ,XFACKM'}
+      components:
+      - type: Link
+        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:White',
+          visible: true, text: More, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
+          spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
+          italic: false, background: '', bold: false, underline: false, icon: 'fa:arrow-circle-left'}
+        name: more_link
+        layout_properties: {grid_position: 'IRDEHK,AUFSCN'}
+        event_bindings: {click: more_link_click}
+      - type: Link
+        properties: {role: null, url: '', align: right, tooltip: '', border: '', foreground: white,
+          visible: true, text: Save, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
+          spacing_above: small, icon_align: left, col_widths: '{}', spacing_below: small,
+          italic: false, background: '', bold: false, underline: false, icon: 'fa:check-circle'}
+        name: edit_account_link
+        layout_properties: {grid_position: 'ZDLBOV,PJSEYD'}
+        event_bindings: {click: edit_account_link_click}
+        components: []
+      - type: Link
+        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: white,
+          visible: true, text: Close, font_size: null, wrap_on: mobile, font: '',
+          col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '{}',
+          spacing_below: small, italic: false, background: '', bold: false, underline: false,
+          icon: ''}
+        name: close_pane_link
+        layout_properties: {grid_position: 'BMRFRC,DFBTYZ'}
+        components: []
+        event_bindings: {click: close_pane_link_click}
+  - type: Label
+    properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Gray
+        50', visible: true, text: 'Description:', font_size: 16, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_6
+    layout_properties: {grid_position: 'CELFST,PFDFFT'}
+    data_bindings: []
+  - type: TextBox
+    properties: {}
+    name: description_textbox
+    layout_properties: {grid_position: 'XTTFAA,WNURDD'}
+    data_bindings:
+    - {property: text, code: 'self.account_copy[''description'']', writeback: true}
+  - type: FlowPanel
+    properties: {role: null, spacing: medium, align: right, tooltip: '', border: '',
+      foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
+    name: flow_panel_5
+    layout_properties: {grid_position: 'SRJSFA,MVUAHI'}
+    components:
+    - type: Label
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:White',
+        visible: true, text: 'Institution:', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5
+      layout_properties: {}
+    - type: TextBox
+      properties: {}
+      name: institution_textbox
+      layout_properties: {}
+      data_bindings:
+      - {property: text, code: 'self.account_copy[''institution'']', writeback: true}
+  - type: FlowPanel
+    properties: {role: null, spacing: medium, align: right, tooltip: '', border: '',
+      foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
+    name: flow_panel_4
+    layout_properties: {grid_position: 'PFSGKC,RGYCKN'}
+    components:
+    - type: Label
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:White',
+        visible: true, text: 'Type:', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3
+      layout_properties: {}
+    - type: DropDown
+      properties:
+        role: null
+        align: full
+        tooltip: ''
+        placeholder: ''
+        border: ''
+        enabled: true
+        foreground: ''
+        items: []
+        visible: true
+        font_size: null
+        font: ''
+        spacing_above: small
+        spacing_below: small
+        italic: false
+        background: ''
+        bold: false
+        underline: false
+        include_placeholder: false
+      name: type_dropdown
+      layout_properties: {}
+      data_bindings:
+      - {property: selected_value, code: 'self.account_copy[''type'']', writeback: true}
+      - {property: items, code: self.types}
+  - type: FlowPanel
+    properties: {role: null, spacing: medium, align: right, tooltip: '', border: '',
+      foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
+    name: flow_panel_6
+    layout_properties: {grid_position: 'EINWSQ,QAQMMQ'}
+    components:
+    - type: Label
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:White',
+        visible: true, text: 'Sub-type:', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_7
+      layout_properties: {grid_position: 'PFSGKC,JRQTWE'}
+      data_bindings:
+      - {property: visible, code: 'self.account_copy[''type''] in [''ASSET'', ''LIABILITY'']'}
+    - type: DropDown
+      properties: {}
+      name: subtype_dropdown
+      layout_properties: {}
+      data_bindings:
+      - {property: selected_value, code: 'self.account_copy[''subtype'']', writeback: true}
+      - {property: visible, code: 'self.account_copy[''type''] in [''ASSET'', ''LIABILITY'']'}
+      - {property: items, code: self.subtypes}
+    data_bindings:
+    - {property: visible, code: 'self.account_copy[''type''] in [''ASSET'', ''LIABILITY'']'}
+  - type: FlowPanel
+    properties: {role: null, spacing: medium, align: right, tooltip: '', border: '',
+      foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
+    name: flow_panel_2
+    layout_properties: {grid_position: 'KDKHKI,EIATXF'}
+    components:
+    - type: FileLoader
+      properties:
+        role: null
+        show_state: true
+        align: center
+        tooltip: ''
+        border: ''
+        file_types: image/*
+        enabled: true
+        files: []
+        foreground: ''
+        visible: true
+        text: Upload Icon
+        font_size: 12
+        font: ''
+        spacing_above: small
+        icon_align: left
+        spacing_below: small
+        italic: false
+        file: null
+        background: ''
+        bold: false
+        underline: false
+        multiple: false
+        icon: fa:upload
+      name: icon_loader
+      layout_properties: {width: 129.7969, grid_position: 'ZRTSEC,GAKGTY'}
+      event_bindings: {change: icon_loader_change}
+  - type: Label
+    properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:White',
+      visible: true, text: 'Options:', font_size: 32, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+      underline: false, icon: ''}
+    name: label_4
+    layout_properties: {grid_position: 'AYEHCK,GTOPBA'}
+  - type: CheckBox
+    properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+      foreground: 'theme:White', allow_indeterminate: false, visible: true, text: Include in Reports,
+      font_size: null, font: '', spacing_above: small, spacing_below: small, italic: false,
+      background: '', bold: false, checked: false, underline: false}
+    name: report_checkbox
+    layout_properties: {grid_position: 'BHULGT,JFOSHK'}
+    data_bindings:
+    - {property: checked, code: 'self.account_copy[''report'']', writeback: true}
+  - type: CheckBox
+    properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+      foreground: 'theme:White', allow_indeterminate: false, visible: true, text: Include in Budget,
+      font_size: null, font: '', spacing_above: small, spacing_below: small, italic: false,
+      background: '', bold: false, checked: false, underline: false}
+    name: budget_checkbox
+    layout_properties: {grid_position: 'XYWZXX,UHQTQN'}
+    data_bindings:
+    - {property: checked, code: 'self.account_copy[''budget'']', writeback: true}
+  - type: CheckBox
+    properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+      foreground: 'theme:White', allow_indeterminate: false, visible: true, text: Include in Reconciliation,
+      font_size: null, font: '', spacing_above: small, spacing_below: small, italic: false,
+      background: '', bold: false, checked: false, underline: false}
+    name: reconcile_checkbox
+    layout_properties: {grid_position: 'RHKZBK,ZDUQEG'}
+    data_bindings:
+    - {property: checked, code: 'self.account_copy[''reconcile'']', writeback: true}
+  - type: CheckBox
+    properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+      foreground: 'theme:White', allow_indeterminate: false, visible: true, text: 'Discretionary
+        Expense?', font_size: null, font: '', spacing_above: small, spacing_below: small,
+      italic: false, background: '', bold: false, checked: false, underline: false}
+    name: discretionary_checkbox
+    layout_properties: {grid_position: 'VAPWSC,NODNGZ'}
+    data_bindings:
+    - {property: checked, code: 'self.account_copy[''discretionary'']', writeback: true}
+  - type: Spacer
+    properties: {height: 41}
+    name: spacer_1
+    layout_properties: {grid_position: 'XDERLD,KQRHWN'}
+  - type: Label
+    properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Gray
+        100', visible: true, text: 'Account Balance:', font_size: null, font: '',
+      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: true, underline: false, icon: ''}
+    name: label_2
+    layout_properties: {grid_position: 'XTFJZA,TFDLJZ'}
+  - type: Label
+    properties: {role: null, align: right, tooltip: '', border: '', foreground: 'theme:Gray
+        100', visible: true, text: '', font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: balance_label
+    layout_properties: {grid_position: 'XTFJZA,OYPNOB'}
+    data_bindings: []
+- type: ColumnPanel
+  properties: {col_widths: '{}'}
+  name: column_panel_2
+  layout_properties: {slot: slot-content}
+  components: []
+- type: Timer
+  properties: {interval: 5}
+  name: balance_timer
+  event_bindings: {tick: balance_timer_tick}
+custom_component: false
+is_package: true
