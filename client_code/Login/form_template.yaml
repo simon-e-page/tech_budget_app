@@ -25,7 +25,7 @@ components:
   components:
   - type: Label
     properties: {role: header-text, align: center, tooltip: '', border: '', foreground: white,
-      visible: true, text: Welcome to the Stirling Finance System, font_size: null,
+      visible: true, text: Welcome to the Technology Finance System, font_size: null,
       font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
       background: '', bold: false, underline: false, icon: ''}
     name: app_title_label

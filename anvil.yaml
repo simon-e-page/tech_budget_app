@@ -75,10 +75,11 @@ services:
   server_config: {}
 package_name: FinanceApp
 allow_embedding: false
-name: Clone of Stirling Finance
+name: Tech_Finance
 runtime_options: {version: 2, server_version: python3-sandbox, client_version: '3',
   server_spec: null}
-metadata: {title: Stirling Finance, description: Expense and Budget tracking}
+metadata: {title: Tech Finance, description: 'Track IT Budgets, Forecasts and Actuals',
+  logo_img: 'asset:digital-money-technology-logo-vector_new.jpg'}
 startup_form: Login
 native_deps: {head_html: '<script src="//d3js.org/d3.v4.min.js"></script>
 
