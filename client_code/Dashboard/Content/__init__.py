@@ -1,8 +1,8 @@
 from ._anvil_designer import ContentTemplate
 from anvil import *
 import plotly.graph_objects as go
-import anvil.google.auth, anvil.google.drive
-from anvil.google.drive import app_files
+#import anvil.google.auth, anvil.google.drive
+#from anvil.google.drive import app_files
 import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
@@ -602,7 +602,8 @@ class Content(ContentTemplate):
     else:
       account_names = [self.account_dropdown.selected_value]
       
-    self.org_data = anvil.server.call('get_expenses_by_organisation', fin_year=self.fin_year, account_names=account_names, threshold=0.005)
+    self.org_data = { 'organisations': [], 'values': [] }
+    #anvil.server.call('get_expenses_by_organisation', fin_year=self.fin_year, account_names=account_names, threshold=0.005)
       
     # expect data in the form of:
     #   organisation
@@ -613,14 +614,14 @@ class Content(ContentTemplate):
     values = data['values']
     total = sum(values)
     
-    pie_plot = go.Pie(labels=labels, values=values)
+    #pie_plot = go.Pie(labels=labels, values=values)
     layout = {
       'title': "Total amount: ${:,.0f}".format(total)
         }
 
     # Make the multi-bar plot
-    self.org_plot.data = pie_plot
-    self.org_plot.layout = layout
+    #self.org_plot.data = pie_plot
+    #self.org_plot.layout = layout
 
   def account_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
