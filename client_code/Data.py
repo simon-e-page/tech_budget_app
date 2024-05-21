@@ -7,7 +7,7 @@ TODO:
 """
 import anvil.server
 import re
-#import anvil.google.auth, anvil.google.drive
+##import anvil.google.auth, anvil.google.drive
 #from anvil.google.drive import app_files
 
 TYPES_LIST = [  'ASSET', 'LIABILITY', 'INCOME', 'EXPENSE', 'EQUITY', 'NONE' ]
