@@ -138,7 +138,7 @@ class Content(ContentTemplate):
     self.content_column_panel.visible = True
 
   def setup_summary_chart(self): 
-    data = anvil.server.call('get_accounttype_by_month', end=self.fin_year, compare=self.compare, show=self.show)
+    data = None #anvil.server.call('get_accounttype_by_month', end=self.fin_year, compare=self.compare, show=self.show)
     if data is not None:
       (labels, income, expense) = data
       resolution_data = {
@@ -152,9 +152,10 @@ class Content(ContentTemplate):
 
   def setup_balance_sheet(self):
     if not self.balance_loaded:
-      self.balance_data = anvil.server.call('get_balance_sheet', self.fin_year)
+      self.balance_data = None #anvil.server.call('get_balance_sheet', self.fin_year)
       self.balance_loaded = True
-      
+    return
+    
     grid = self.balance_grid
     grid.clear()
     entries = None
@@ -287,6 +288,7 @@ class Content(ContentTemplate):
     
   
   def initialise_resolution_chart(self, resolution_data):
+    return
     """Collect data and populate the ResolutionGraph custom component. 
     
     Arguments:

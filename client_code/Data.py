@@ -721,7 +721,7 @@ def refresh():
   global ACCOUNTS_D, FIN_YEARS, IMPORTERS, ICONS
   account_list = [ Account(account_json=x) for x in [] ] #anvil.server.call('get_accounts', filters={}) ]
   ACCOUNTS_D = Accounts(account_list=account_list)
-  FIN_YEARS = list(map(lambda x: ( "FY{0}".format(x.year % 100), "FY{0}".format(x.year % 100)), anvil.server.call("get_fy_selections")) )
+  FIN_YEARS = list(map(lambda x: ( "FY{0}".format(x.year % 100), "FY{0}".format(x.year % 100)), [] )) #anvil.server.call("get_fy_selections")) )
   IMPORTERS = [] #anvil.server.call("get_importers")
   ICONS.load()
 
