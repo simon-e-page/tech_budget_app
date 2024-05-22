@@ -37,5 +37,10 @@ class TransactionEntries(TransactionEntriesTemplate):
 
   def build_table(self):
     t = self.entry_table
+    d = self.table_data
     t.columns = [ {"title":x, "field":x, "width":150 } for x in self.col_names ]
-    
+    d['Total'] = [ 
+                    sum([ x[i] for x in d.keys() ]) 
+                      for i in range(0, len(self.col_names))  
+                  ]
+    t.data = d
