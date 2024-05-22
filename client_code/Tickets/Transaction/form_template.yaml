@@ -306,9 +306,5 @@ components:
     name: save_button
     layout_properties: {grid_position: 'SZJHZM,VANLKJ'}
     event_bindings: {click: save_button_click}
-- type: form:Settings.Settings.SettingsDetails
-  properties: {}
-  name: rules_form
-  layout_properties: {slot: slot-2}
 is_package: true
 custom_component: false
