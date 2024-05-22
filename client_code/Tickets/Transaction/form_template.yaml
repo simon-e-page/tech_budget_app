@@ -6,7 +6,7 @@ container:
 components:
 - type: ColumnPanel
   properties: {role: filter-form-shadow, tooltip: '', border: '', foreground: '',
-    visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{"UHHQPV":5,"NDVKQF":55,"BPVTVB":15,"ZOUBMS":25,"VANLKJ":10,"BJQXOK":13,"OYYIVA":14}',
+    visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{"BPVTVB":15,"ZOUBMS":25,"VANLKJ":10,"BJQXOK":13}',
     spacing_below: small, background: ''}
   name: transaction_details
   layout_properties: {slot: slot-1}
@@ -22,28 +22,53 @@ components:
     components:
     - type: Label
       properties: {role: header-text, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: Transaction Details, font_size: null, font: '', spacing_above: small,
+        visible: true, text: Budget Line Detail, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: medium, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_1
       layout_properties: {grid_position: 'JFBEHH,RLYKNL'}
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Muted
-        purple', visible: true, text: 'Date:', font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
-    name: label_2_copy
-    layout_properties:
-      col_widths: {}
-      grid_position: HMASMC,UHHQPV
-    data_bindings: []
-  - type: Label
+  - name: flow_panel_2
     properties: {}
-    name: date_label
-    layout_properties: {grid_position: 'HMASMC,NDVKQF'}
-    data_bindings:
-    - {property: text, code: 'self.transaction_copy[''timestamp''].strftime(''%Y %b
-        %d'')'}
+    type: FlowPanel
+    layout_properties: {grid_position: 'WJRQUG,CEDYMV'}
+    components:
+    - type: Label
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Muted
+          purple', visible: true, text: 'Owner: ', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_2_copy
+      layout_properties: {}
+      data_bindings: []
+    - name: owner_dropdown
+      properties: {include_placeholder: true, placeholder: Select Owner}
+      type: DropDown
+      data_bindings:
+      - {property: items, code: self.owners, writeback: false}
+      layout_properties: {}
+    - name: label_8
+      properties: {text: 'Locked up to:'}
+      type: Label
+    - name: budget_locked_label
+      properties: {}
+      type: Label
+      data_bindings:
+      - {property: text, code: 'self.item[''budget_locked'']', writeback: false}
+  - name: flow_panel_4
+    properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'VXOWLP,BURIPO'}
+    components:
+    - name: label_4
+      properties: {text: 'Vendor:'}
+      type: Label
+      layout_properties: {}
+    - name: vendor_dropdown
+      properties: {include_placeholder: true, placeholder: Select Vendor}
+      type: DropDown
+      data_bindings:
+      - {property: items, code: self.vendors, writeback: false}
+      layout_properties: {}
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Muted
         purple', visible: true, text: 'Description:', font_size: null, font: '', spacing_above: medium,
@@ -66,120 +91,54 @@ components:
     - {property: text, code: 'self.transaction_copy[''description'']', writeback: true}
     event_bindings: {pressed_enter: transaction_description_edit, lost_focus: transaction_description_edit,
       change: transaction_description_edit}
-  - type: FlowPanel
-    properties: {}
-    name: flow_panel_2
-    layout_properties: {grid_position: 'TVRKQD,UQFLZI'}
-    components:
-    - type: Image
-      properties: {height: 58}
-      name: debit_account_image
-      layout_properties: {width: 69}
-      data_bindings:
-      - {property: source, code: 'self.get_icon(self.accounts_d[self.transaction_copy[''debit_account'']][''icon_id''])'}
-    - type: DropDown
-      properties:
-        role: dropdown-border
-        align: full
-        tooltip: ''
-        placeholder: select a status
-        border: ''
-        enabled: true
-        foreground: ''
-        items: ['', '']
-        visible: true
-        font_size: null
-        font: ''
-        spacing_above: small
-        spacing_below: small
-        italic: false
-        background: ''
-        bold: false
-        underline: false
-        include_placeholder: false
-      name: debit_account_dropdown
-      layout_properties:
-        col_widths: {}
-        grid_position: JAIDPU,MACADY
-      data_bindings:
-      - {property: selected_value, code: 'self.transaction_copy[''debit_account'']',
-        writeback: true}
-      - {property: items, code: self.accounts}
-      event_bindings: {change: debit_account_dropdown_change}
-    - type: Image
-      properties: {role: null, vertical_align: center, height: 58, tooltip: '', border: '',
-        foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: small,
-        source: 'data:image/png;base64,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',
-        spacing_below: small, background: '', horizontal_align: center}
-      name: image_1
-      layout_properties: {width: 52}
-    - type: Image
-      properties: {role: null, vertical_align: center, height: 57, tooltip: '', border: '',
-        foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: small,
-        source: '', spacing_below: small, background: '', horizontal_align: center}
-      name: credit_account_image
-      layout_properties: {width: 68}
-      data_bindings:
-      - {property: source, code: 'self.get_icon(self.accounts_d[self.transaction_copy[''credit_account'']][''icon_id''])'}
-      - {property: tooltip, code: 'self.transaction_copy[''suggested''] and "Suggested
-          during Import Process"'}
-      - {property: border, code: 'self.transaction_copy[''suggested''] and "solid
-          red"'}
-    - type: DropDown
-      properties:
-        role: dropdown-border
-        align: full
-        tooltip: ''
-        placeholder: select a priority
-        border: ''
-        enabled: true
-        foreground: ''
-        items: ['']
-        visible: true
-        font_size: null
-        font: ''
-        spacing_above: small
-        spacing_below: small
-        italic: false
-        background: ''
-        bold: false
-        underline: false
-        include_placeholder: false
-      name: credit_account_dropdown
-      layout_properties:
-        col_widths: {}
-        grid_position: EUQUHB,LJBDRJ
-      data_bindings:
-      - {property: selected_value, code: 'self.transaction_copy[''credit_account'']',
-        writeback: true}
-      - {property: items, code: self.accounts}
-      event_bindings: {change: credit_account_dropdown_change}
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Muted
-        purple', visible: true, text: 'Amount:', font_size: null, font: '', spacing_above: medium,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+        purple', visible: true, text: 'Business Contact:', font_size: null, font: '',
+      spacing_above: medium, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false, icon: ''}
     name: label_2_copy_4
     layout_properties:
       col_widths: {}
       grid_position: ZWGQWN,ZFIVSU
   - type: TextBox
-    properties: {role: textbox-input, align: right, hide_text: false, tooltip: '',
-      placeholder: Enter amount, border: '', enabled: true, foreground: '', visible: true,
-      text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
-      italic: false, background: '', bold: false, underline: false}
+    properties: {role: textbox-input, align: left, hide_text: false, tooltip: '',
+      placeholder: Enter Business Contact, border: '', enabled: true, foreground: '',
+      visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false}
     name: amount_box
     layout_properties: {grid_position: 'QYMTSY,TQNAQN'}
     data_bindings:
-    - {property: text, code: 'self.transaction_copy[''amount'']', writeback: true}
+    - {property: text, code: 'self.transaction_copy[''business_contact'']', writeback: true}
     event_bindings: {change: amount_box_change}
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Muted
-        purple', visible: true, text: 'Organisation:', font_size: null, font: '',
-      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false, icon: ''}
-    name: label_5
-    layout_properties: {grid_position: 'TDMVTE,VEOFMU'}
+  - name: flow_panel_8
+    properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'KPHEYA,SDPFNY'}
+    components:
+    - name: label_5
+      properties: {text: 'Contract:'}
+      type: Label
+      layout_properties: {}
+    - name: contract_start_picker
+      properties: {placeholder: Start Date}
+      type: DatePicker
+      layout_properties: {width: 146.9140625}
+    - name: label_10
+      properties: {text: to}
+      type: Label
+      layout_properties: {}
+    - name: contract_end_picker
+      properties: {placeholder: End Date}
+      type: DatePicker
+      layout_properties: {width: 150.59765625}
+    - name: label_11
+      properties: {text: 'Monthly:'}
+      type: Label
+      layout_properties: {}
+    - name: monhtly_amount_box
+      properties: {placeholder: Expected Amount}
+      type: TextBox
+      layout_properties: {}
   - type: FlowPanel
     properties: {role: null, spacing: medium, align: left, tooltip: '', border: '',
       foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
@@ -188,7 +147,7 @@ components:
     components:
     - type: Label
       properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'Select:', font_size: null, font: '', spacing_above: small,
+        visible: true, text: Account Code, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_2
@@ -198,7 +157,7 @@ components:
         role: dropdown-border
         align: full
         tooltip: ''
-        placeholder: <Blank>
+        placeholder: Select Account Code
         border: ''
         enabled: true
         foreground: ''
@@ -216,62 +175,98 @@ components:
       name: organisation_dropdown
       layout_properties: {}
       data_bindings:
-      - {property: items, code: self.organisations}
+      - {property: items, code: self.account_codes, writeback: false}
       event_bindings: {change: organisation_dropdown_change}
-    - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'or:', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4
+    - name: label_6
+      properties: {text: 'Cost Centre:'}
+      type: Label
       layout_properties: {}
-    - type: TextBox
-      properties: {role: textbox-input, align: left, hide_text: false, tooltip: '',
-        placeholder: Enter New Organisation, border: '', enabled: true, foreground: '',
-        visible: true, text: '', font_size: null, font: '', spacing_above: small,
-        type: text, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false}
-      name: organisation_box
-      layout_properties: {grid_position: 'PEEBXT,SMEREE'}
+    - name: cost_centre_dropdown
+      properties: {include_placeholder: true, placeholder: Select Cost Centre}
+      type: DropDown
+      data_bindings:
+      - {property: items, code: self.cost_centres, writeback: false}
+      layout_properties: {}
+  - name: flow_panel_5
+    properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'HKVRMT,FVIOHG'}
+    components:
+    - name: label_7
+      properties: {text: 'Lifecycle:'}
+      type: Label
+      layout_properties: {}
+    - name: lifecycle_dropdown
+      properties: {include_placeholder: true, placeholder: Select Lifecycle}
+      type: DropDown
+      data_bindings:
+      - {property: items, code: self.lifecycles, writeback: false}
+      layout_properties: {}
+    - name: label_9
+      properties: {text: 'Category:'}
+      type: Label
       data_bindings: []
-      event_bindings: {change: organisation_box_change}
-  - type: CheckBox
-    properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-      foreground: 'theme:Muted purple', allow_indeterminate: false, visible: true,
-      text: 'Duplicate?', font_size: null, font: '', spacing_above: small, spacing_below: small,
-      italic: false, background: '', bold: false, checked: false, underline: false}
-    name: duplicate_check
-    layout_properties: {grid_position: 'XAVVXV,JWUWHH'}
-    data_bindings:
-    - {property: checked, code: 'self.transaction_copy[''duplicate'']', writeback: true}
-    event_bindings: {change: duplicate_check_change}
+      layout_properties: {}
+    - name: drop_down_1
+      properties: {include_placeholder: true, placeholder: Select Category}
+      type: DropDown
+      data_bindings:
+      - {property: items, code: self.categories, writeback: false}
+      layout_properties: {}
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Muted
         purple', visible: true, text: Notes, font_size: null, font: '', spacing_above: small,
       icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
       underline: false, icon: ''}
     name: label_3
-    layout_properties: {grid_position: 'ACEWHH,JLQOLX'}
+    layout_properties: {grid_position: 'IGHJWB,RWXSIA'}
   - type: TextArea
     properties: {role: null, align: left, height: 93.7031, tooltip: '', placeholder: Enter notes here..,
       border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
       auto_expand: false, font: '', spacing_above: small, spacing_below: small, italic: false,
       background: '', bold: false, underline: false}
     name: notes_area
-    layout_properties: {grid_position: 'IWNALE,XXHLWL'}
+    layout_properties: {grid_position: 'WSDITZ,KIBOHT'}
     data_bindings:
     - {property: text, code: 'self.transaction_copy[''notes'']', writeback: true}
     event_bindings: {change: notes_area_change}
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: '', font_size: 14, font: '', spacing_above: small, icon_align: left,
-      spacing_below: small, italic: true, background: '', bold: false, underline: false,
-      icon: ''}
-    name: source_label
-    layout_properties: {grid_position: 'PZEJTG,ZOWAPP'}
-    data_bindings:
-    - {property: text, code: '"Source: {0}    Import ID: {1}".format(self.transaction_copy[''source''],
-        self.transaction_copy[''import_id''])'}
+  - name: flow_panel_6
+    properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'ZLQYRO,ATLWNV'}
+    components:
+    - name: radio_button_1
+      properties: {text: 'Active?'}
+      type: RadioButton
+      layout_properties: {}
+      data_bindings:
+      - {property: value, code: 'self.item[''status'']==''active''', writeback: false}
+    - name: radio_button_2
+      properties: {text: 'To Review?'}
+      type: RadioButton
+      layout_properties: {}
+      data_bindings:
+      - {property: value, code: 'self.item[''to_review'']', writeback: false}
+  - name: flow_panel_7
+    properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'LVUDAS,GHGCOZ'}
+    components:
+    - name: updated_by_label
+      properties: {font_size: 14}
+      type: Label
+      data_bindings:
+      - {property: text, code: '"Updated by: " & self.item[''updated_by'']', writeback: false}
+      layout_properties: {}
+    - type: Label
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '', font_size: 14, font: '', spacing_above: small, icon_align: left,
+        spacing_below: small, italic: true, background: '', bold: false, underline: false,
+        icon: ''}
+      name: source_label
+      data_bindings:
+      - {property: text, code: '"Source: {0}    Import ID: {1}".format(self.transaction_copy[''source''],
+          self.transaction_copy[''import_id''])'}
   - type: Button
     properties: {role: secondary-button, align: center, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: Back, font_size: null, font: '', spacing_above: small,
@@ -288,7 +283,7 @@ components:
     components:
     - type: Button
       properties: {role: secondary-button, align: center, tooltip: '', border: '',
-        enabled: true, foreground: '', visible: true, text: Delete, font_size: null,
+        enabled: false, foreground: '', visible: true, text: Delete, font_size: null,
         font: '', spacing_above: none, icon_align: left, spacing_below: small, italic: false,
         background: '', bold: false, underline: false, icon: ''}
       name: delete_button
@@ -296,7 +291,7 @@ components:
       event_bindings: {click: delete_button_click}
       data_bindings: []
   - type: Button
-    properties: {role: secondary-button, align: center, tooltip: '', border: '', enabled: true,
+    properties: {role: secondary-button, align: center, tooltip: '', border: '', enabled: false,
       foreground: '', visible: true, text: Revert, font_size: null, font: '', spacing_above: small,
       icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
       underline: false, icon: 'fa:undo'}
@@ -304,15 +299,7 @@ components:
     layout_properties: {grid_position: 'SZJHZM,BJQXOK'}
     event_bindings: {click: revert_button_click}
   - type: Button
-    properties: {role: primary-button, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: Open Rules, font_size: null, font: '',
-      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false, icon: 'fa:check-circle'}
-    name: apply_all_button
-    layout_properties: {grid_position: 'SZJHZM,OYYIVA'}
-    event_bindings: {click: apply_all_button_click}
-  - type: Button
-    properties: {role: primary-button, align: right, tooltip: '', border: '', enabled: true,
+    properties: {role: primary-button, align: right, tooltip: '', border: '', enabled: false,
       foreground: '', visible: true, text: Save, font_size: null, font: '', spacing_above: small,
       icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
       underline: false, icon: 'fa:check-circle'}

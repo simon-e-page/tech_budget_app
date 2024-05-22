@@ -12,7 +12,7 @@ container:
 components:
 - type: ColumnPanel
   properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-    wrap_on: mobile, col_spacing: tiny, spacing_above: none, col_widths: '{"JWAEBF":12,"FCODZZ":6,"FJRJZI":11,"UPKCXL":21,"MRTCSV":7,"HWVEYA":2,"MGKMXO":58,"SAFFGG":3,"IWKFVH":3,"FRIFBL":4}',
+    wrap_on: mobile, col_spacing: tiny, spacing_above: none, col_widths: '{"JWAEBF":17,"UPKCXL":21,"HWVEYA":2,"MGKMXO":58,"VKEKNT":10,"LZVBOW":15}',
     spacing_below: none, background: ''}
   name: column_panel_1
   layout_properties: {column: USDYWJ}
@@ -25,84 +25,41 @@ components:
     name: check_box_1
     layout_properties: {column: FEORLK, grid_position: 'SOEQSP,HWVEYA', full_width_row: true}
     event_bindings: {change: check_box_1_change}
-  - type: Label
-    properties: {role: muted-text, align: left, tooltip: '', border: '', foreground: '#A9A9A9',
-      visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
-      spacing_below: none, italic: false, background: '', bold: false, underline: false,
-      icon: ''}
-    name: date_label
-    layout_properties: {column: XZFXCS, grid_position: 'SOEQSP,MGKMXO ZZIVZE,FCODZZ',
-      full_width_row: true}
+  - name: owner_label
+    properties: {}
+    type: Label
+    layout_properties: {grid_position: 'SOEQSP,MGKMXO ZZIVZE,VKEKNT'}
     data_bindings:
-    - {property: text, code: 'self.item[''timestamp''].strftime("%Y-%m-%d")'}
-  - type: Image
-    properties: {role: null, vertical_align: center, height: 45, tooltip: '', border: '',
-      foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: none,
-      source: '', spacing_below: none, background: '', horizontal_align: center}
-    name: debit_avatar_image
-    layout_properties: {grid_position: 'SOEQSP,MGKMXO ZZIVZE,SAFFGG', full_width_row: true}
-    data_bindings:
-    - {property: source, code: 'self.get_icon(self.accounts[self.item.debit_account].icon_id)'}
-    event_bindings: {}
+    - {property: text, code: 'self.item[''owner'']', writeback: false}
   - type: Link
     properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '#332F5B',
       visible: true, text: '', font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
       spacing_above: none, icon_align: left, col_widths: '', spacing_below: none,
       italic: false, background: '', bold: false, underline: false, icon: ''}
-    name: debit_account_name_link
+    name: vendor_id_link
     layout_properties: {column: JKSXLL, grid_position: 'SOEQSP,MGKMXO ZZIVZE,JWAEBF',
       full_width_row: true}
     data_bindings:
-    - {property: text, code: 'self.item[''debit_account''][0:15]'}
-    event_bindings: {click: debit_account_name_link_click}
-  - type: Image
-    properties: {role: null, vertical_align: center, height: 41, tooltip: '', border: '',
-      foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: none,
-      source: 'data:image/png;base64,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',
-      spacing_below: none, background: '', horizontal_align: center}
-    name: image_1
-    layout_properties: {grid_position: 'SOEQSP,MGKMXO ZZIVZE,IWKFVH', full_width_row: true}
-  - type: Image
-    properties: {role: null, vertical_align: center, height: 43, tooltip: '', border: '',
-      foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: none,
-      source: '', spacing_below: none, background: '', horizontal_align: center}
-    name: credit_avatar_image
-    layout_properties: {grid_position: 'SOEQSP,MGKMXO ZZIVZE,FRIFBL', full_width_row: true}
-    data_bindings:
-    - {property: source, code: 'self.get_icon(self.accounts[self.item.credit_account].icon_id)'}
-  - type: Link
-    properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '#332F5B',
-      visible: true, text: '', font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-      spacing_above: none, icon_align: left, col_widths: '', spacing_below: none,
-      italic: false, background: '', bold: false, underline: false, icon: ''}
-    name: credit_account_link
-    layout_properties: {column: SVDJFK, grid_position: 'SOEQSP,MGKMXO ZZIVZE,FJRJZI',
-      full_width_row: true}
-    data_bindings:
-    - {property: text, code: 'self.item[''credit_account''][0:15]'}
-    event_bindings: {click: credit_account_name_link_click}
+    - {property: text, code: 'self.item[''vendor_id'']', writeback: false}
+    event_bindings: {click: vendor_id_link_click}
   - type: Link
     properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Gray
         600', visible: true, text: '', font_size: null, wrap_on: mobile, font: '',
       col_spacing: tiny, spacing_above: none, icon_align: left, col_widths: '{}',
       spacing_below: none, italic: false, background: '', bold: false, underline: false,
       icon: ''}
-    name: ticket_title_link
+    name: description_link
     layout_properties: {column: null, grid_position: 'SOEQSP,MGKMXO ZZIVZE,UPKCXL',
       full_width_row: true}
     data_bindings:
-    - {property: text, code: 'self.item[''description''][0:30]'}
+    - {property: text, code: 'self.item[''description''][0:50]', writeback: false}
     event_bindings: {click: transaction_description_link_click}
     components: []
-  - type: Label
-    properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
-      visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
-      spacing_below: none, italic: false, background: '', bold: false, underline: false,
-      icon: ''}
-    name: amount_label
-    layout_properties: {column: JKSXLL, grid_position: 'SOEQSP,MGKMXO ZZIVZE,MRTCSV',
-      full_width_row: true}
+  - name: lifecycle_label
+    properties: {}
+    type: Label
+    layout_properties: {grid_position: 'SOEQSP,MGKMXO ZZIVZE,LZVBOW'}
     data_bindings:
-    - {property: text, code: '"${:,.2f}".format(self.item[''amount''])'}
+    - {property: text, code: 'self.item[''lifecycle'']', writeback: false}
   data_bindings: []
 is_package: true

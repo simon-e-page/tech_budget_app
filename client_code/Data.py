@@ -401,21 +401,28 @@ class Rules(AttributeToDict):
 class Transaction(AttributeToKey):
   _defaults = {
     'transaction_id': None,
-    'timestamp': None,
+    'vendor_id': None,
     'description': None,
-    'credit_account': 'Unknown',
-    'debit_account': 'Unknown',
-    'amount': 0.0,
-    'organisation': None,
+    'owner': 'simon.page@gjbhifi.com.au',
+    'transaction_type': 'Budget',
+    'account_code': 'Software Maintenance',
+    'cost_centre': '6000',
+    'service_description': None,
     'notes': '',
     'updated_by': '',
     'updated': None,
-    'tags': '',
-    'duplicate': False,
+    'lifecycle': 'Core',
+    'budget_locked': 0,
     'source': '',
-    'reconciled': False,
+    'to_review': False,
     'import_id': '',
-    'suggested': False    
+    'business_contact': False,
+    'brand': 'JB_AU',
+    'deleted': False,
+    'last_actual': 0,
+    'contract_start_date': None,
+    'contract_end_date': None,
+    'expected_monthly_amount': 0.0
   }
   def __init__(self, transaction_json, **kwargs):
     if transaction_json:
@@ -558,8 +565,10 @@ class LazyTransactionList:
     """ Setup backend dataset using filters """
     length, slice = anvil.server.call('get_transactions_slice', 
                                   sort=self.sort, 
-                                  filters=self.filters, 
-                                  date_filter=self.date_filter, 
+                                  filters={}, 
+                                  date_filter={}, 
+                                  #filters=self.filters, 
+                                  #date_filter=self.date_filter, 
                                   direction=self.direction,
                                   start=start,
                                   end=end

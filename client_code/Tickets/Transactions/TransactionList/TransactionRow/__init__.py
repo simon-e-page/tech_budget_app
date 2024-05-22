@@ -34,19 +34,11 @@ class TransactionRow(TransactionRowTemplate):
       self.parent.raise_event('x-deselect-ticket', transaction=self.item)
       self.role = "tickets-repeating-panel"
 
-  def debit_account_name_link_click(self, **event_args):
+  def vendor_id_link_click(self, **event_args):
+    return
     # Navigate to the 'Customers.Accounts' Form is the name is clicked
     homepage = get_open_form()
-    account = self.accounts[self.item['debit_account']]
     homepage.open_account_transactions(account)
-    #homepage.open_account(self.item['debit_account'])
-
-  def credit_account_name_link_click(self, **event_args):
-    # Navigate to the 'Customers.Accounts' Form is the name is clicked
-    homepage = get_open_form()
-    account = self.accounts[self.item['credit_account']]
-    homepage.open_account_transactions(account)
-    #homepage.open_account(self.item['credit_account'])
 
   
   def get_icon(self, icon_id):

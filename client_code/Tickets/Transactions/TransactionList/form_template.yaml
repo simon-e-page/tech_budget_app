@@ -77,7 +77,7 @@ components:
         tooltip: ''
         border: ''
         file_types: null
-        enabled: true
+        enabled: false
         files: []
         foreground: ''
         visible: true
@@ -99,7 +99,7 @@ components:
       event_bindings: {change: import_button_change}
     - type: Button
       properties: {role: secondary-button, align: center, tooltip: '', border: '',
-        enabled: true, foreground: '', visible: false, text: Undo Import, font_size: null,
+        enabled: false, foreground: '', visible: false, text: Undo Import, font_size: null,
         font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
         background: '', bold: false, underline: false, icon: 'fa:undo'}
       name: undo_button

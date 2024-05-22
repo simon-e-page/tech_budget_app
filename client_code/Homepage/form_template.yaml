@@ -55,7 +55,7 @@ components:
       layout_properties: {width: 19.4}
     - type: Link
       properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: Transactions, font_size: null, wrap_on: mobile, font: '',
+        visible: true, text: Budget Lines, font_size: null, wrap_on: mobile, font: '',
         col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
         spacing_below: small, italic: false, background: '', bold: false, underline: false,
         icon: ''}
@@ -78,7 +78,7 @@ components:
       layout_properties: {width: 20.4}
     - type: Link
       properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: Accounts, font_size: null, wrap_on: mobile, font: '',
+        visible: true, text: Vendors, font_size: null, wrap_on: mobile, font: '',
         col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '{}',
         spacing_below: small, italic: false, background: '', bold: false, underline: false,
         icon: ''}
