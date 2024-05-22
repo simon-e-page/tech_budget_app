@@ -13,6 +13,8 @@ class TransactionEntries(TransactionEntriesTemplate):
     self.entries = {
       2025: { 'Budget': [ 10 ] * 12 }
     }
+    self.columns = [ '2025', '2024', '2023']
+    self.totals = [ 120, 144, 14*12 ]
     self.table_data = { 
       'Jul': [10, 12, 14 ],
       'Aug': [10, 12, 14 ],
@@ -29,7 +31,6 @@ class TransactionEntries(TransactionEntriesTemplate):
                       }
     
     self.labels = { 'Jul', 'Aug', 'Sep', 'Oct', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun' }
-    self.col_names = [ '2023', '2024', '2025']
     self.init_components(**properties)
     # Any code you write here will run before the form opens.
 
@@ -38,9 +39,6 @@ class TransactionEntries(TransactionEntriesTemplate):
   def build_table(self):
     t = self.entry_table
     d = self.table_data
-    t.columns = [ {"title":x, "field":x, "width":150 } for x in self.col_names ]
-    d['Total'] = [ 
-                    sum([ x[i] for x in d.keys() ]) 
-                      for i in range(0, len(self.col_names))  
-                  ]
+    t.columns = [ {"title":x, "field":x, "width":150 } for x in self.columns ]
+    d['Total'] = self.totals
     t.data = d

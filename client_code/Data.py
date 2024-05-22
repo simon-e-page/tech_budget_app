@@ -434,7 +434,8 @@ class Transaction(AttributeToKey):
     # Remove any None values to force defaults to be used
     for k, v in item.items():
       if v is None:
-        del item[k]
+        pass
+        #del item[k]
 
     for field, default in self._defaults.items():
       if default is not None:

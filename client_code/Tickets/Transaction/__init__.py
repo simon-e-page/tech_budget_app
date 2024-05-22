@@ -28,6 +28,8 @@ class Transaction(TransactionTemplate):
     self.cost_centres = ['cost centre example']
     self.lifecycles = ['lifecycle example']
     self.categories = ['category example']
+    self.owners = ['SimonPage']
+    
     #self.accounts = Data.ACCOUNTS_D.get_dropdown()
     #self.accounts_d = Data.ACCOUNTS_D
     #self.organisations = Data.ORGANISATIONS
@@ -48,7 +50,7 @@ class Transaction(TransactionTemplate):
     print("In Transaction.__init__")
     # Any code you write here will run when the form opens.
     self.reset_controls()
-    self.set_rule()
+    #self.set_rule()
     print("Complete Transaction.__init__")
     
     
@@ -110,7 +112,7 @@ class Transaction(TransactionTemplate):
 
   def reset_controls(self):
     print("In reset_controls")
-    self.credit_account_dropdown.enabled = True
+    #self.credit_account_dropdown.enabled = True
     self.revert_button.enabled = False
 
       
