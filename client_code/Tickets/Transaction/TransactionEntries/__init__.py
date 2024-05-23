@@ -45,10 +45,19 @@ class TransactionEntries(TransactionEntriesTemplate):
       pagination=False,
       css_class=["table-striped", "table-bordered", "table-condensed"]
     )
+
+    def format_row(cell, **kwargs):
+      val = cell.getValue()
+      if str(val).isnumeric():
+        return "{:,.0f}".format(val)
+      else:
+        return "<b>{0}</b>".format(val)
+    
     def format_total(cell, **kwargs):
       return "<b>{0}</b>".format(cell.getValue())
 
-    self.table_data.append(self.t_data['totals'])
-
     t.data = self.t_data['data']
-    t.columns = [ {"title":x, "field":x, "width":100 } for x in self.t_data['columns'] ]
+    t.data.append(self.t_data['totals'])
+    
+    t.columns = [ {"title":x, "field":x, "width":100, "formatter": format_row } 
+                  for x in self.t_data['columns'] ]
