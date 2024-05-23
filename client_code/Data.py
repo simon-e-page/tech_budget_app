@@ -306,7 +306,7 @@ class Rule(AttributeToKey):
       props['pattern_description'] = self.pattern_description
       props['account_name'] = self.account_name
       try:
-        anvil.server.call('update_rule', self.id, **props)
+       # anvil.server.call('update_rule', self.id, **props)
         ret = self.id
       except Exception as e:
         print("Error calling update_rule")
@@ -445,7 +445,7 @@ class Transaction(AttributeToKey):
         self[field] = item.get(field)
 
   def delete(self):
-    anvil.server.call('delete_transactions', [self.transaction_id])
+    anvil.server.call('Transactions', 'delete_transactions', [self.transaction_id])
 
   def to_dict(self):
     return { x: self[x] for x in list(self._defaults.keys()) }
@@ -466,12 +466,12 @@ class Transaction(AttributeToKey):
       #orig = self.to_dict()
       for k in updated.keys():
         self[k] = updated[k]
-      anvil.server.call('update_transaction', self.transaction_id, self.to_dict())
+      anvil.server.call('Transactions', 'update_transaction', self.transaction_id, self.to_dict())
     except Exception as e:
       print("Error updating transaction: {0}".format(self.transaction_id))
 
   def get_all_entries(self, transaction_type):
-    return anvil.server.call('get_all_entries_by_transaction_id', 
+    return anvil.server.call('Transactions', 'get_all_entries_by_transaction_id', 
                            transaction_id=self.transaction_id,
                            transaction_type=transaction_type
                           )
@@ -570,7 +570,7 @@ class LazyTransactionList:
       
   def load(self, start, end):
     """ Setup backend dataset using filters """
-    length, slice = anvil.server.call('get_transaction_slice', 
+    length, slice = anvil.server.call('Transactions', 'get_transaction_slice', 
                                   sort=self.sort, 
                                   filters={}, 
                                   date_filter={}, 
@@ -622,7 +622,7 @@ class LazyTransactionList:
 
   def new(self, transaction):
     try:
-      transactions = anvil.server.call('add_transaction', transaction.to_dict())
+      transactions = anvil.server.call('Transactions', 'add_transaction', transaction.to_dict())
       new_trans_dict = transactions[0]
       ret = Transaction(transaction_json=new_trans_dict)
       self.indexed[ret.transaction_id] = ret
@@ -635,7 +635,7 @@ class LazyTransactionList:
     if transaction_id in self.indexed:
       return self.indexed[transaction_id]
     else:
-      trans = Transaction(transaction_json=anvil.server.call('get_transaction_by_id', transaction_id))
+      trans = Transaction(transaction_json=anvil.server.call('Transactions', 'get_transaction_by_id', transaction_id))
       self.indexed[transaction_id] = trans
       return trans
 
@@ -661,7 +661,7 @@ class LazyTransactionList:
   def update(self, transaction_ids, updates):
     count = 0
     try:
-      count = anvil.server.call('update_transactions_bulk', transaction_ids, updates)
+      count = anvil.server.call('Transactions', 'update_transactions_bulk', transaction_ids, updates)
     except Exception as e:
       print("Error in update_transactions_bulk")
     return count
@@ -670,7 +670,7 @@ class LazyTransactionList:
     """ Returns a direct search of transactions from the backend. 
         Operates independently of cached items 
     """    
-    _ignore, slice = anvil.server.call('get_transactions_slice', 
+    _ignore, slice = anvil.server.call('Transactions', 'get_transactions_slice', 
                                   sort=sort, 
                                   filters=filters, 
                                   date_filter=date_filter, 
@@ -681,7 +681,7 @@ class LazyTransactionList:
 
   def reconcile(self, transactions):
     transaction_ids = [ x.transaction_id for x in transactions ]
-    count = anvil.server.call('reconcile_transactions', transaction_ids)
+    count = anvil.server.call('Transactions', 'reconcile_transactions', transaction_ids)
     return count
     
   def match(self, transaction):
