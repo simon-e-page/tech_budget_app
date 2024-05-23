@@ -570,7 +570,7 @@ class LazyTransactionList:
       
   def load(self, start, end):
     """ Setup backend dataset using filters """
-    length, slice = anvil.server.call('get_transactions_slice', 
+    length, slice = anvil.server.call('get_transaction_slice', 
                                   sort=self.sort, 
                                   filters={}, 
                                   date_filter={}, 
