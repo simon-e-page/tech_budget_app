@@ -422,7 +422,8 @@ class Transaction(AttributeToKey):
     'last_actual': 0,
     'contract_start_date': None,
     'contract_end_date': None,
-    'expected_monthly_amount': 0.0
+    'expected_monthly_amount': 0.0,
+    'status': 'active'
   }
   def __init__(self, transaction_json, **kwargs):
     if transaction_json:
@@ -469,6 +470,11 @@ class Transaction(AttributeToKey):
     except Exception as e:
       print("Error updating transaction: {0}".format(self.transaction_id))
 
+  def get_all_entries(self, transaction_type):
+    return anvil.server.call('get_all_entries_by_transaction_id', 
+                           transaction_id=self.transaction_id,
+                           transaction_type=transaction_type
+                          )
 
     
 class LazyTransactionList:  
@@ -685,7 +691,6 @@ class LazyTransactionList:
     matched_trans_list = [] #anvil.server.call('match_transactions', transaction.to_dict())
     matched_trans = [ Transaction(transaction_json=x) for x in matched_trans_list ]
     return matched_trans
-
 
 
 

@@ -10,35 +10,45 @@ from anvil.tables import app_tables
 class TransactionEntries(TransactionEntriesTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
+
     self.entries = {
       2025: { 'Budget': [ 10 ] * 12 }
     }
-    self.columns = [ '2025', '2024', '2023']
-    self.totals = [ 120, 144, 14*12 ]
-    self.table_data = { 
-      'Jul': [10, 12, 14 ],
-      'Aug': [10, 12, 14 ],
-      'Sep': [10, 12, 14 ],
-      'Oct': [10, 12, 14 ],
-      'Nov': [10, 12, 14 ],
-      'Dec': [10, 12, 14 ],
-      'Jan': [10, 12, 14 ],
-      'Feb': [10, 12, 14 ],
-      'Mar': [10, 12, 14 ],
-      'Apr': [10, 12, 14 ],
-      'May': [10, 12, 14 ],
-      'Jun': [10, 12, 14 ],
-                      }
+    self.columns = [ 'Month', '2025', '2024', '2023']
+    self.totals = { 'Month': 'Total', '2025': 120, '2024': 144, '2023': 14*12 }
+    self.table_data = [ 
+      {'Month': 'Jul', '2025': 10000, '2024': 120000, '2023': 1400 },
+      {'Month': 'Aug', '2025': 10, '2024': 12, '2023': 14 },
+      {'Month': 'Sep', '2025': 10, '2024': 12, '2023': 14 },
+      {'Month': 'Oct', '2025': 10, '2024': 12, '2023': 14 },
+      {'Month': 'Nov', '2025': 10, '2024': 12, '2023': 14 },
+      {'Month': 'Dec', '2025': 10, '2024': 12, '2023': 14 },
+      {'Month': 'Jan', '2025': 10, '2024': 12, '2023': 14 },
+      {'Month': 'Feb', '2025': 10, '2024': 12, '2023': 14 },
+      {'Month': 'Mar', '2025': 10, '2024': 12, '2023': 14 },
+      {'Month': 'Apr', '2025': 10, '2024': 12, '2023': 14 },
+      {'Month': 'May', '2025': 10, '2024': 12, '2023': 14 },
+      {'Month': 'Jun', '2025': 10, '2024': 12, '2023': 14 },
+    ]
     
     self.labels = { 'Jul', 'Aug', 'Sep', 'Oct', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun' }
     self.init_components(**properties)
     # Any code you write here will run before the form opens.
 
-    self.build_table()
 
-  def build_table(self):
+  def build_table(self, item):
+    self.t_data = item.get_all_entries(transaction_type='Budget')
+
     t = self.entry_table
-    d = self.table_data
-    t.columns = [ {"title":x, "field":x, "width":150 } for x in self.columns ]
-    d['Total'] = self.totals
-    t.data = d
+    t.options.update(
+      selectable="highlight",
+      pagination=False,
+      css_class=["table-striped", "table-bordered", "table-condensed"]
+    )
+    def format_total(cell, **kwargs):
+      return "<b>{0}</b>".format(cell.getValue())
+
+    self.table_data.append(self.t_data['totals'])
+
+    t.data = self.t_data['data']
+    t.columns = [ {"title":x, "field":x, "width":100 } for x in self.t_data['columns'] ]

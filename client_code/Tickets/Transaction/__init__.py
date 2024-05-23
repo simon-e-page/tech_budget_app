@@ -35,6 +35,7 @@ class Transaction(TransactionTemplate):
     #self.organisations = Data.ORGANISATIONS
     self.back=back
     properties['item'] = item
+    print(type(item))
     #self.item = item
     #print(item)
     self.transaction_copy = {}
@@ -51,6 +52,7 @@ class Transaction(TransactionTemplate):
     # Any code you write here will run when the form opens.
     self.reset_controls()
     #self.set_rule()
+    self.transaction_entries_1.build_table(self.item)
     print("Complete Transaction.__init__")
     
     

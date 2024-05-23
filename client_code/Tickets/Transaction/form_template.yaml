@@ -45,15 +45,19 @@ components:
       type: DropDown
       data_bindings:
       - {property: items, code: self.owners, writeback: false}
+      - {property: selected_value, code: 'self.item[''owner'']', writeback: false}
       layout_properties: {}
     - name: label_8
       properties: {text: 'Locked up to:'}
       type: Label
+      data_bindings:
+      - {property: visible, code: 'self.item[''budget_locked'']>0', writeback: false}
     - name: budget_locked_label
       properties: {}
       type: Label
       data_bindings:
       - {property: text, code: 'self.item[''budget_locked'']', writeback: false}
+      - {property: visible, code: 'self.item[''budget_locked'']>0', writeback: false}
   - name: flow_panel_4
     properties: {}
     type: FlowPanel
@@ -68,6 +72,7 @@ components:
       type: DropDown
       data_bindings:
       - {property: items, code: self.vendors, writeback: false}
+      - {property: selected_value, code: 'self.item[''vendor_id'']', writeback: false}
       layout_properties: {}
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Muted
@@ -176,6 +181,7 @@ components:
       layout_properties: {}
       data_bindings:
       - {property: items, code: self.account_codes, writeback: false}
+      - {property: selected_value, code: 'self.item[''account_code'']', writeback: false}
       event_bindings: {change: organisation_dropdown_change}
     - name: label_6
       properties: {text: 'Cost Centre:'}
@@ -186,6 +192,7 @@ components:
       type: DropDown
       data_bindings:
       - {property: items, code: self.cost_centres, writeback: false}
+      - {property: selected_value, code: 'self.item[''cost_centre'']', writeback: false}
       layout_properties: {}
   - name: flow_panel_5
     properties: {}
@@ -201,6 +208,7 @@ components:
       type: DropDown
       data_bindings:
       - {property: items, code: self.lifecycles, writeback: false}
+      - {property: selected_value, code: 'self.item[''lifecycle'']', writeback: false}
       layout_properties: {}
     - name: label_9
       properties: {text: 'Category:'}
@@ -212,6 +220,7 @@ components:
       type: DropDown
       data_bindings:
       - {property: items, code: self.categories, writeback: false}
+      - {property: selected_value, code: 'self.item[''category'']', writeback: false}
       layout_properties: {}
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Muted
@@ -265,8 +274,7 @@ components:
         icon: ''}
       name: source_label
       data_bindings:
-      - {property: text, code: '"Source: {0}    Import ID: {1}".format(self.transaction_copy[''source''],
-          self.transaction_copy[''import_id''])'}
+      - {property: text, code: '"Source: {0}".format(self.item[''source''])', writeback: false}
   - type: Button
     properties: {role: secondary-button, align: center, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: Back, font_size: null, font: '', spacing_above: small,
