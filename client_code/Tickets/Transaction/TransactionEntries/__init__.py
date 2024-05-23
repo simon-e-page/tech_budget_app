@@ -61,3 +61,15 @@ class TransactionEntries(TransactionEntriesTemplate):
     
     t.columns = [ {"title":x, "field":x, "width":100, "formatter": format_row } 
                   for x in self.t_data['columns'] ]
+
+  def update_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    pass
+
+  def entry_table_cell_click(self, cell, **event_args):
+    """This method is called when a cell is clicked"""
+    pass
+
+  def entry_table_cell_edited(self, cell, **event_args):
+    """This method is called when a cell is edited"""
+    pass
