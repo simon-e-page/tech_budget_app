@@ -22,6 +22,9 @@ CATEGORIES_DD = [ (x,x) for x in CATEGORIES ]
 SERVICE_CHANGES = ['Organic Growth', 'Strategic Projects', 'Commercial', 'Decommissioning']
 SERVICE_CHANGES_DD = [ (x,x) for x in SERVICE_CHANGES ]
 
+BILLING_TYPES = [ 'Prepayments', 'Consumption' ]
+BILLING_TYPES_DD = [ (x,x) for x in BILLING_TYPES ]
+
 ICONS = {}
 
 class AttributeToKey:
@@ -79,6 +82,8 @@ class Entry(AttributeToKey):
       self.account_name = entry_json['account_name']
       self.amount = entry_json['amount']
 
+
+
 class Budget(AttributeToDict):
   def __init__(self, fin_year, entry_list=None):
     self.fin_year = fin_year
@@ -113,33 +118,21 @@ class Budgets(AttributeToDict):
 #####################################################################
 
 
-class Account(AttributeToKey):
+class Vendor(AttributeToKey):
   _defaults = {
-    'name': None,
-    'type': None,
+    'vendor_id': None,
     'description': '',
-    'institution': '',
-    'account_number': '',
-    'report': False,
-    'budget': False,
-    'discretionary': False,
+    'finance_tags': [],
+    'prior_year_tags': [],
+    'deleted': False,
+    'active': True,
     'notes': '',
-    'filename_pattern': '',
-    'inactive': False,
-    'reconcile': False,
-    'order': 7,
-    'default_budget': 0.0,
-    'duplicates': [],
-    'importer': '',
-    'icon_id': '',
-    'subtype': '',
-    'organisation_pattern': []    
   }
 
-  def __init__(self, account_json=None, **kwargs):
-    if account_json:
+  def __init__(self, vendor_json=None, **kwargs):
+    if vendor_json:
       # TODO: Convert JSON object?
-      item = account_json
+      item = vendor_json
     else:
       item = kwargs
       
@@ -155,54 +148,31 @@ class Account(AttributeToKey):
         self[field] = item.get(field)
 
   
-  # TODO: Remove this?
-  def copy(self):
-    props = { x: self[x] for x in list(self._defaults.keys()) }
-    return Account(**props)
-
   def save(self):
     # Saves to backend as new or updated object
     props = { x: self[x] for x in list(self._defaults.keys()) }
     print("Save Account")
-    #anvil.server.call('add_account', props)    
-
-  def get_balance(self, as_date=None):
-    if as_date is None:
-      balance = 0.0 #anvil.server.call('get_account_balance', self.name)
-    else:
-      balance = 0.0 #anvil.server.call('get_starting_balance', self.name, as_date)
-    return balance
+    anvil.server.call('Vendors', 'add_vendor', props)    
     
   def to_dict(self):
-    return { x: self[x] for f in self._defaults }
+    return { x: self[x] for x in self._defaults }
 
-  def is_fully_reconciled(self):
-    return True #anvil.server.call('is_fully_reconciled', self.name)
 
-  def get_account_periods(self):
-    return [] #anvil.server.call('get_account_periods', self.name)
-
-class Accounts(AttributeToDict):
-  def __init__(self, account_list=None):
+class Vendors(AttributeToDict):
+  def __init__(self, vendor_list=None):
     self.__d__ = {}
-    if account_list:
-      for ac in account_list:
-        self.add(ac.name, ac)
+    if vendor_list:
+      for vn in vendor_list:
+        self.add(vn.vendor_id, vn)
         
   def get_dropdown(self):
     return [(x, x) for x in self.__d__.keys() ]
     
-  def match_filename(self, filename):
-    # TODO: better to keep on frontend?
-    account_name = None #anvil.server.call('get_account_from_filename', filename)
-    return account_name
+  def get(self, vendor_id):
+    if vendor_id in self.indexed:
+      return self.indexed[vendor_id]
 
-  def test_reconciled(self):
-    return False #anvil.server.call('test_reconciled')
-
-  def get_accounts_by_month(self, end, compare='budget', start=None, account_names=None, fill=True):
-    return None #anvil.server.call("get_accounts_by_month", end, compare, start=start, account_names=account_names, fill=fill)
-
+  
 
 
 
@@ -251,144 +221,6 @@ class Icons(AttributeToDict):
     for k, v in icons_cache.items():
       self.add(k, Icon(name=v.name, content=v, icon_id=k))
 
-
-
-
-
-
-
-#####################################################################
-# RULES
-#####################################################################
-
-
-class Rule(AttributeToKey):
-  optional_fields = {
-    'pattern_source': None,
-    'pattern_amount': None,
-    'notes': None,
-    'organisation': None,
-    'duplicate': None,
-    'tags': None,
-    'status': 'draft',
-    'id': None
-  }
-
-  mandatory_fields = ['pattern_description', 'account_name']
-  
-  def __init__(self, rule_json=None, **kwargs):
-    if rule_json is None:
-      rule_json = kwargs
-
-    for mandatory_field in self.mandatory_fields:
-      try:
-        self[mandatory_field] = rule_json.get(mandatory_field)
-      except Exception as e:
-        print("Missing mandatory field: {0}".format(mandatory_field))
-        raise
-
-    for optional_field, default in self.optional_fields.items():
-      self[optional_field] = rule_json.get(optional_field, default)
-
-  def save(self):
-    # Saves to backend as new or updated object
-    fields = list(self.optional_fields.keys())
-    props = { x: self[x] for x in fields }
-    ret = None
-    if self.id is None:
-      try:
-        self.id = None #anvil.server.call('add_rule', self.pattern_description, self.account_name, **props)    
-        ret = self.id
-      except Exception as e:
-        print("Error adding new rule!")
-    else:
-      props['pattern_description'] = self.pattern_description
-      props['account_name'] = self.account_name
-      try:
-       # anvil.server.call('update_rule', self.id, **props)
-        ret = self.id
-      except Exception as e:
-        print("Error calling update_rule")
-    return ret
-      
-  def delete(self):
-    try:
-      #anvil.server.call('delete_rule', rule_id=self.id)
-      pass
-    except Exception as e:
-      print("Error calling delete_rule with {0}".format(pattern))
-
-  def match(self, transaction):
-    """ Tries to match this rule against a transaction. True if matches, False if not """
-    match = re.search(self.pattern_description, transaction.description)
-    match = match and (self.pattern_source is None or transaction.source == self.pattern_source)
-    return match
-
-class Rules(AttributeToDict):
-  def __init__(self, rule_list=None):
-    self.__d__ = {}
-    if rule_list:
-      for r in rule_list:
-        new_rule = Rule(r)
-        self.add(new_rule.id, new_rule)
-
-  def delete(self, key):
-    r = self.get(key, None)
-    if r is not None:
-      r.delete()
-      del self.__d__[key]
-
-  def new(self, **kwargs):
-    r = Rule(**kwargs)
-    new_id = r.save()
-    if new_id is not None:
-      self.add(new_id, r)
-      ret = r
-    else:
-      print("Error adding new rule!")
-      ret = None
-    return ret
-
-  def search(self, **kwargs):
-    """ Returns a list of Rules that meet a specific criteria exactly """
-    ret = []
-    for rule_id, rule in self.__d__.items():
-      match = True
-      for name, value in kwargs.items():
-        test_value = rule.get(name, None)
-        #print("Testing {0}=={1}".format(test_value, value))
-        match = match and (value == test_value)
-      if match:
-        ret.append(rule)
-    return ret
-
-  def match(self, transaction):
-    """ Returns the first rule that matches (regex) against a transaction or None """
-    ret = None
-    match = False
-    
-    for rule_id, rule in self.__d__.items():
-      match = rule.match(transaction)
-      if match:
-        break
-
-    if match:
-      ret = rule
-  
-    return ret
-
-  
-  def get_accounts(self):
-    """ Returns list of account_names for which there is at least 1 Rule """
-    ret = [ r.account_name for i,r in self.__d__.items() ]
-    ret = list(set(ret))
-    return ret
-    
-  def get_sources(self):
-    """ Returns list of source patterns for which there is at least 1 Rule """
-    ret = [ str(r.pattern_source) for i,r in self.__d__.items() ]
-    ret = list(set(ret))
-    return ret
     
 
 #####################################################################
@@ -451,9 +283,6 @@ class Transaction(AttributeToKey):
 
   # TODO: Review - do we need this?
   def copy(self):
-    #print("in copy")
-    l = list(self._defaults.keys())
-    #print(l)
     props = { x: self[x] for x in list(self._defaults.keys()) }
     #print(props)
     t = Transaction(transaction_json=props)
@@ -714,16 +543,9 @@ class Importer:
     return [] #anvil.server.call('get_import_ids', account_name)
 
 
-ACCOUNTS_D = Accounts()
-BUDGETS = Budgets()
-ICONS = Icons()
-RULES = Rules()
-ORGANISATIONS = []
+VENDORS = Vendors()
 TRANSACTIONS = LazyTransactionList()
 FIN_YEARS = None
-IMPORTERS = None
-IMPORTER = Importer()
-SOURCES = None
 
 def get_transactions():
   global TRANSACTIONS
@@ -732,52 +554,18 @@ def get_transactions():
   return TRANSACTIONS
 
 def refresh():
-  global ACCOUNTS_D, FIN_YEARS, IMPORTERS, ICONS
-  account_list = [ Account(account_json=x) for x in [] ] #anvil.server.call('get_accounts', filters={}) ]
-  ACCOUNTS_D = Accounts(account_list=account_list)
-  FIN_YEARS = list(map(lambda x: ( "FY{0}".format(x.year % 100), "FY{0}".format(x.year % 100)), [] )) #anvil.server.call("get_fy_selections")) )
-  IMPORTERS = [] #anvil.server.call("get_importers")
-  ICONS.load()
+  global VENDORS, FIN_YEARS, CURRENT_FY
+  vendor_list = [ Vendor(vendor_json=x) for x in anvil.server.call('Vendors', 'get_vendors') ]
+  VENDORS = Vendors(vendor_list=vendor_list)
+  #FIN_YEARS = anvil.server.call("get_fy_selections")
+  FIN_YEARS = [2025, 2024]
+  CURRENT_FY = 2025
+  #ICONS.load()
 
 #####################################################################
 # ORGANISATIONS
 #####################################################################
-
-# No fixed list of these - simply grab all the history in Transactions
   
-def refresh_organisations():
-  """ Returns a simple list """
-  global ORGANISATIONS
-  ORGANISATIONS = [] #anvil.server.call("get_organisations")
-  ORGANISATIONS.sort()
-  return ORGANISATIONS
-
-def refresh_sources():
-  global SOURCES
-  SOURCES = [] #anvil.server.call("get_sources")
-  return SOURCES
-  
-def refresh_rules():
-  global RULES
-  rule_list = [] #anvil.server.call('get_all_rules')
-  RULES = Rules(rule_list=rule_list)
-  return RULES
-  
-#def match_organisation(description, account_name):
-#  ret = anvil.server.call('match_organisation', description=description, account_name=account_name)
-#  return ret
-
-    
-def get_budget_entries(fin_year, refresh=False):
-  budget = BUDGETS.get(fin_year)
-  if budget is None or refresh:
-    entries_json = {} #anvil.server.call('get_budget_entries', fin_year)
-    
-    # TODO: check that a empty dict is returned when there is no Budget
-    entry_list = [ Entry(entry_json={'account_name': k, 'amount': v }) for k,v in entries_json.items() ]
-    budget = Budget(fin_year, entry_list)
-    BUDGETS.add(fin_year, budget)
-  return budget
 
 
 def get_icon(icon_id):
@@ -799,5 +587,3 @@ def gpt_run(prompt):
   return None #anvil.server.call('gpt_run', prompt=prompt)
 
 refresh()
-refresh_organisations()
-refresh_rules()

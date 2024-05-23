@@ -40,12 +40,11 @@ components:
       name: label_2_copy
       layout_properties: {}
       data_bindings: []
-    - name: owner_dropdown
-      properties: {include_placeholder: true, placeholder: Select Owner}
-      type: DropDown
+    - name: owner_textbox
+      properties: {placeholder: Enter Owner}
+      type: TextBox
       data_bindings:
-      - {property: items, code: self.owners, writeback: false}
-      - {property: selected_value, code: 'self.item[''owner'']', writeback: false}
+      - {property: text, code: 'self.item[''owner'']', writeback: false}
       layout_properties: {}
     - name: label_8
       properties: {text: 'Locked up to:'}
@@ -221,6 +220,33 @@ components:
       data_bindings:
       - {property: items, code: self.categories, writeback: false}
       - {property: selected_value, code: 'self.item[''category'']', writeback: false}
+      layout_properties: {}
+  - name: flow_panel_9
+    properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'LOTAZZ,VDIAWY'}
+    components:
+    - name: label_12
+      properties: {text: 'Service Change: '}
+      type: Label
+      layout_properties: {}
+    - name: service_change_dropdown
+      properties: {include_placeholder: true, placeholder: Select Service Change}
+      type: DropDown
+      data_bindings:
+      - {property: items, code: self.service_changes, writeback: false}
+      - {property: selected_value, code: 'self.item[''service_change'']', writeback: false}
+      layout_properties: {}
+    - name: label_13
+      properties: {text: 'Billing Type:'}
+      type: Label
+      layout_properties: {}
+    - name: billing_type_dropdown
+      properties: {include_placeholder: true, placeholder: Select Billing Type}
+      type: DropDown
+      data_bindings:
+      - {property: items, code: self.billing_types, writeback: false}
+      - {property: selected_value, code: 'self.item[''billing_type'']', writeback: false}
       layout_properties: {}
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Muted
