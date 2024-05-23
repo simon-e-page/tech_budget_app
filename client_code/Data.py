@@ -1,29 +1,28 @@
+import anvil.server
+import re
+
 """This module collects global variables to be used throughout the app"""
 """
 TODO:
-2) Rework Settings page and org/account mapping
-3) Fix auto-mapping of Transfers within ING accounts (non-coding fix)
-4) Automated import on schedule (by scanning a specific directory?)
 """
-import anvil.server
-import re
-##import anvil.google.auth, anvil.google.drive
-##from anvil.google.drive import app_files
 
-TYPES_LIST = [  'ASSET', 'LIABILITY', 'INCOME', 'EXPENSE', 'EQUITY', 'NONE' ]
-TYPES = [ (x, x) for x in TYPES_LIST ]
+# TODO: Move into app_tables?
+ACCOUNT_CODES = [  'Software Maintenance', 'Hardware Maintenance', 'Consulting' ]
+ACCOUNT_CODES_DD = [ (x, x) for x in ACCOUNT_CODES ]
 
-#ACCOUNTS_D = { x['name']: x for x in anvil.server.call('get_accounts', filters={}) }
-#ACCOUNTS = [(x, x) for x in ACCOUNTS_D.keys() ]
-#ORGANISATIONS = sorted(list(anvil.server.call('get_organisation_map').keys()))
-#BUDGETS = {}
+COST_CENTRES = [ '6000', '3121', 'Stores', 'HR', 'Commercial' ]
+COST_CENTRES_DD = [ (x, x) for x in COST_CENTRES ]
+
+LIFECYCLES = [ 'Existing', 'Existing - Discretionary', 'New - Committed', 'New - Discretionary', 'Legacy', 'Peripherals', 'New - Ex-IT' ]
+LIFECYCLES_DD = [ (x, x) for x in LIFECYCLES ]
+
+CATEGORIES = [ 'Operations', 'Network & Infrastructure', 'E-Commerce & Marketing', 'Cybersecurity', 'Finance & HR', 'Supply Chain', 'SaaS Consulting', 'Non-IT', 'Commercial' ]
+CATEGORIES_DD = [ (x,x) for x in CATEGORIES ]
+
+SERVICE_CHANGES = ['Organic Growth', 'Strategic Projects', 'Commercial', 'Decommissioning']
+SERVICE_CHANGES_DD = [ (x,x) for x in SERVICE_CHANGES ]
+
 ICONS = {}
-SUBTYPES = ['Cash', 'Short-term', 'Long-term']
-
-LIABILITY = 'LIABILITY'
-EXPENSE = 'EXPENSE'
-EQUITY = 'EQUITY'
-ASSET = 'ASSET'
 
 class AttributeToKey:
   def __getitem__(self, key):
