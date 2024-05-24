@@ -7,6 +7,8 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 #from anvil_extras import augment
 from .... import Data
+import datetime as dt
+from copy import deepcopy
 
 class TransactionEntries(TransactionEntriesTemplate):
   def __init__(self, **properties):
@@ -22,7 +24,9 @@ class TransactionEntries(TransactionEntriesTemplate):
   
   def build_table(self, item):
     # TODO: We want Forecast value where they exist!
+    self.transaction = item
     self.t_data = item.get_all_entries(transaction_type='Budget')
+    self.t_data_bak = deepcopy(self.t_data)
     self.render_table()
 
     
@@ -89,15 +93,19 @@ class TransactionEntries(TransactionEntriesTemplate):
 
   def update_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    print("Updated Entries: {0}".format(self.updated_entries))
-
+    ret = self.transaction.add_entries(list(self.updated_entries.values()))
+    self.t_data_bak = deepcopy(self.t_data)
+    print("Successfully updated {0} entries".format(ret))
+    
 
 
   def entry_table_cell_edited(self, cell, **event_args):
     """This method is called when a cell is edited"""
     month = self.months[cell.getData()['Month']]
+    m_index = list(self.months.values()).index(month)
     fin_year = int(cell.getField())
-    year_month = (fin_year - int(month > 6)) * 100 + month
+    year = fin_year - int(month > 6)
+    year_month = year * 100 + month
     value = float(cell.getValue())
 
     if fin_year == self.current_year:
@@ -109,11 +117,19 @@ class TransactionEntries(TransactionEntriesTemplate):
         'transaction_type': transaction_type,
         'fin_year': fin_year,
         'year_month': year_month,
-        'amount': value
+        'amount': value,
+        'timestamp': dt.date(year, month, 1)
     }
+    
     self.updated_entries[year_month] = new_entry
+    self.t_data['data'][m_index][str(fin_year)] = value
+    new_total = sum([ self.t_data['data'][i][str(fin_year)] for i in range(0,12) ])
+    self.t_data['totals'][str(fin_year)] = new_total
+    self.render_table()
+    
 
   def revert_button_click(self, **event_args):
     """This method is called when the button is clicked"""
+    self.t_data = deepcopy(self.t_data_bak)
     self.render_table()
     

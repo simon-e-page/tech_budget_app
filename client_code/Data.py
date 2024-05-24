@@ -307,6 +307,12 @@ class Transaction(AttributeToKey):
                            transaction_type=transaction_type
                           )
 
+  def add_entries(self, entries):
+    return anvil.server.call('Transactions', 
+                             'add_entries', 
+                             self.transaction_id, 
+                             entries
+                            )
     
 class LazyTransactionList:  
   def __init__(self, sort='timestamp', filters={'duplicate': False}, date_filter={}, direction='descending', page_size=10, initial_page=0):
