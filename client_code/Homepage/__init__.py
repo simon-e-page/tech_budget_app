@@ -256,7 +256,6 @@ class Homepage(HomepageTemplate):
   def brand_image_mouse_down(self, x, y, button, keys, **event_args):
     """This method is called when a mouse button is pressed on this component"""
     self.brand_dropdown.visible = True
-    self.brand_dropdown.raise_event(button=1)
 
   def brand_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
