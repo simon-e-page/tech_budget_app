@@ -562,9 +562,9 @@ def refresh():
   #print(vendors)
   vendor_list = [ Vendor(vendor_json=x) for x in vendors ]
   VENDORS = Vendors(vendor_list=vendor_list)
-  #FIN_YEARS = anvil.server.call("get_fy_selections")
-  FIN_YEARS = [2025, 2024]
-  CURRENT_FY = 2025
+  FIN_YEARS = anvil.server.call("get_fy_selections")
+  #FIN_YEARS = [2025, 2024]
+  BUDGET_FY = 2025
   #ICONS.load()
 
 #####################################################################

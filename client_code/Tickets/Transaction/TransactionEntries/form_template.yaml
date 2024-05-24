@@ -25,7 +25,7 @@ components:
   layout_properties: {grid_position: 'XNEOEB,SJKGVW'}
   components:
   - name: update_button
-    properties: {text: Update}
+    properties: {text: Update Budget}
     type: Button
     layout_properties: {}
     event_bindings: {click: update_button_click}
