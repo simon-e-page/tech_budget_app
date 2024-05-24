@@ -46,7 +46,9 @@ class Homepage(HomepageTemplate):
 
     self.brands = Data.BRANDS_DD
     self.brand = 'JB_AU'
-     
+
+    self.current_year = Data.CURRENT_YEAR
+    
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     # Any code you write here will run when the form opens.

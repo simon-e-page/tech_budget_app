@@ -170,4 +170,10 @@ components:
     - {property: selected_value, code: self.brand, writeback: false}
     layout_properties: {}
     event_bindings: {change: brand_dropdown_change}
+- name: fy_label
+  properties: {bold: true, font_size: 18}
+  type: Label
+  layout_properties: {slot: search-box}
+  data_bindings:
+  - {property: text, code: '"Current Year: FY" + str(self.current_year)', writeback: false}
 is_package: true
