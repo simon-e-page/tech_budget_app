@@ -549,6 +549,8 @@ class Importer:
 VENDORS = Vendors()
 TRANSACTIONS = LazyTransactionList()
 FIN_YEARS = None
+CURRENT_YEAR = None
+BUDGET_YEAR = None
 
 def get_transactions():
   global TRANSACTIONS
@@ -557,14 +559,11 @@ def get_transactions():
   return TRANSACTIONS
 
 def refresh():
-  global VENDORS, FIN_YEARS, CURRENT_FY
+  global VENDORS, FIN_YEARS, CURRENT_YEAR, BUDGET_YEAR
   vendors = anvil.server.call('Vendors', 'get_vendors')
-  #print(vendors)
   vendor_list = [ Vendor(vendor_json=x) for x in vendors ]
   VENDORS = Vendors(vendor_list=vendor_list)
-  FIN_YEARS = anvil.server.call("get_fy_selections")
-  #FIN_YEARS = [2025, 2024]
-  BUDGET_FY = 2025
+  FIN_YEARS, BUDGET_YEAR, CURRENT_YEAR = anvil.server.call('Calendar', 'get_fin_years')
   #ICONS.load()
 
 #####################################################################

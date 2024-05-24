@@ -5,12 +5,14 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-
+from .... import Data
 
 class TransactionEntries(TransactionEntriesTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
-
+    self.current_year = Data.CURRENT_YEAR
+    self.budget_year = Data.BUDGET_YEAR
+    
     self.entries = {
       2025: { 'Budget': [ 10 ] * 12 }
     }
