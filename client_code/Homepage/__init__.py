@@ -21,6 +21,7 @@ from ..Tickets.NewTransaction import NewTransaction
 from ..Customers.Account.AccountTransactions import AccountTransactions
 from ..Settings.Settings import Settings
 from ..Analyse.Analyse import Analyse
+from .. import Data
 
 class Homepage(HomepageTemplate):
   """This Form controls navigation for the whole app.
@@ -43,8 +44,9 @@ class Homepage(HomepageTemplate):
     #self.last_import_id = ('', '')
     self.use_dashboard_cache = True
 
-    self.brand_logo = anvil.URLMedia("_/theme/JB_AU.png")
-    
+    self.brands = Data.BRANDS_DD
+    self.brand = 'JB_AU'
+     
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     # Any code you write here will run when the form opens.
@@ -250,6 +252,18 @@ class Homepage(HomepageTemplate):
   def gpt_link_click(self, **event_args):
     """This method is called when the link is clicked"""
     self.open_analyse()
+
+  def brand_image_mouse_down(self, x, y, button, keys, **event_args):
+    """This method is called when a mouse button is pressed on this component"""
+    self.brand_dropdown.visible = True
+    self.brand_dropdown.raise_event(button=1)
+
+  def brand_dropdown_change(self, **event_args):
+    """This method is called when an item is selected"""
+    self.brand = self.brand_dropdown.selected_value
+    self.brand_dropdown.visible = False
+    self.refresh_data_bindings()
+
 
       
 

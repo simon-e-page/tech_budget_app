@@ -7,6 +7,9 @@ TODO:
 """
 
 # TODO: Move into app_tables?
+BRANDS = [ 'JB_AU', 'JB_NZ', 'TGG']
+BRANDS_DD = [ (x,x) for x in BRANDS ]
+
 ACCOUNT_CODES = [  'Software Maintenance', 'Hardware Maintenance', 'Consulting' ]
 ACCOUNT_CODES_DD = [ (x, x) for x in ACCOUNT_CODES ]
 

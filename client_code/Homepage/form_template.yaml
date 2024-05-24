@@ -149,10 +149,25 @@ components:
   properties: {}
   name: column_panel_1
   layout_properties: {slot: default}
-- name: brand_imagebox
-  properties: {height: 32.546875}
-  type: Image
-  layout_properties: {slot: search-box}
-  data_bindings:
-  - {property: source, code: self.brand_logo, writeback: false}
+  components: []
+- name: linear_panel_1
+  properties: {}
+  type: LinearPanel
+  layout_properties: {slot: sidebar-items}
+  components:
+  - name: brand_image
+    properties: {height: 37.0859375}
+    type: Image
+    layout_properties: {}
+    data_bindings:
+    - {property: source, code: '"_/theme/{0}.png".format(self.brand)', writeback: false}
+    event_bindings: {mouse_down: brand_image_mouse_down}
+  - name: brand_dropdown
+    properties: {visible: false, bold: true}
+    type: DropDown
+    data_bindings:
+    - {property: items, code: self.brands, writeback: false}
+    - {property: selected_value, code: self.brand, writeback: false}
+    layout_properties: {}
+    event_bindings: {change: brand_dropdown_change}
 is_package: true
