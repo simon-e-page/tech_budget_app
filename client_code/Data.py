@@ -555,7 +555,9 @@ def get_transactions():
 
 def refresh():
   global VENDORS, FIN_YEARS, CURRENT_FY
-  vendor_list = [ Vendor(vendor_json=x) for x in anvil.server.call('Vendors', 'get_vendors') ]
+  vendors = anvil.server.call('Vendors', 'get_vendors')
+  #print(vendors)
+  vendor_list = [ Vendor(vendor_json=x) for x in vendors ]
   VENDORS = Vendors(vendor_list=vendor_list)
   #FIN_YEARS = anvil.server.call("get_fy_selections")
   FIN_YEARS = [2025, 2024]

@@ -158,7 +158,7 @@ components:
       layout_properties: {}
     - type: DropDown
       properties:
-        role: dropdown-border
+        role: null
         align: full
         tooltip: ''
         placeholder: Select Account Code
@@ -181,13 +181,13 @@ components:
       data_bindings:
       - {property: items, code: self.account_codes, writeback: false}
       - {property: selected_value, code: 'self.item[''account_code'']', writeback: false}
-      event_bindings: {change: organisation_dropdown_change}
+      event_bindings: {}
     - name: label_6
       properties: {text: 'Cost Centre:'}
       type: Label
       layout_properties: {}
     - name: cost_centre_dropdown
-      properties: {include_placeholder: true, placeholder: Select Cost Centre}
+      properties: {include_placeholder: true, placeholder: Select Cost Centre, align: left}
       type: DropDown
       data_bindings:
       - {property: items, code: self.cost_centres, writeback: false}
@@ -275,13 +275,13 @@ components:
       type: RadioButton
       layout_properties: {}
       data_bindings:
-      - {property: value, code: 'self.item[''status'']==''active''', writeback: false}
+      - {property: selected, code: 'self.item[''status'']==''active''', writeback: false}
     - name: radio_button_2
       properties: {text: 'To Review?'}
       type: RadioButton
       layout_properties: {}
       data_bindings:
-      - {property: value, code: 'self.item[''to_review'']', writeback: false}
+      - {property: selected, code: 'self.item[''to_review'']', writeback: false}
   - name: flow_panel_7
     properties: {}
     type: FlowPanel

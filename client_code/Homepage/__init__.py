@@ -42,6 +42,8 @@ class Homepage(HomepageTemplate):
     self.accounts_transaction_form_open = False
     #self.last_import_id = ('', '')
     self.use_dashboard_cache = True
+
+    self.brand_logo = anvil.URLMedia("_/theme/JB_AU.png")
     
     # Set Form properties and Data Bindings.
     self.init_components(**properties)

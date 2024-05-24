@@ -33,8 +33,8 @@ class TransactionList(TransactionListTemplate):
     self.filter_settings = {}
     self.transactions = Data.get_transactions()
     
-    self.accounts = Data.ACCOUNTS_D.get_dropdown()
-    self.accounts_d = Data.ACCOUNTS_D
+    #self.accounts = Data.ACCOUNTS_D.get_dropdown()
+    #self.accounts_d = Data.ACCOUNTS_D
 
     # These controls all appear / disappear as a group
     self.select_controls = [
@@ -246,8 +246,9 @@ class TransactionList(TransactionListTemplate):
     homepage.open_new_transaction_form()
 
   def import_button_change(self, file, **event_args):
+    return
     """This method is called when a new file is loaded into this FileLoader"""
-    account_name = self.accounts_d.match_filename(file.name)
+    #account_name = self.accounts_d.match_filename(file.name)
     #account_name = anvil.server.call('get_account_from_filename', file.name)
     
     if not account_name:
@@ -288,7 +289,7 @@ class TransactionList(TransactionListTemplate):
           alert("File preparation failed with message: {0}".format(message))
           code = ""
 
-    self.last_import_id = (account_name, code)
+    #self.last_import_id = (account_name, code)
     
     self.import_button.text = "Upload"
     self.import_button.visible = True

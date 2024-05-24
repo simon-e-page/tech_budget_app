@@ -16,7 +16,7 @@ class TransactionRow(TransactionRowTemplate):
   
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
-    self.accounts = Data.ACCOUNTS_D
+    #self.accounts = Data.ACCOUNTS_D
     self.init_components(**properties)
     # Any code you write here will run when the form opens.
     

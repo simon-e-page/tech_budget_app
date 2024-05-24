@@ -26,7 +26,7 @@ class Dashboard(DashboardTemplate):
     self.initialise_start_dates()
     # This returns a list of tuples to form the items of the category_dropdown. 
     # category_dropdown is data bound to self.categories
-    self.accounts = Data.ACCOUNTS_D.get_dropdown()
+    self.accounts =[] #]Data.ACCOUNTS_D.get_dropdown()
     #self.categories = Data.CATEGORIES
     # This returns a list of tuples to form the items of the priority_dropdown. 
     # priority_dropdown is data bound to self.priorities

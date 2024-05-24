@@ -23,35 +23,27 @@ class Transaction(TransactionTemplate):
   """
   
   def __init__(self, item, back=None, **properties):
-    self.vendors = ['vendor example']
-    self.account_codes = ['code example']
-    self.cost_centres = ['cost centre example']
-    self.lifecycles = ['lifecycle example']
-    self.categories = ['category example']
-    self.owners = ['SimonPage']
-    
-    #self.accounts = Data.ACCOUNTS_D.get_dropdown()
-    #self.accounts_d = Data.ACCOUNTS_D
-    #self.organisations = Data.ORGANISATIONS
+    self.vendors = Data.VENDORS.get_dropdown()
+    self.account_codes = Data.ACCOUNT_CODES_DD
+    self.cost_centres = Data.COST_CENTRES_DD
+    self.lifecycles = Data.LIFECYCLES_DD
+    self.categories = Data.CATEGORIES_DD
+    self.service_changes = Data.SERVICE_CHANGES_DD
+    self.billing_types = Data.BILLING_TYPES_DD
+  
     self.back=back
     properties['item'] = item
     print(type(item))
-    #self.item = item
-    #print(item)
     self.transaction_copy = {}
     
     self.initialised = False
-    #self.account_changed = None
-    #self.organisation_changed = False
     
     # Set Form properties and Data Bindings.
-    #self.form_refreshing_data_bindings()
     print("In Transaction.__init__")
     self.init_components(**properties)
     print("In Transaction.__init__")
     # Any code you write here will run when the form opens.
     self.reset_controls()
-    #self.set_rule()
     self.transaction_entries_1.build_table(self.item)
     print("Complete Transaction.__init__")
     

@@ -291,8 +291,7 @@ components:
       properties: {}
       name: debit_account_dropdown
       layout_properties: {}
-      data_bindings:
-      - {property: items, code: '[(''Leave as-is'', ''Leave as-is'')] + self.accounts'}
+      data_bindings: []
     - type: Label
       properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
         visible: true, text: 'Credit:', font_size: null, font: '', spacing_above: small,
@@ -305,8 +304,7 @@ components:
       properties: {}
       name: credit_account_dropdown
       layout_properties: {}
-      data_bindings:
-      - {property: items, code: '[(''Leave as-is'', ''Leave as-is'')] + self.accounts'}
+      data_bindings: []
     - type: CheckBox
       properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
         foreground: '', allow_indeterminate: true, visible: true, text: 'Duplicate?',

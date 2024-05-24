@@ -48,16 +48,17 @@ class Transactions(TransactionsTemplate):
     else:
       self.set_date_filter_settings()
       
-    self.accounts = Data.ACCOUNTS_D.get_dropdown()
+    self.accounts = [] #Data.ACCOUNTS_D.get_dropdown()
     self.init_components(**properties)
     self.load_transactions()
     # Any code you write here will run when the form opens.
 
   def load_organisations(self):
-    orgs = Data.ORGANISATIONS
+    return
+    #orgs = Data.ORGANISATIONS
     #orgs = list(anvil.server.call('get_organisation_map').keys())
-    orgs.sort()
-    self.organisations = ['<Blank>'] + orgs
+    #orgs.sort()
+    #self.organisations = ['<Blank>'] + orgs
     
   def load_transactions(self, **event_args):
     # If the filters are changed, de-select any currently selected transaction. This is done on the 'TransactionList' Form

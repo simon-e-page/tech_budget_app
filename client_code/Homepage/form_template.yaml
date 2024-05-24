@@ -149,4 +149,10 @@ components:
   properties: {}
   name: column_panel_1
   layout_properties: {slot: default}
+- name: brand_imagebox
+  properties: {height: 32.546875}
+  type: Image
+  layout_properties: {slot: search-box}
+  data_bindings:
+  - {property: source, code: self.brand_logo, writeback: false}
 is_package: true

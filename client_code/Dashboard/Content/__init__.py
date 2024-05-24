@@ -33,8 +33,8 @@ class Content(ContentTemplate):
     self.fin_year = fin_year_date or self.calc_fin_year(datetime.now())
     self.account_data = None
     self.budget_data = None
-    self.accounts = Data.ACCOUNTS_D
-    self.expense_accounts = [ i for i, x in self.accounts.items() if self.accounts[i]['type']=='EXPENSE' ]
+    self.accounts = []  #Data.ACCOUNTS_D
+    self.expense_accounts = [] #[ i for i, x in self.accounts.items() if self.accounts[i]['type']=='EXPENSE' ]
 
     #self.arrows = { True: 'fa:angle-down', False: 'fa:angle-right'}
     self.overview_visible = True
