@@ -124,6 +124,7 @@ class Budgets(AttributeToDict):
 class Vendor(AttributeToKey):
   _defaults = {
     'vendor_id': None,
+    'vendor_name': None,
     'description': '',
     'finance_tags': [],
     'prior_year_tags': [],
@@ -164,9 +165,12 @@ class Vendor(AttributeToKey):
 class Vendors(AttributeToDict):
   def __init__(self, vendor_list=None):
     self.__d__ = {}
-    if vendor_list:
-      for vn in vendor_list:
-        self.add(vn.vendor_id, vn)
+    if not vendor_list:
+      vendors = anvil.server.call('Vendors', 'get_vendors')
+      vendor_list = [ Vendor(vendor_json=x) for x in vendors ]
+      
+    for vn in vendor_list:
+      self.add(vn.vendor_id, vn)
         
   def get_dropdown(self):
     return [(x, x) for x in self.__d__.keys() ]
@@ -566,9 +570,7 @@ def get_transactions():
 
 def refresh():
   global VENDORS, FIN_YEARS, CURRENT_YEAR, BUDGET_YEAR
-  vendors = anvil.server.call('Vendors', 'get_vendors')
-  vendor_list = [ Vendor(vendor_json=x) for x in vendors ]
-  VENDORS = Vendors(vendor_list=vendor_list)
+  VENDORS = Vendors()
   FIN_YEARS, BUDGET_YEAR, CURRENT_YEAR = anvil.server.call('Calendar', 'get_fin_years')
   #ICONS.load()
 
