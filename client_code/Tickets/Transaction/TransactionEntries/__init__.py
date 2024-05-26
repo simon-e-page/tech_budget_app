@@ -14,7 +14,7 @@ class TransactionEntries(TransactionEntriesTemplate):
     self.current_year = Data.CURRENT_YEAR
     self.budget_year = Data.BUDGET_YEAR
 
-    self.month_map = enumerate(['Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May','Jun'])
+    self.month_map = {'Jul': 0,'Aug': 1,'Sep': 2,'Oct': 3,'Nov': 4,'Dec': 5,'Jan': 6,'Feb': 7,'Mar': 8,'Apr': 9,'May': 10,'Jun': 11 }
     self.updated_entries = []
     
     self.init_components(**properties)
@@ -91,6 +91,7 @@ class TransactionEntries(TransactionEntriesTemplate):
 
   def update_button_click(self, **event_args):
     """This method is called when the button is clicked"""
+    print(self.updated_entries)
     self.transaction.add_entries(self.updated_entries)
     self.updated_entries = []
     self.build_table(self.transaction)
@@ -107,14 +108,11 @@ class TransactionEntries(TransactionEntriesTemplate):
       transaction_type = 'Budget'
       
     month_label = cell.getData()['Month']
-    for i, v in self.month_map:
-      if v == month_label:
-        month_index = i
-        break
+    month_index = self.month_map[month_label]
 
     month_num = (month_index + 7) % 12
     timestamp = dt.date(fin_year - int(month_num>6), month_num, 1)
-    year_month = fin_year * 100 + month_num
+    year_month = (fin_year - int(month_num>6)) * 100 + month_num
     value = float(cell.getValue())
     self.updated_entries.append({
       'timestamp': timestamp,
