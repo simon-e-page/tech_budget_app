@@ -17,7 +17,8 @@ components:
   - name: entry_table
     properties: {pagination: false}
     type: form:TGQCF3WT6FVL2EM2:Tabulator
-    event_bindings: {cell_click: entry_table_cell_click, cell_edited: entry_table_cell_edited}
+    event_bindings: {cell_click: entry_table_cell_click, cell_edited: entry_table_cell_edited,
+      table_built: entry_table_table_built}
     layout_properties: {}
 - name: flow_panel_3
   properties: {}

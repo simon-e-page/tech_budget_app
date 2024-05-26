@@ -24,7 +24,9 @@ class TransactionEntries(TransactionEntriesTemplate):
   def build_table(self, item):
     self.t_data = item.get_all_entries()
     self.transaction = item
-    self.render_table()
+    if self.entry_table.initialized:
+      self.entry_table.clear()
+      self.render_table()
 
   def render_table(self):
     t = self.entry_table
@@ -46,8 +48,21 @@ class TransactionEntries(TransactionEntriesTemplate):
     def format_month(cell, **kwargs):
       return "<b>{0}</b>".format(cell.getValue())
 
+    def calc_totals(t_data):
+      d = t_data['data']
+      c = t_data['columns']
+      
+      totals = ['Total'] + [0] * (len(c) - 1)
+      for r in d:
+        for i,v in r.values():
+          if i != 'Month':
+            totals[c.index(i)] += v
+
+      return totals
+          
+        
+    totals = calc_totals(self.t_data)
     t.data = self.t_data['data']
-    t.data.append(self.t_data['totals'])
     month_col = [ {
                   "title":x, 
                   "field":x,
@@ -88,6 +103,8 @@ class TransactionEntries(TransactionEntriesTemplate):
       fy_columns.append(fy_column)
     
     t.columns = month_col + fy_columns
+    t.add_data(totals)
+
 
   def update_button_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -126,5 +143,10 @@ class TransactionEntries(TransactionEntriesTemplate):
     """This method is called when the button is clicked"""
     self.updated_entries = []
     self.render_table()
+
+  def entry_table_table_built(self, **event_args):
+    """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
+    self.render_table()
+
 
     
