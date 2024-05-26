@@ -84,9 +84,6 @@ class Transaction(TransactionTemplate):
     self.reset_controls()
     self.refresh_data_bindings()
       
-    
-      
-
   def back_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     back = self.back
@@ -97,8 +94,6 @@ class Transaction(TransactionTemplate):
     else:
       homepage = get_open_form()
       homepage.open_transactions()
-
-    
 
   def reset_controls(self):
     print("In reset_controls")
