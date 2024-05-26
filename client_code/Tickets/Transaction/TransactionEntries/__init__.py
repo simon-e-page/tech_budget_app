@@ -36,6 +36,8 @@ class TransactionEntries(TransactionEntriesTemplate):
       val = cell.getValue()
       if params['backgroundColor']:
         cell.getElement().style.backgroundColor = params['backgroundColor']
+      if params['color']:
+        cell.getElement().style.color = params['color']
       if str(val).isnumeric():
         return "{:,.0f}".format(val)
     
@@ -54,17 +56,21 @@ class TransactionEntries(TransactionEntriesTemplate):
 
     fy_columns = []
     for x in self.t_data['columns'][1:]:
-      if int(x) == Data.CURRENT_YEAR:
+      if self.item['transaction_type'] == 'Actual' and int(x) == Data.CURRENT_YEAR:
+        suffix = 'A'
+        params = {'backgroundColor': '##ccffff'}
+        editor = 'number'
+      elif int(x) == Data.CURRENT_YEAR:
         suffix = 'F'
         params = {'backgroundColor': '#ccffcc'}
-        editor = 'number'
+        editor = 'number'        
       elif int(x) == Data.BUDGET_YEAR:
         suffix = 'B'
         params = {'backgroundColor': '#ffffcc'}
         editor = 'number'
       else:
         suffix = ''
-        params = {}
+        params = {'color': 'grey'}
         editor = None
         
       fy_column = {
@@ -90,12 +96,14 @@ class TransactionEntries(TransactionEntriesTemplate):
   def entry_table_cell_edited(self, cell, **event_args):
     """This method is called when a cell is edited"""
     fin_year = int(cell.getField())
-    if fin_year == self.current_year:
+    if self.item['transaction_type'] == 'Actual':
+      transaction_type = 'Actual'
+    elif fin_year == self.current_year:
       transaction_type = 'Forecast'
     else:
       transaction_type = 'Budget'
       
-    month_label = cell.getData['Month']
+    month_label = cell.getData()['Month']
     for i, v in self.month_map:
       if v == month_label:
         month_index = i
