@@ -52,11 +52,11 @@ class TransactionEntries(TransactionEntriesTemplate):
     for x in self.t_data['columns'][1:]:
       if int(x) == Data.CURRENT_YEAR:
         suffix = 'F'
-        params = {'backgroundColor': 'yellow'}
+        params = {'backgroundColor': '#ccffcc'}
         editor = 'number'
       elif int(x) == Data.BUDGET_YEAR:
-        suffix = 'F'
-        params = {'backgroundColor': 'green'}
+        suffix = 'B'
+        params = {'backgroundColor': '#ffffcc'}
         editor = 'number'
       else:
         suffix = ''
