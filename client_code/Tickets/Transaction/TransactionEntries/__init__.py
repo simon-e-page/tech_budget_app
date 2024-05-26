@@ -19,7 +19,7 @@ class TransactionEntries(TransactionEntriesTemplate):
 
   def build_table(self, item):
     self.t_data = item.get_all_entries()
-    print(self.t_data['data'])
+    print(self.t_data['columns'])
     
     t = self.entry_table
     t.options.update(
