@@ -72,13 +72,16 @@ class TransactionEntries(TransactionEntriesTemplate):
       if int(x) == self.current_year:
         background_color = '#ffffcc'
         edit_func = 'number'
+        suffix = 'F'
       elif int(x) == self.budget_year:
         background_color = '#ccffcc'
         edit_func = 'number'
+        suffix = 'B'
       else:
         foreground_color = 'grey'
+        suffix = ''
       params = { 'foreground_color': foreground_color, 'background_color': background_color}
-      fy_columns.append({"title":x, 
+      fy_columns.append({"title":x + suffix, 
                          "field":x, 
                          "width":100, 
                          "formatter": format_column, 
