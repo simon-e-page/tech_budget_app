@@ -5,6 +5,7 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
+import datetime as dt
 from .... import Data
 
 class TransactionEntries(TransactionEntriesTemplate):
@@ -12,6 +13,9 @@ class TransactionEntries(TransactionEntriesTemplate):
     # Set Form properties and Data Bindings.
     self.current_year = Data.CURRENT_YEAR
     self.budget_year = Data.BUDGET_YEAR
+
+    self.month_map = enumerate(['Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May','Jun'])
+    self.updated_entries = []
     
     self.init_components(**properties)
     # Any code you write here will run before the form opens.
@@ -79,12 +83,34 @@ class TransactionEntries(TransactionEntriesTemplate):
 
   def update_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    pass
+    print(self.updated_entries)
+    self.updated_entries = []
 
-  def entry_table_cell_click(self, cell, **event_args):
-    """This method is called when a cell is clicked"""
-    pass
 
   def entry_table_cell_edited(self, cell, **event_args):
     """This method is called when a cell is edited"""
-    pass
+    fin_year = int(cell.getField())
+    if fin_year == self.current_year:
+      transaction_type = 'Forecast'
+    else:
+      transaction_type = 'Budget'
+      
+    month_label = cell.getData['Month']
+    for i, v in self.month_map:
+      if v == month_label:
+        month_index = i
+        break
+
+    month_num = (month_index + 7) % 12
+    timestamp = dt.date(fin_year - int(month_num>6), month_num, 1)
+    year_month = fin_year * 100 + month_num
+    value = float(cell.getValue())
+    self.updated_entries.append({
+      'timestamp': timestamp,
+      'transaction_type': transaction_type,
+      'fin_year': fin_year,
+      'year_month': year_month,
+      'amount': value
+    })
+
+    
