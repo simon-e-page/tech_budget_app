@@ -112,10 +112,11 @@ class Transaction(TransactionTemplate):
       self.item.delete()
       self.back_button_click()
 
-  def disable_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    if confirm("This will prevent this entry being used in future budgets. Are you sure?", large=True):
-      self.item['status'] == 'inactive'
-      self.update_transaction()
-
+  def disable_checkbox_change(self, **event_args):
+    """This method is called when this checkbox is checked or unchecked"""
+    if not self.disable_checkbox.checked or confirm("This will prevent this entry being used in future budgets. Are you sure?", large=True):
+        self.item['status'] == 'inactive'
+        self.update_transaction()
+    self.refresh_data_bindings()
+    
   

@@ -296,6 +296,13 @@ components:
       - {property: visible, code: 'self.item[''transaction_type''] == ''Actual''',
         writeback: false}
       layout_properties: {}
+    - name: disable_checkbox
+      properties: {text: Disabled}
+      type: CheckBox
+      data_bindings:
+      - {property: checked, code: 'self.item[''status'']==''inactive''', writeback: false}
+      layout_properties: {}
+      event_bindings: {change: disable_checkbox_change}
   - name: flow_panel_7
     properties: {}
     type: FlowPanel
@@ -338,11 +345,6 @@ components:
       layout_properties: {}
       event_bindings: {click: delete_button_click}
       data_bindings: []
-    - name: disable_button
-      properties: {text: Disable, role: secondary-button}
-      type: Button
-      layout_properties: {}
-      event_bindings: {click: disable_button_click}
   - type: Button
     properties: {role: secondary-button, align: center, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: Revert, font_size: null, font: '', spacing_above: small,
