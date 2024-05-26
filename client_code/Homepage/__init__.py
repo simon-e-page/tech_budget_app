@@ -46,7 +46,7 @@ class Homepage(HomepageTemplate):
 
     self.brands = Data.BRANDS_DD
     Data.CURRENT_BRAND = 'JB_AU'
-    #self.brand = 'JB_AU'
+    self.brand = Data.CURRENT_BRAND
      
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -261,6 +261,7 @@ class Homepage(HomepageTemplate):
   def brand_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
     Data.CURRENT_BRAND = self.brand_dropdown.selected_value
+    self.brand = Data.CURRENT_BRAND
     self.brand_dropdown.visible = False
     self.refresh_data_bindings()
 
