@@ -331,15 +331,20 @@ components:
     components:
     - type: Button
       properties: {role: secondary-button, align: center, tooltip: '', border: '',
-        enabled: false, foreground: '', visible: true, text: Delete, font_size: null,
+        enabled: true, foreground: '', visible: true, text: Delete, font_size: null,
         font: '', spacing_above: none, icon_align: left, spacing_below: small, italic: false,
         background: '', bold: false, underline: false, icon: ''}
       name: delete_button
       layout_properties: {}
       event_bindings: {click: delete_button_click}
       data_bindings: []
+    - name: disable_button
+      properties: {text: Disable, role: secondary-button}
+      type: Button
+      layout_properties: {}
+      event_bindings: {click: disable_button_click}
   - type: Button
-    properties: {role: secondary-button, align: center, tooltip: '', border: '', enabled: false,
+    properties: {role: secondary-button, align: center, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: Revert, font_size: null, font: '', spacing_above: small,
       icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
       underline: false, icon: 'fa:undo'}
@@ -347,7 +352,7 @@ components:
     layout_properties: {grid_position: 'SZJHZM,BJQXOK'}
     event_bindings: {click: revert_button_click}
   - type: Button
-    properties: {role: primary-button, align: right, tooltip: '', border: '', enabled: false,
+    properties: {role: primary-button, align: right, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: Save, font_size: null, font: '', spacing_above: small,
       icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
       underline: false, icon: 'fa:check-circle'}
