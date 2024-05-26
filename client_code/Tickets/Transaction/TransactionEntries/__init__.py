@@ -51,10 +51,9 @@ class TransactionEntries(TransactionEntriesTemplate):
     def calc_totals(t_data):
       d = t_data['data']
       c = t_data['columns']
-      
       totals = ['Total'] + [0] * (len(c) - 1)
       for r in d:
-        for i,v in r.values():
+        for i,v in r.items():
           if i != 'Month':
             totals[c.index(i)] += v
 
