@@ -403,7 +403,7 @@ class LazyTransactionList:
     length, slice = anvil.server.call('Transactions', 'get_transaction_slice', 
                                   sort=self.sort, 
                                   filters={ 'brand': CURRENT_BRAND }, 
-                                  date_filter={}, 
+                                  date_filter={},  # UNUSED
                                   direction=self.direction,
                                   start=start,
                                   end=end
