@@ -36,9 +36,9 @@ class TransactionEntries(TransactionEntriesTemplate):
 
     def format_column(cell, **params):
       val = cell.getValue()
-      if params['backgroundColor']:
+      if params.get('backgroundColor', None):
         cell.getElement().style.backgroundColor = params['backgroundColor']
-      if params['color']:
+      if params.get('color', None):
         cell.getElement().style.color = params['color']
       if str(val).isnumeric():
         return "{:,.0f}".format(val)
