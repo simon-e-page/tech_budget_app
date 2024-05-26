@@ -307,7 +307,7 @@ class Transaction(AttributeToKey):
                           )
 
   def add_entries(self, new_entries):
-    return anvil.server.call('Transactions', 'add_entrires', self.transaction_id, new_entries)
+    return anvil.server.call('Transactions', 'add_entries', self.transaction_id, new_entries)
 
     
 class LazyTransactionList:  
