@@ -273,7 +273,8 @@ class Transaction(AttributeToKey):
       if v is None:
         pass
         #del item[k]
-
+    
+    self['transaction_id'] = item['transaction_id']
     for field, default in self._defaults.items():
       if default is not None:
         self[field] = item.get(field, default)
