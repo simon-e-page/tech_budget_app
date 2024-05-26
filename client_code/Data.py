@@ -234,30 +234,32 @@ class Icons(AttributeToDict):
 
 class Transaction(AttributeToKey):
   _defaults = {
-    'transaction_id': None,
+    'brand': 'JB_AU',
     'vendor_id': None,
     'description': None,
     'owner': 'simon.page@gjbhifi.com.au',
     'transaction_type': 'Budget',
     'account_code': 'Software Maintenance',
-    'cost_centre': '6000',
-    'service_description': None,
-    'notes': '',
-    'updated_by': '',
+    'cost_centre': 'IT (6000)',
+    'service_change': 'Organic Growth',
+    'lifecycle': 'Existing',
     'updated': None,
-    'lifecycle': 'Core',
-    'budget_locked': 0,
     'source': '',
+    'status': 'active',
+    'budget_locked': 0,
     'to_review': False,
-    'import_id': '',
+    'category': 'Operations',
     'business_contact': False,
-    'brand': 'JB_AU',
+    'project': '',
+    'updated_by': '',
+    'import_id': '',
     'deleted': False,
+    'notes': '',
     'last_actual': 0,
+    'billing_type': 'Consumption',
     'contract_start_date': None,
     'contract_end_date': None,
     'expected_monthly_amount': 0.0,
-    'status': 'active'
   }
   def __init__(self, transaction_json, **kwargs):
     if transaction_json:
