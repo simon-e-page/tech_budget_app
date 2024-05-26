@@ -27,6 +27,7 @@ class TransactionEntries(TransactionEntriesTemplate):
       for i,v in r.items():
         if i != 'Month':
             totals[i] = v if i not in totals else totals[i] + v
+    return totals
 
   def build_table(self, item):
     self.t_data = item.get_all_entries()
@@ -55,9 +56,6 @@ class TransactionEntries(TransactionEntriesTemplate):
     
     def format_month(cell, **kwargs):
       return "<b>{0}</b>".format(cell.getValue())
-
-
-      return totals
            
     totals = self.calc_totals(self.t_data['data'])
     t.data = self.t_data['data']
