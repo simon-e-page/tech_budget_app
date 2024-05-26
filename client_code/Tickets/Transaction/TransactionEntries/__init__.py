@@ -19,7 +19,8 @@ class TransactionEntries(TransactionEntriesTemplate):
 
   def build_table(self, item):
     self.t_data = item.get_all_entries()
-
+    print(self.t_data['data'])
+    
     t = self.entry_table
     t.options.update(
       selectable="highlight",
