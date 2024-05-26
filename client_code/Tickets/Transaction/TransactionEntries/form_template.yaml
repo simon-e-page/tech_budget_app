@@ -29,4 +29,9 @@ components:
     type: Button
     layout_properties: {}
     event_bindings: {click: update_button_click}
+  - name: revert_button
+    properties: {text: Revert}
+    type: Button
+    layout_properties: {}
+    event_bindings: {click: revert_button_click}
 is_package: true

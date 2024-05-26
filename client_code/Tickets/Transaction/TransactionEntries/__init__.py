@@ -23,8 +23,9 @@ class TransactionEntries(TransactionEntriesTemplate):
 
   def build_table(self, item):
     self.t_data = item.get_all_entries()
-    print(self.t_data['columns'])
-    
+    self.render_table()
+
+  def render_table(self):
     t = self.entry_table
     t.options.update(
       selectable="highlight",
@@ -89,8 +90,9 @@ class TransactionEntries(TransactionEntriesTemplate):
 
   def update_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    print(self.updated_entries)
+    self.item.add_entries(self.updated_entries)
     self.updated_entries = []
+    self.build_table()
 
 
   def entry_table_cell_edited(self, cell, **event_args):
@@ -120,5 +122,10 @@ class TransactionEntries(TransactionEntriesTemplate):
       'year_month': year_month,
       'amount': value
     })
+
+  def revert_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.updated_entries = []
+    self.render_table()
 
     
