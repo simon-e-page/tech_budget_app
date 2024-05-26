@@ -49,7 +49,7 @@ class TransactionEntries(TransactionEntriesTemplate):
                   for x in self.t_data['columns'][0:1] ]
 
     fy_columns = []
-    for x in self.t_data('columns')[1:]:
+    for x in self.t_data['columns'][1:]:
       if int(x) == Data.CURRENT_YEAR:
         suffix = 'F'
         params = {'backgroundColor': 'yellow'}

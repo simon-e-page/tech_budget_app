@@ -175,5 +175,5 @@ components:
   type: Label
   layout_properties: {slot: search-box}
   data_bindings:
-  - {property: text, code: '"FY" & self.current_year', writeback: false}
+  - {property: text, code: '"Current: FY" + str(self.current_year)', writeback: false}
 is_package: true
