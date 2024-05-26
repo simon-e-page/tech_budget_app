@@ -16,7 +16,7 @@ class TransactionEntries(TransactionEntriesTemplate):
     self.current_year = Data.CURRENT_YEAR
     self.budget_year = Data.BUDGET_YEAR
     self.months = { 'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12, 'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6 }
-    
+    #print(f"In TransactionEntries.__init__: {self.item}")
     self.init_components(**properties)
     # Any code you write here will run before the form opens.
   

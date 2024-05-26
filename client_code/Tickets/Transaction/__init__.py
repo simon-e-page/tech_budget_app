@@ -22,7 +22,7 @@ class Transaction(TransactionTemplate):
   A copy of this row from the 'Transaction' table is initialised as self.transaction_copy in form_refreshing_data_bindings()
   """
   
-  def __init__(self, item, back=None, **properties):
+  def __init__(self, back=None, **properties):
     self.vendors = Data.VENDORS.get_dropdown()
     self.account_codes = Data.ACCOUNT_CODES_DD
     self.cost_centres = Data.COST_CENTRES_DD
@@ -30,10 +30,11 @@ class Transaction(TransactionTemplate):
     self.categories = Data.CATEGORIES_DD
     self.service_changes = Data.SERVICE_CHANGES_DD
     self.billing_types = Data.BILLING_TYPES_DD
+    self.titles = { 'Budget': 'Budget Line Detail', 'Actual': 'Finance Actual Detail'}
   
     self.back=back
-    properties['item'] = item
-    print(type(item))
+    #properties['item'] = item
+    #print(type(item))
     self.transaction_copy = {}
     
     self.initialised = False

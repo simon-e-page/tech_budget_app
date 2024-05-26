@@ -27,6 +27,8 @@ components:
         underline: false, icon: ''}
       name: label_1
       layout_properties: {grid_position: 'JFBEHH,RLYKNL'}
+      data_bindings:
+      - {property: text, code: 'self.titles[self.item[''transaction_type'']]', writeback: false}
   - name: flow_panel_2
     properties: {}
     type: FlowPanel
