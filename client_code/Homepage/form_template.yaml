@@ -160,14 +160,14 @@ components:
     type: Image
     layout_properties: {}
     data_bindings:
-    - {property: source, code: '"_/theme/{0}.png".format(self.brand)', writeback: false}
+    - {property: source, code: '"_/theme/{0}.png".format(Data.CURRENT_BRAND)', writeback: false}
     event_bindings: {mouse_down: brand_image_mouse_down}
   - name: brand_dropdown
     properties: {visible: false, bold: true}
     type: DropDown
     data_bindings:
     - {property: items, code: self.brands, writeback: false}
-    - {property: selected_value, code: self.brand, writeback: false}
+    - {property: selected_value, code: Data.CURRENT_BRAND, writeback: false}
     layout_properties: {}
     event_bindings: {change: brand_dropdown_change}
 is_package: true

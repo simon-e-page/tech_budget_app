@@ -45,7 +45,8 @@ class Homepage(HomepageTemplate):
     self.use_dashboard_cache = True
 
     self.brands = Data.BRANDS_DD
-    self.brand = 'JB_AU'
+    Data.CURRENT_BRAND = 'JB_AU'
+    #self.brand = 'JB_AU'
      
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
