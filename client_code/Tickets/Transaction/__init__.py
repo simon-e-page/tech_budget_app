@@ -33,8 +33,6 @@ class Transaction(TransactionTemplate):
     self.titles = { 'Budget': 'Budget Line Detail', 'Actual': 'Finance Actual Detail'}
   
     self.back=back
-    #properties['item'] = item
-    #print(type(item))
     self.transaction_copy = {}
     
     self.initialised = False
@@ -51,7 +49,7 @@ class Transaction(TransactionTemplate):
     
   def form_refreshing_data_bindings(self, **event_args):
     print("In: form_refreshing_data_bindings()")
-    # If self.item exists and ticket_copy not yet initialised, initialise it. 
+    # If self.item exists and transaction_copy not yet initialised, initialise it. 
     if (not self.initialised and self.item is not None) or (self.transaction_copy == {}):
       self.initialised = True
       self.transaction_copy = self.item.copy()
@@ -60,23 +58,23 @@ class Transaction(TransactionTemplate):
   
   # Change transaction details
   def update_transaction(self, **event_args):
-    trans_validation_errors = Validation.get_transaction_settings_errors(self.transaction_copy)
-    if trans_validation_errors:
-      alert("The following fields are missing for your transaction: \n{}".format(
-        ' \n'.join(word for word in trans_validation_errors)
-      ))
-    else:
-      self.transaction_copy['updated_by'] = anvil.users.get_user()['email']
-      self.transaction_copy['updated'] = datetime.now()
-      updates = self.transaction_copy.to_dict()
-      updates.pop('transaction_id', None)
-      self.item.update(updates)
-      #anvil.server.call('update_transaction', self.item, self.transaction_copy)
-      self.refresh_data_bindings()
+    #trans_validation_errors = Validation.get_transaction_settings_errors(self.transaction_copy)
+    #if trans_validation_errors:
+    #  alert("The following fields are missing for your transaction: \n{}".format(
+    #    ' \n'.join(word for word in trans_validation_errors)
+    #  ))
+    #else:
+    self.item['updated_by'] = anvil.users.get_user()['email']
+    self.item['updated'] = datetime.now()
+    updates = self.item.to_dict()
+    updates.pop('transaction_id', None)
+    self.item.update()
+    self.transaction_copy = self.item.copy()
+    self.refresh_data_bindings()
 
   def revert_button_click(self, **event_args):
     """This method is called when the link is clicked"""
-    self.transaction_copy = self.item.copy()
+    self.item = self.transaction_copy.copy()
     self.reset_controls()
     #self.form_refreshing_data_bindings()
 
@@ -88,9 +86,6 @@ class Transaction(TransactionTemplate):
     #alert("Updates saved!")
     self.reset_controls()
     self.refresh_data_bindings()
-      
-    
-      
 
   def back_button_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -103,27 +98,28 @@ class Transaction(TransactionTemplate):
       homepage = get_open_form()
       homepage.open_transactions()
 
-    
-
   def reset_controls(self):
     print("In reset_controls")
     #self.credit_account_dropdown.enabled = True
     self.revert_button.enabled = False
-
-      
     
   def notes_area_change(self, **event_args):
     """This method is called when the text in this text area is edited"""
     self.save_button.enabled = True
     self.revert_button.enabled = True
 
-
   def delete_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    return
-    if confirm("Are you sure you want to delete this transaction?", large=True):
+    if confirm("This will remove this transaction completely! Are you sure?", large=True):
       Data.TRANSACTIONS.delete([self.item.transaction_id])
       #count = anvil.server.call("delete_transactions", [self.item])
+      self.back_button_click()
+
+  def inactive_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    if confirm("This will remove this transaction from future budgets. Are you sure?", large=True):
+      self.item['status']=='inactive'
+      self.update_transaction()
       self.back_button_click()
 
   

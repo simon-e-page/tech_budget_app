@@ -45,7 +45,7 @@ class Homepage(HomepageTemplate):
     self.use_dashboard_cache = True
 
     self.brands = Data.BRANDS_DD
-    self.brand = 'JB_AU'
+    Data.CURRENT_BRAND = 'JB_AU'
 
     self.current_year = Data.CURRENT_YEAR
     
@@ -261,7 +261,7 @@ class Homepage(HomepageTemplate):
 
   def brand_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
-    self.brand = self.brand_dropdown.selected_value
+    Data.CURRENT_BRAND = self.brand_dropdown.selected_value
     self.brand_dropdown.visible = False
     self.refresh_data_bindings()
 

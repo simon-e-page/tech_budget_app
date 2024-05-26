@@ -23,9 +23,8 @@ class TransactionEntries(TransactionEntriesTemplate):
 
   
   def build_table(self, item):
-    # TODO: We want Forecast value where they exist!
     self.transaction = item
-    self.t_data = item.get_all_entries(transaction_type='Budget')
+    self.t_data = item.get_all_entries()
     self.t_data_bak = deepcopy(self.t_data)
     self.render_table()
 

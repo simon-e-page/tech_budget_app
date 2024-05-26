@@ -160,7 +160,7 @@ components:
     type: Image
     layout_properties: {}
     data_bindings:
-    - {property: source, code: '"_/theme/{0}.png".format(self.brand)', writeback: false}
+    - {property: source, code: '"_/theme/{0}.png".format(Data.CURRENT_BRAND)', writeback: false}
     event_bindings: {mouse_down: brand_image_mouse_down}
   - name: brand_dropdown
     properties: {visible: false, bold: true}

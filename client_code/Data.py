@@ -13,7 +13,7 @@ BRANDS_DD = [ (x,x) for x in BRANDS ]
 ACCOUNT_CODES = [  'Software Maintenance', 'Hardware Maintenance', 'Consulting' ]
 ACCOUNT_CODES_DD = [ (x, x) for x in ACCOUNT_CODES ]
 
-COST_CENTRES = [ '6000', '3121', 'Stores', 'HR', 'Commercial' ]
+COST_CENTRES = [ 'IT (6000)', 'Online (3121)', 'Stores', 'HR', 'Commercial' ]
 COST_CENTRES_DD = [ (x, x) for x in COST_CENTRES ]
 
 LIFECYCLES = [ 'Existing', 'Existing - Discretionary', 'New - Committed', 'New - Discretionary', 'Legacy', 'Peripherals', 'New - Ex-IT' ]
@@ -238,23 +238,25 @@ class Icons(AttributeToDict):
 
 class Transaction(AttributeToKey):
   _defaults = {
-    'transaction_id': None,
     'vendor_id': None,
     'description': None,
     'owner': 'simon.page@gjbhifi.com.au',
     'transaction_type': 'Budget',
     'account_code': 'Software Maintenance',
     'cost_centre': '6000',
-    'service_description': None,
+    'category': None,
+    'service_change': None,
+    'project': '',
     'notes': '',
     'updated_by': '',
     'updated': None,
     'lifecycle': 'Core',
+    'billing_type': None,
     'budget_locked': 0,
     'source': '',
     'to_review': False,
     'import_id': '',
-    'business_contact': False,
+    'business_contact': '',
     'brand': 'JB_AU',
     'deleted': False,
     'last_actual': 0,
@@ -263,6 +265,7 @@ class Transaction(AttributeToKey):
     'expected_monthly_amount': 0.0,
     'status': 'active'
   }
+  
   def __init__(self, transaction_json, **kwargs):
     if transaction_json:
       # TODO: Convert JSON object?
@@ -276,6 +279,7 @@ class Transaction(AttributeToKey):
         pass
         #del item[k]
 
+    self['transaction_id'] = item.get('transaction_id')
     for field, default in self._defaults.items():
       if default is not None:
         self[field] = item.get(field, default)
@@ -286,8 +290,10 @@ class Transaction(AttributeToKey):
     anvil.server.call('Transactions', 'delete_transactions', [self.transaction_id])
 
   def to_dict(self):
-    return { x: self[x] for x in list(self._defaults.keys()) }
-
+    as_dict = { x: self[x] for x in list(self._defaults.keys()) }
+    as_dict.pop('transaction_id', None)
+    return as_dict
+    
   # TODO: Review - do we need this?
   def copy(self):
     props = { x: self[x] for x in list(self._defaults.keys()) }
@@ -296,19 +302,15 @@ class Transaction(AttributeToKey):
     print(t)
     return t
 
-  def update(self, updated):
-    try:
-      #orig = self.to_dict()
-      for k in updated.keys():
-        self[k] = updated[k]
-      anvil.server.call('Transactions', 'update_transaction', self.transaction_id, self.to_dict())
+  def update(self):
+    try:      
+      anvil.server.call('Transactions', 'update', self.transaction_id, self.to_dict())      
     except Exception as e:
       print("Error updating transaction: {0}".format(self.transaction_id))
 
-  def get_all_entries(self, transaction_type):
+  def get_all_entries(self):
     return anvil.server.call('Transactions', 'get_all_entries_by_transaction_id', 
                            transaction_id=self.transaction_id,
-                           transaction_type=transaction_type
                           )
 
   def add_entries(self, entries):
@@ -413,10 +415,8 @@ class LazyTransactionList:
     """ Setup backend dataset using filters """
     length, slice = anvil.server.call('Transactions', 'get_transaction_slice', 
                                   sort=self.sort, 
-                                  filters={}, 
+                                  filters={ 'brand': CURRENT_BRAND }, 
                                   date_filter={}, 
-                                  #filters=self.filters, 
-                                  #date_filter=self.date_filter, 
                                   direction=self.direction,
                                   start=start,
                                   end=end
@@ -561,6 +561,7 @@ TRANSACTIONS = LazyTransactionList()
 FIN_YEARS = None
 CURRENT_YEAR = None
 BUDGET_YEAR = None
+CURRENT_BRAND = None
 
 def get_transactions():
   global TRANSACTIONS
