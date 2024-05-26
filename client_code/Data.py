@@ -13,7 +13,7 @@ BRANDS_DD = [ (x,x) for x in BRANDS ]
 ACCOUNT_CODES = [  'Software Maintenance', 'Hardware Maintenance', 'Consulting' ]
 ACCOUNT_CODES_DD = [ (x, x) for x in ACCOUNT_CODES ]
 
-COST_CENTRES = [ '6000', '3121', 'Stores', 'HR', 'Commercial' ]
+COST_CENTRES = [ 'IT (6000)', 'Online (3121)', 'Stores', 'HR', 'Commercial' ]
 COST_CENTRES_DD = [ (x, x) for x in COST_CENTRES ]
 
 LIFECYCLES = [ 'Existing', 'Existing - Discretionary', 'New - Committed', 'New - Discretionary', 'Legacy', 'Peripherals', 'New - Ex-IT' ]
