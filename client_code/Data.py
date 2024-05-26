@@ -301,7 +301,7 @@ class Transaction(AttributeToKey):
     except Exception as e:
       print("Error updating transaction: {0}".format(self.transaction_id))
 
-  def get_all_entries(self, transaction_type):
+  def get_all_entries(self):
     return anvil.server.call('Transactions', 'get_all_entries_by_transaction_id', 
                            transaction_id=self.transaction_id,
                           )
