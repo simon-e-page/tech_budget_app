@@ -50,13 +50,27 @@ class TransactionEntries(TransactionEntriesTemplate):
 
     fy_columns = []
     for x in self.t_data('columns')[1:]:
+      if int(x) == Data.CURRENT_YEAR:
+        suffix = 'F'
+        params = {'backgroundColor': 'yellow'}
+        editor = 'number'
+      elif int(x) == Data.BUDGET_YEAR:
+        suffix = 'F'
+        params = {'backgroundColor': 'green'}
+        editor = 'number'
+      else:
+        suffix = ''
+        params = {}
+        editor = None
+        
       fy_column = {
-        "title":x, 
+        "title":x + suffix, 
         "field":x, 
         "width":100, 
-        "formatter": format_column, 
+        "formatter": format_column,
+        "formatterParams": params,
         'headerSort': False,  
-        "editor": 'number'
+        "editor": editor
       }
       
       fy_columns.append(fy_column)
