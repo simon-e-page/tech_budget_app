@@ -403,7 +403,7 @@ class LazyTransactionList:
     """ Setup backend dataset using filters """
     length, slice = anvil.server.call('Transactions', 'get_transaction_slice', 
                                   sort=self.sort, 
-                                  filters={}, 
+                                  filters={ 'brand': CURRENT_BRAND }, 
                                   date_filter={}, 
                                   #filters=self.filters, 
                                   #date_filter=self.date_filter, 
@@ -500,7 +500,8 @@ class LazyTransactionList:
   def search(self, sort='timestamp', filters = {}, date_filter={}, direction='descending'):
     """ Returns a direct search of transactions from the backend. 
         Operates independently of cached items 
-    """    
+    """ 
+    filters['brand']=CURRENT_BRAND
     _ignore, slice = anvil.server.call('Transactions', 'get_transactions_slice', 
                                   sort=sort, 
                                   filters=filters, 
