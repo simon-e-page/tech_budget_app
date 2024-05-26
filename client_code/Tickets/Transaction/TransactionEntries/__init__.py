@@ -6,6 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import datetime as dt
+from copy import deepcopy
 from .... import Data
 
 class TransactionEntries(TransactionEntriesTemplate):
@@ -20,9 +21,16 @@ class TransactionEntries(TransactionEntriesTemplate):
     self.init_components(**properties)
     # Any code you write here will run before the form opens.
 
+  def calc_totals(self, data):
+    totals = {'Month': 'Total'}
+    for r in data:
+      for i,v in r.items():
+        if i != 'Month':
+            totals[i] = v if i not in totals else totals[i] + v
 
   def build_table(self, item):
     self.t_data = item.get_all_entries()
+    self.t_data_copy = deepcopy(self.t_data)
     self.transaction = item
     if self.entry_table.initialized:
       self.entry_table.clear()
@@ -48,19 +56,10 @@ class TransactionEntries(TransactionEntriesTemplate):
     def format_month(cell, **kwargs):
       return "<b>{0}</b>".format(cell.getValue())
 
-    def calc_totals(t_data):
-      d = t_data['data']
-      c = t_data['columns']
-      totals = ['Total'] + [0] * (len(c) - 1)
-      for r in d:
-        for i,v in r.items():
-          if i != 'Month':
-            totals[c.index(i)] += v
 
       return totals
-          
-        
-    totals = calc_totals(self.t_data)
+           
+    totals = self.calc_totals(self.t_data['data'])
     t.data = self.t_data['data']
     month_col = [ {
                   "title":x, 
@@ -130,6 +129,8 @@ class TransactionEntries(TransactionEntriesTemplate):
     timestamp = dt.date(fin_year - int(month_num>6), month_num, 1)
     year_month = (fin_year - int(month_num>6)) * 100 + month_num
     value = float(cell.getValue())
+
+    # Keep an log of changes
     self.updated_entries.append({
       'timestamp': timestamp,
       'transaction_type': transaction_type,
@@ -137,10 +138,18 @@ class TransactionEntries(TransactionEntriesTemplate):
       'year_month': year_month,
       'amount': value
     })
+    
+    #Update internal data table
+    self.t_data[month_index][str(fin_year)] = value
+    totals = self.calc_totals(self.t_data['data'])
+    self.entry_table.delete_row(len(self.t_data['data'])-1)
+    self.entry_table.add_data(totals)
+  
 
   def revert_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     self.updated_entries = []
+    self.t_data = deepcopy(self.t_data_copy)
     self.render_table()
 
   def entry_table_table_built(self, **event_args):
