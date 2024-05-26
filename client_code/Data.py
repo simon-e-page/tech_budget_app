@@ -551,6 +551,7 @@ TRANSACTIONS = LazyTransactionList()
 FIN_YEARS = None
 CURRENT_YEAR = None
 BUDGET_YEAR = None
+CURRENT_BRAND = None
 
 def get_transactions():
   global TRANSACTIONS
