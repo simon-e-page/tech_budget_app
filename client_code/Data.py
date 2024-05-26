@@ -304,7 +304,6 @@ class Transaction(AttributeToKey):
   def get_all_entries(self, transaction_type):
     return anvil.server.call('Transactions', 'get_all_entries_by_transaction_id', 
                            transaction_id=self.transaction_id,
-                           transaction_type=transaction_type
                           )
 
     
