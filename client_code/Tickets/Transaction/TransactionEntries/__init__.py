@@ -48,11 +48,18 @@ class TransactionEntries(TransactionEntriesTemplate):
                   'headerSort': False,  } 
                   for x in self.t_data['columns'][0:1] ]
 
+    fy_columns = []
     for x in self.t_data('columns')[1:]:
+      fy_column = {
+        "title":x, 
+        "field":x, 
+        "width":100, 
+        "formatter": format_column, 
+        'headerSort': False,  
+        "editor": 'number'
+      }
       
-    
-    fy_columns = [ {"title":x, "field":x, "width":100, "formatter": format_column, 'headerSort': False,  } 
-                  for x in self.t_data['columns'][1:] ]
+      fy_columns.append(fy_column)
     
     t.columns = month_col + fy_columns
 
