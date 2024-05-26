@@ -294,12 +294,9 @@ class Transaction(AttributeToKey):
     print(t)
     return t
 
-  def update(self, updated):
+  def update(self):
     try:
-      #orig = self.to_dict()
-      for k in updated.keys():
-        self[k] = updated[k]
-      anvil.server.call('Transactions', 'update_transaction', self.transaction_id, self.to_dict())
+      anvil.server.call('Transactions', 'update', self.transaction_id, self.to_dict())
     except Exception as e:
       print("Error updating transaction: {0}".format(self.transaction_id))
 
@@ -406,8 +403,6 @@ class LazyTransactionList:
                                   sort=self.sort, 
                                   filters={ 'brand': CURRENT_BRAND }, 
                                   date_filter={}, 
-                                  #filters=self.filters, 
-                                  #date_filter=self.date_filter, 
                                   direction=self.direction,
                                   start=start,
                                   end=end
