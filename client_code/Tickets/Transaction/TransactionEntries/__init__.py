@@ -41,7 +41,7 @@ class TransactionEntries(TransactionEntriesTemplate):
     t.data.append(self.t_data['totals'])
 
     month_col = [ {"title":x, "field":x, "width":100, "formatter": format_column, 'headerSort': False,  } 
-                  for x in self.t_data['columns'][1:] ]self.t_data['columns'][0]
+                  for x in self.t_data['columns'][1:] ]
     
     fy_columns = [ {"title":x, "field":x, "width":100, "formatter": format_column, 'headerSort': False,  } 
                   for x in self.t_data['columns'][1:] ]
