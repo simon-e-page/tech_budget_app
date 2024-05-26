@@ -95,25 +95,37 @@ components:
     - {property: text, code: 'self.transaction_copy[''description'']', writeback: true}
     event_bindings: {pressed_enter: transaction_description_edit, lost_focus: transaction_description_edit,
       change: transaction_description_edit}
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Muted
-        purple', visible: true, text: 'Business Contact:', font_size: null, font: '',
-      spacing_above: medium, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false, icon: ''}
-    name: label_2_copy_4
-    layout_properties:
-      col_widths: {}
-      grid_position: ZWGQWN,ZFIVSU
-  - type: TextBox
-    properties: {role: textbox-input, align: left, hide_text: false, tooltip: '',
-      placeholder: Enter Business Contact, border: '', enabled: true, foreground: '',
-      visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number,
-      spacing_below: small, italic: false, background: '', bold: false, underline: false}
-    name: amount_box
-    layout_properties: {grid_position: 'QYMTSY,TQNAQN'}
-    data_bindings:
-    - {property: text, code: 'self.transaction_copy[''business_contact'']', writeback: true}
-    event_bindings: {change: amount_box_change}
+  - name: flow_panel_10
+    properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'IUNTBN,TJYGWC'}
+    components:
+    - type: Label
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Muted
+          purple', visible: true, text: 'Business Contact:', font_size: null, font: '',
+        spacing_above: medium, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false, icon: ''}
+      name: label_2_copy_4
+    - type: TextBox
+      properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Enter Business Contact,
+        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false}
+      name: amount_box
+      layout_properties: {width: 197.98084375000002}
+      data_bindings:
+      - {property: text, code: 'self.transaction_copy[''business_contact'']', writeback: true}
+      event_bindings: {change: amount_box_change}
+    - name: label_14
+      properties: {text: 'Project:'}
+      type: Label
+      layout_properties: {}
+    - name: project_textbox
+      properties: {placeholder: Enter project}
+      type: TextBox
+      data_bindings:
+      - {property: text, code: 'self.item[''project'']', writeback: false}
+      layout_properties: {width: 290.66796875}
   - name: flow_panel_8
     properties: {}
     type: FlowPanel
