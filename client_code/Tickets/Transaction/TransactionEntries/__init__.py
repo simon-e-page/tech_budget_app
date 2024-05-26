@@ -28,14 +28,14 @@ class TransactionEntries(TransactionEntriesTemplate):
       css_class=["table-striped", "table-bordered", "table-condensed"]
     )
 
-    def format_column(cell, **kwargs):
+    def format_column(cell, **params):
       val = cell.getValue()
+      if params['backgroundColor']:
+        cell.getElement().style.backgroundColor = params['backgroundColor']
       if str(val).isnumeric():
         return "{:,.0f}".format(val)
-      else:
-        return "<b>{0}</b>".format(val)
     
-    def format_total(cell, **kwargs):
+    def format_month(cell, **kwargs):
       return "<b>{0}</b>".format(cell.getValue())
 
     t.data = self.t_data['data']
@@ -44,7 +44,7 @@ class TransactionEntries(TransactionEntriesTemplate):
                   "title":x, 
                   "field":x,
                   "width":100,
-                  "formatter": format_column,
+                  "formatter": format_month,
                   'headerSort': False,  } 
                   for x in self.t_data['columns'][0:1] ]
 
