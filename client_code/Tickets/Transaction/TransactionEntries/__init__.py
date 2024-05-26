@@ -23,6 +23,7 @@ class TransactionEntries(TransactionEntriesTemplate):
 
   def build_table(self, item):
     self.t_data = item.get_all_entries()
+    self.transaction = item
     self.render_table()
 
   def render_table(self):
@@ -57,7 +58,7 @@ class TransactionEntries(TransactionEntriesTemplate):
 
     fy_columns = []
     for x in self.t_data['columns'][1:]:
-      if self.item['transaction_type'] == 'Actual' and int(x) == Data.CURRENT_YEAR:
+      if self.transaction['transaction_type'] == 'Actual' and int(x) == Data.CURRENT_YEAR:
         suffix = 'A'
         params = {'backgroundColor': '##ccffff'}
         editor = 'number'
@@ -90,15 +91,15 @@ class TransactionEntries(TransactionEntriesTemplate):
 
   def update_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    self.item.add_entries(self.updated_entries)
+    self.transaction.add_entries(self.updated_entries)
     self.updated_entries = []
-    self.build_table()
+    self.build_table(self.transaction)
 
 
   def entry_table_cell_edited(self, cell, **event_args):
     """This method is called when a cell is edited"""
     fin_year = int(cell.getField())
-    if self.item['transaction_type'] == 'Actual':
+    if self.transaction['transaction_type'] == 'Actual':
       transaction_type = 'Actual'
     elif fin_year == self.current_year:
       transaction_type = 'Forecast'
