@@ -169,17 +169,18 @@ class Icon(AttributeToKey):
       try:
         # Max file size of 100kB (note not Kibibytes to be technical!)
         if content.length > 100000:
-          alert("Selected file is too large. Please reduce and try again!")
+          print("Selected file is too large. Please reduce and try again!")
         elif (content.content_type in ACCEPTABLE.keys()):
           name = name + "." + ACCEPTABLE[content.content_type]
           icon_id = None #anvil.server.call('create_account_icon_file', name, content)
         else:
-          alert('Not an acceptable image file. Please try again!')
+          print('Not an acceptable image file. Please try again!')
       except Exception as e:    
-        alert("Error uploading new icon!")
+        print("Error uploading new icon!")
           
       if not icon_id:
-        raise Error("Could not create new Icon")
+        print("Could not create new Icon")
+        return
 
     self.name = name
     self.content = content
@@ -508,18 +509,18 @@ class LazyTransactionList:
 #####################################################################
 
 
-class Importer:
-  def start(self, file_obj, account_name):
-    return None #anvil.server.call('upload_transactions', file_obj, account_name)
-
-  def next_batch(self, code):
-    return None #anvil.server.call('upsert_batch', code)
-
-  def process_paypal(self, account_name, start, end):
-    return None #anvil.server.call('process_paypal', account_name, start=start, end=end)
-
-  def get_import_ids(self, account_name):
-    return [] #anvil.server.call('get_import_ids', account_name)
+#class Importer:
+#  def start(self, file_obj, account_name):
+#    return None #anvil.server.call('upload_transactions', file_obj, account_name)
+#
+#  def next_batch(self, code):
+#    return None #anvil.server.call('upsert_batch', code)
+#
+#  def process_paypal(self, account_name, start, end):
+#    return None #anvil.server.call('process_paypal', account_name, start=start, end=end)
+#
+#  def get_import_ids(self, account_name):
+#    return [] #anvil.server.call('get_import_ids', account_name)
 
 
 VENDORS = Vendors()
