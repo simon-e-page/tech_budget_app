@@ -206,4 +206,5 @@ components:
         properties: {text: Delete, role: secondary-button, icon: 'fa:trash'}
         type: Button
         layout_properties: {}
+        event_bindings: {click: delete_button_click}
 is_package: true

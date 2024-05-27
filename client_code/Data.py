@@ -132,7 +132,15 @@ class Vendors(AttributeToDict):
     if vendor_id in self.indexed:
       return self.indexed[vendor_id]
 
-  
+  def new(self, vendor_data):
+    vendor_id = vendor_data['vendor_name']
+    if vendor_id in self.__d__:
+      print("Already an existing Vendor with that ID!")
+      return None
+    else:
+      self.add(vendor_id, Vendor(vendor_json=vendor_data))
+      return self.get(vendor_id)
+
 
 
 
