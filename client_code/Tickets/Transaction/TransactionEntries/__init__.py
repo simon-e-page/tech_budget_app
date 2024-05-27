@@ -27,11 +27,11 @@ class TransactionEntries(TransactionEntriesTemplate):
     # Any code you write here will run before the form opens.
 
   def calc_totals(self, data):
-    totals = {'Month': 'Total'}
+    totals = { i: 0 for i in data[0].keys() if i != 'Month' }
     for r in data:
       for i,v in r.items():
-        if i != 'Month':
-            totals[i] = v if i not in totals else totals[i] + v
+            totals[i] += v if i in totals and str(v).isnumeric() else 0
+    totals['Month'] = 'Total'
     return totals
 
   def build_table(self, item):
