@@ -108,7 +108,7 @@ class Homepage(HomepageTemplate):
       print("opened form")
   
   def open_new_transaction_form(self, initial_account={}):
-    """Open the 'NewTransaction' Form, by adding it to the "default" slot.
+    """Open the 'Transaction' Form with an emptt record, by adding it to the "default" slot.
     
     Argments:
       initial_account - Can be passed in to create a transaction for a specific account. 
@@ -116,7 +116,7 @@ class Homepage(HomepageTemplate):
     """
     self.transaction_panel.role = 'dash-link-selected'
     self.headline_label.text = "New Transaction"
-    self.current_form = NewTransaction(initial_account)
+    self.current_form = Transaction(Data.Transaction(transaction_json={}))
     self.clear_page()
     self.add_component(self.current_form, slot="default")
 

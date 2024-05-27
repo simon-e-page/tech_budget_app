@@ -75,9 +75,16 @@ class Transaction(TransactionTemplate):
 
   def save_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    
-    self.update_transaction()
-    Notification('Transaction details updated successfully').show()
+    if self.item.transaction_id is not None:
+      self.update_transaction()
+      Notification('Transaction details updated successfully').show()
+    else:
+      try:
+        self.item = Data.TRANSACTIONS.new(self.item)
+        Notification('Transaction details updated successfully').show()
+      except Exception as e:
+        Notification("Error adding new Transaction! Check logs!").show()
+        
     #alert("Updates saved!")
     self.reset_controls()
     self.refresh_data_bindings()
