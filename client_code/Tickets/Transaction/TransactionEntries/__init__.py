@@ -11,6 +11,7 @@ from .... import Data
 
 from tabulator.Tabulator import Tabulator
 Tabulator.modules.add('ColumnCalcsModule')
+Tabulator.modules.add('calculations')
 Tabulator.modules.add('columnCalcs')
 
 
@@ -19,7 +20,6 @@ class TransactionEntries(TransactionEntriesTemplate):
     # Set Form properties and Data Bindings.
     self.current_year = Data.CURRENT_YEAR
     self.budget_year = Data.BUDGET_YEAR
-
     self.month_map = {'Jul': 0,'Aug': 1,'Sep': 2,'Oct': 3,'Nov': 4,'Dec': 5,'Jan': 6,'Feb': 7,'Mar': 8,'Apr': 9,'May': 10,'Jun': 11 }
     self.updated_entries = []
     
@@ -38,15 +38,19 @@ class TransactionEntries(TransactionEntriesTemplate):
     self.t_data = item.get_all_entries()
     self.t_data_copy = deepcopy(self.t_data)
     self.transaction = item
-    if self.entry_table.initialized:
-      self.entry_table.clear()
+    #if self.entry_table.initialized:
+    if self.entries.initialized:
+      #self.entry_table.clear()
+      self.entries.clear()
       self.render_table()
 
   def render_table(self):
-    t = self.entry_table
+    #t = self.entry_table
+    t = self.entries
     t.options.update(
       selectable="highlight",
       pagination=False,
+      pagination_size=15,
       css_class=["table-striped", "table-bordered", "table-condensed"]
     )
 
@@ -99,7 +103,7 @@ class TransactionEntries(TransactionEntriesTemplate):
         "formatterParams": params,
         'headerSort': False,  
         "editor": editor,
-        "bottomCalc": 'sum'
+        #"bottomCalc": 'sum'
       }
       
       fy_columns.append(fy_column)
@@ -116,7 +120,7 @@ class TransactionEntries(TransactionEntriesTemplate):
     self.build_table(self.transaction)
 
 
-  def entry_table_cell_edited(self, cell, **event_args):
+  def entries_cell_edited(self, cell, **event_args):
     """This method is called when a cell is edited"""
     fin_year = int(cell.getField())
     if self.transaction['transaction_type'] == 'Actual':
@@ -157,9 +161,11 @@ class TransactionEntries(TransactionEntriesTemplate):
     self.t_data = deepcopy(self.t_data_copy)
     self.render_table()
 
-  def entry_table_table_built(self, **event_args):
+  def entries_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
     self.render_table()
+
+
 
 
     
