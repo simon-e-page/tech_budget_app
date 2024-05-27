@@ -74,22 +74,6 @@ class AttributeToDict:
 
 
 #####################################################################
-# BUDGET
-#####################################################################
-
-#class Entry(AttributeToKey):
-#  def __init__(self, entry_json=None, account_name=None, amount=None):
-#    if entry_json is None:
-#      self.account_name = account_name
-#      self.amount = amount
-#    else:
-#      self.account_name = entry_json['account_name']
-#      self.amount = entry_json['amount']
-
-
-
-
-#####################################################################
 # VENDORS
 #####################################################################
 
