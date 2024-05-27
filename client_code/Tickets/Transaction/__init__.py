@@ -33,10 +33,12 @@ class Transaction(TransactionTemplate):
   
     self.back=back
     properties['item'] = item
-    print(type(item))
+    
     self.transaction_copy = {}
     
     self.initialised = False
+
+    self.budget_labels = { True: "Budget Line Detail", False: "Actual Line Detail" }
     
     # Set Form properties and Data Bindings.
     print("In Transaction.__init__")
@@ -122,6 +124,7 @@ class Transaction(TransactionTemplate):
   def actual_checkbox_change(self, **event_args):
     """This method is called when this checkbox is checked or unchecked"""
     self.item.transaction_type = 'Actual' if self.actual_checkbox else 'Budget'
+    self.transaction_entries_1.build_table(self.item)
     self.refresh_data_bindings()
     
   

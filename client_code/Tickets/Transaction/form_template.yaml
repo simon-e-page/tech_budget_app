@@ -31,6 +31,9 @@ components:
           icon_align: left, spacing_below: medium, italic: false, background: '',
           bold: false, underline: false, icon: ''}
         name: label_1
+        data_bindings:
+        - {property: text, code: 'self.budget_labels[self.item[''transaction_type'']==''Budget'']',
+          writeback: false}
       - name: actual_checkbox
         properties: {text: Enter Actual}
         type: CheckBox
