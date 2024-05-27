@@ -110,7 +110,7 @@ class Vendor(AttributeToKey):
 
   def save(self):
     # Saves to backend as new or updated object
-    anvil.server.call('Vendors', 'add_vendor', self.to_dict())    
+    return anvil.server.call('Vendors', 'add_vendors', [self.to_dict()])    
     
   def to_dict(self):
     d = { x: self[x] for x in self._defaults }
