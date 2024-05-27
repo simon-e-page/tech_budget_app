@@ -9,6 +9,11 @@ import datetime as dt
 from copy import deepcopy
 from .... import Data
 
+from tabulator.Tabulator import Tabulator
+Tabulator.modules.add('ColumnCalcsModule')
+Tabulator.modules.add('columnCalcs')
+
+
 class TransactionEntries(TransactionEntriesTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -141,7 +146,8 @@ class TransactionEntries(TransactionEntriesTemplate):
     #Update internal data table
     self.t_data['data'][month_index][str(fin_year)] = value
     #totals = self.calc_totals(self.t_data['data'])
-    #self.entry_table.delete_row(len(self.t_data['data'])-1)
+    #self.entry_table.delete_row()
+    #self.render_table()
     #self.entry_table.add_data(totals)
   
 
