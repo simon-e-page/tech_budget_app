@@ -48,7 +48,7 @@ class TransactionEntries(TransactionEntriesTemplate):
     )
     
     def calc_totals(data):
-      totals = { k: sum([ r[k] for r in data ]) for k in data.keys() }
+      totals = { k: sum([ r[k] for r in data ]) for k in data[0].keys() if k != 'Month' }
       totals['Month'] = 'Total'
       return totals
 
@@ -59,7 +59,11 @@ class TransactionEntries(TransactionEntriesTemplate):
       if params.get('color', None):
         cell.getElement().style.color = params['color']
       if str(val).isnumeric():
-        return "{:,.0f}".format(val)
+        val = "{:,.0f}".format(val)
+      if cell.getData()['Month'] == 'Total':
+        val = "<b>{0}</b>".format(val)
+      return val
+      
     
     def format_month(cell, **kwargs):
       return "<b>{0}</b>".format(cell.getValue())
@@ -101,6 +105,7 @@ class TransactionEntries(TransactionEntriesTemplate):
         "formatterParams": params,
         'headerSort': False,  
         "editor": editor,
+        "hozAlign": 'right',
         #"bottomCalc": 'sum'
       }
       
