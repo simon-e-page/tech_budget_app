@@ -109,7 +109,7 @@ class TransactionEntries(TransactionEntriesTemplate):
       fy_columns.append(fy_column)
     
     t.columns = month_col + fy_columns
-    #t.add_data(totals)
+    t.add_data(totals)
 
 
   def update_button_click(self, **event_args):
@@ -151,7 +151,9 @@ class TransactionEntries(TransactionEntriesTemplate):
     self.t_data['data'][month_index][str(fin_year)] = value
     #totals = self.calc_totals(self.t_data['data'])
     #self.entry_table.delete_row()
-    #self.render_table()
+    
+    self.render_table()
+    
     #self.entry_table.add_data(totals)
   
 
