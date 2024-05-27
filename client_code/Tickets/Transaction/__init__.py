@@ -65,8 +65,6 @@ class Transaction(TransactionTemplate):
     #    ' \n'.join(word for word in trans_validation_errors)
     #  ))
     #else:
-    self.item['updated_by'] = anvil.users.get_user()['email']
-    self.item['updated'] = datetime.now()
     self.item.update()
     self.refresh_data_bindings()
 

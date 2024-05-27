@@ -1,5 +1,6 @@
 import anvil.server
 import re
+import datetime as dt
 
 """This module collects global variables to be used throughout the app"""
 """
@@ -76,48 +77,20 @@ class AttributeToDict:
 # BUDGET
 #####################################################################
 
-class Entry(AttributeToKey):
-  def __init__(self, entry_json=None, account_name=None, amount=None):
-    if entry_json is None:
-      self.account_name = account_name
-      self.amount = amount
-    else:
-      self.account_name = entry_json['account_name']
-      self.amount = entry_json['amount']
+#class Entry(AttributeToKey):
+#  def __init__(self, entry_json=None, account_name=None, amount=None):
+#    if entry_json is None:
+#      self.account_name = account_name
+#      self.amount = amount
+#    else:
+#      self.account_name = entry_json['account_name']
+#      self.amount = entry_json['amount']
 
 
-
-class Budget(AttributeToDict):
-  def __init__(self, fin_year, entry_list=None):
-    self.fin_year = fin_year
-    self.__d__ = {}
-    if entry_list:
-      for e in entry_list:
-        self.add(e.account_name, e)
-
-  def save(self):
-    try:
-      ret = {} #anvil.server.call('save_budget_entries', fin_year=self.fin_year, entries=self.to_dict())
-    except Exception as e:
-      print("Exception saving Budget Entries!")
-      print(e)
-      print(self.__d__)
-      ret = {}
-    return ret
-
-  def to_dict(self):
-    return { k: v.amount for k, v in self.__d__.items() }
-
-class Budgets(AttributeToDict):
-  def __init__(self, budget_list=None):
-    self.__d__ = {}
-    if budget_list:
-      for b in budget_list:
-        self.add(b.fin_year, b)
 
 
 #####################################################################
-# ACCOUNT
+# VENDORS
 #####################################################################
 
 
@@ -296,6 +269,8 @@ class Transaction(AttributeToKey):
     return t
 
   def update(self):
+    self['updated_by'] = anvil.users.get_user()['email']
+    self['updated'] = dt.datetime.now()
     try:
       anvil.server.call('Transactions', 'update', self.transaction_id, self.to_dict())
     except Exception as e:
