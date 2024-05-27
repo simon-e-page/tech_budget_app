@@ -26,10 +26,6 @@ class TransactionEntries(TransactionEntriesTemplate):
     self.init_components(**properties)
     # Any code you write here will run before the form opens.
 
-  def calc_totals(self, data):
-    totals = { k: sum([ r[k] for r in data ]) for k in data.keys() }
-    totals['Month'] = 'Total'
-    return totals
 
   def build_table(self, item):
     self.t_data = item.get_all_entries()
@@ -50,6 +46,11 @@ class TransactionEntries(TransactionEntriesTemplate):
       pagination_size=15,
       css_class=["table-striped", "table-bordered", "table-condensed"]
     )
+    
+    def calc_totals(data):
+      totals = { k: sum([ r[k] for r in data ]) for k in data.keys() }
+      totals['Month'] = 'Total'
+      return totals
 
     def format_column(cell, **params):
       val = cell.getValue()
@@ -63,7 +64,7 @@ class TransactionEntries(TransactionEntriesTemplate):
     def format_month(cell, **kwargs):
       return "<b>{0}</b>".format(cell.getValue())
            
-    totals = self.calc_totals(self.t_data['data'])
+    totals = calc_totals(self.t_data['data'])
     t.data = self.t_data['data']
     month_col = [ {
                   "title":x, 
@@ -146,12 +147,7 @@ class TransactionEntries(TransactionEntriesTemplate):
     
     #Update internal data table
     self.t_data['data'][month_index][str(fin_year)] = value
-    #totals = self.calc_totals(self.t_data['data'])
-    #self.entry_table.delete_row()
-    
     self.render_table()
-    
-    #self.entry_table.add_data(totals)
   
 
   def revert_button_click(self, **event_args):
