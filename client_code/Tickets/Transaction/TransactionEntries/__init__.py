@@ -83,18 +83,18 @@ class TransactionEntries(TransactionEntriesTemplate):
 
     fy_columns = []
     for x in self.t_data['columns'][1:]:
-      if self.transaction['transaction_type'] == 'Actual' and int(x) == Data.CURRENT_YEAR:
+      if self.transaction.transaction_type == 'Actual' and int(x) == Data.CURRENT_YEAR:
         suffix = 'A'
         params = {'backgroundColor': '##ccffff'}
-        editor = 'number' if self.transaction_id is not None else None
-      elif int(x) == Data.CURRENT_YEAR:
+        editor = 'number' if self.transaction.transaction_id is not None else None
+      elif self.transaction.transaction_type == 'Budget' and int(x) == Data.CURRENT_YEAR:
         suffix = 'F'
         params = {'backgroundColor': '#ccffcc'}
-        editor = 'number' if self.transaction_id is not None else None        
-      elif int(x) == Data.BUDGET_YEAR:
+        editor = 'number' if self.transaction.transaction_id is not None else None        
+      elif self.transaction.transaction_type == 'Budget' and int(x) == Data.BUDGET_YEAR:
         suffix = 'B'
         params = {'backgroundColor': '#ffffcc'}
-        editor = 'number' if self.transaction_id is not None else None
+        editor = 'number' if self.transaction.transaction_id is not None else None
       else:
         suffix = ''
         params = {'color': 'grey'}

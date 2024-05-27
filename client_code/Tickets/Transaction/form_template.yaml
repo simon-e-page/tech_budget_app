@@ -87,6 +87,13 @@ components:
       - {property: items, code: self.vendors, writeback: false}
       - {property: selected_value, code: 'self.item[''vendor_id'']', writeback: true}
       layout_properties: {}
+    - name: new_vendor_button
+      properties: {text: New Vendor, role: primary-button, icon: 'fa:external-link'}
+      type: Button
+      layout_properties: {}
+      data_bindings:
+      - {property: visible, code: self.item.transaction_id is None, writeback: false}
+      event_bindings: {click: new_vendor_button_click}
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Muted
         purple', visible: true, text: 'Description:', font_size: null, font: '', spacing_above: medium,

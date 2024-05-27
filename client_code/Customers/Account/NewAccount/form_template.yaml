@@ -40,7 +40,7 @@ components:
     data_bindings:
     - {property: text, code: 'self.item[''name'']'}
 - type: ColumnPanel
-  properties: {col_widths: '{"HUJRYE":50,"WSIPHF":10,"BCKOQO":20,"BXPKPS":40,"QVEBNC":5,"DTRATD":55}'}
+  properties: {col_widths: '{"HUJRYE":50,"WSIPHF":10,"BCKOQO":30,"BXPKPS":30,"QVEBNC":5,"DTRATD":55}'}
   name: column_panel_1
   layout_properties: {slot: slot-content}
   components:
@@ -66,7 +66,7 @@ components:
         name: label_6
         layout_properties: {grid_position: 'VFCSJC,UJQOME'}
       - type: TextBox
-        properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Enter Account Name,
+        properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Enter Vendor Name,
           border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
           font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
           background: '', bold: false, underline: false}
@@ -95,89 +95,7 @@ components:
     properties: {}
     name: flow_panel_2
     layout_properties: {grid_position: 'MNKULR,DTRATD DPKUVC,HUJRYE BOAHFL,YZLNSI'}
-    components:
-    - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'Type: ', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_7
-      layout_properties: {}
-    - type: DropDown
-      properties:
-        role: null
-        align: full
-        tooltip: ''
-        placeholder: Select Type
-        border: ''
-        enabled: true
-        foreground: ''
-        items: []
-        visible: true
-        font_size: null
-        font: ''
-        spacing_above: small
-        spacing_below: small
-        italic: false
-        background: ''
-        bold: false
-        underline: false
-        include_placeholder: true
-      name: type_dropdown
-      layout_properties: {}
-      data_bindings:
-      - {property: selected_value, code: 'self.item[''type'']', writeback: true}
-      - {property: items, code: self.types}
-      event_bindings: {change: type_dropdown_change}
-    - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'Sub-Type:', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_8
-      layout_properties: {}
-      data_bindings:
-      - {property: visible, code: 'self.item[''type''] in [''ASSET'', ''LIABILITY'']'}
-    - type: DropDown
-      properties:
-        role: null
-        align: full
-        tooltip: ''
-        placeholder: Enter Subtype
-        border: ''
-        enabled: true
-        foreground: ''
-        items: []
-        visible: true
-        font_size: null
-        font: ''
-        spacing_above: small
-        spacing_below: small
-        italic: false
-        background: ''
-        bold: false
-        underline: false
-        include_placeholder: true
-      name: subtype_dropdown
-      layout_properties: {}
-      data_bindings:
-      - {property: selected_value, code: 'self.item[''subtype'']', writeback: true}
-      - {property: items, code: self.subtypes}
-      - {property: visible, code: 'self.item[''type''] in [''ASSET'', ''LIABILITY'']'}
-    - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'Order:', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4
-      layout_properties: {}
-    - type: DropDown
-      properties: {}
-      name: order_dropdown
-      layout_properties: {}
-      data_bindings:
-      - {property: selected_value, code: self.order_raw, writeback: true}
-      - {property: items, code: self.orders}
+    components: []
   - type: LinearPanel
     properties: {}
     name: linear_panel_4
@@ -198,122 +116,31 @@ components:
       event_bindings: {change: icon_loader_change}
       data_bindings:
       - {property: enabled, code: self.name_unique}
-  - type: FlowPanel
-    properties: {}
-    name: flow_panel_4
-    layout_properties: {grid_position: 'MNKULR,DTRATD UEXAWT,KCHNME'}
-    components:
-    - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'Institution:', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_9
-      layout_properties: {}
-    - type: TextBox
-      properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'Institution?',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
-      name: institution_textbox
-      layout_properties: {}
-      data_bindings:
-      - {property: text, code: 'self.item[''institution'']', writeback: true}
-    - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'Account Number:', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_2
-      layout_properties: {}
-    - type: TextBox
-      properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'Account
-          Number?', border: '', enabled: true, foreground: '', visible: true, text: '',
-        font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
-        italic: false, background: '', bold: false, underline: false}
-      name: account_number_textbox
-      layout_properties: {}
-      data_bindings:
-      - {property: text, code: 'self.item[''account_number'']', writeback: true}
   - type: ColumnPanel
     properties: {col_widths: '{}'}
     name: column_panel_3
-    layout_properties: {grid_position: 'MNKULR,DTRATD DOGXEZ,BCKOQO TBSQFA,CCXGVW'}
+    layout_properties: {grid_position: 'MNKULR,DTRATD DOGXEZ,BCKOQO YVZJGF,WBKJDX'}
     components:
     - type: LinearPanel
       properties: {}
       name: linear_panel_2
       layout_properties: {grid_position: 'PGEKLM,JTYFIO'}
       components:
-      - type: Label
-        properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-          visible: true, text: 'Options:', font_size: null, font: '', spacing_above: small,
-          icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
-          underline: false, icon: ''}
-        name: label_3
+      - name: label_2
+        properties: {text: 'Prior Year Synonyms:', bold: true}
+        type: Label
         layout_properties: {}
-      - type: CheckBox
-        properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-          foreground: '', allow_indeterminate: false, visible: true, text: 'Include
-            in Reports?', font_size: null, font: '', spacing_above: small, spacing_below: small,
-          italic: false, background: '', bold: false, checked: false, underline: false}
-        name: report_checkbox
-        layout_properties: {}
-        data_bindings:
-        - {property: checked, code: 'self.item[''report'']', writeback: true}
-      - type: CheckBox
-        properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-          foreground: '', allow_indeterminate: false, visible: true, text: 'Include
-            in Reconciliation?', font_size: null, font: '', spacing_above: small,
-          spacing_below: small, italic: false, background: '', bold: false, checked: false,
-          underline: false}
-        name: reconcile_checkbox
-        layout_properties: {}
-        data_bindings:
-        - {property: checked, code: 'self.item[''reconcile'']', writeback: true}
-      - type: CheckBox
-        properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-          foreground: '', allow_indeterminate: false, visible: true, text: 'Discretionary
-            Expense?', font_size: null, font: '', spacing_above: small, spacing_below: small,
-          italic: false, background: '', bold: false, checked: false, underline: false}
-        name: discretionary_checkbox
-        layout_properties: {}
-        data_bindings:
-        - {property: checked, code: 'self.item[''discretionary'']', writeback: true}
-      - type: CheckBox
-        properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-          foreground: '', allow_indeterminate: false, visible: true, text: 'Include
-            in Budgets?', font_size: null, font: '', spacing_above: small, spacing_below: small,
-          italic: false, background: '', bold: false, checked: false, underline: false}
-        name: budget_checkbox
-        layout_properties: {}
-        data_bindings:
-        - {property: checked, code: 'self.item[''budget'']', writeback: true}
-        event_bindings: {change: budget_checkbox_change}
-  - type: FlowPanel
-    properties: {role: null, spacing: medium, align: left, tooltip: '', border: '',
-      foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
-    name: flow_panel_5
-    layout_properties: {grid_position: 'MNKULR,DTRATD DOGXEZ,BCKOQO YCZSPT,FXKHNB'}
+  - name: flow_panel_3
+    properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'MNKULR,DTRATD DOGXEZ,BCKOQO ADFBNN,GDWNEL'}
     components:
-    - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'Default:', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5
-      layout_properties: {}
-    - type: TextBox
-      properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Enter default budget,
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
-      name: default_textbox
-      layout_properties: {}
+    - name: prior_year_areabox
+      properties: {height: 74.74609375}
+      type: TextArea
+      layout_properties: {width: 428.796875}
       data_bindings:
-      - {property: text, code: 'self.item[''default_budget'']', writeback: true}
-    data_bindings:
-    - {property: visible, code: 'self.item[''budget'']'}
+      - {property: text, code: self.pior_year_tags_raw, writeback: true}
   - type: LinearPanel
     properties: {}
     name: linear_panel_3
@@ -321,98 +148,26 @@ components:
     components:
     - type: Label
       properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'Import Settings:', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
-        underline: false, icon: ''}
+        visible: true, text: 'Finance Report Synonyms:', font_size: null, font: '',
+        spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: true, underline: false, icon: ''}
       name: label_14
       layout_properties: {}
-    - type: FlowPanel
-      properties: {role: null, spacing: medium, align: left, tooltip: '', border: '',
-        foreground: '', visible: true, spacing_above: small, spacing_below: small,
-        background: ''}
-      name: flow_panel_6
-      layout_properties: {}
-      components:
-      - type: Label
-        properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-          visible: true, text: 'Importer:                  ', font_size: null, font: '',
-          spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-          background: '', bold: false, underline: false, icon: ''}
-        name: label_10
-        layout_properties: {}
-      - type: DropDown
-        properties:
-          role: null
-          align: full
-          tooltip: ''
-          placeholder: Select Importer
-          border: ''
-          enabled: true
-          foreground: ''
-          items: []
-          visible: true
-          font_size: null
-          font: ''
-          spacing_above: small
-          spacing_below: small
-          italic: false
-          background: ''
-          bold: false
-          underline: false
-          include_placeholder: true
-        name: importer_dropdown
-        layout_properties: {}
-        data_bindings:
-        - {property: selected_value, code: 'self.item[''importer'']', writeback: true}
-        - {property: items, code: self.importers}
-      data_bindings:
-      - {property: visible, code: 'self.item[''type''] in [''ASSET'', ''LIABILITY'']'}
-  - type: FlowPanel
-    properties: {role: null, spacing: medium, align: left, tooltip: '', border: '',
-      foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
-    name: flow_panel_7
-    layout_properties: {grid_position: 'MNKULR,DTRATD DOGXEZ,BXPKPS AUVYPR,YBNJVS'}
-    components:
-    - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'Filename Pattern:', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_11
-      layout_properties: {}
-    - type: TextBox
-      properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Import file pattern,
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
-      name: pattern_textbox
-      layout_properties: {width: 328.5}
-      data_bindings:
-      - {property: text, code: 'self.item[''filename_pattern'']', writeback: true}
-    data_bindings:
-    - {property: visible, code: 'self.item[''type''] in [''ASSET'', ''LIABILITY'']'}
   - type: FlowPanel
     properties: {role: null, spacing: medium, align: left, tooltip: '', border: '',
       foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
     name: flow_panel_8
     layout_properties: {grid_position: 'MNKULR,DTRATD DOGXEZ,BXPKPS MCQMXE,SJTWHF'}
     components:
-    - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'Duplicates:              ', font_size: null, font: '',
-        spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false, icon: ''}
-      name: label_12
-      layout_properties: {}
     - type: TextArea
       properties: {role: null, align: left, height: 86.7031, tooltip: '', placeholder: Enter description patterns for duplicate transactions (one per line),
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
         auto_expand: false, font: '', spacing_above: small, spacing_below: small,
         italic: false, background: '', bold: false, underline: false}
-      name: duplicates_areabox
-      layout_properties: {width: 335}
+      name: finance_tags_areabox
+      layout_properties: {width: 490.69140625}
       data_bindings:
-      - {property: text, code: self.duplicates_raw, writeback: true}
+      - {property: text, code: self.finance_tags_raw, writeback: true}
     data_bindings:
     - {property: visible, code: 'self.item[''type''] in [''ASSET'', ''LIABILITY'']'}
   - type: ColumnPanel
@@ -423,7 +178,7 @@ components:
     - type: Label
       properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
         visible: true, text: 'Notes:', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
         underline: false, icon: ''}
       name: label_13
       layout_properties: {grid_position: 'PUDRCE,FMEFBG'}

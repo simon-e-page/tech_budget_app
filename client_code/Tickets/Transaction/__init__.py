@@ -10,7 +10,7 @@ import anvil.server
 from datetime import datetime
 from ... import Data
 from ... import Validation
-from ...Settings.Settings.SettingsDetails import SettingsDetails
+from ...Customers.Account.NewAccount import NewAccount
 
 class Transaction(TransactionTemplate):
   """This Form displays transaction and account information for a single transaction. It also allows you to edit the transaction being displayed.
@@ -126,5 +126,9 @@ class Transaction(TransactionTemplate):
     self.item.transaction_type = 'Actual' if self.actual_checkbox else 'Budget'
     self.transaction_entries_1.build_table(self.item)
     self.refresh_data_bindings()
+
+  def new_vendor_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    alert(NewAccount(item=Data.Vendor()), large=True, title="New Vendor")
     
   
