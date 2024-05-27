@@ -118,5 +118,10 @@ class Transaction(TransactionTemplate):
         self.item['status'] == 'inactive'
         self.update_transaction()
     self.refresh_data_bindings()
+
+  def actual_checkbox_change(self, **event_args):
+    """This method is called when this checkbox is checked or unchecked"""
+    self.item.transaction_type = 'Actual' if self.actual_checkbox else 'Budget'
+    self.refresh_data_bindings()
     
   
