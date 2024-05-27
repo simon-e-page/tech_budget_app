@@ -22,6 +22,7 @@ class TransactionEntries(TransactionEntriesTemplate):
     self.budget_year = Data.BUDGET_YEAR
     self.month_map = {'Jul': 0,'Aug': 1,'Sep': 2,'Oct': 3,'Nov': 4,'Dec': 5,'Jan': 6,'Feb': 7,'Mar': 8,'Apr': 9,'May': 10,'Jun': 11 }
     self.updated_entries = []
+    self.entry_label = "Budget / Forecast Entries"
     
     self.init_components(**properties)
     # Any code you write here will run before the form opens.
@@ -31,6 +32,8 @@ class TransactionEntries(TransactionEntriesTemplate):
     self.t_data = item.get_all_entries()
     self.t_data_copy = deepcopy(self.t_data)
     self.transaction = item
+    self.entry_label = 'Budget / Forecast Entries' if item.transaction_type == 'Budget' else 'Actual Entries'
+    self.refresh_data_bindings()
     #if self.entry_table.initialized:
     if self.entries.initialized:
       #self.entry_table.clear()
