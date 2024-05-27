@@ -48,7 +48,7 @@ class TransactionEntries(TransactionEntriesTemplate):
     )
     
     def calc_totals(data):
-      totals = { k: sum([ r[k] for r in data ]) for k in data[0].keys() if k != 'Month' }
+      totals = { k: sum([ r[k] for r in data if r[k] != 'NA']) for k in data[0].keys() if k != 'Month' }
       totals['Month'] = 'Total'
       return totals
 
