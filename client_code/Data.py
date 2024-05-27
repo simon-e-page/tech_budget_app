@@ -80,8 +80,8 @@ class AttributeToDict:
 
 class Vendor(AttributeToKey):
   _defaults = {
-    'vendor_id': None,
-    'description': '',
+    'vendor_name': None,
+    'description': 'Unknown vendor',
     'finance_tags': [],
     'prior_year_tags': [],
     'deleted': False,
@@ -101,21 +101,21 @@ class Vendor(AttributeToKey):
       if v is None:
         del item[k]
 
+    self['vendor_id'] = item.get('vendor_id', item['vendor_name'])
     for field, default in self._defaults.items():
       if default is not None:
         self[field] = item.get(field, default)
       else:
         self[field] = item.get(field)
 
-  
   def save(self):
     # Saves to backend as new or updated object
-    props = { x: self[x] for x in list(self._defaults.keys()) }
-    print("Save Account")
-    anvil.server.call('Vendors', 'add_vendor', props)    
+    anvil.server.call('Vendors', 'add_vendor', self.to_dict())    
     
   def to_dict(self):
-    return { x: self[x] for x in self._defaults }
+    d = { x: self[x] for x in self._defaults }
+    d['vendor_id'] = self.vendor_id
+    return d
 
 
 class Vendors(AttributeToDict):

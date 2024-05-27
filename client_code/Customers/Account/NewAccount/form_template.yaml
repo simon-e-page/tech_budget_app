@@ -38,7 +38,7 @@ components:
     name: account_label
     layout_properties: {}
     data_bindings:
-    - {property: text, code: 'self.item[''name'']'}
+    - {property: text, code: 'self.item[''vendor_name'']', writeback: false}
 - type: ColumnPanel
   properties: {col_widths: '{"HUJRYE":50,"WSIPHF":10,"BCKOQO":30,"BXPKPS":30,"QVEBNC":5,"DTRATD":55}'}
   name: column_panel_1
@@ -73,7 +73,7 @@ components:
         name: name_textbox
         layout_properties: {grid_position: 'VFCSJC,RSKGON'}
         data_bindings:
-        - {property: text, code: 'self.item[''name'']', writeback: true}
+        - {property: text, code: 'self.item[''vendor_name'']', writeback: true}
         event_bindings: {change: name_textbox_change, lost_focus: name_textbox_lost_focus}
       - type: Label
         properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
@@ -95,7 +95,13 @@ components:
     properties: {}
     name: flow_panel_2
     layout_properties: {grid_position: 'MNKULR,DTRATD DPKUVC,HUJRYE BOAHFL,YZLNSI'}
-    components: []
+    components:
+    - name: active_checkbox
+      properties: {text: 'Active?'}
+      type: CheckBox
+      layout_properties: {}
+      data_bindings:
+      - {property: checked, code: 'self.item[''active'']', writeback: true}
   - type: LinearPanel
     properties: {}
     name: linear_panel_4
@@ -191,4 +197,13 @@ components:
       layout_properties: {grid_position: 'WQIQVH,GENQQZ'}
       data_bindings:
       - {property: text, code: 'self.item[''notes'']', writeback: true}
+    - name: flow_panel_4
+      properties: {}
+      type: FlowPanel
+      layout_properties: {grid_position: 'YPIRKR,EEVNIA'}
+      components:
+      - name: delete_button
+        properties: {text: Delete, role: secondary-button, icon: 'fa:trash'}
+        type: Button
+        layout_properties: {}
 is_package: true
