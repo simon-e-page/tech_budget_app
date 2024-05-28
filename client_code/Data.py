@@ -80,7 +80,7 @@ class AttributeToDict:
 
 class Vendor(AttributeToKey):
   _defaults = {
-    'vendor_name': None,
+    'vendor_name': 'New Vendor',
     'description': 'Unknown vendor',
     'finance_tags': [],
     'prior_year_tags': [],
@@ -101,7 +101,7 @@ class Vendor(AttributeToKey):
       if v is None:
         del item[k]
 
-    self['vendor_id'] = item.get('vendor_id', item['vendor_name'])
+    self['vendor_id'] = item.get('vendor_id', None)
     for field, default in self._defaults.items():
       if default is not None:
         self[field] = item.get(field, default)

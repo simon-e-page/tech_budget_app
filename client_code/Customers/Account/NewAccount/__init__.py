@@ -50,6 +50,7 @@ class NewAccount(NewAccountTemplate):
       if self.item.vendor_id is not None:
         self.item.save()
       else:
+        self.item.vendor_id = self.item.vendor_name
         ret = Data.VENDORS.new(self.item)
         if ret is not None:
           self.item = ret

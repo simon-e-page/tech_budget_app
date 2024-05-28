@@ -146,7 +146,7 @@ components:
       type: TextArea
       layout_properties: {width: 428.796875}
       data_bindings:
-      - {property: text, code: self.pior_year_tags_raw, writeback: true}
+      - {property: text, code: self.prior_year_tags_raw, writeback: true}
   - type: LinearPanel
     properties: {}
     name: linear_panel_3
