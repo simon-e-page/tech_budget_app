@@ -39,6 +39,7 @@ class Transaction(TransactionTemplate):
     self.initialised = False
 
     self.budget_labels = { True: "Budget Line Detail", False: "Actual Line Detail" }
+    self.actual_button_labels = { True: 'Enter Budget', False: 'Enter Actual'}
     
     # Set Form properties and Data Bindings.
     print("In Transaction.__init__")
@@ -130,5 +131,10 @@ class Transaction(TransactionTemplate):
   def new_vendor_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     alert(NewAccount(item=Data.Vendor()), large=True, title="New Vendor")
+
+  def actual_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.item.active = not self.item.active
+    self.refresh_data_bindings()
     
   

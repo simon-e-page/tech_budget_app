@@ -34,13 +34,14 @@ components:
         data_bindings:
         - {property: text, code: 'self.budget_labels[self.item[''transaction_type'']==''Budget'']',
           writeback: false}
-      - name: actual_checkbox
-        properties: {text: Enter Actual}
-        type: CheckBox
+      - name: actual_button
+        properties: {text: '', role: secondary-button}
+        type: Button
         layout_properties: {}
         data_bindings:
-        - {property: visible, code: 'self.item[''transaction_id''] is None', writeback: false}
-        event_bindings: {change: actual_checkbox_change}
+        - {property: text, code: 'self.actual_button_labels[self.item.active]', writeback: false}
+        - {property: visible, code: self.item.transaction_id is None, writeback: false}
+        event_bindings: {click: actual_button_click}
   - name: flow_panel_2
     properties: {}
     type: FlowPanel
