@@ -102,6 +102,12 @@ components:
       layout_properties: {}
       data_bindings:
       - {property: checked, code: 'self.item[''active'']', writeback: true}
+    - name: actual_button
+      properties: {text: Change to Actual}
+      type: Button
+      layout_properties: {}
+      data_bindings:
+      - {property: text, code: self.actual_button_, writeback: false}
   - type: LinearPanel
     properties: {}
     name: linear_panel_4
