@@ -23,6 +23,7 @@ class TransactionEntries(TransactionEntriesTemplate):
     self.month_map = {'Jul': 0,'Aug': 1,'Sep': 2,'Oct': 3,'Nov': 4,'Dec': 5,'Jan': 6,'Feb': 7,'Mar': 8,'Apr': 9,'May': 10,'Jun': 11 }
     self.updated_entries = []
     self.entry_label = "Budget / Forecast Entries"
+    self.transaction = {}
     
     self.init_components(**properties)
     # Any code you write here will run before the form opens.

@@ -39,7 +39,8 @@ components:
         type: Button
         layout_properties: {}
         data_bindings:
-        - {property: text, code: 'self.actual_button_labels[self.item.active]', writeback: false}
+        - {property: text, code: 'self.actual_button_labels[self.item.transaction_type==''Budget'']',
+          writeback: false}
         - {property: visible, code: self.item.transaction_id is None, writeback: false}
         event_bindings: {click: actual_button_click}
   - name: flow_panel_2

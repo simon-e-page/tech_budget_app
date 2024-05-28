@@ -39,7 +39,7 @@ class Transaction(TransactionTemplate):
     self.initialised = False
 
     self.budget_labels = { True: "Budget Line Detail", False: "Actual Line Detail" }
-    self.actual_button_labels = { True: 'Enter Budget', False: 'Enter Actual'}
+    self.actual_button_labels = { True: 'Enter Actual', False: 'Enter Budget'}
     
     # Set Form properties and Data Bindings.
     print("In Transaction.__init__")
@@ -122,19 +122,14 @@ class Transaction(TransactionTemplate):
         self.update_transaction()
     self.refresh_data_bindings()
 
-  def actual_checkbox_change(self, **event_args):
-    """This method is called when this checkbox is checked or unchecked"""
-    self.item.transaction_type = 'Actual' if self.actual_checkbox else 'Budget'
-    self.transaction_entries_1.build_table(self.item)
-    self.refresh_data_bindings()
-
   def new_vendor_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     alert(NewAccount(item=Data.Vendor()), large=True, title="New Vendor")
 
   def actual_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    self.item.active = not self.item.active
+    self.item.transaction_type = 'Actual' if self.item.transaction_type == 'Budget' else 'Budget'
+    self.transaction_entries_1.build_table(self.item)
     self.refresh_data_bindings()
     
   

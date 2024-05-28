@@ -79,7 +79,7 @@ class Homepage(HomepageTemplate):
     """
     self.current_form = Transactions(initial_filters, initial_date_filter, initial_page=initial_page, filter_settings=filter_settings, direction=direction)
     self.transaction_panel.role = 'dash-link-selected'
-    self.headline_label.text = "Transactions"
+    self.headline_label.text = "Budget Lines"
     self.clear_page()
     self.add_component(self.current_form, slot="default")
   
@@ -115,7 +115,7 @@ class Homepage(HomepageTemplate):
                          Expects a row from the Accounts Data Table
     """
     self.transaction_panel.role = 'dash-link-selected'
-    self.headline_label.text = "New Transaction"
+    self.headline_label.text = "New Budget Line"
     self.current_form = Transaction(Data.Transaction(transaction_json={}))
     self.clear_page()
     self.add_component(self.current_form, slot="default")
