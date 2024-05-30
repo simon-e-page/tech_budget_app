@@ -97,7 +97,7 @@ class Transactions(TransactionsTemplate):
     """
     for tag in self.filters:
       if self.filters[tag] is not None:
-        self.filter_settings[tag] = self.filers[tag]
+        self.filter_settings[tag] = self.filters[tag]
       
     self.initial_page = 0
     self.load_transactions()

@@ -71,6 +71,7 @@ components:
       grid_position: QVAFAJ,CVNQLJ
     data_bindings:
     - {property: selected_value, code: 'self.filters[''vendor'']', writeback: true}
+    - {property: items, code: self.vendors, writeback: false}
     event_bindings: {}
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
