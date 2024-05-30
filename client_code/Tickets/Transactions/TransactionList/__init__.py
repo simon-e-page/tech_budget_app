@@ -76,7 +76,7 @@ class TransactionList(TransactionListTemplate):
     }
     homepage.open_transaction(trans, back=back)
     
-  def load_transactions(self, filters={}, date_filter={}, direction='descending', initial_page=0, filter_settings=None, sort='timestamp'):
+  def load_transactions(self, filters={}, date_filter={}, direction='descending', initial_page=0, filter_settings=None, sort='owner'):
     """Load a list of transactions from the 'Transactions' Data Table.
     
     Arguments:

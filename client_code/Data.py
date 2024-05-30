@@ -378,7 +378,7 @@ class LazyTransactionList:
     """ Setup backend dataset using filters """
     length, slice = anvil.server.call('Transactions', 'get_transaction_slice', 
                                   sort=self.sort, 
-                                  filters={ 'brand': CURRENT_BRAND }, 
+                                  filters=self.filters, 
                                   date_filter={},  # UNUSED
                                   direction=self.direction,
                                   start=start,
