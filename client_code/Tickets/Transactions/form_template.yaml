@@ -70,7 +70,7 @@ components:
       col_widths: {}
       grid_position: QVAFAJ,CVNQLJ
     data_bindings:
-    - {property: selected_value, code: self.vendor, writeback: false}
+    - {property: selected_value, code: 'self.filters[''vendor'']', writeback: true}
     event_bindings: {}
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
@@ -88,7 +88,7 @@ components:
     layout_properties: {grid_position: 'FPJVHR,GZBDSO'}
     event_bindings: {}
     data_bindings:
-    - {property: text, code: self.description, writeback: true}
+    - {property: text, code: 'self.filters[''description'']', writeback: true}
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
       visible: true, text: 'Owner:', font_size: null, font: '', spacing_above: small,
@@ -120,7 +120,7 @@ components:
     layout_properties: {grid_position: 'GYSRKL,BZDZEI'}
     data_bindings:
     - {property: items, code: self.owners, writeback: false}
-    - {property: selected_value, code: self.owner, writeback: true}
+    - {property: selected_value, code: 'self.filters[''owner'']', writeback: true}
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
       visible: true, text: 'Category:', font_size: null, font: '', spacing_above: small,
@@ -143,7 +143,7 @@ components:
       layout_properties: {width: 254.32421875}
       data_bindings:
       - {property: items, code: self.categories, writeback: false}
-      - {property: selected_value, code: self.category, writeback: true}
+      - {property: selected_value, code: 'self.filters[''category'']', writeback: true}
   - name: label_5
     properties: {text: 'Lifecycle:'}
     type: Label
@@ -154,7 +154,7 @@ components:
     layout_properties: {grid_position: 'RPYPQH,HEMNXJ'}
     data_bindings:
     - {property: items, code: self.lifecycles, writeback: false}
-    - {property: selected_value, code: self.lifecycle, writeback: true}
+    - {property: selected_value, code: 'self.filters[''lifecycle'']', writeback: true}
   - name: label_4
     properties: {text: Entry Type}
     type: Label
@@ -165,7 +165,7 @@ components:
     layout_properties: {grid_position: 'EYCSDS,QZAEYE'}
     data_bindings:
     - {property: items, code: self.transaction_types, writeback: false}
-    - {property: selected_value, code: self.transaction_type, writeback: true}
+    - {property: selected_value, code: 'self.filters[''transaction_type'']', writeback: true}
   - type: FlowPanel
     properties: {role: null, spacing: medium, align: right, tooltip: '', border: '',
       foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
