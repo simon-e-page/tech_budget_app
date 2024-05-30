@@ -27,10 +27,6 @@ class NewAccount(NewAccountTemplate):
     self.finance_tags_areabox.text = '\n'.join(self.item.finance_tags)
     self.prior_year_areabox.text = '\n'.join(self.item.prior_year_tags)
  
-  def back_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    homepage = get_open_form()
-    homepage.open_accounts()
 
   def get_icon(self, icon_id):
     return

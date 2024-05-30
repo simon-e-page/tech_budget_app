@@ -12,30 +12,12 @@ components:
     properties: {height: 32}
     name: spacer_1
     layout_properties: {width: 31}
-  - type: Button
-    properties: {role: secondary-button, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: Back, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: 'fa:step-backward'}
-    name: back_button
-    layout_properties: {}
-    event_bindings: {click: back_button_click}
-  - type: Button
-    properties: {role: secondary-button, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: Save, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
-      underline: false, icon: 'fa:check-circle'}
-    name: save_button
-    layout_properties: {}
-    event_bindings: {click: save_button_click}
-    data_bindings:
-    - {property: enabled, code: self.name_unique}
   - type: Label
     properties: {role: header-text, align: left, tooltip: '', border: '', foreground: '',
       visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
       spacing_below: small, italic: false, background: '', bold: true, underline: false,
       icon: ''}
-    name: account_label
+    name: vendor_label
     layout_properties: {}
     data_bindings:
     - {property: text, code: 'self.item[''vendor_name'']', writeback: false}
@@ -207,4 +189,14 @@ components:
         type: Button
         layout_properties: {}
         event_bindings: {click: delete_button_click}
+      - type: Button
+        properties: {role: primary-button, align: center, tooltip: '', border: '',
+          enabled: true, foreground: '', visible: true, text: Save, font_size: null,
+          font: '', spacing_above: small, icon_align: left, spacing_below: small,
+          italic: false, background: '', bold: true, underline: false, icon: 'fa:check-circle'}
+        name: save_button
+        layout_properties: {}
+        event_bindings: {click: save_button_click}
+        data_bindings:
+        - {property: enabled, code: self.name_unique}
 is_package: true
