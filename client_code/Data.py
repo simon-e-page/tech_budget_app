@@ -29,6 +29,10 @@ SERVICE_CHANGES_DD = [ (x,x) for x in SERVICE_CHANGES ]
 BILLING_TYPES = [ 'Prepayments', 'Consumption' ]
 BILLING_TYPES_DD = [ (x,x) for x in BILLING_TYPES ]
 
+# TODO: Need to work out where to keep these!
+OWNERS = ['SimonPage', 'AnitaMatuszewski']
+OWNERS_DD = [ (x,x) for x in OWNERS ]
+
 ICONS = {}
 
 class AttributeToKey:
