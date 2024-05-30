@@ -26,11 +26,11 @@ class Transactions(TransactionsTemplate):
     """
     self.filter_settings = filter_settings or {}
     self.direction = direction
-    self.filters = initial_filters or { 'duplicate': False }
+    self.filters = initial_filters or { 'brand': Data.CURRENT_BRAND }
+    
     self.date_filter = initial_date_filter or {}
     self.initial_page = initial_page
     self.current_import_ids = []
-    self.load_organisations()
     
     if (isinstance(self.filters, dict) and len(self.filters)>0):
       #print(self.filters)
@@ -47,18 +47,24 @@ class Transactions(TransactionsTemplate):
       pass
     else:
       self.set_date_filter_settings()
-      
-    self.accounts = [] #Data.ACCOUNTS_D.get_dropdown()
+
+    self.vendors = Data.VENDORS.get_dropdown()
+    self.account_codes = Data.ACCOUNT_CODES_DD
+    self.cost_centres = Data.COST_CENTRES_DD
+    self.lifecycles = Data.LIFECYCLES_DD
+    self.categories = Data.CATEGORIES_DD
+    self.service_changes = Data.SERVICE_CHANGES_DD
+    self.billing_types = Data.BILLING_TYPES_DD
+    self.transaction_types = ['Budget', 'Actual']
+
+    for tag in ['vendor', 'category', 'description', 'lifecycle', 'owner', 'transaction_type']:
+      if tag not in self.filters:
+        self.filters[tag] = None
+
     self.init_components(**properties)
     self.load_transactions()
     # Any code you write here will run when the form opens.
 
-  def load_organisations(self):
-    return
-    #orgs = Data.ORGANISATIONS
-    #orgs = list(anvil.server.call('get_organisation_map').keys())
-    #orgs.sort()
-    #self.organisations = ['<Blank>'] + orgs
     
   def load_transactions(self, **event_args):
     # If the filters are changed, de-select any currently selected transaction. This is done on the 'TransactionList' Form
@@ -68,123 +74,33 @@ class Transactions(TransactionsTemplate):
 
   def set_filter_settings(self):
     #print(self.filter_settings)
-    account_name = self.filter_settings.get('account', None)
-    if account_name is not None:
-      self.account_dropdown.selected_value = self.filter_settings.get('account', None)
-      # Does this get called automatically?
-      #self.account_dropdown_change()
-    self.description_text.text = self.filter_settings.get('description', None)
-    self.duplicate_check.checked = not self.filter_settings.get('duplicate', False)
-    org = self.filter_settings.get('organisation', None)
-    if org is not None:
-      if len(org)==0:
-        self.organisation_dropdown.selected_value = '<Blank>'
-      else:
-        self.organisation_dropdown.selected_value = org
-
-  def set_date_filter_settings(self):
-    if isinstance(self.date_filter['end'], datetime):
-      self.date_filter['end'] = self.date_filter['end'].date()
-      self.date_filter['start'] = self.date_filter['start'].date()
-    
+    self.vendor = self.filter_settings.get('vendor', None)
+    self.description = self.filter_settings.get('description', None)
+    self.transaction_type = self.filter_settings.get('transaction_type', None)
+    self.lifecycle = self.filter_settings.get('lifecycle', None)
+    self.category = self.filter_settings.get('category', None)
+    self.owner = self.filter_settings.get('owner', None)
+        
   
   def clear_filters_link_click(self, **event_args):
-    self.filters = { 'duplicate': False}
-    self.date_filter = {}
-    self.account_dropdown.selected_value = 'all'
-    self.description_text.text = ''
-    self.duplicate_check.checked = True
-    #self.end_date_picker.date = None
-    #self.end_date_picker.date = None
+    self.filters = { 'brand': Data.CURRENT_BRAND }
+    for tag in ['vendor', 'category', 'description', 'lifecycle', 'owner', 'transaction_type']:
+      if tag not in self.filters:
+        self.filters[tag] = None
     
     self.refresh_data_bindings()
-    #self.transaction_list.sort_dropdown.selected_value = 'Timestamp (descending)'
     self.load_transactions()
-
-  def description_text_change(self, **event_args):
-    """ Do we need to validate the text input?"""
-    pass
     
   def apply_button_click(self, **event_args):
     """This method is called when an filter is changed.
-       Logic is:
-        Filter 1: A match on either the credit_account or the debit_account field
-        Filter 2: A case-insensitive match on the description field and removal of duplicates (if checked)
     """
-    filter1 = {}
-    filter2 = {}
-    filter3 = {}
-    filter_settings = {}
-    
-    account = self.account_dropdown.selected_value
-    if account is not None and account != 'all':
-      print("Setting account filter to {0}".format(account))
-      filter3['account'] = account
-      filter_settings['account'] = account
-    else:
-      filter_settings.pop('account', '')
+    for tag in self.filters:
+      if self.filters[tag] is not None:
+        self.filter_settings[tag] = self.filers[tag]
       
-    description = self.description_text.text
-    if description is not None and len(description)>0:
-      print("Setting description filter to {0}".format(description))
-      filter3['description'] = description
-      filter_settings['description'] = description
-    else:
-      filter_settings.pop('description', '')
-
-    organisation = self.organisation_dropdown.selected_value
-    if (organisation is not None) and (organisation != 'All'):
-      if organisation == '<Blank>':
-        print("Setting organisation filter to <Blank>")
-        filter3['organisation'] = ""
-        filter_settings['organisation'] = ""
-      else:
-        print("Setting organisation filter to {0}".format(organisation))
-        filter3['organisation'] = organisation
-        filter_settings['organisation'] = organisation
-    else:
-      filter_settings.pop('organisation', '')
-      
-    if self.duplicate_check.checked:
-      print("Setting duplicate filter")
-      #filter2['duplicate'] = False
-      filter3['duplicate'] = False
-      filter_settings['duplicate'] = True
-    else:
-      filter_settings['duplicate'] = False
-      filter3.pop('duplicate', None)
-
-    if (self.import_dropdown.selected_value is not None) and (self.import_dropdown.selected_value != 'All'):
-      print('Setting import filter')
-      filter3['import_id'] = self.import_dropdown.selected_value
-      filter_settings['import_id'] = self.import_dropdown.selected_value
-      
-    self.filters = filter3
-    self.filter_settings = filter_settings
     self.initial_page = 0
     self.load_transactions()
 
-  def start_date_dropdown_change(self, **event_args):
-    """This method is called when the selected date changes"""
-    start_time = datetime.combine(self.start_date_picker.date, time(0,0), tzinfo=timezone.utc)
-    #start_time = start_time.replace(tzinfo=None)
-    self.date_filter['start'] = start_time.date()
-
-  def end_date_dropdown_change(self, **event_args):
-    """This method is called when the selected date changes"""
-    end_time = datetime.combine(self.end_date_picker.date, time(0,0), tzinfo=timezone.utc)
-    #end_time = end_time.replace(tzinfo=None)
-    self.date_filter['end'] = end_time.date()
-
-  def account_dropdown_change(self, **event_args):
-    """This method is called when an item is selected"""
-    account_name = self.account_dropdown.selected_value
-    if account_name != 'all':
-      import_ids = Data.IMPORTER.get_import_ids(account_name)
-      #import_ids = anvil.server.call_s('get_import_ids', account_name)
-      print("Found import_ids for {0}:{1}".format(account_name, import_ids))
-      self.current_import_ids = import_ids
-      self.refresh_data_bindings()
 
 
 
