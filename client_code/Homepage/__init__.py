@@ -21,6 +21,7 @@ from ..Tickets.NewTransaction import NewTransaction
 from ..Customers.Account.AccountTransactions import AccountTransactions
 from ..Settings.Settings import Settings
 from ..Analyse.Analyse import Analyse
+from ..Users.Users import Users
 from .. import Data
 
 class Homepage(HomepageTemplate):
@@ -265,6 +266,14 @@ class Homepage(HomepageTemplate):
     self.brand = Data.CURRENT_BRAND
     self.brand_dropdown.visible = False
     self.refresh_data_bindings()
+
+  def users_link_click(self, **event_args):
+    """Open the 'Users' Form, by adding it to the "default" slot."""
+    self.headline_label.text = "Users"
+    #self.current_form = Accounts()
+    self.current_form = Users()
+    self.clear_page()
+    self.add_component(self.current_form, slot="default")
 
 
       

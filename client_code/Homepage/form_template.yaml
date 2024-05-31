@@ -122,6 +122,11 @@ components:
       name: gpt_link
       layout_properties: {}
       event_bindings: {click: gpt_link_click}
+  - name: users_link
+    properties: {text: Users, icon: 'fa:gear'}
+    type: Link
+    layout_properties: {}
+    event_bindings: {click: users_link_click}
 - type: FlowPanel
   properties: {role: dash-link, spacing: none, align: center, tooltip: '', border: '',
     foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
