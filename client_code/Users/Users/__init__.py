@@ -32,11 +32,13 @@ class Users(UsersTemplate):
   def users_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
     self.users_table.columns = [
-      {"title":x , "field":x } for x in self.users.keys() ]
+      {"title": 'Email', "field": 'email' },
+      {"title": 'Full Name' , "field": 'full_name' }
+    ]
     
     self.users_table.options = {
         "index": "email", # or set the index property here
         "use_model": True,
         "getter": getattr,
     }
-    self.users_table.data = list(self.users.values())
+    self.users_table.data = self.users.to_list()

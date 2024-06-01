@@ -85,6 +85,9 @@ class AttributeToDict:
   def get_dropdown(self):
     return [(x, x) for x in self.__d__.keys() ]
 
+  def to_list(self):
+    return list(self.values())
+
 #####################################################################
 # USERS and OWNERS
 #####################################################################
