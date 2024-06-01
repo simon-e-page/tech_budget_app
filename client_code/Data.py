@@ -76,10 +76,55 @@ class AttributeToDict:
   def __len__(self):
     return len(self.__d__)
 
+#####################################################################
+# USERS and OWNERS
+#####################################################################
+
+class User(AttributeToKey):
+  _defaults = {
+    'vendor_name': 'New Vendor',
+    'description': 'Unknown vendor',
+    'finance_tags': [],
+    'prior_year_tags': [],
+    'deleted': False,
+    'active': True,
+    'notes': '',
+  }
+
+  def __init__(self, vendor_json=None, **kwargs):
+    if vendor_json:
+      # TODO: Convert JSON object?
+      item = vendor_json
+    else:
+      item = kwargs
+      
+    # Remove any None values to force defaults to be used
+    for k, v in item.items():
+      if v is None:
+        del item[k]
+
+    self['vendor_id'] = item.get('vendor_id', None)
+    for field, default in self._defaults.items():
+      if default is not None:
+        self[field] = item.get(field, default)
+      else:
+        self[field] = item.get(field)
+
+  def save(self):
+    # Saves to backend as new or updated object
+    return anvil.server.call('Vendors', 'add_vendors', [self.to_dict()])    
+    
+  def to_dict(self):
+    d = { x: self[x] for x in self._defaults }
+    d['vendor_id'] = self.vendor_id
+    return d
+
+
 
 #####################################################################
 # VENDORS
 #####################################################################
+
 
 
 class Vendor(AttributeToKey):
