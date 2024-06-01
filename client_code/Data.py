@@ -67,6 +67,12 @@ class AttributeToDict:
   def add(self, key, item):
     self.__d__[key]=item
 
+  def keys(self):
+    return self.__d__.keys()
+
+  def values(self):
+    return self.__d__.values()
+
   def items(self):
     return self.__d__.items()
 

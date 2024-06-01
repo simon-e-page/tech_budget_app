@@ -33,6 +33,7 @@ class Users(UsersTemplate):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
     self.users_table.columns = [
       {"title":x , "field":x } for x in self.users.keys() ]
+    
     self.users_table.options = {
         "index": "email", # or set the index property here
         "use_model": True,
