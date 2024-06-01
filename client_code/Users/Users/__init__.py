@@ -33,7 +33,9 @@ class Users(UsersTemplate):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
     self.users_table.columns = [
       {"title": 'Email', "field": 'email' },
-      {"title": 'Full Name' , "field": 'full_name' }
+      {"title": 'Full Name' , "field": 'full_name' },
+      {"title": 'Role' , "field": 'role_name' },
+      {"title": 'Team' , "field": 'team' }
     ]
     
     self.users_table.options = {
@@ -41,4 +43,6 @@ class Users(UsersTemplate):
         "use_model": True,
         "getter": getattr,
     }
-    self.users_table.data = self.users.to_list()
+    l = self.users.to_list()
+    print(l)
+    self.users_table.data = l

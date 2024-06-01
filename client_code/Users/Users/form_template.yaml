@@ -2,7 +2,7 @@ container:
   type: HtmlTemplate
   properties: {tooltip: '', background: '', foreground: '', border: '', visible: true,
     role: null, html: '@theme:two_slots_customers.html'}
-  event_bindings: {refreshing_data_bindings: form_refreshing_data_bindings}
+  event_bindings: {}
 components:
 - type: ColumnPanel
   properties: {role: filter-form-shadow, tooltip: '', border: '', foreground: '',
