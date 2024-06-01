@@ -34,9 +34,10 @@ components:
         data_bindings: []
         layout_properties: {}
     - name: users_table
-      properties: {}
+      properties: {index: email}
       type: form:TGQCF3WT6FVL2EM2:Tabulator
       layout_properties: {grid_position: 'CLCFZG,JSOUJL'}
+      event_bindings: {table_built: users_table_table_built}
   - name: flow_panel_7
     properties: {}
     type: FlowPanel

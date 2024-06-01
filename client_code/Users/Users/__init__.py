@@ -13,7 +13,7 @@ import anvil.users
 # from anvil.tables import app_tables
 import anvil.server
 from datetime import datetime
-from ... import Data
+
 
 
 class Users(UsersTemplate):
@@ -27,4 +27,17 @@ class Users(UsersTemplate):
   """
 
   def __init__(self, **properties):
+
+    sekf.users = Data.USERS
     self.init_components(**properties)
+
+  def users_table_table_built(self, **event_args):
+    """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
+  self.user_table.columns = [
+    {"title":x , "field":x for x in }]
+  self.tabulator.options = {
+      "index": "uid", # or set the index property here
+      "use_model": True,
+      "getter": getattr,
+  }
+  self.data = my_list_of_authors    pass
