@@ -43,6 +43,7 @@ class Users(UsersTemplate):
         "use_model": True,
         "getter": getattr,
     }
+    
     l = self.users.to_list()
     print(l)
     self.users_table.data = l
