@@ -131,8 +131,8 @@ class Users(AttributeToDict):
         self.add(user.email, user)
             
   def get(self, email):
-    if email in self.indexed:
-      return self.indexed[email]
+    if email in self.__d__:
+      return self.__d__[email]
 
   def new(self, user_data):
     email = user_data['email']
@@ -186,8 +186,8 @@ class Roles(AttributeToDict):
         self.add(role.role_name, role)
         
   def get(self, role_name):
-    if role_name in self.indexed:
-      return self.indexed[role_name]
+    if role_name in self.__d__:
+      return self.__d__[role_name]
 
   def new(self, role_data):
     role_name = role_data['role_name']
