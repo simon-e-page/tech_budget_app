@@ -114,8 +114,12 @@ components:
         type: Label
         layout_properties: {}
       - name: prior_year_table
-        properties: {}
+        properties: {index: prior_year_tag, pagination_size: 5, header_visible: false}
         type: form:TGQCF3WT6FVL2EM2:Tabulator
+        data_bindings:
+        - {property: data, code: self.generate_prior_year_tags(), writeback: false}
+        - {property: columns, code: self.prior_year_columns, writeback: false}
+        layout_properties: {}
       - name: flow_panel_6
         properties: {}
         type: FlowPanel
@@ -127,6 +131,8 @@ components:
             placeholder: Add new synonym
           type: DropDown
           layout_properties: {width: 348.9144375}
+          data_bindings:
+          - {property: items, code: self.vendor_list, writeback: false}
         - name: add_prior_year_tag_button
           properties: {text: '', icon: 'fa:arrow-circle-up', role: secondary-button}
           type: Button
