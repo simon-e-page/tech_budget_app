@@ -12,6 +12,7 @@ class NewUser(NewUserTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.user = {}
+    self.role_obj = {}
     self.can_save = False
     self.roles = Data.ROLES
     self.users = Data.USERS
@@ -42,14 +43,14 @@ class NewUser(NewUserTemplate):
 
   def role_name_textbox_change(self, **event_args):
     """This method is called when the text in this text box is edited"""
-    self.save_role_button.enabled = (self.role.get('role_name', None) is not None)
+    self.save_role_button.enabled = (self.role_obj.get('role_name', None) is not None)
 
   def save_role_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    new_role = self.role['role_name']
+    new_role = self.role_obj['role_name']
     if self.roles.get(new_role) is not None:
       alert("Error: Role already exists!")
     else:
-      self.role['perm_read_budget'] = True
-      print(self.role)
+      self.role_obj['perm_read_budget'] = True
+      print(self.role_obj)
       
