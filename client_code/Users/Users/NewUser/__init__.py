@@ -32,7 +32,7 @@ class NewUser(NewUserTemplate):
       alert("Error: User already exists!")
     else:
       try:
-        user_item = self.users.new(new_email, self.user)
+        user_item = self.users.new(self.user)
         user_item.save()
         self.parent.raise_event("x-refresh-tables")
       except Exception as e:
@@ -59,9 +59,10 @@ class NewUser(NewUserTemplate):
     else:
       self.role_obj['perm_read_budget'] = True
       try:
-        role_item = self.roles.new(new_role, self.role_obj)
+        role_item = self.roles.new(self.role_obj)
         role_item.save()
         self.parent.raise_event("x-refresh-tables")
+        self.refresh_data_bindings()
       except Exception as e:
         alert(f"Error adding new role: {new_role}!")
         
