@@ -45,10 +45,12 @@ components:
       layout_properties: {grid_position: 'AISRFA,BCCNIM'}
       components:
       - name: delete_user_button
-        properties: {text: Delete, role: secondary-button, icon: 'fa:trash'}
+        properties: {text: Delete, role: secondary-button, icon: 'fa:trash', enabled: false}
         type: Button
         layout_properties: {}
         event_bindings: {click: delete_user_button_click}
+        data_bindings:
+        - {property: enabled, code: len(self.selected_users)>0, writeback: false}
   - name: flow_panel_7
     properties: {}
     type: FlowPanel

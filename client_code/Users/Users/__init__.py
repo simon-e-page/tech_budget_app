@@ -29,6 +29,8 @@ class Users(UsersTemplate):
   def __init__(self, **properties):
     self.users = Data.USERS
     self.roles = Data.ROLES
+
+    self.selected_users = []
     self.init_components(**properties)
 
   def roles_table_table_built(self, **event_args):
@@ -88,8 +90,10 @@ class Users(UsersTemplate):
 
   def delete_user_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    pass
+    for user in self.selected_users:
+      print(user)
+      
 
   def users_table_row_selection_changed(self, rows, data, **event_args):
     """This method is called when the row selection changes"""
-    pass
+    self.selected_users = rows
