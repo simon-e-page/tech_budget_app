@@ -73,7 +73,7 @@ class Vendors(VendorsTemplate):
       sender = event_args['sender']
       vendor_id = sender.text
       print("Opening vendor: {0}".format(vendor_id))
-      #self.vendor_details.set_item(self.vendors.get(vendor_id))
+      self.vendor_detail.set_item(self.vendors.get(vendor_id))
       return
 
     link = Link(text=cell_value)

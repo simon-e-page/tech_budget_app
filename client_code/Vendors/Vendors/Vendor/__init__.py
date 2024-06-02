@@ -1,19 +1,9 @@
 from ._anvil_designer import VendorTemplate
 from anvil import *
-import anvil.tables as tables
-import anvil.tables.query as q
-from anvil.tables import app_tables
-import anvil.server
-#import anvil.google.auth, anvil.google.drive
-#from anvil.google.drive import app_files
-import anvil.users
-from .... import Data
-from .... import Validation
 
-#import anvil.tables as tables
-#import anvil.tables.query as q
-#from anvil.tables import app_tables
-from datetime import datetime, timedelta
+import datetime as dt
+
+from .... import Data
 
 class Vendor(VendorTemplate):
   def __init__(self, **properties):
@@ -24,10 +14,16 @@ class Vendor(VendorTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     # Any code you write here will run when the form opens.
+
+  def populate_textareas(self):
     self.finance_tags_areabox.text = '\n'.join(self.item.finance_tags)
     self.prior_year_areabox.text = '\n'.join(self.item.prior_year_tags)
  
-
+  def set_item(self, item):
+    self.item = item
+    self.populate_textareas()
+    self.refresh_data_bindings()
+  
   def get_icon(self, icon_id):
     return
     #return Data.get_icon(icon_id)
@@ -61,7 +57,7 @@ class Vendor(VendorTemplate):
   
   def icon_loader_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M')
+    timestamp = dt.datetime.now().strftime('%Y%m%d_%H%M')
     title = "{0}_icon_{1}.{2}".format(self.item['vendor_name'], timestamp, 'png')
     try:
       icon = Data.Icon(name=title, content=file, icon_id=None)
