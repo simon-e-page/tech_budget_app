@@ -42,18 +42,46 @@ class Vendors(VendorsTemplate):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
     self.vendors_table.columns = [
       row_selection_column,
-      {"title": "Name", "field": "vendor_name"},
-      {"title": "Description", "field": "description", "editor": "input"},
-      {"title": "Active", "field": "active", 'formatter': 'tickCross'},      
+      {
+        "title": "Name", 
+       "field": "vendor_name", 
+       'formatter': self.name_formatter},
+      {
+        "title": "Description", 
+        "field": "description", 
+        "editor": "input"
+      },
+      {
+        "title": "Active", 
+        "field": "active", 
+        'formatter': 'tickCross'
+      },      
     ]
 
-    self.users_table.options = {
+    self.vendors_table.options = {
       "index": "vendor_id",  # or set the index property here
       "selectable": "highlight",
+      'css_class': ["table-striped", "table-bordered", "table-condensed"]
     }
 
     self.vendors_table.data = self.vendors.to_records()
 
+  def name_formatter(self, cell, **params):
+    cell_value = cell.getValue()
+    
+    def open_vendor(**event_args):
+      sender = event_args['sender']
+      vendor_id = sender.text
+      print("Opening vendor: {0}".format(vendor_id))
+      #self.vendor_details.set_item(self.vendors.get(vendor_id))
+      return
+
+    link = Link(text=cell_value)
+    link.set_event_handler('click', open_vendor)
+    return link
+
+
+  
   def vendors_table_cell_edited(self, cell, **event_args):
     """This method is called when a cell is edited"""
     data = dict(cell.getData())

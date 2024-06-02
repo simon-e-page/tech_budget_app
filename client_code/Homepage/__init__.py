@@ -15,7 +15,6 @@ from ..Dashboard import Dashboard
 from ..Customers.Accounts import Accounts
 from ..Customers.Account import Account
 from ..Customers.Account.Details import Details
-from ..Customers.Account.NewAccount import NewAccount
 from ..Customers.AccountDetailsOverlay import AccountDetailsOverlay
 from ..Tickets.NewTransaction import NewTransaction
 from ..Customers.Account.AccountTransactions import AccountTransactions
