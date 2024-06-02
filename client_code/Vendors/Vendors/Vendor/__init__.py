@@ -14,19 +14,35 @@ class Vendor(VendorTemplate):
 
     self.finance_columns = [
       row_selection_column,
-      {'title': 'Synonym', 'field': 'finance_tag'}
+      {'title': 'Synonym', 'field': 'finance_tag'},
+      {'title': 'Delete', 'field': 'delete', 'formatter': self.delete_formatter, 'formatterParams': {'key': 'finance_tags'} }
     ]
 
     self.prior_year_columns = [
       row_selection_column,
-      {'title': 'Synonym', 'field': 'prior_year_tag'}
+      {'title': 'Synonym', 'field': 'prior_year_tag'},
+      {'title': 'Delete', 'field': 'delete', 'formatter': self.delete_formatter, 'formatterParams': {'key': 'prior_year_tags'} }
     ]
 
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     # Any code you write here will run when the form opens.
 
- 
+  def delete_formatter(self, cell, **params):
+    key = params['key']
+    tag = cell.getData()[key]
+    
+    def delete_tag(**event_args):
+      sender = event_args['sender']
+      print("Deleting tag: {0} from {1}".format(sender.tag, key))
+      self.item[key] = [ x for x in self.item[key] if x != sender.tag ]
+      self.refresh_data_bindings()
+      return
+
+    link = Link(icon='fa:trash', tag=tag)
+    link.set_event_handler('click', delete_tag)
+    return link
+   
   def set_item(self, item):
     self.item = item
     self.refresh_data_bindings()
