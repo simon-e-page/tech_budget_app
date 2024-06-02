@@ -37,7 +37,7 @@ components:
       properties: {index: email}
       type: form:TGQCF3WT6FVL2EM2:Tabulator
       layout_properties: {grid_position: 'CLCFZG,JSOUJL'}
-      event_bindings: {table_built: users_table_table_built}
+      event_bindings: {table_built: users_table_table_built, cell_edited: users_table_cell_edited}
   - name: flow_panel_7
     properties: {}
     type: FlowPanel
@@ -51,6 +51,6 @@ components:
     properties: {}
     type: form:TGQCF3WT6FVL2EM2:Tabulator
     layout_properties: {grid_position: 'EWTIIY,GIYSCH'}
-    event_bindings: {table_built: roles_table_table_built}
+    event_bindings: {table_built: roles_table_table_built, cell_edited: roles_table_cell_edited}
 is_package: true
 custom_component: false

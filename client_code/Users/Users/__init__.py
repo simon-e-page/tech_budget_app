@@ -35,15 +35,16 @@ class Users(UsersTemplate):
     self.roles_table.columns = [
       {"title": 'Role Name', "field": 'role_name' },
       {"title": 'Description' , "field": 'role_description', 'editor': 'input' },
-      {"title": 'Create User' , "field": 'perm_create_user', 'editor': 'tickCross' },
-      {"title": 'Create Actuals' , "field": 'perm_create_actual', 'editor': 'tickCross' },
-      {"title": 'Create Vendors' , "field": 'perm_create_vendor', 'editor': 'tickCross' },
-      {"title": 'Create Budgets' , "field": 'perm_create_budget', 'editor': 'tickCross' },
-      {"title": 'Read Budgets' , "field": 'perm_read_budget', 'editor': 'tickCross' },    
+      {"title": 'Create User' , "field": 'perm_create_user', 'editor': 'tickCross', 'formatter': 'tickCross' },
+      {"title": 'Create Actuals' , "field": 'perm_create_actual', 'editor': 'tickCross', 'formatter': 'tickCross' },
+      {"title": 'Create Vendors' , "field": 'perm_create_vendor', 'editor': 'tickCross', 'formatter': 'tickCross' },
+      {"title": 'Create Budgets' , "field": 'perm_create_budget', 'editor': 'tickCross', 'formatter': 'tickCross' },
+      {"title": 'Read Budgets' , "field": 'perm_read_budget', 'editor': 'tickCross', 'formatter': 'tickCross' },    
     ]
     
     self.roles_table.options = {
         "index": "role_name", # or set the index property here
+        "selectable": "highlight",
     }
     
     self.roles_table.data = self.roles.to_records()
@@ -59,6 +60,17 @@ class Users(UsersTemplate):
     
     self.users_table.options = {
         "index": "email", # or set the index property here
+        "selectable": "highlight",
     }
     
     self.users_table.data = self.users.to_records()
+
+  def users_table_cell_edited(self, cell, **event_args):
+    """This method is called when a cell is edited"""
+    data = cell.getData()
+    print(data)
+
+  def roles_table_cell_edited(self, cell, **event_args):
+    """This method is called when a cell is edited"""
+    data = cell.getData()
+    print(data)
