@@ -169,6 +169,7 @@ class Users(AttributeToDict):
       return self.get(email)
       
   def load(self):
+    self.__d__ = {}
     for user in anvil.server.call('Users', 'search'):
       self.new(user)
 
@@ -240,6 +241,7 @@ class Roles(AttributeToDict):
       return self.get(role_name)
 
   def load(self):
+    self.__d__ = {}
     for role in anvil.server.call('Users', 'get_roles'):
       self.new(role)
 

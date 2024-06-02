@@ -96,21 +96,24 @@ class Users(UsersTemplate):
     num_roles = len(self.selected_roles)
     if confirm(f"About to delete {num_roles} roles! Are you sure?"):
       for row in self.selected_roles:
-        role = Data.roles.get(dict(row.getData())['role_name'])
+        role = self.roles.get(dict(row.getData())['role_name'])
         role.delete()
-        self.roles.load()
-        self.roles_table_table_built()
+      self.roles.load()
+      self.roles_table_table_built()
+      self.selected_roles = []
+      self.refresh_data_bindings()  
 
   def delete_user_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     num_users = len(self.selected_users)
     if confirm(f"About to delete {num_users} users! Are you sure?"):
       for row in self.selected_users:
-        user = Data.users.get(dict(row.getData())['email'])
+        user = self.users.get(dict(row.getData())['email'])
         user.delete()
-        self.users.load()
-        self.users_table_table_built()
-        
+      self.users.load()
+      self.users_table_table_built()
+      self.selected_users = []
+      self.refresh_data_bindings()  
       
   def users_table_row_selection_changed(self, rows, data, **event_args):
     """This method is called when the row selection changes"""
