@@ -67,7 +67,7 @@ components:
     type: TextBox
     layout_properties: {width: 471.4296875}
     data_bindings:
-    - {property: text, code: 'self.user[''team'']', writeback: false}
+    - {property: text, code: 'self.user[''team'']', writeback: true}
 - name: flow_panel_5
   properties: {}
   type: FlowPanel
@@ -145,7 +145,7 @@ components:
     properties: {text: 'Create Vendors?'}
     type: CheckBox
     data_bindings:
-    - {property: checked, code: 'self.role_obj[''perm_create_vendor'']', writeback: false}
+    - {property: checked, code: 'self.role_obj[''perm_create_vendor'']', writeback: true}
     layout_properties: {}
 - name: flow_panel_11
   properties: {}
