@@ -326,33 +326,31 @@ class Vendors(AttributeToDict):
 
 
 class Icon(AttributeToKey):
-  def __init__(self, name, content, icon_id=None):
-    """ Two variations to construct Icon objects:
-          1) Existing loaded from Mongo with name, content and existing ID: need name, content, icon_id
-          2) New from file, needs to get a new ID from Mongo: need name, content
-    """
-    ACCEPTABLE = {'image/png': 'png', 'image/jpg': 'jpg', 'image/jpeg': 'jpeg'}
+  ACCEPTABLE = {'image/png': 'png', 'image/jpg': 'jpg', 'image/jpeg': 'jpeg'}
+  
+  def __init__(self, icon_id, content):
+    try:
+      # Max file size of 100kB (note not Kibibytes to be technical!)
+      if content.length > 100000:
+        print("Selected file is too large. Please reduce and try again!")
+      elif (content.content_type in self.ACCEPTABLE.keys()):
+        self.icon_id = icon_id
+        self.content = content
+      else:
+        print('Not an acceptable image file. Please try again!')
+    except Exception as e:    
+      print("Error adding new icon!")
+        
+    if not icon_id:
+      print("Could not create new Icon")
+      return
 
-    if icon_id is None:
-      try:
-        # Max file size of 100kB (note not Kibibytes to be technical!)
-        if content.length > 100000:
-          print("Selected file is too large. Please reduce and try again!")
-        elif (content.content_type in ACCEPTABLE.keys()):
-          name = name + "." + ACCEPTABLE[content.content_type]
-          icon_id = None #anvil.server.call('create_account_icon_file', name, content)
-        else:
-          print('Not an acceptable image file. Please try again!')
-      except Exception as e:    
-        print("Error uploading new icon!")
-          
-      if not icon_id:
-        print("Could not create new Icon")
-        return
-
-    self.name = name
-    self.content = content
-    self.icon_id = icon_id    
+  def save(self):
+    try:
+      anvil.server.call('Vendors', 'add_icon', self.icon_id, self.content)
+    except Exception as e:
+      print("Error uploading icon!")
+      
 
 class Icons(AttributeToDict):
   def __init__(self):
@@ -361,10 +359,16 @@ class Icons(AttributeToDict):
   def length(self):
     return len(self.__d__)
 
-  def load(self):
-    icons_cache = {} #anvil.server.call('get_icons')
+  def load_all(self):
+    icons_cache = anvil.server.call('Vendors', 'get_icons')
     for k, v in icons_cache.items():
-      self.add(k, Icon(name=v.name, content=v, icon_id=k))
+      self.add(k, Icon(icon_id=k, content=v))
+
+  def load(self, icon_id):
+    content = anvil.server.call('Vendors', 'get_icon', icon_id)
+    self.add(icon_id, Icon(icon_id=icon_id, content=content))
+
+
 
     
 
