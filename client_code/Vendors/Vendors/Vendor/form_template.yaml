@@ -124,7 +124,7 @@ components:
         properties: {}
         type: FlowPanel
         components:
-        - name: orior_year_tag_dropdown
+        - name: prior_year_tag_dropdown
           properties:
             items: [self.vendor_list]
             include_placeholder: true
