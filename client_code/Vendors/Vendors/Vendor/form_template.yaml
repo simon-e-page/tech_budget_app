@@ -67,7 +67,7 @@ components:
     layout_properties: {grid_position: 'DPKUVC,HUJRYE UFYXTD,LPHDDZ'}
     data_bindings:
     - {property: text, code: 'self.item[''vendor_name'']', writeback: true}
-    event_bindings: {change: name_textbox_change, lost_focus: name_textbox_lost_focus}
+    event_bindings: {}
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
       visible: true, text: 'Description: ', font_size: null, font: '', spacing_above: small,
@@ -138,8 +138,7 @@ components:
     layout_properties: {grid_position: 'DOGXEZ,BCKOQO CCEFIG,PPPSTF'}
     data_bindings:
     - {property: data, code: self.generate_finance_tags(), writeback: false}
-    - {property: columns, code: '{"title": "Synonym", ''field'': ''finance_tag''}',
-      writeback: false}
+    - {property: columns, code: self.finance_columns, writeback: false}
   - name: flow_panel_5
     properties: {}
     type: FlowPanel
@@ -151,9 +150,11 @@ components:
         include_placeholder: true
         placeholder: Add new synonym
       type: DropDown
-      layout_properties: {width: 368.72265625}
+      layout_properties: {width: 350.7268125}
+      data_bindings:
+      - {property: items, code: self.vendor_list, writeback: false}
     - name: add_finance_tag_button
-      properties: {text: Add, icon: 'fa:arrow-circle-up', enabled: false}
+      properties: {text: '', icon: 'fa:arrow-circle-up', enabled: false, role: secondary-button}
       type: Button
       layout_properties: {}
       event_bindings: {click: add_finance_tag_button_click}

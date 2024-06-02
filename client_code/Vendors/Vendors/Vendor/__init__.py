@@ -4,19 +4,26 @@ from anvil import *
 import datetime as dt
 
 from .... import Data
+from tabulator.Tabulator import row_selection_column
 
 class Vendor(VendorTemplate):
   def __init__(self, **properties):
-    self.name_unique = False
+    #self.name_unique = False
+    self.vendor_list = Data.VENDORS
     self.prior_year_tags_raw = ''
-    self.finance_tags_raw = ''
+    #self.finance_tags_raw = ''
+
+    self.finance_columns = [
+      row_selection_column,
+      {'title': 'Synonym', 'field': 'finance_tag'}
+    ]
     
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     # Any code you write here will run when the form opens.
 
   def populate_textareas(self):
-    self.finance_tags_areabox.text = '\n'.join(self.item.finance_tags)
+    #self.finance_tags_areabox.text = '\n'.join(self.item.finance_tags)
     self.prior_year_areabox.text = '\n'.join(self.item.prior_year_tags)
  
   def set_item(self, item):
@@ -29,7 +36,7 @@ class Vendor(VendorTemplate):
     #return Data.get_icon(icon_id)
 
   def generate_finance_tags(self):
-    return [ { 'finance_tag': x} for x in self.item.finance_tags ]
+    return [ { 'finance_tag': x} for x in self.item.get('finance_tags', []) ]
     
   def save_button_click(self, **event_args):
     """This method is called when the button is clicked"""
