@@ -31,6 +31,7 @@ class Users(UsersTemplate):
     self.roles = Data.ROLES
 
     self.selected_users = []
+    self.selected_roles = []
     self.init_components(**properties)
 
   def roles_table_table_built(self, **event_args):
@@ -86,14 +87,31 @@ class Users(UsersTemplate):
 
   def delete_role_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    pass
+    num_roles = len(self.selected_roles)
+    if confirm(f"About to delete {num_roles} roles! Are you sure?"):
+      for row in self.selected_roles:
+        role = Data.roles.get(dict(row.getData())['role_name'])
+        #role.delete()
+        self.roles.load()
+        self.roles_table_table_built()
 
   def delete_user_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    for user in self.selected_users:
-      print(user)
+    num_users = len(self.selected_users)
+    if confirm(f"About to delete {num_users} users! Are you sure?"):
+      for row in self.selected_users:
+        user = Data.users.get(dict(row.getData())['email'])
+        #user.delete()
+        self.users.load()
+        self.users_table_table_built()
+        
       
-
   def users_table_row_selection_changed(self, rows, data, **event_args):
     """This method is called when the row selection changes"""
     self.selected_users = rows
+    self.refresh_data_bindings()
+
+  def roles_table_row_selection_changed(self, rows, data, **event_args):
+    """This method is called when the row selection changes"""
+    self.selected_roles = rows
+    self.refresh_data_bindings()

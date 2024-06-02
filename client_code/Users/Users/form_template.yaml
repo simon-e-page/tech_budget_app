@@ -64,7 +64,8 @@ components:
     properties: {}
     type: form:TGQCF3WT6FVL2EM2:Tabulator
     layout_properties: {grid_position: 'EWTIIY,GIYSCH'}
-    event_bindings: {table_built: roles_table_table_built, cell_edited: roles_table_cell_edited}
+    event_bindings: {table_built: roles_table_table_built, cell_edited: roles_table_cell_edited,
+      row_selection_changed: roles_table_row_selection_changed}
   - name: flow_panel_2
     properties: {}
     type: FlowPanel

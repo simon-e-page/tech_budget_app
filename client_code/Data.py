@@ -139,8 +139,14 @@ class User(AttributeToKey):
       print('Error adding User!')
       raise
     return count
-    
 
+  def delete(self):
+    try:
+      anvil.server.call('Users', 'delete_user', self.email)   
+    except Exception as e:
+      print('Error deleting User!')
+      raise
+    
 
 class Users(AttributeToDict):
   def __init__(self, user_list=None):
@@ -195,6 +201,22 @@ class Role(AttributeToKey):
         self[field] = item.get(field, default)
       else:
         self[field] = item.get(field)
+
+  def save(self):
+    # Saves to backend as new or updated object
+    try:
+      count = anvil.server.call('Users', 'add_roles', [self.to_dict()])    
+    except Exception as e:
+      print('Error adding Role!')
+      raise
+    return count
+  
+  def delete(self):
+    try:
+      anvil.server.call('Users', 'delete_role', self.role_name)   
+    except Exception as e:
+      print('Error deleting User!')
+      raise
 
 
 class Roles(AttributeToDict):
