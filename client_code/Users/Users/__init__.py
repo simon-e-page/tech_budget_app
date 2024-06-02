@@ -81,3 +81,15 @@ class Users(UsersTemplate):
     role = self.roles.get(data['role_name'])
     role.update(data)
     role.save()
+
+  def delete_role_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    pass
+
+  def delete_user_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    pass
+
+  def users_table_row_selection_changed(self, rows, data, **event_args):
+    """This method is called when the row selection changes"""
+    pass
