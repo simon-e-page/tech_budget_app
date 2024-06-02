@@ -44,7 +44,7 @@ class Users(UsersTemplate):
       {"title": 'Create Actuals' , "field": 'perm_create_actual', 'editor': 'tickCross', 'formatter': 'tickCross' },
       {"title": 'Create Vendors' , "field": 'perm_create_vendor', 'editor': 'tickCross', 'formatter': 'tickCross' },
       {"title": 'Create Budgets' , "field": 'perm_create_budget', 'editor': 'tickCross', 'formatter': 'tickCross' },
-      {"title": 'Read Budgets' , "field": 'perm_read_budget', 'editor': 'tickCross', 'formatter': 'tickCross' },    
+      {"title": 'Read Budgets' , "field": 'perm_read_budget', 'formatter': 'tickCross' },    
     ]
     
     self.roles_table.options = {

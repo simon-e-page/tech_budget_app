@@ -26,7 +26,7 @@ class NewUser(NewUserTemplate):
 
   def save_user_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    new_email = self.email_textbox.text
+    new_email = self.user['email']
     if self.users.get(new_email) is not None:
       alert("Error: User already exists!")
     else:
@@ -39,4 +39,17 @@ class NewUser(NewUserTemplate):
   def role_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
     self.test_save()
+
+  def role_name_textbox_change(self, **event_args):
+    """This method is called when the text in this text box is edited"""
+    self.save_role_button.enabled = (self.role.get('role_name', None) is not None)
+
+  def save_role_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    new_role = self.role['role_name']
+    if self.roles.get(new_role) is not None:
+      alert("Error: Role already exists!")
+    else:
+      self.role['perm_read_budget'] = True
+      print(self.role)
       

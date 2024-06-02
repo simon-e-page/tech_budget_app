@@ -98,6 +98,7 @@ components:
     layout_properties: {width: 434.3984375}
     data_bindings:
     - {property: text, code: 'self.role[''role_name'']', writeback: true}
+    event_bindings: {change: role_name_textbox_change}
 - name: flow_panel_7
   properties: {}
   type: FlowPanel
@@ -117,4 +118,54 @@ components:
   properties: {}
   type: FlowPanel
   layout_properties: {grid_position: 'WMVVZP,AHDTGP'}
+  components:
+  - name: perm_create_budget_checkbox
+    properties: {text: 'Create Budgets?'}
+    type: CheckBox
+    data_bindings:
+    - {property: checked, code: 'self.role[''perm_create_budget'']', writeback: true}
+    layout_properties: {}
+- name: flow_panel_9
+  properties: {}
+  type: FlowPanel
+  layout_properties: {grid_position: 'HFWNXN,OHTYLU'}
+  components:
+  - name: perm_create_actuals_checkbox
+    properties: {text: 'Create Actuals?'}
+    type: CheckBox
+    data_bindings:
+    - {property: checked, code: 'self.role[''perm_create_actual'']', writeback: true}
+    layout_properties: {}
+- name: flow_panel_10
+  properties: {}
+  type: FlowPanel
+  layout_properties: {grid_position: 'PCNXFY,CMUJFC'}
+  components:
+  - name: perm_create_vendor_checkbox
+    properties: {text: 'Create Vendors?'}
+    type: CheckBox
+    data_bindings:
+    - {property: checked, code: 'self.role[''perm_create_vendor'']', writeback: false}
+    layout_properties: {}
+- name: flow_panel_11
+  properties: {}
+  type: FlowPanel
+  layout_properties: {grid_position: 'PPPCXE,ARZXIQ'}
+  components:
+  - name: perm_create_user_checkbox
+    properties: {text: 'Create Users?'}
+    type: CheckBox
+    data_bindings:
+    - {property: checked, code: 'self.role[''perm_create_user'']', writeback: false}
+    layout_properties: {}
+- name: flow_panel_12
+  properties: {}
+  type: FlowPanel
+  layout_properties: {grid_position: 'PWDSBC,PIPAWE'}
+  components:
+  - name: save_role_button
+    properties: {text: Save, role: primary-button, bold: true, icon: 'fa:save', enabled: false}
+    type: Button
+    layout_properties: {}
+    event_bindings: {click: save_role_button_click}
 is_package: true
