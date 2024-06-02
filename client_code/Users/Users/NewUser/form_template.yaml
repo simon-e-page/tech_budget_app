@@ -46,12 +46,13 @@ components:
     type: Label
     layout_properties: {}
   - name: role_dropdown
-    properties: {placeholder: Select role}
+    properties: {placeholder: Select role, include_placeholder: true}
     type: DropDown
     layout_properties: {width: 481.5863125}
     data_bindings:
     - {property: items, code: self.roles.get_dropdown(), writeback: false}
     - {property: selected_value, code: 'self.user[''role_name'']', writeback: true}
+    event_bindings: {change: role_dropdown_change}
 - name: flow_panel_4
   properties: {}
   type: FlowPanel

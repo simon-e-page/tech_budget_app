@@ -6,15 +6,15 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
-from ... import Data
+from .... import Data
 
 class NewUser(NewUserTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.user = {}
     self.can_save = False
-    self.roles = Data.roles
-    self.users = Data.users
+    self.roles = Data.ROLES
+    self.users = Data.USERS
     
     self.init_components(**properties)
 
@@ -24,7 +24,7 @@ class NewUser(NewUserTemplate):
     """This method is called when the text in this text box is edited"""
     new_email = self.email_textbox.text
     if self.users.get(new_email) is not None:
-      alert("User already exists!")
+      alert("Error: User already exists!")
     else:
       self.test_save()
 
@@ -34,4 +34,9 @@ class NewUser(NewUserTemplate):
 
   def test_save(self):
     self.can_save = self.user.get('email', None) and self.user.get('role_name', None)
+    self.refresh_data_bindings()
+
+  def role_dropdown_change(self, **event_args):
+    """This method is called when an item is selected"""
+    self.test_save()
       
