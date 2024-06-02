@@ -14,6 +14,7 @@ import anvil.users
 import anvil.server
 from datetime import datetime
 from ... import Data
+from tabulator.Tabulator import row_selection_column
 
 class Users(UsersTemplate):
   """This Form displays transaction and account information for a single transaction. It also allows you to edit the transaction being displayed.
@@ -33,6 +34,7 @@ class Users(UsersTemplate):
   def roles_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
     self.roles_table.columns = [
+      row_selection_column,
       {"title": 'Role Name', "field": 'role_name' },
       {"title": 'Description' , "field": 'role_description', 'editor': 'input' },
       {"title": 'Create User' , "field": 'perm_create_user', 'editor': 'tickCross', 'formatter': 'tickCross' },
@@ -52,6 +54,7 @@ class Users(UsersTemplate):
   def users_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
     self.users_table.columns = [
+      row_selection_column,
       {"title": 'Email', "field": 'email' },
       {"title": 'Full Name' , "field": 'full_name', 'editor': 'input' },
       {"title": 'Role' , "field": 'role_name' },
@@ -68,9 +71,13 @@ class Users(UsersTemplate):
   def users_table_cell_edited(self, cell, **event_args):
     """This method is called when a cell is edited"""
     data = cell.getData()
-    print(data)
-
+    user = self.users.get(data['email'])
+    user.update(data)
+    user.save()
+    
   def roles_table_cell_edited(self, cell, **event_args):
     """This method is called when a cell is edited"""
     data = cell.getData()
-    print(data)
+    role = self.roles.get(data['role_name'])
+    role.update(data)
+    role.save()

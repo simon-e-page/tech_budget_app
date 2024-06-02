@@ -56,6 +56,11 @@ class AttributeToKey:
     d = { x: self[x] for x in self._defaults }
     return d
 
+  def update(self, new_data):
+    for k,v in new_data.keys():
+      if k in self:
+        self[k] = v
+
 class AttributeToDict:
   def __getitem__(self, key):
     try:
