@@ -97,7 +97,7 @@ components:
     type: TextBox
     layout_properties: {width: 434.3984375}
     data_bindings:
-    - {property: text, code: 'self.role[''role_name'']', writeback: true}
+    - {property: text, code: 'self.role_obj[''role_name'']', writeback: true}
     event_bindings: {change: role_name_textbox_change}
 - name: flow_panel_7
   properties: {}
@@ -113,7 +113,7 @@ components:
     type: TextBox
     layout_properties: {width: 425.91796875}
     data_bindings:
-    - {property: text, code: 'self.role[''role_description'']', writeback: true}
+    - {property: text, code: 'self.role_obj[''role_description'']', writeback: true}
 - name: flow_panel_8
   properties: {}
   type: FlowPanel
@@ -123,7 +123,7 @@ components:
     properties: {text: 'Create Budgets?'}
     type: CheckBox
     data_bindings:
-    - {property: checked, code: 'self.role[''perm_create_budget'']', writeback: true}
+    - {property: checked, code: 'self.role_obj[''perm_create_budget'']', writeback: true}
     layout_properties: {}
 - name: flow_panel_9
   properties: {}
@@ -134,7 +134,7 @@ components:
     properties: {text: 'Create Actuals?'}
     type: CheckBox
     data_bindings:
-    - {property: checked, code: 'self.role[''perm_create_actual'']', writeback: true}
+    - {property: checked, code: 'self.role_obj[''perm_create_actual'']', writeback: true}
     layout_properties: {}
 - name: flow_panel_10
   properties: {}
@@ -145,7 +145,7 @@ components:
     properties: {text: 'Create Vendors?'}
     type: CheckBox
     data_bindings:
-    - {property: checked, code: 'self.role[''perm_create_vendor'']', writeback: false}
+    - {property: checked, code: 'self.role_obj[''perm_create_vendor'']', writeback: false}
     layout_properties: {}
 - name: flow_panel_11
   properties: {}
@@ -156,7 +156,7 @@ components:
     properties: {text: 'Create Users?'}
     type: CheckBox
     data_bindings:
-    - {property: checked, code: 'self.role[''perm_create_user'']', writeback: false}
+    - {property: checked, code: 'self.role_obj[''perm_create_user'']', writeback: false}
     layout_properties: {}
 - name: flow_panel_12
   properties: {}
