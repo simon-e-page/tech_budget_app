@@ -45,8 +45,7 @@ components:
         name: icon_loader
         layout_properties: {}
         event_bindings: {change: icon_loader_change}
-        data_bindings:
-        - {property: enabled, code: self.name_unique}
+        data_bindings: []
     - name: spacer_4
       properties: {height: 156.2109375}
       type: Spacer
@@ -154,13 +153,11 @@ components:
       data_bindings:
       - {property: items, code: self.vendor_list, writeback: false}
     - name: add_finance_tag_button
-      properties: {text: '', icon: 'fa:arrow-circle-up', enabled: false, role: secondary-button}
+      properties: {text: '', icon: 'fa:arrow-circle-up', enabled: true, role: secondary-button}
       type: Button
       layout_properties: {}
       event_bindings: {click: add_finance_tag_button_click}
-      data_bindings:
-      - {property: enabled, code: self.finance_tag_dropdown.selected_value is not None,
-        writeback: false}
+      data_bindings: []
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
       visible: true, text: 'Notes:', font_size: null, font: '', spacing_above: small,

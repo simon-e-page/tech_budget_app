@@ -9,7 +9,7 @@ from tabulator.Tabulator import row_selection_column
 class Vendor(VendorTemplate):
   def __init__(self, **properties):
     #self.name_unique = False
-    self.vendor_list = Data.VENDORS
+    self.vendor_list = Data.VENDORS.get_dropdown()
     self.prior_year_tags_raw = ''
     #self.finance_tags_raw = ''
 
@@ -87,11 +87,12 @@ class Vendor(VendorTemplate):
   def add_finance_tag_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     new_synonym = self.finance_tag_dropdown.selected_value
-    current = self.item.finance_tags
-    current.append(new_synonym)
-    self.item.finance_tags = list(set(current))
-    self.finance_tag_dropdown.selected_value = None
-    self.refresh_data_bindings()
+    if new_synonym is not None:
+      current = self.item.finance_tags
+      current.append(new_synonym)
+      self.item.finance_tags = list(set(current))
+      self.finance_tag_dropdown.selected_value = None
+      self.refresh_data_bindings()
 
 
 
