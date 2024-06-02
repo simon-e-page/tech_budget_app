@@ -181,7 +181,7 @@ class Role(AttributeToKey):
     'perm_create_actual': False,
     'perm_create_vendor': False,
     'perm_create_budget': False,
-    'perm_read_budget': False
+    'perm_read_budget': True
   }
 
   def __init__(self, role_json=None, **kwargs):

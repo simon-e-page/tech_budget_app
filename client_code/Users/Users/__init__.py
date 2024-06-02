@@ -32,8 +32,14 @@ class Users(UsersTemplate):
 
     self.selected_users = []
     self.selected_roles = []
+
+    self.add_event_handler('x-refresh-tables', self.refresh_tables)
     self.init_components(**properties)
 
+  def refresh_tables(self, *args, **kwargs):
+    self.roles_table_table_built()
+    self.users_table_table_built()
+    
   def roles_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
     self.roles_table.columns = [
@@ -91,7 +97,7 @@ class Users(UsersTemplate):
     if confirm(f"About to delete {num_roles} roles! Are you sure?"):
       for row in self.selected_roles:
         role = Data.roles.get(dict(row.getData())['role_name'])
-        #role.delete()
+        role.delete()
         self.roles.load()
         self.roles_table_table_built()
 
@@ -101,7 +107,7 @@ class Users(UsersTemplate):
     if confirm(f"About to delete {num_users} users! Are you sure?"):
       for row in self.selected_users:
         user = Data.users.get(dict(row.getData())['email'])
-        #user.delete()
+        user.delete()
         self.users.load()
         self.users_table_table_built()
         

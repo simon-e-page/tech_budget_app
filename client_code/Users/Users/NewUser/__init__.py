@@ -31,8 +31,14 @@ class NewUser(NewUserTemplate):
     if self.users.get(new_email) is not None:
       alert("Error: User already exists!")
     else:
-      print(self.user)
+      try:
+        user_item = self.users.new(new_email, self.user)
+        user_item.save()
+        self.parent.raise_event("x-refresh-tables")
+      except Exception as e:
+        alert(f"Error adding new user: {new_email}!")
 
+  
   def test_save(self):
     self.save_user_button.enabled = self.user.get('email', None) and self.user.get('role_name', None)
     #self.refresh_data_bindings()
@@ -52,5 +58,11 @@ class NewUser(NewUserTemplate):
       alert("Error: Role already exists!")
     else:
       self.role_obj['perm_read_budget'] = True
-      print(self.role_obj)
+      try:
+        role_item = self.roles.new(new_role, self.role_obj)
+        role_item.save()
+        self.parent.raise_event("x-refresh-tables")
+      except Exception as e:
+        alert(f"Error adding new role: {new_role}!")
+        
       
