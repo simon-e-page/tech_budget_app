@@ -346,10 +346,10 @@ class Icon(AttributeToKey):
       return
 
   def save(self):
-    try:
-      anvil.server.call('Vendors', 'add_icon', self.icon_id, self.content)
-    except Exception as e:
-      print("Error uploading icon!")
+    #try:
+    anvil.server.call('Vendors', 'add_icon', self.icon_id, self.content)
+    #except Exception as e:
+    #  print("Error uploading icon!")
       
 
 class Icons(AttributeToDict):
