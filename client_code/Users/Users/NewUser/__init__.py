@@ -33,8 +33,8 @@ class NewUser(NewUserTemplate):
       print(self.user)
 
   def test_save(self):
-    self.can_save = self.user.get('email', None) and self.user.get('role_name', None)
-    self.refresh_data_bindings()
+    self.save_user_button.enabled = self.user.get('email', None) and self.user.get('role_name', None)
+    #self.refresh_data_bindings()
 
   def role_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
