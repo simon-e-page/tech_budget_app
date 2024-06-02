@@ -27,7 +27,26 @@ class Users(UsersTemplate):
 
   def __init__(self, **properties):
     self.users = Data.USERS
+    self.roles = Data.ROLES
     self.init_components(**properties)
+
+  def roles_table_table_built(self, **event_args):
+    """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
+    self.roles_table.columns = [
+      {"title": 'Role Name', "field": 'role_name' },
+      {"title": 'Description' , "field": 'role_description' },
+      {"title": 'Create User' , "field": 'perm_create_user' },
+      {"title": 'Create Actuals' , "field": 'perm_create_actual' },
+      {"title": 'Create Vendors' , "field": 'perm_create_vendor' },
+      {"title": 'Create Budgets' , "field": 'perm_create_budget' },
+      {"title": 'Read Budgets' , "field": 'perm_read_budget' },    
+    ]
+    
+    self.roles_table.options = {
+        "index": "role_name", # or set the index property here
+    }
+    
+    self.roles_table.data = self.roles.to_records()
 
   def users_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
@@ -42,6 +61,4 @@ class Users(UsersTemplate):
         "index": "email", # or set the index property here
     }
     
-    l = self.users.to_records()
-    print(l)
-    self.users_table.data = l
+    self.users_table.data = self.users.to_records()
