@@ -70,14 +70,14 @@ class Users(UsersTemplate):
 
   def users_table_cell_edited(self, cell, **event_args):
     """This method is called when a cell is edited"""
-    data = cell.getData()
+    data = dict(cell.getData())
     user = self.users.get(data['email'])
     user.update(data)
     user.save()
     
   def roles_table_cell_edited(self, cell, **event_args):
     """This method is called when a cell is edited"""
-    data = cell.getData()
+    data = dict(cell.getData())
     role = self.roles.get(data['role_name'])
     role.update(data)
     role.save()

@@ -57,8 +57,8 @@ class AttributeToKey:
     return d
 
   def update(self, new_data):
-    for k,v in new_data.keys():
-      if k in self:
+    for k,v in new_data.items():
+      if self.get(k, None):
         self[k] = v
 
 class AttributeToDict:
