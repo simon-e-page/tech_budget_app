@@ -1,4 +1,4 @@
-from ._anvil_designer import NewVendorTemplate
+from ._anvil_designer import VendorTemplate
 from anvil import *
 import anvil.tables as tables
 import anvil.tables.query as q
@@ -15,7 +15,7 @@ from .... import Validation
 #from anvil.tables import app_tables
 from datetime import datetime, timedelta
 
-class NewVendor(NewVendorTemplate):
+class Vendor(VendorTemplate):
   def __init__(self, **properties):
     self.name_unique = False
     self.prior_year_tags_raw = ''

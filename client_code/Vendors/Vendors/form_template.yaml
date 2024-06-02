@@ -51,5 +51,9 @@ components:
         event_bindings: {click: delete_vendor_button_click}
         data_bindings:
         - {property: enabled, code: len(self.selected_vendors)>0, writeback: false}
+- name: vendor_1
+  properties: {}
+  type: form:Vendors.Vendors.Vendor
+  layout_properties: {slot: slot-1}
 is_package: true
 custom_component: false

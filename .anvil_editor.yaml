@@ -15,6 +15,7 @@ unique_ids:
     Vendors.Vendors: '1717310412899573611910551.6693'
     Login: JDYKL2RICYLHXITPFUPGVYXDTXGH5C36
     Icons.AvatarBlank: UDWDECOYX5HF6CJQHL4EKPHHG6RD4E6E
+    Vendors.Vendors.Vendor: '1675764484917627040103314.976'
     Settings.Settings.SettingsMain.RowTemplate4: '1675068084224528433692608.88196'
     Tickets.NewTransaction.Account: ZALF5NHVB7K5235CXNSWY7PEYCXASBJY
     Icons.SignOutSVG: RZUD2LBSBPGW4DOQTZPSQ2KPC4W5UITV
@@ -36,7 +37,6 @@ unique_ids:
     Settings.Settings: '1674865567914624700277131.2924'
     Customers.Account.AccountTransactions: '1662265917166855251234822.4473'
     Settings.Settings.SettingsMain.RowTemplate3: '1674867718770291360982029.5187'
-    Customers.Account.NewVendor: '1675764484917627040103314.976'
     Tickets.Transactions.TransactionList.TransactionRow: 4J3ZNGMN6CQ6AKDQCLQQM33STW5IBQGM
     Analyse.Analyse.AnalyseContent: '1690365794367893314728542.7845'
     Tickets.Transactions.TransactionList: PKKAQMZOAPITDOFK6PKTUH7PF5JHNSHV
