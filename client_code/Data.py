@@ -298,13 +298,10 @@ class Vendors(AttributeToDict):
     if vendor_list:
       for vn in vendor_list:
         self.add(vn.vendor_id, vn)
-        
-  def get_dropdown(self):
-    return [(x, x) for x in self.__d__.keys() ]
-    
+            
   def get(self, vendor_id):
-    if vendor_id in self.indexed:
-      return self.indexed[vendor_id]
+    if vendor_id in self.__d__:
+      return self.__d__[vendor_id]
 
   def new(self, vendor_data):
     vendor_id = vendor_data['vendor_name']
@@ -314,6 +311,11 @@ class Vendors(AttributeToDict):
     else:
       self.add(vendor_id, Vendor(vendor_json=vendor_data))
       return self.get(vendor_id)
+      
+  def load(self):
+    self.__d__ = {}
+    for role in anvil.server.call('Vendors', 'get_vendors'):
+      self.new(role)
 
 
 

@@ -8,19 +8,15 @@ components:
   name: flow_panel_1
   layout_properties: {slot: slot-header}
   components:
-  - type: Spacer
-    properties: {height: 32}
-    name: spacer_1
-    layout_properties: {width: 189.21825}
   - type: Label
     properties: {role: header-text, align: left, tooltip: '', border: '', foreground: '',
       visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
-      spacing_below: small, italic: false, background: '', bold: true, underline: false,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
       icon: ''}
     name: vendor_label
     layout_properties: {}
     data_bindings:
-    - {property: text, code: 'self.item[''vendor_name'']', writeback: false}
+    - {property: text, code: 'self.item.get(''vendor_name'',"Add New Vendor")', writeback: false}
 - type: ColumnPanel
   properties: {col_widths: '{"HUJRYE":30,"WSIPHF":30,"BCKOQO":30,"BXPKPS":30,"DTRATD":55}'}
   name: column_panel_1
@@ -124,9 +120,9 @@ components:
     layout_properties: {grid_position: 'DOGXEZ,BCKOQO ADFBNN,GDWNEL'}
     components:
     - name: prior_year_areabox
-      properties: {height: 74.74609375}
+      properties: {height: 74.74609375, placeholder: Enter synonyms (one per line)}
       type: TextArea
-      layout_properties: {width: 428.796875}
+      layout_properties: {width: 468.4923125}
       data_bindings:
       - {property: text, code: self.prior_year_tags_raw, writeback: true}
   - type: Label
@@ -136,15 +132,34 @@ components:
       background: '', bold: true, underline: false, icon: ''}
     name: label_14
     layout_properties: {grid_position: 'DOGXEZ,BCKOQO FFLKJR,MESZCQ'}
-  - type: TextArea
-    properties: {role: null, align: left, height: 86.7031, tooltip: '', placeholder: Enter description patterns for duplicate transactions (one per line),
-      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-      auto_expand: false, font: '', spacing_above: small, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false}
-    name: finance_tags_areabox
-    layout_properties: {grid_position: 'DOGXEZ,BCKOQO BQKPWJ,HZRUSM'}
+  - name: finance_table
+    properties: {pagination_size: 5, header_visible: false}
+    type: form:TGQCF3WT6FVL2EM2:Tabulator
+    layout_properties: {grid_position: 'DOGXEZ,BCKOQO CCEFIG,PPPSTF'}
     data_bindings:
-    - {property: text, code: self.finance_tags_raw, writeback: true}
+    - {property: data, code: self.generate_finance_tags(), writeback: false}
+    - {property: columns, code: '{"title": "Synonym", ''field'': ''finance_tag''}',
+      writeback: false}
+  - name: flow_panel_5
+    properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'DOGXEZ,BCKOQO EPABMY,BONEYZ'}
+    components:
+    - name: finance_tag_dropdown
+      properties:
+        items: [self.vendors]
+        include_placeholder: true
+        placeholder: Add new synonym
+      type: DropDown
+      layout_properties: {width: 368.72265625}
+    - name: add_finance_tag_button
+      properties: {text: Add, icon: 'fa:arrow-circle-up', enabled: false}
+      type: Button
+      layout_properties: {}
+      event_bindings: {click: add_finance_tag_button_click}
+      data_bindings:
+      - {property: enabled, code: self.finance_tag_dropdown.selected_value is not None,
+        writeback: false}
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
       visible: true, text: 'Notes:', font_size: null, font: '', spacing_above: small,
@@ -184,11 +199,6 @@ components:
       type: FlowPanel
       layout_properties: {grid_position: 'YPIRKR,EEVNIA'}
       components:
-      - name: delete_button
-        properties: {text: Delete, role: secondary-button, icon: 'fa:trash'}
-        type: Button
-        layout_properties: {}
-        event_bindings: {click: delete_button_click}
       - type: Button
         properties: {role: primary-button, align: center, tooltip: '', border: '',
           enabled: true, foreground: '', visible: true, text: Save, font_size: null,
@@ -197,6 +207,5 @@ components:
         name: save_button
         layout_properties: {}
         event_bindings: {click: save_button_click}
-        data_bindings:
-        - {property: enabled, code: self.name_unique}
+        data_bindings: []
 is_package: true

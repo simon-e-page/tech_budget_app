@@ -28,9 +28,17 @@ class Vendor(VendorTemplate):
     return
     #return Data.get_icon(icon_id)
 
+  def generate_finance_tags(self):
+    return [ { 'finance_tag': x} for x in self.item.finance_tags ]
+    
   def save_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    # Remap altered attributes back after possible editing      
+    # Remap altered attributes back after possible editing 
+
+    if not self.item.vendor_name:
+      alert("Nothing to update!")
+      return
+      
     l = self.finance_tags_raw.split('\n')
     self.item['finance_tags'] = l
 
@@ -49,7 +57,7 @@ class Vendor(VendorTemplate):
         else:
           alert("There is already an existing Vendor with that name!")
     except Exception as e:
-      alert("Error adding new vendor! Check logs!")
+      alert("Error adding/updating vendor! Check logs!")
 
     self.refresh_data_bindings()
       
@@ -69,9 +77,15 @@ class Vendor(VendorTemplate):
       icon = None
       self.item['icon_id'] = ''
 
-  def delete_button_click(self, **event_args):
+  def add_finance_tag_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    pass
+    new_synonym = self.finance_tag_dropdown.selected_value
+    current = self.item.finance_tags
+    current.append(new_synonym)
+    self.item.finance_tags = list(set(current))
+    self.finance_tag_dropdown.selected_value = None
+    self.refresh_data_bindings()
+
 
 
 

@@ -11,7 +11,7 @@ from datetime import datetime
 
 from ... import Data
 from ... import Validation
-from ...Customers.Account.NewVendor import NewVendor
+from ...Vendors.Vendors.Vendor import Vendor
 
 class Transaction(TransactionTemplate):
   """This Form displays transaction and account information for a single transaction. It also allows you to edit the transaction being displayed.
@@ -125,7 +125,7 @@ class Transaction(TransactionTemplate):
 
   def new_vendor_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    alert(NewAccount(item=Data.Vendor()), large=True, title="New Vendor")
+    alert(Vendor(item=Data.Vendor()), large=True, title="New Vendor")
 
   def actual_button_click(self, **event_args):
     """This method is called when the button is clicked"""
