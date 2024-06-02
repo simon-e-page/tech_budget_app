@@ -114,10 +114,10 @@ components:
         type: Label
         layout_properties: {}
       - name: prior_year_table
-        properties: {index: prior_year_tag, pagination_size: 5, header_visible: false}
+        properties: {index: prior_year_tags, pagination_size: 5, header_visible: false}
         type: form:TGQCF3WT6FVL2EM2:Tabulator
         data_bindings:
-        - {property: data, code: self.generate_prior_year_tags(), writeback: false}
+        - {property: data, code: self.generate_tags('prior_year_tags'), writeback: false}
         - {property: columns, code: self.prior_year_columns, writeback: false}
         layout_properties: {}
       - name: flow_panel_6
@@ -146,11 +146,11 @@ components:
     name: label_14
     layout_properties: {grid_position: 'DOGXEZ,BCKOQO FFLKJR,MESZCQ'}
   - name: finance_table
-    properties: {pagination_size: 5, header_visible: false, spacing_below: none}
+    properties: {pagination_size: 5, header_visible: false, spacing_below: none, index: finance_tags}
     type: form:TGQCF3WT6FVL2EM2:Tabulator
     layout_properties: {grid_position: 'DOGXEZ,BCKOQO CCEFIG,PPPSTF'}
     data_bindings:
-    - {property: data, code: self.generate_finance_tags(), writeback: false}
+    - {property: data, code: self.generate_tags('finance_tags'), writeback: false}
     - {property: columns, code: self.finance_columns, writeback: false}
   - name: flow_panel_5
     properties: {spacing_above: none}

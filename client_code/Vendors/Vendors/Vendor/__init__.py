@@ -13,14 +13,12 @@ class Vendor(VendorTemplate):
     #self.finance_tags_raw = ''
 
     self.finance_columns = [
-      row_selection_column,
-      {'title': 'Synonym', 'field': 'finance_tag'},
+      {'title': 'Synonym', 'field': 'finance_tags', 'width': 400 },
       {'title': 'Delete', 'field': 'delete', 'formatter': self.delete_formatter, 'formatterParams': {'key': 'finance_tags'} }
     ]
 
     self.prior_year_columns = [
-      row_selection_column,
-      {'title': 'Synonym', 'field': 'prior_year_tag'},
+      {'title': 'Synonym', 'field': 'prior_year_tags', 'width': 400},
       {'title': 'Delete', 'field': 'delete', 'formatter': self.delete_formatter, 'formatterParams': {'key': 'prior_year_tags'} }
     ]
 
@@ -51,12 +49,9 @@ class Vendor(VendorTemplate):
     return
     #return Data.get_icon(icon_id)
 
-  def generate_finance_tags(self):
-    return [ { 'finance_tag': x} for x in self.item.get('finance_tags', []) ]
-
-  def generate_prior_year_tags(self):
-    return [ { 'prior_year_tag': x} for x in self.item.get('prior_year_tags', []) ]
-
+  def generate_tags(self, key):
+    return [ { key: x} for x in self.item.get(key, []) ]
+    
   def save_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     # Remap altered attributes back after possible editing 
