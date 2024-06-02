@@ -26,6 +26,10 @@ class Vendor(VendorTemplate):
     self.init_components(**properties)
     # Any code you write here will run when the form opens.
 
+  def get_icon(self, icon_id):
+    if icon_id:
+      return Data.ICONS.load(icon_id)
+    
   def delete_formatter(self, cell, **params):
     key = params['key']
     tag = cell.getData()[key]
@@ -45,10 +49,6 @@ class Vendor(VendorTemplate):
     self.item = item
     self.refresh_data_bindings()
   
-  def get_icon(self, icon_id):
-    return
-    #return Data.get_icon(icon_id)
-
   def generate_tags(self, key):
     return [ { key: x} for x in self.item.get(key, []) ]
     
@@ -81,11 +81,16 @@ class Vendor(VendorTemplate):
   def icon_loader_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
     timestamp = dt.datetime.now().strftime('%Y%m%d_%H%M')
-    title = "{0}_icon_{1}.{2}".format(self.item['vendor_name'], timestamp, 'png')
+    ext = Data.ACCEPTABLE_IMAGES.get(file.content_type, None)
+    if ext is None:
+      alert("Unacceptable file type! Try again!")
+    else:
+      icon_id = "{0}_icon_{1}.{2}".format(self.item['vendor_name'], timestamp, ext)
     try:
-      icon = Data.Icon(name=title, content=file, icon_id=None)
-      Data.ICONS.add(icon.icon_id, icon)
-      self.item['icon_id'] = icon.icon_id
+      icon = Data.Icon(icon_id=icon_id, content=file)
+      icon.save()
+      Data.ICONS.add(icon_id, icon)
+      self.item['icon_id'] = icon_id
       self.refresh_data_bindings()
     except Exception as e:    
       alert("Error uploading new icon!")

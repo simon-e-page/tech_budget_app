@@ -34,6 +34,7 @@ OWNERS = ['SimonPage', 'AnitaMatuszewski']
 OWNERS_DD = [ (x,x) for x in OWNERS ]
 
 ICONS = {}
+ACCEPTABLE_IMAGES = {'image/png': 'png', 'image/jpg': 'jpg', 'image/jpeg': 'jpeg'}
 
 class AttributeToKey:
   _defaults = {}
@@ -326,14 +327,13 @@ class Vendors(AttributeToDict):
 
 
 class Icon(AttributeToKey):
-  ACCEPTABLE = {'image/png': 'png', 'image/jpg': 'jpg', 'image/jpeg': 'jpeg'}
   
   def __init__(self, icon_id, content):
     try:
       # Max file size of 100kB (note not Kibibytes to be technical!)
       if content.length > 100000:
         print("Selected file is too large. Please reduce and try again!")
-      elif (content.content_type in self.ACCEPTABLE.keys()):
+      elif (content.content_type in ACCEPTABLE_IMAGES.keys()):
         self.icon_id = icon_id
         self.content = content
       else:
