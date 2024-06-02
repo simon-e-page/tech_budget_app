@@ -88,6 +88,9 @@ class AttributeToDict:
   def to_list(self):
     return list(self.values())
 
+  def to_records(self):
+    return [ x.to_dict() for x in self.values() ]
+
 #####################################################################
 # USERS and OWNERS
 #####################################################################

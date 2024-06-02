@@ -40,10 +40,8 @@ class Users(UsersTemplate):
     
     self.users_table.options = {
         "index": "email", # or set the index property here
-        "use_model": True,
-        "getter": getattr,
     }
     
-    l = self.users.to_list()
+    l = self.users.to_records()
     print(l)
     self.users_table.data = l
