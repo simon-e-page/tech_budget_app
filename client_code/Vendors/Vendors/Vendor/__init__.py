@@ -10,25 +10,25 @@ class Vendor(VendorTemplate):
   def __init__(self, **properties):
     #self.name_unique = False
     self.vendor_list = Data.VENDORS.get_dropdown()
-    self.prior_year_tags_raw = ''
     #self.finance_tags_raw = ''
 
     self.finance_columns = [
       row_selection_column,
       {'title': 'Synonym', 'field': 'finance_tag'}
     ]
-    
+
+    self.prior_year_columns = [
+      row_selection_column,
+      {'title': 'Synonym', 'field': 'prior_year_tag'}
+    ]
+
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     # Any code you write here will run when the form opens.
 
-  def populate_textareas(self):
-    #self.finance_tags_areabox.text = '\n'.join(self.item.finance_tags)
-    self.prior_year_areabox.text = '\n'.join(self.item.prior_year_tags)
  
   def set_item(self, item):
     self.item = item
-    self.populate_textareas()
     self.refresh_data_bindings()
   
   def get_icon(self, icon_id):
@@ -37,7 +37,10 @@ class Vendor(VendorTemplate):
 
   def generate_finance_tags(self):
     return [ { 'finance_tag': x} for x in self.item.get('finance_tags', []) ]
-    
+
+  def generate_prior_year_tags(self):
+    return [ { 'prior_year_tag': x} for x in self.item.get('prior_year_tags', []) ]
+
   def save_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     # Remap altered attributes back after possible editing 
@@ -45,13 +48,7 @@ class Vendor(VendorTemplate):
     if not self.item.vendor_name:
       alert("Nothing to update!")
       return
-      
-    l = self.finance_tags_raw.split('\n')
-    self.item['finance_tags'] = l
-
-    l = self.prior_year_tags_raw.split('\n')
-    self.item['prior_year_tags'] = l
-    
+          
     ret = None
     try:
       if self.item.vendor_id is not None:
@@ -92,6 +89,16 @@ class Vendor(VendorTemplate):
       current.append(new_synonym)
       self.item.finance_tags = list(set(current))
       self.finance_tag_dropdown.selected_value = None
+      self.refresh_data_bindings()
+
+  def add_prior_year_tag_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    new_synonym = self.prior_year_tag_dropdown.selected_value
+    if new_synonym is not None:
+      current = self.item.prior_year_tags
+      current.append(new_synonym)
+      self.item.prior_year_tags = list(set(current))
+      self.prior_year_tag_dropdown.selected_value = None
       self.refresh_data_bindings()
 
 

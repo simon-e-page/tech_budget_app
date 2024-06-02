@@ -18,7 +18,7 @@ components:
     data_bindings:
     - {property: text, code: 'self.item.get(''vendor_name'',"Add New Vendor")', writeback: false}
 - type: ColumnPanel
-  properties: {col_widths: '{"HUJRYE":30,"WSIPHF":30,"BCKOQO":30,"BXPKPS":30,"DTRATD":55}'}
+  properties: {col_widths: '{"HUJRYE":30,"WSIPHF":30,"BCKOQO":30,"BXPKPS":30}'}
   name: column_panel_1
   layout_properties: {slot: slot-content}
   components:
@@ -113,17 +113,25 @@ components:
         properties: {text: 'Prior Year Synonyms:', bold: true}
         type: Label
         layout_properties: {}
-  - name: flow_panel_3
-    properties: {}
-    type: FlowPanel
-    layout_properties: {grid_position: 'DOGXEZ,BCKOQO ADFBNN,GDWNEL'}
-    components:
-    - name: prior_year_areabox
-      properties: {height: 74.74609375, placeholder: Enter synonyms (one per line)}
-      type: TextArea
-      layout_properties: {width: 468.4923125}
-      data_bindings:
-      - {property: text, code: self.prior_year_tags_raw, writeback: true}
+      - name: prior_year_table
+        properties: {}
+        type: form:TGQCF3WT6FVL2EM2:Tabulator
+      - name: flow_panel_6
+        properties: {}
+        type: FlowPanel
+        components:
+        - name: orior_year_tag_dropdown
+          properties:
+            items: [self.vendor_list]
+            include_placeholder: true
+            placeholder: Add new synonym
+          type: DropDown
+          layout_properties: {width: 348.9144375}
+        - name: add_prior_year_tag_button
+          properties: {text: '', icon: 'fa:arrow-circle-up', role: secondary-button}
+          type: Button
+          layout_properties: {}
+          event_bindings: {click: add_prior_year_tag_button_click}
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
       visible: true, text: 'Finance Report Synonyms:', font_size: null, font: '',
@@ -132,14 +140,14 @@ components:
     name: label_14
     layout_properties: {grid_position: 'DOGXEZ,BCKOQO FFLKJR,MESZCQ'}
   - name: finance_table
-    properties: {pagination_size: 5, header_visible: false}
+    properties: {pagination_size: 5, header_visible: false, spacing_below: none}
     type: form:TGQCF3WT6FVL2EM2:Tabulator
     layout_properties: {grid_position: 'DOGXEZ,BCKOQO CCEFIG,PPPSTF'}
     data_bindings:
     - {property: data, code: self.generate_finance_tags(), writeback: false}
     - {property: columns, code: self.finance_columns, writeback: false}
   - name: flow_panel_5
-    properties: {}
+    properties: {spacing_above: none}
     type: FlowPanel
     layout_properties: {grid_position: 'DOGXEZ,BCKOQO EPABMY,BONEYZ'}
     components:
@@ -148,12 +156,14 @@ components:
         items: [self.vendors]
         include_placeholder: true
         placeholder: Add new synonym
+        spacing_above: none
       type: DropDown
       layout_properties: {width: 350.7268125}
       data_bindings:
       - {property: items, code: self.vendor_list, writeback: false}
     - name: add_finance_tag_button
-      properties: {text: '', icon: 'fa:arrow-circle-up', enabled: true, role: secondary-button}
+      properties: {text: '', icon: 'fa:arrow-circle-up', enabled: true, role: secondary-button,
+        spacing_above: none}
       type: Button
       layout_properties: {}
       event_bindings: {click: add_finance_tag_button_click}
