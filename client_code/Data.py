@@ -36,6 +36,7 @@ OWNERS_DD = [ (x,x) for x in OWNERS ]
 ICONS = {}
 
 class AttributeToKey:
+  _defaults = {}
   def __getitem__(self, key):
       try:
           return self.__getattribute__(key)
@@ -50,6 +51,10 @@ class AttributeToKey:
           return self.__getattribute__(key)
       except AttributeError:
           return default
+
+  def to_dict(self):
+    d = { x: self[x] for x in self._defaults }
+    return d
 
 class AttributeToDict:
   def __getitem__(self, key):
@@ -130,9 +135,6 @@ class User(AttributeToKey):
       raise
     return count
     
-  def to_dict(self):
-    d = { x: self[x] for x in self._defaults }
-    return d
 
 
 class Users(AttributeToDict):
