@@ -8,9 +8,10 @@ import anvil.users
 #from anvil.tables import app_tables
 import anvil.server
 from datetime import datetime
+
 from ... import Data
 from ... import Validation
-from ...Customers.Account.NewAccount import NewAccount
+from ...Customers.Account.NewVendor import NewVendor
 
 class Transaction(TransactionTemplate):
   """This Form displays transaction and account information for a single transaction. It also allows you to edit the transaction being displayed.

@@ -22,7 +22,9 @@ from ..Customers.Account.AccountTransactions import AccountTransactions
 from ..Settings.Settings import Settings
 from ..Analyse.Analyse import Analyse
 from ..Users.Users import Users
+from ..Vendors.Vendors import Vendors
 from .. import Data
+
 
 class Homepage(HomepageTemplate):
   """This Form controls navigation for the whole app.
@@ -132,16 +134,16 @@ class Homepage(HomepageTemplate):
     self.add_component(AccountDetailsOverlay(item=account), slot="overlay")
     print("open_accounts_transactions complete")
     
-  def open_accounts(self):
-    """Open the 'Accounts' Form, by adding it to the "default" slot."""
-    self.accounts_form_open = True
-    self.account_panel.role = 'dash-link-selected'
-    self.headline_label.text = "Accounts"
+  def open_vendors(self):
+    """Open the 'Vendors' Form, by adding it to the "default" slot."""
+    self.vendors_form_open = True
+    self.vendor_panel.role = 'dash-link-selected'
+    self.headline_label.text = "Vendors"
     #self.current_form = Accounts()
-    self.current_form = Accounts()
+    self.current_form = Vendors()
     self.clear_page()
     self.add_component(self.current_form, slot="default")
-    print("open_accounts complete")
+    print("open_vendors complete")
 
   def open_new_account(self):
     """Open the New 'Accounts' Form, by adding it to the "default" slot."""
@@ -218,9 +220,9 @@ class Homepage(HomepageTemplate):
     # Open the transactions  when the transaction_link is clicked
     self.open_transactions()
   
-  def account_link_click(self, **event_args):
+  def vendor_link_click(self, **event_args):
     # Open the accounts view when the account_link is clicked
-    self.open_accounts()
+    self.open_vendors()
 
   def new_transaction_button_click(self, **event_args):
     # Open the NewTransaction Form when the new_transaction_button is clicked

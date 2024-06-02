@@ -65,7 +65,7 @@ components:
   - type: FlowPanel
     properties: {role: dash-link, spacing: none, align: left, tooltip: '', border: '',
       foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
-    name: account_panel
+    name: vendor_panel
     layout_properties: {}
     components:
     - type: Spacer
@@ -82,10 +82,10 @@ components:
         col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '{}',
         spacing_below: small, italic: false, background: '', bold: false, underline: false,
         icon: ''}
-      name: account_link
+      name: vendor_link
       layout_properties: {}
       components: []
-      event_bindings: {click: account_link_click}
+      event_bindings: {click: vendor_link_click}
   - type: FlowPanel
     properties: {role: dash-link, spacing: none, align: left, tooltip: '', border: '',
       foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
