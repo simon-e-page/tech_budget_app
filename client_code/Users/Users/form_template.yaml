@@ -72,9 +72,15 @@ components:
     layout_properties: {grid_position: 'ERTSQU,WWQGMS'}
     components:
     - name: delete_role_button
-      properties: {text: Delete, role: secondary-button, icon: 'fa:trash'}
+      properties: {text: Delete, role: secondary-button, icon: 'fa:trash', enabled: false}
       type: Button
       layout_properties: {}
       event_bindings: {click: delete_role_button_click}
+      data_bindings:
+      - {property: enabled, code: len(self.selected_roles)>0, writeback: false}
+- name: new_user_1
+  properties: {}
+  type: form:Users.Users.NewUser
+  layout_properties: {slot: slot-1}
 is_package: true
 custom_component: false
