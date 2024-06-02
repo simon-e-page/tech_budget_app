@@ -34,12 +34,12 @@ class Users(UsersTemplate):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
     self.roles_table.columns = [
       {"title": 'Role Name', "field": 'role_name' },
-      {"title": 'Description' , "field": 'role_description' },
-      {"title": 'Create User' , "field": 'perm_create_user' },
-      {"title": 'Create Actuals' , "field": 'perm_create_actual' },
-      {"title": 'Create Vendors' , "field": 'perm_create_vendor' },
-      {"title": 'Create Budgets' , "field": 'perm_create_budget' },
-      {"title": 'Read Budgets' , "field": 'perm_read_budget' },    
+      {"title": 'Description' , "field": 'role_description', 'editor': 'input' },
+      {"title": 'Create User' , "field": 'perm_create_user', 'editor': 'tickCross' },
+      {"title": 'Create Actuals' , "field": 'perm_create_actual', 'editor': 'tickCross' },
+      {"title": 'Create Vendors' , "field": 'perm_create_vendor', 'editor': 'tickCross' },
+      {"title": 'Create Budgets' , "field": 'perm_create_budget', 'editor': 'tickCross' },
+      {"title": 'Read Budgets' , "field": 'perm_read_budget', 'editor': 'tickCross' },    
     ]
     
     self.roles_table.options = {
@@ -52,9 +52,9 @@ class Users(UsersTemplate):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
     self.users_table.columns = [
       {"title": 'Email', "field": 'email' },
-      {"title": 'Full Name' , "field": 'full_name' },
+      {"title": 'Full Name' , "field": 'full_name', 'editor': 'input' },
       {"title": 'Role' , "field": 'role_name' },
-      {"title": 'Team' , "field": 'team' }
+      {"title": 'Team' , "field": 'team', 'editor': 'input' }
     ]
     
     self.users_table.options = {
