@@ -22,15 +22,15 @@ class NewUser(NewUserTemplate):
 
   def email_textbox_change(self, **event_args):
     """This method is called when the text in this text box is edited"""
+    self.test_save()
+
+  def save_user_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
     new_email = self.email_textbox.text
     if self.users.get(new_email) is not None:
       alert("Error: User already exists!")
     else:
-      self.test_save()
-
-  def save_user_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    print(self.user)
+      print(self.user)
 
   def test_save(self):
     self.can_save = self.user.get('email', None) and self.user.get('role_name', None)
