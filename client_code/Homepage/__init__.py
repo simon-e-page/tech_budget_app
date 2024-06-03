@@ -12,12 +12,12 @@ import plotly.graph_objs as go
 from ..Tickets.Transactions import Transactions
 from ..Tickets.Transaction import Transaction
 from ..Dashboard import Dashboard
-from ..Customers.Accounts import Accounts
-from ..Customers.Account import Account
-from ..Customers.Account.Details import Details
-from ..Customers.AccountDetailsOverlay import AccountDetailsOverlay
+#from ..Customers.Accounts import Accounts
+#from ..Customers.Account import Account
+#from ..Customers.Account.Details import Details
+#from ..Customers.AccountDetailsOverlay import AccountDetailsOverlay
 from ..Tickets.NewTransaction import NewTransaction
-from ..Customers.Account.AccountTransactions import AccountTransactions
+#from ..Customers.Account.AccountTransactions import AccountTransactions
 from ..Settings.Settings import Settings
 from ..Analyse.Analyse import Analyse
 from ..Users.Users import Users
@@ -125,16 +125,6 @@ class Homepage(HomepageTemplate):
     self.clear_page()
     self.add_component(self.current_form, slot="default")
 
-  def open_account_transactions(self, account, period=None):
-    self.accounts_transaction_form_open = True
-    self.account_panel.role = 'dash-link-selected'
-    self.headline_label.text = "Account"
-    self.current_form = AccountTransactions(account=account, period=period)
-    self.clear_page()
-    self.add_component(self.current_form, slot="default")
-    self.clear(slot="overlay")
-    self.add_component(AccountDetailsOverlay(item=account), slot="overlay")
-    print("open_accounts_transactions complete")
     
   def open_vendors(self):
     """Open the 'Vendors' Form, by adding it to the "default" slot."""
@@ -147,37 +137,6 @@ class Homepage(HomepageTemplate):
     self.add_component(self.current_form, slot="default")
     print("open_vendors complete")
 
-  def open_new_account(self):
-    """Open the New 'Accounts' Form, by adding it to the "default" slot."""
-    self.accounts_form_open = True
-    self.account_panel.role = 'dash-link-selected'
-    self.headline_label.text = "New Account"
-    #self.current_form = Accounts()
-    self.current_form = NewAccount()
-    self.clear_page()
-    self.add_component(self.current_form, slot="default")
-    print("open_new_account complete")
-
-  def open_account(self, item):
-    """Open the 'Account' Form, by adding it to the "overlay" slot.
-    
-    Arguments: 
-      item - a row from the 'Accounts' Data Table.
-    """
-    # If the 'Accounts' Form is currently open in the "default" slot on the Homepage,
-    # don't reload it, just replace the Form in the "overlay" slot
-    print("Entering: open_account")
-    if self.accounts_form_open:
-      self.clear(slot="overlay")
-      self.add_component(AccountDetailsOverlay(item=item), slot="overlay")
-    else:
-      self.account_panel.role = 'dash-link-selected'
-      self.headline_label.text = "Account"
-      self.current_form = Accounts()
-      self.clear_page()
-      self.add_component(self.current_form, slot="default")
-      self.add_component(AccountDetailsOverlay(item=item), slot="overlay")
-    print("open_account complete")
 
   def open_settings(self):
     """ Open the settings form """
@@ -203,16 +162,7 @@ class Homepage(HomepageTemplate):
       self.add_component(self.current_form, slot="default")
   
   
-  def add_account_edit_overlay(self, item, account_copy=None):
-    """Open the 'AccountDetailOverlay' Form, by adding it to the "overlay" slot.
-    
-    Arguments:
-      item - a row from the 'Accounts' Data Table.
-    """
-    account = Account(item=item, account_copy=account_copy)
-    self.clear(slot='overlay')
-    self.add_component(account, slot="overlay")
-    
+  
   
   def dash_link_click(self, **event_args):
     # Open the dashboard when the dash_link is clicked
