@@ -63,6 +63,14 @@ class Users(UsersTemplate):
 
   def users_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
+
+    def date_formatter(cell, **params):
+      val = cell.get_value()
+      if val is None:
+        return ''
+      else:
+        return val.strftime('%Y-%M-%d')
+      
     listParams = {
       'values': list(self.roles.to_dict().keys())
     }
@@ -72,6 +80,8 @@ class Users(UsersTemplate):
       {"title": 'Full Name' , "field": 'full_name', 'editor': 'input' },
       {"title": 'Role' , "field": 'role_name', 'editor': 'list', 'editorParams': listParams },
       {"title": 'Team' , "field": 'team', 'editor': 'input' },
+      {"title": 'Last Login' , "field": 'last_login', 'formatter': date_formatter },      
+      {"title": 'Active' , "field": 'active', 'editor': 'tickCross', 'formatter': 'tickCross', 'width': 100 },
       {'title': '', 'field': 'delete', 'formatter': self.delete_formatter, 'formatterParams': {'key': 'email'}, 'width': 50 }
     ]
     
