@@ -136,10 +136,7 @@ CURRENT_BRAND = None
 def refresh():
   global FIN_YEARS, CURRENT_YEAR, BUDGET_YEAR
   FIN_YEARS, BUDGET_YEAR, CURRENT_YEAR = anvil.server.call('Calendar', 'get_fin_years')
-  #USERS.load()
-  #ROLES.load()
 
-#ICONS.load()
 
 #####################################################################
 # MISCELLANEOUS

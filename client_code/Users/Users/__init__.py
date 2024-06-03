@@ -62,7 +62,7 @@ class Users(UsersTemplate):
       if val is None:
         return ''
       else:
-        return val.strftime('%Y-%M-%d')
+        return val.strftime('%Y-%m-%d')
       
     listParams = {
       'values': list(self.roles.to_dict().keys())
