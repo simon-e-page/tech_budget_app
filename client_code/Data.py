@@ -111,6 +111,8 @@ class User(AttributeToKey):
     'full_name': 'Unknown user',
     'role_name': None,
     'team': '',
+    'active': True,
+    'last_login': None
   }
 
   def __init__(self, user_json=None, **kwargs):
