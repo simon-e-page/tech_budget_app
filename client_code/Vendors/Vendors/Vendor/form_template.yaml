@@ -41,11 +41,12 @@ components:
         data_bindings:
         - {property: source, code: 'self.get_icon(self.item[''icon_id''])'}
       - type: FileLoader
-        properties: {align: left}
+        properties: {align: left, enabled: false}
         name: icon_loader
         layout_properties: {}
         event_bindings: {change: icon_loader_change}
-        data_bindings: []
+        data_bindings:
+        - {property: enabled, code: 'self.item[''vendor_name'']', writeback: false}
     - name: spacer_4
       properties: {height: 156.2109375}
       type: Spacer
@@ -74,15 +75,12 @@ components:
       underline: false, icon: ''}
     name: label_1
     layout_properties: {grid_position: 'DPKUVC,HUJRYE HCUNLS,CMTVCV'}
-  - type: TextBox
-    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Enter Description,
-      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false}
-    name: description_textbox
-    layout_properties: {grid_position: 'DPKUVC,HUJRYE IZQOMZ,POBIPL'}
+  - name: description_textbox
+    properties: {height: 81.30859375, placeholder: Enter vendor description}
+    type: TextArea
+    layout_properties: {grid_position: 'DPKUVC,HUJRYE PCPTGB,VYVWRZ'}
     data_bindings:
-    - {property: text, code: 'self.item[''description'']', writeback: true}
+    - {property: text, code: 'self.item[''description'']', writeback: false}
   - type: FlowPanel
     properties: {}
     name: flow_panel_2
