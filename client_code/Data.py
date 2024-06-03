@@ -364,8 +364,22 @@ class Icons(AttributeToDict):
       self.add(k, Icon(icon_id=k, content=v))
 
   def load(self, icon_id):
-    content = anvil.server.call('Vendors', 'get_icon', icon_id)
-    self.add(icon_id, Icon(icon_id=icon_id, content=content))
+    try:
+      content = anvil.server.call('Vendors', 'get_icon', icon_id)
+      icon = Icon(icon_id=icon_id, content=content)
+      self.add(icon_id, icon)
+    except Exception as e:
+      print(f"Could not find icon_id: {icon_id}!")
+      icon = None
+      
+    return icon
+
+  def get_content(self, icon_id):
+    try:
+      content = self.get(icon_id, self.load(icon_id)).content
+    except Exception as e:
+      content = None
+    return content
 
 
 

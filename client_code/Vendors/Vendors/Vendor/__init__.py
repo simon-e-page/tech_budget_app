@@ -28,7 +28,7 @@ class Vendor(VendorTemplate):
 
   def get_icon(self, icon_id):
     if icon_id:
-      return Data.ICONS.load(icon_id)
+      return Data.ICONS.get_content(icon_id)
     
   def delete_formatter(self, cell, **params):
     key = params['key']
