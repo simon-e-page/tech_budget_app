@@ -75,5 +75,8 @@ class Vendors(AttributeToDict):
     for role in anvil.server.call('Vendors', 'get_vendors'):
       self.new(role)
 
+  def blank(self):
+    return Vendor()
+
 VENDORS = Vendors()
 VENDORS.load()

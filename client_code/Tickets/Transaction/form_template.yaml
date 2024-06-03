@@ -86,7 +86,7 @@ components:
       properties: {include_placeholder: true, placeholder: Select Vendor}
       type: DropDown
       data_bindings:
-      - {property: items, code: self.vendors, writeback: false}
+      - {property: items, code: self.vendor_list, writeback: false}
       - {property: selected_value, code: 'self.item[''vendor_id'']', writeback: true}
       layout_properties: {}
     - name: new_vendor_button

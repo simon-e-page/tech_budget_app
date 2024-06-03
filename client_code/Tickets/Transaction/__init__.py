@@ -11,6 +11,7 @@ from datetime import datetime
 
 from ... import Data
 from ... import Validation
+from ...Data import VendorsModel
 from ...Vendors.Vendors.Vendor import Vendor
 
 class Transaction(TransactionTemplate):
@@ -24,7 +25,8 @@ class Transaction(TransactionTemplate):
   """
   
   def __init__(self, item, back=None, **properties):
-    self.vendors = Data.VENDORS.get_dropdown()
+    self.vendors = VendorsModel.VENDORS
+    self.vendor_list = self.vendors.get_dropdown()
     self.account_codes = Data.ACCOUNT_CODES_DD
     self.cost_centres = Data.COST_CENTRES_DD
     self.lifecycles = Data.LIFECYCLES_DD
@@ -125,7 +127,14 @@ class Transaction(TransactionTemplate):
 
   def new_vendor_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    alert(Vendor(item=Data.Vendor()), large=True, title="New Vendor")
+    new_vendor = self.vendors.blank()
+    ret = alert(Vendor(item=new_vendor), large=True, title="New Vendor")
+    if ret:
+      try:
+        new_vendor = self.vendors.add(new_vendor.vendor_id, new_vendor)
+        new_vendor.save()
+      except Exception as e:
+        print("Failed to create new Vendor!")
 
   def actual_button_click(self, **event_args):
     """This method is called when the button is clicked"""
