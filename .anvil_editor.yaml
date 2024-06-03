@@ -2,7 +2,6 @@ unique_ids:
   forms:
     Dashboard.Content.RowTemplate5: '1686043400383166726421809.0958'
     Dashboard.Content.HeadlineStats: DBWU2UQRC5GEM6PJNRKRYECNWVZYJ5DC
-    Settings.Settings.SettingsMain: '1674865654002360699636164.9306'
     Tickets.Transaction: DVHICGP2CGK5DCPO3VCFWL5N3JRUEKIC
     Tickets.Transaction.TransactionEntries: '1716351811695359118225362.86285'
     Tickets.NewTransaction: XH6LDF5WVYZRBY7L6ZW7RN4JDIFFIC7E
@@ -14,7 +13,6 @@ unique_ids:
     Login: JDYKL2RICYLHXITPFUPGVYXDTXGH5C36
     Icons.AvatarBlank: UDWDECOYX5HF6CJQHL4EKPHHG6RD4E6E
     Vendors.Vendors.Vendor: '1675764484917627040103314.976'
-    Settings.Settings.SettingsMain.RowTemplate4: '1675068084224528433692608.88196'
     Tickets.NewTransaction.Account: ZALF5NHVB7K5235CXNSWY7PEYCXASBJY
     Icons.SignOutSVG: RZUD2LBSBPGW4DOQTZPSQ2KPC4W5UITV
     Icons.AvatarSmall: 3QHVTU7ZVNCFXCUQE6JUX6SPSAFNTIXC
@@ -25,10 +23,7 @@ unique_ids:
     Analyse.Analyse.AnalyseHeader: '1690365064811287403021592.84827'
     Dashboard.Content: SBZ46LNCXFIYVOS33Z4DSAGXK7EZXTK4
     Icons.DashboardSVG: LGW7AVIRIEPZTD5SSSCFCAYTFG37DQ5A
-    Settings.Settings.SettingsDetails: '1690082255085177853874105.2671'
     Analyse.Analyse: '1690364818339341842406025.8613'
-    Settings.Settings: '1674865567914624700277131.2924'
-    Settings.Settings.SettingsMain.RowTemplate3: '1674867718770291360982029.5187'
     Tickets.Transactions.TransactionList.TransactionRow: 4J3ZNGMN6CQ6AKDQCLQQM33STW5IBQGM
     Analyse.Analyse.AnalyseContent: '1690365794367893314728542.7845'
     Tickets.Transactions.TransactionList: PKKAQMZOAPITDOFK6PKTUH7PF5JHNSHV

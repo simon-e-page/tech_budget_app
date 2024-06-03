@@ -18,7 +18,7 @@ from ..Dashboard import Dashboard
 #from ..Customers.AccountDetailsOverlay import AccountDetailsOverlay
 from ..Tickets.NewTransaction import NewTransaction
 #from ..Customers.Account.AccountTransactions import AccountTransactions
-from ..Settings.Settings import Settings
+#from ..Settings.Settings import Settings
 from ..Analyse.Analyse import Analyse
 from ..Users.Users import Users
 from ..Vendors.Vendors import Vendors
@@ -138,18 +138,6 @@ class Homepage(HomepageTemplate):
     print("open_vendors complete")
 
 
-  def open_settings(self):
-    """ Open the settings form """
-    if self.settings_form_open:
-      pass
-    else:
-      self.settings_panel.role = 'dash-link-selected'
-      self.headline_label.text = "Rules"
-      self.current_form = Settings()
-      self.clear_page()
-      self.add_component(self.current_form, slot="default")
-      #self.add_component(AccountDetailsOverlay(item=item), slot="overlay")
-    #print("open_settings_account complete")
 
   def open_analyse(self):
     """ Open the settings form """
