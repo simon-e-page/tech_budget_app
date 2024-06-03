@@ -40,9 +40,6 @@ class Vendors(VendorsTemplate):
 
   def vendors_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
-
-    def header_filter_func(val, row_val, row_data, **params):
-      return str(row_val).startswith(val)
       
     self.vendors_table.columns = [
       row_selection_column,
@@ -50,7 +47,8 @@ class Vendors(VendorsTemplate):
         "title": "Name", 
         "field": "vendor_name", 
         'formatter': self.name_formatter,
-        'headerFilter': header_filter_func
+        'headerFilter': "input",
+        'headerFilterFunc': 'starts'
       },
       {
         "title": "Description", 
