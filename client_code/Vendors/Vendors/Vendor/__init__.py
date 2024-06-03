@@ -4,6 +4,8 @@ from anvil import *
 import datetime as dt
 
 from .... import Data
+from ....Data import Icons
+
 from tabulator.Tabulator import row_selection_column
 
 class Vendor(VendorTemplate):
@@ -28,7 +30,7 @@ class Vendor(VendorTemplate):
 
   def get_icon(self, icon_id):
     if icon_id:
-      return Data.ICONS.get_content(icon_id)
+      return Icons.ICONS.get_content(icon_id)
     
   def delete_formatter(self, cell, **params):
     key = params['key']
@@ -88,9 +90,9 @@ class Vendor(VendorTemplate):
     else:
       icon_id = "{0}_icon_{1}.{2}".format(self.item['vendor_name'], timestamp, ext)
     #try:
-    icon = Data.Icon(icon_id=icon_id, content=file)
+    icon = Icons.Icon(icon_id=icon_id, content=file)
     icon.save()
-    Data.ICONS.add(icon_id, icon)
+    Icons.ICONS.add(icon_id, icon)
     self.item['icon_id'] = icon_id
     self.refresh_data_bindings()
     #except Exception as e:    
