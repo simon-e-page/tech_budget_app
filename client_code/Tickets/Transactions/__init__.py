@@ -6,7 +6,7 @@ from datetime import date, datetime, time, timezone
 
 from ... import Data
 from ...Data import VendorsModel
-
+from ...Data import UsersModel
 
 class Transactions(TransactionsTemplate):
   """This Form is responsible for passing user-defined filters to the 'TransactionList' Form.
@@ -52,7 +52,7 @@ class Transactions(TransactionsTemplate):
     self.cost_centres = Data.COST_CENTRES_DD
     self.lifecycles = Data.LIFECYCLES_DD
     self.categories = Data.CATEGORIES_DD
-    self.owners = Data.OWNERS_DD
+    self.owners = UsersModel.OWNERS_DD
     self.service_changes = Data.SERVICE_CHANGES_DD
     self.billing_types = Data.BILLING_TYPES_DD
     self.transaction_types = ['Budget', 'Actual']
