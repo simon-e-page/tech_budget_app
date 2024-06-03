@@ -40,12 +40,15 @@ class Homepage(HomepageTemplate):
     self.transaction_form_open = False
     # Is the 'Customers' Form currently open? - set default to False
     self.accounts_form_open = False
+    self.vendors_form_open = False
     self.settings_form_open = False
     self.analyse_form_open = False
     self.accounts_transaction_form_open = False
     #self.last_import_id = ('', '')
     self.use_dashboard_cache = True
 
+    Data.record_login()
+    
     self.brands = Data.BRANDS_DD
     Data.CURRENT_BRAND = 'JB_AU'
     self.brand = Data.CURRENT_BRAND

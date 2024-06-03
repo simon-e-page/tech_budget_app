@@ -1,4 +1,5 @@
 import anvil.server
+import anvil.users
 import re
 import datetime as dt
 
@@ -757,8 +758,15 @@ def refresh():
 #  if icon:
 #    source = icon.content
 #  return source
-
-
+def record_login():
+  user = anvil.users.get_user()
+  email = user['email']
+  try:
+    anvil.server.call('Users', 'record_login', email)
+  except Exception as e:
+    print(f"Could not record login for {email}")
+    
+  
 def gpt_set_account_data(account_name):
   return None #anvil.server.call('gpt_set_account_data', account_name=account_name)
 
