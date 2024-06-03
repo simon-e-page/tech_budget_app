@@ -34,7 +34,7 @@ class TransactionEntries(TransactionEntriesTemplate):
     if item.transaction_id:
       self.t_data = item.get_all_entries()
     else:
-      self.t_data = { 'data': [], 'columns': [] }
+      self.t_data = None
       
     self.t_data_copy = deepcopy(self.t_data)
     self.transaction = item
@@ -47,6 +47,8 @@ class TransactionEntries(TransactionEntriesTemplate):
       self.render_table()
 
   def render_table(self):
+    if not self.t_data:
+      return
     #t = self.entry_table
     t = self.entries
     t.options.update(
