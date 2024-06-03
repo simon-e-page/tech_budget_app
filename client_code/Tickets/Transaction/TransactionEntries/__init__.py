@@ -30,7 +30,12 @@ class TransactionEntries(TransactionEntriesTemplate):
 
 
   def build_table(self, item):
-    self.t_data = item.get_all_entries()
+    print(item.transaction_id)
+    if item.transaction_id:
+      self.t_data = item.get_all_entries()
+    else:
+      self.t_data = []
+      
     self.t_data_copy = deepcopy(self.t_data)
     self.transaction = item
     self.entry_label = 'Budget / Forecast Entries' if item.transaction_type == 'Budget' else 'Actual Entries'
