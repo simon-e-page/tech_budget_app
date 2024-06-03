@@ -13,15 +13,15 @@ import anvil.users
 # from anvil.tables import app_tables
 import anvil.server
 from datetime import datetime
-from ...Data import UsersAndRoles
+from ...Data import UsersModel
 
 from tabulator.Tabulator import row_selection_column
 
 class Users(UsersTemplate):
 
   def __init__(self, **properties):
-    self.users = UsersAndRoles.USERS
-    self.roles = UsersAndRoles.ROLES
+    self.users = UsersModel.USERS
+    self.roles = UsersModel.ROLES
 
     self.selected_users = []
     self.selected_roles = []

@@ -6,7 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
-from .... import Data
+from ....Data import UsersModel
 
 class NewUser(NewUserTemplate):
   def __init__(self, **properties):
@@ -14,8 +14,8 @@ class NewUser(NewUserTemplate):
     self.user = {}
     self.role_obj = {}
     self.can_save = False
-    self.roles = Data.ROLES
-    self.users = Data.USERS
+    self.roles = UsersModel.ROLES
+    self.users = UsersModel.USERS
     
     self.init_components(**properties)
 

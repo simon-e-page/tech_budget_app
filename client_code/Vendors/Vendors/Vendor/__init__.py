@@ -4,7 +4,7 @@ from anvil import *
 import datetime as dt
 
 from .... import Data
-from ....Data import Icons
+from ....Data import IconsModel
 
 from tabulator.Tabulator import row_selection_column
 
@@ -12,6 +12,7 @@ class Vendor(VendorTemplate):
   def __init__(self, **properties):
     #self.name_unique = False
     self.vendor_list = Data.VENDORS.get_dropdown()
+    self.icons = IconsModel.ICONS
     #self.finance_tags_raw = ''
 
     self.finance_columns = [
@@ -30,7 +31,7 @@ class Vendor(VendorTemplate):
 
   def get_icon(self, icon_id):
     if icon_id:
-      return Icons.ICONS.get_content(icon_id)
+      return self.icons.get_content(icon_id)
     
   def delete_formatter(self, cell, **params):
     key = params['key']
@@ -90,9 +91,8 @@ class Vendor(VendorTemplate):
     else:
       icon_id = "{0}_icon_{1}.{2}".format(self.item['vendor_name'], timestamp, ext)
     #try:
-    icon = Icons.Icon(icon_id=icon_id, content=file)
+    icon = self.icons.new(icon_id=icon_id, content=file)
     icon.save()
-    Icons.ICONS.add(icon_id, icon)
     self.item['icon_id'] = icon_id
     self.refresh_data_bindings()
     #except Exception as e:    

@@ -73,6 +73,11 @@ class Icons(AttributeToDict):
       content = None
     return content
 
+  def new(self, icon_id, content):
+    icon = Icon(icon_id, content)
+    self.add(icon_id, icon)
+    return icon
+    
 #############################
 # MAIN
 ############################
