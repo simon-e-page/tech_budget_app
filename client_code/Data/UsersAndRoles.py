@@ -159,3 +159,6 @@ OWNERS_DD = [ (x,x) for x in OWNERS ]
 
 USERS = Users()
 ROLES = Roles()
+
+ROLES.load()
+USERS.load()

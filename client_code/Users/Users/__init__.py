@@ -13,22 +13,15 @@ import anvil.users
 # from anvil.tables import app_tables
 import anvil.server
 from datetime import datetime
-from ... import Data
+from ...Data import UsersAndRoles
+
 from tabulator.Tabulator import row_selection_column
 
 class Users(UsersTemplate):
-  """This Form displays transaction and account information for a single transaction. It also allows you to edit the transaction being displayed.
-
-  Keyword Arguments:
-    item - a row from the 'Transaction' Data Table
-    back - a dictionary containg the form to open and the filters to apply when back is clicked
-
-  A copy of this row from the 'Transaction' table is initialised as self.transaction_copy in form_refreshing_data_bindings()
-  """
 
   def __init__(self, **properties):
-    self.users = Data.USERS
-    self.roles = Data.ROLES
+    self.users = UsersAndRoles.USERS
+    self.roles = UsersAndRoles.ROLES
 
     self.selected_users = []
     self.selected_roles = []
