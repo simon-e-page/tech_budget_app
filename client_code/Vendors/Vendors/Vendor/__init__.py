@@ -4,15 +4,16 @@ from anvil import *
 import datetime as dt
 
 from .... import Data
-from ....Data import IconsModel
+from ....Data import IconsModel, VendorsModel
 
 from tabulator.Tabulator import row_selection_column
 
 class Vendor(VendorTemplate):
   def __init__(self, **properties):
     #self.name_unique = False
-    self.vendor_list = Data.VENDORS.get_dropdown()
+    self.vendor_list = VendorsModel.VENDORS.get_dropdown()
     self.icons = IconsModel.ICONS
+    self.vendors = VendorsModel.VENDORS
     #self.finance_tags_raw = ''
 
     self.finance_columns = [
@@ -70,7 +71,7 @@ class Vendor(VendorTemplate):
         self.item.save()
       else:
         self.item.vendor_id = self.item.vendor_name
-        ret = Data.VENDORS.new(self.item)
+        ret = self.vendors.new(self.item)
         if ret is not None:
           self.item = ret
         else:
@@ -90,15 +91,15 @@ class Vendor(VendorTemplate):
       alert("Unacceptable file type! Try again!")
     else:
       icon_id = "{0}_icon_{1}.{2}".format(self.item['vendor_name'], timestamp, ext)
-    #try:
-    icon = self.icons.new(icon_id=icon_id, content=file)
-    icon.save()
-    self.item['icon_id'] = icon_id
-    self.refresh_data_bindings()
-    #except Exception as e:    
-    #  alert("Error uploading new icon!")
-    #  icon = None
-    #  self.item['icon_id'] = ''
+    try:
+      icon = self.icons.new(icon_id=icon_id, content=file)
+      icon.save()
+      self.item['icon_id'] = icon_id
+      self.refresh_data_bindings()
+    except Exception as e:    
+      alert("Error uploading new icon!")
+      icon = None
+      self.item['icon_id'] = ''
 
   def add_finance_tag_button_click(self, **event_args):
     """This method is called when the button is clicked"""

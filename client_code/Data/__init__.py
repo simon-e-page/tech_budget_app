@@ -100,79 +100,6 @@ class AttributeToDict:
     return [ x.to_dict() for x in self.values() ]
 
 
-#####################################################################
-# VENDORS
-#####################################################################
-
-
-
-class Vendor(AttributeToKey):
-  _defaults = {
-    'vendor_name': 'New Vendor',
-    'description': 'Unknown vendor',
-    'finance_tags': [],
-    'prior_year_tags': [],
-    'deleted': False,
-    'active': True,
-    'notes': '',
-    'icon_id': '',
-    'vendor_url': ''
-  }
-
-  def __init__(self, vendor_json=None, **kwargs):
-    if vendor_json:
-      # TODO: Convert JSON object?
-      item = vendor_json
-    else:
-      item = kwargs
-      
-    # Remove any None values to force defaults to be used
-    for k, v in item.items():
-      if v is None:
-        del item[k]
-
-    self['vendor_id'] = item.get('vendor_id', None)
-    for field, default in self._defaults.items():
-      if default is not None:
-        self[field] = item.get(field, default)
-      else:
-        self[field] = item.get(field)
-
-  def save(self):
-    # Saves to backend as new or updated object
-    return anvil.server.call('Vendors', 'add_vendors', [self.to_dict()])    
-    
-  def to_dict(self):
-    d = { x: self[x] for x in self._defaults }
-    d['vendor_id'] = self.vendor_id
-    return d
-
-
-class Vendors(AttributeToDict):
-  def __init__(self, vendor_list=None):
-    self.__d__ = {}
-    if vendor_list:
-      for vn in vendor_list:
-        self.add(vn.vendor_id, vn)
-            
-  def get(self, vendor_id):
-    if vendor_id in self.__d__:
-      return self.__d__[vendor_id]
-
-  def new(self, vendor_data):
-    vendor_id = vendor_data['vendor_name']
-    if vendor_id in self.__d__:
-      print("Already an existing Vendor with that ID!")
-      return None
-    else:
-      self.add(vendor_id, Vendor(vendor_json=vendor_data))
-      return self.get(vendor_id)
-      
-  def load(self):
-    self.__d__ = {}
-    for role in anvil.server.call('Vendors', 'get_vendors'):
-      self.new(role)
-
 
 
 
@@ -503,7 +430,6 @@ class LazyTransactionList:
 #    return [] #anvil.server.call('get_import_ids', account_name)
 
 
-VENDORS = Vendors()
 TRANSACTIONS = LazyTransactionList()
 
 FIN_YEARS = None
@@ -518,10 +444,7 @@ def get_transactions():
   return TRANSACTIONS
 
 def refresh():
-  global VENDORS, FIN_YEARS, CURRENT_YEAR, BUDGET_YEAR
-  vendors = anvil.server.call('Vendors', 'get_vendors')
-  vendor_list = [ Vendor(vendor_json=x) for x in vendors ]
-  VENDORS = Vendors(vendor_list=vendor_list)
+  global FIN_YEARS, CURRENT_YEAR, BUDGET_YEAR
   FIN_YEARS, BUDGET_YEAR, CURRENT_YEAR = anvil.server.call('Calendar', 'get_fin_years')
   #USERS.load()
   #ROLES.load()
@@ -529,21 +452,9 @@ def refresh():
 #ICONS.load()
 
 #####################################################################
-# ORGANISATIONS
+# MISCELLANEOUS
 #####################################################################
-  
 
-
-#def get_icon(icon_id):
-#  # Loads icons on first load
-#  if ICONS.length() == 0:
-#    ICONS.load()
-#
-#  source = None
-#  icon = ICONS.get(icon_id, None)
-#  if icon:
-#    source = icon.content
-#  return source
 def record_login():
   user = anvil.users.get_user()
   email = user['email']

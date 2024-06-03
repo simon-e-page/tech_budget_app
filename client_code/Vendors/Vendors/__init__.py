@@ -1,20 +1,13 @@
 from ._anvil_designer import VendorsTemplate
 from anvil import *
-import anvil.tables as tables
-import anvil.tables.query as q
-from anvil.tables import app_tables
-
-# import anvil.google.auth, anvil.google.drive
-# from anvil.google.drive import app_files
 import anvil.users
-
-# import anvil.tables as tables
-# import anvil.tables.query as q
-# from anvil.tables import app_tables
 import anvil.server
+
 from datetime import datetime
-from ... import Data
 from tabulator.Tabulator import row_selection_column
+
+from ... import Data
+from ...Data import VendorsModel
 
 
 class Vendors(VendorsTemplate):
@@ -28,7 +21,7 @@ class Vendors(VendorsTemplate):
   """
 
   def __init__(self, **properties):
-    self.vendors = Data.VENDORS
+    self.vendors = VendorsModel.VENDORS
     self.selected_vendors = []
 
     self.add_event_handler("x-refresh-tables", self.refresh_tables)
