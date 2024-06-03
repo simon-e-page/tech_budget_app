@@ -47,6 +47,7 @@ class Vendor(VendorTemplate):
    
   def set_item(self, item):
     self.item = item
+    print(item.to_dict())
     self.refresh_data_bindings()
   
   def generate_tags(self, key):
@@ -116,6 +117,19 @@ class Vendor(VendorTemplate):
       self.item.prior_year_tags = list(set(current))
       self.prior_year_tag_dropdown.selected_value = None
       self.refresh_data_bindings()
+
+  def vendor_url_edit_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    new_url_textbox = TextBox(placeholder="Enter URL", type='url')
+    alert(content=new_url_textbox,
+          title="Enter the website address for this vendor")
+    new_url = new_url_textbox.text
+    
+    if new_url:
+      print(new_url)
+      self.item['verdor_url'] = new_url
+      self.refresh_data_bindings()
+
 
 
 

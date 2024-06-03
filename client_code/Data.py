@@ -261,6 +261,8 @@ class Vendor(AttributeToKey):
     'deleted': False,
     'active': True,
     'notes': '',
+    'icon_id': '',
+    'vendor_url': ''
   }
 
   def __init__(self, vendor_json=None, **kwargs):

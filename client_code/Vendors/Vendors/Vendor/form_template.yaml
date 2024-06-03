@@ -40,17 +40,34 @@ components:
         name: icon_image
         data_bindings:
         - {property: source, code: 'self.get_icon(self.item[''icon_id''])'}
-      - type: FileLoader
-        properties: {align: left, enabled: false}
-        name: icon_loader
+    - type: FileLoader
+      properties: {align: left, enabled: false}
+      name: icon_loader
+      layout_properties: {grid_position: 'NYIHKT,TZKTCA DWOCRL,GAGSVW'}
+      event_bindings: {change: icon_loader_change}
+      data_bindings:
+      - {property: enabled, code: 'self.item[''vendor_name'']', writeback: false}
+    - name: flow_panel_3
+      properties: {}
+      type: FlowPanel
+      layout_properties: {grid_position: 'NYIHKT,TZKTCA LYTUIT,DLRNFA'}
+      components:
+      - name: vendor_url_link
+        properties: {icon: 'fa:globe', text: 'Website  '}
+        type: Link
         layout_properties: {}
-        event_bindings: {change: icon_loader_change}
         data_bindings:
-        - {property: enabled, code: 'self.item[''vendor_name'']', writeback: false}
+        - {property: url, code: 'self.item[''vendor_url'']', writeback: false}
+        event_bindings: {}
+      - name: vendor_url_edit_button
+        properties: {text: '', icon: 'fa:edit', role: secondary-button}
+        type: Button
+        layout_properties: {}
+        event_bindings: {click: vendor_url_edit_button_click}
     - name: spacer_4
-      properties: {height: 156.2109375}
+      properties: {height: 14.8828125}
       type: Spacer
-      layout_properties: {grid_position: 'NYIHKT,TZKTCA'}
+      layout_properties: {grid_position: 'NYIHKT,TZKTCA YDTMOI,TVKDHH'}
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
       visible: true, text: 'Name:', font_size: null, font: '', spacing_above: small,
@@ -92,13 +109,17 @@ components:
       layout_properties: {}
       data_bindings:
       - {property: checked, code: 'self.item[''active'']', writeback: true}
+  - name: label_2
+    properties: {text: 'Prior Year Synonyms:', bold: true}
+    type: Label
+    layout_properties: {grid_position: 'DPKUVC,HUJRYE DWKEBE,LGYRWR'}
   - type: LinearPanel
     properties: {}
     name: linear_panel_4
     layout_properties: {grid_position: 'DPKUVC,WSIPHF'}
     components: []
   - type: ColumnPanel
-    properties: {col_widths: '{}'}
+    properties: {col_widths: '{}', border: dotted, foreground: ''}
     name: column_panel_3
     layout_properties: {grid_position: 'DOGXEZ,BCKOQO YVZJGF,WBKJDX'}
     components:
@@ -107,10 +128,6 @@ components:
       name: linear_panel_2
       layout_properties: {grid_position: 'PGEKLM,JTYFIO'}
       components:
-      - name: label_2
-        properties: {text: 'Prior Year Synonyms:', bold: true}
-        type: Label
-        layout_properties: {}
       - name: prior_year_table
         properties: {index: prior_year_tags, pagination_size: 5, header_visible: false}
         type: form:TGQCF3WT6FVL2EM2:Tabulator
@@ -126,7 +143,7 @@ components:
           properties:
             items: [self.vendor_list]
             include_placeholder: true
-            placeholder: Add new synonym
+            placeholder: Select new synonym
           type: DropDown
           layout_properties: {width: 348.9144375}
           data_bindings:
@@ -142,36 +159,42 @@ components:
       spacing_above: small, icon_align: left, spacing_below: small, italic: false,
       background: '', bold: true, underline: false, icon: ''}
     name: label_14
-    layout_properties: {grid_position: 'DOGXEZ,BCKOQO FFLKJR,MESZCQ'}
-  - name: finance_table
-    properties: {pagination_size: 5, header_visible: false, spacing_below: none, index: finance_tags}
-    type: form:TGQCF3WT6FVL2EM2:Tabulator
-    layout_properties: {grid_position: 'DOGXEZ,BCKOQO CCEFIG,PPPSTF'}
-    data_bindings:
-    - {property: data, code: self.generate_tags('finance_tags'), writeback: false}
-    - {property: columns, code: self.finance_columns, writeback: false}
-  - name: flow_panel_5
-    properties: {spacing_above: none}
-    type: FlowPanel
-    layout_properties: {grid_position: 'DOGXEZ,BCKOQO EPABMY,BONEYZ'}
+    layout_properties: {grid_position: 'DOGXEZ,BCKOQO XBBMDY,IOSSKF'}
+  - name: column_panel_5
+    properties: {border: dotted}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'DOGXEZ,BCKOQO YKLIYT,AJXFYE'}
     components:
-    - name: finance_tag_dropdown
-      properties:
-        items: [self.vendors]
-        include_placeholder: true
-        placeholder: Add new synonym
-        spacing_above: none
-      type: DropDown
-      layout_properties: {width: 350.7268125}
+    - name: finance_table
+      properties: {pagination_size: 5, header_visible: false, spacing_below: none,
+        index: finance_tags}
+      type: form:TGQCF3WT6FVL2EM2:Tabulator
+      layout_properties: {grid_position: 'ZHDXSI,FYSARI'}
       data_bindings:
-      - {property: items, code: self.vendor_list, writeback: false}
-    - name: add_finance_tag_button
-      properties: {text: '', icon: 'fa:arrow-circle-up', enabled: true, role: secondary-button,
-        spacing_above: none}
-      type: Button
-      layout_properties: {}
-      event_bindings: {click: add_finance_tag_button_click}
-      data_bindings: []
+      - {property: data, code: self.generate_tags('finance_tags'), writeback: false}
+      - {property: columns, code: self.finance_columns, writeback: false}
+    - name: flow_panel_5
+      properties: {spacing_above: none}
+      type: FlowPanel
+      layout_properties: {grid_position: 'LEXWRM,EGQNLC'}
+      components:
+      - name: finance_tag_dropdown
+        properties:
+          items: [self.vendors]
+          include_placeholder: true
+          placeholder: Select new synonym
+          spacing_above: none
+        type: DropDown
+        layout_properties: {width: 350.7268125}
+        data_bindings:
+        - {property: items, code: self.vendor_list, writeback: false}
+      - name: add_finance_tag_button
+        properties: {text: '', icon: 'fa:arrow-circle-up', enabled: true, role: secondary-button,
+          spacing_above: none}
+        type: Button
+        layout_properties: {}
+        event_bindings: {click: add_finance_tag_button_click}
+        data_bindings: []
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
       visible: true, text: 'Notes:', font_size: null, font: '', spacing_above: small,
