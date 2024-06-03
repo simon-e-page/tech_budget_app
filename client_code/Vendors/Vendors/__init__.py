@@ -68,7 +68,7 @@ class Vendors(VendorsTemplate):
       "index": "vendor_id",  # or set the index property here
       "selectable": "highlight",
       'css_class': ["table-striped", "table-bordered", "table-condensed"],
-      'pagination_size': 15
+      'pagination_size': 10
     }
 
     self.vendors_table.data = self.vendors.to_records()

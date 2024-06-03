@@ -43,14 +43,15 @@ class Users(UsersTemplate):
   def roles_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
     self.roles_table.columns = [
-      row_selection_column,
       {"title": 'Role Name', "field": 'role_name' },
       {"title": 'Description' , "field": 'role_description', 'editor': 'input' },
       {"title": 'Create User' , "field": 'perm_create_user', 'editor': 'tickCross', 'formatter': 'tickCross' },
       {"title": 'Create Actuals' , "field": 'perm_create_actual', 'editor': 'tickCross', 'formatter': 'tickCross' },
       {"title": 'Create Vendors' , "field": 'perm_create_vendor', 'editor': 'tickCross', 'formatter': 'tickCross' },
       {"title": 'Create Budgets' , "field": 'perm_create_budget', 'editor': 'tickCross', 'formatter': 'tickCross' },
-      {"title": 'Read Budgets' , "field": 'perm_read_budget', 'formatter': 'tickCross' },    
+      {"title": 'Read Budgets' , "field": 'perm_read_budget', 'formatter': 'tickCross' },  
+      {'title': '', 'field': 'delete', 'formatter': self.delete_formatter, 'formatterParams': {'key': 'role_name'}, 'width': 50 }
+      
     ]
     
     self.roles_table.options = {
@@ -62,12 +63,16 @@ class Users(UsersTemplate):
 
   def users_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
+    listParams = {
+      'values': list(self.roles.to_dict().keys())
+    }
+    
     self.users_table.columns = [
-      row_selection_column,
-      {"title": 'Email', "field": 'email' },
+      {"title": 'Email', "field": 'email', 'headerFilter': 'input', 'headerFilterFunc': 'starts' },
       {"title": 'Full Name' , "field": 'full_name', 'editor': 'input' },
-      {"title": 'Role' , "field": 'role_name' },
-      {"title": 'Team' , "field": 'team', 'editor': 'input' }
+      {"title": 'Role' , "field": 'role_name', 'editor': 'list', 'editorParams': listParams },
+      {"title": 'Team' , "field": 'team', 'editor': 'input' },
+      {'title': '', 'field': 'delete', 'formatter': self.delete_formatter, 'formatterParams': {'key': 'email'}, 'width': 50 }
     ]
     
     self.users_table.options = {
@@ -90,6 +95,27 @@ class Users(UsersTemplate):
     role = self.roles.get(data['role_name'])
     role.update(data)
     role.save()
+
+  def delete_formatter(self, cell, **params):
+    key = params['key']
+    tag = cell.getData()[key]
+    if key == 'email':
+      table = self.users
+      tablename = 'Users'
+    else:
+      table = self.roles
+      tablename = 'Roles'
+    
+    def delete_tag(sender, **event_args):
+      id_value = sender.tag
+      if confirm(f"About to delete {id_value} from {tablename}! Are you sure?"):
+        print(f"Deleting {id_value} from {tablename}")
+        table.get(id_value).delete()
+        self.refresh_data_bindings()
+  
+    link = Link(icon='fa:trash', tag=tag)
+    link.set_event_handler('click', delete_tag)
+    return link
 
   def delete_role_button_click(self, **event_args):
     """This method is called when the button is clicked"""
