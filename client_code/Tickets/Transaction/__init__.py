@@ -128,7 +128,7 @@ class Transaction(TransactionTemplate):
   def new_vendor_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     new_vendor = self.vendors.blank()
-    ret = alert(Vendor(item=new_vendor), large=True, title="New Vendor")
+    ret = alert(Vendor(item=new_vendor, show_save=False), large=True, title="New Vendor", buttons={'OK': True, 'Cancel': False})
     if ret:
       try:
         new_vendor = self.vendors.add(new_vendor.vendor_id, new_vendor)

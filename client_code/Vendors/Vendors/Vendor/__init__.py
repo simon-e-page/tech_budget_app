@@ -10,6 +10,7 @@ from tabulator.Tabulator import row_selection_column
 class Vendor(VendorTemplate):
   def __init__(self, **properties):
     #self.name_unique = False
+    self.show_save = properties.get('show_save', True)
     self.vendor_list = VendorsModel.VENDORS.get_dropdown()
     self.icons = IconsModel.ICONS
     self.vendors = VendorsModel.VENDORS
