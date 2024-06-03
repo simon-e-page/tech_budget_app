@@ -120,14 +120,14 @@ class Vendor(VendorTemplate):
 
   def vendor_url_edit_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    new_url_textbox = TextBox(placeholder="Enter URL", type='url')
+    placeholder = self.item['vendor_url'] or "Enter URL"
+    new_url_textbox = TextBox(placeholder=placeholder, type='url')
     alert(content=new_url_textbox,
           title="Enter the website address for this vendor")
     new_url = new_url_textbox.text
     
     if new_url:
-      print(new_url)
-      self.item['verdor_url'] = new_url
+      self.item['vendor_url'] = new_url
       self.refresh_data_bindings()
 
 

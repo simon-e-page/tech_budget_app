@@ -40,28 +40,37 @@ class Vendors(VendorsTemplate):
 
   def vendors_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
+
+    def header_filter_func(val, row_val, row_data, **params):
+      return str(row_val).startswith(val)
+      
     self.vendors_table.columns = [
       row_selection_column,
       {
         "title": "Name", 
-       "field": "vendor_name", 
-       'formatter': self.name_formatter},
+        "field": "vendor_name", 
+        'formatter': self.name_formatter,
+        'headerFilter': header_filter_func
+      },
       {
         "title": "Description", 
         "field": "description", 
-        "editor": "input"
+        "editor": "textarea",
+        'headerFilter': "input"
       },
       {
         "title": "Active", 
         "field": "active", 
-        'formatter': 'tickCross'
+        'formatter': 'tickCross',
+        'width': 50
       },      
     ]
 
     self.vendors_table.options = {
       "index": "vendor_id",  # or set the index property here
       "selectable": "highlight",
-      'css_class': ["table-striped", "table-bordered", "table-condensed"]
+      'css_class': ["table-striped", "table-bordered", "table-condensed"],
+      'pagination_size': 15
     }
 
     self.vendors_table.data = self.vendors.to_records()

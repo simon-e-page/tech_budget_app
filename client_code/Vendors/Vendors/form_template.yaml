@@ -34,7 +34,7 @@ components:
         data_bindings: []
         layout_properties: {}
     - name: vendors_table
-      properties: {index: vendor_id, pagination_size: 20}
+      properties: {index: vendor_id, pagination_size: 10}
       type: form:TGQCF3WT6FVL2EM2:Tabulator
       layout_properties: {grid_position: 'CLCFZG,JSOUJL'}
       event_bindings: {table_built: vendors_table_table_built, cell_edited: vendors_table_cell_edited,
