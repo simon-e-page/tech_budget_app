@@ -11,6 +11,7 @@ from operator import itemgetter
 import anvil.server
 from .... import Data
 
+from ....Data import TransactionsModel
       
 class TransactionList(TransactionListTemplate):
   """This Form is responsible for fetching transactions from the server and displaying them.
@@ -30,10 +31,8 @@ class TransactionList(TransactionListTemplate):
     self.filters = {}
     self.date_filter = {}
     self.filter_settings = {}
-    self.transactions = Data.get_transactions()
+    self.transactions = TransactionsModel.get_transactions()
     
-    #self.accounts = Data.ACCOUNTS_D.get_dropdown()
-    #self.accounts_d = Data.ACCOUNTS_D
 
     # These controls all appear / disappear as a group
     self.select_controls = [
@@ -198,7 +197,7 @@ class TransactionList(TransactionListTemplate):
     if confirm('Are you sure you want to delete {0} transactions?'.format(len(self.selected_transactions)), large=True):
       count = len(self.selected_transactions)
       ids = [ x.transaction_id for x in self.selected_transactions ]
-      Data.TRANSACTIONS.delete(ids)
+      self.transactions.delete(ids)
       Notification("{0} records deleted".format(count)).show()
       self.clear_selected_link_click()
       self.transactions.clear_cache()
@@ -231,7 +230,7 @@ class TransactionList(TransactionListTemplate):
     
     if changed and confirm(message, large=True):
       ids = [ x.transaction_id for x in self.selected_transactions ]
-      count = Data.TRANSACTIONS.update(ids, updates)
+      count = self.transactions.update(ids, updates)
       Notification("{0} transactions updated successfully!".format(count)).show()
       self.clear_selected_link_click()
       page = self.transactions.get_current_page()
@@ -313,8 +312,8 @@ class TransactionList(TransactionListTemplate):
       #direction='ascending'
       #date_filter={}
 
-      transaction_ids = [ x.transaction_id for x in Data.TRANSACTIONS.search(filters=filters) ]
-      Data.TRANSACTIONS.delete(transaction_ids)
+      transaction_ids = [ x.transaction_id for x in self.transactions.search(filters=filters) ]
+      self.transactions.delete(transaction_ids)
         
       #count = anvil.server.call('get_and_delete_transactions', sort=sort, filters=filters, date_filter=date_filter, direction=direction)
       Notification("{0} transactions deleted".format(len(transaction_ids))).show()

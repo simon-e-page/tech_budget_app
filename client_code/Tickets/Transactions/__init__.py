@@ -8,6 +8,7 @@ from ... import Data
 from ...Data import VendorsModel
 from ...Data import UsersModel
 
+
 class Transactions(TransactionsTemplate):
   """This Form is responsible for passing user-defined filters to the 'TransactionList' Form.
   

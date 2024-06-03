@@ -12,6 +12,7 @@ from datetime import datetime
 from ... import Data
 from ... import Validation
 from ...Data import VendorsModel
+from ...Data import TransactionsModel
 from ...Vendors.Vendors.Vendor import Vendor
 
 class Transaction(TransactionTemplate):
@@ -26,6 +27,7 @@ class Transaction(TransactionTemplate):
   
   def __init__(self, item, back=None, **properties):
     self.vendors = VendorsModel.VENDORS
+    self.transactions = TransactionsModel.get_transactions()
     self.vendor_list = self.vendors.get_dropdown()
     self.account_codes = Data.ACCOUNT_CODES_DD
     self.cost_centres = Data.COST_CENTRES_DD
@@ -86,7 +88,7 @@ class Transaction(TransactionTemplate):
       Notification('Transaction details updated successfully').show()
     else:
       try:
-        self.item = Data.TRANSACTIONS.new(self.item)
+        self.item = self.transactions.new(self.item)
         Notification('Transaction details updated successfully').show()
       except Exception as e:
         Notification("Error adding new Transaction! Check logs!").show()
