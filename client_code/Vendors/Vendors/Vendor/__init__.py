@@ -86,16 +86,16 @@ class Vendor(VendorTemplate):
       alert("Unacceptable file type! Try again!")
     else:
       icon_id = "{0}_icon_{1}.{2}".format(self.item['vendor_name'], timestamp, ext)
-    try:
-      icon = Data.Icon(icon_id=icon_id, content=file)
-      icon.save()
-      Data.ICONS.add(icon_id, icon)
-      self.item['icon_id'] = icon_id
-      self.refresh_data_bindings()
-    except Exception as e:    
-      alert("Error uploading new icon!")
-      icon = None
-      self.item['icon_id'] = ''
+    #try:
+    icon = Data.Icon(icon_id=icon_id, content=file)
+    icon.save()
+    Data.ICONS.add(icon_id, icon)
+    self.item['icon_id'] = icon_id
+    self.refresh_data_bindings()
+    #except Exception as e:    
+    #  alert("Error uploading new icon!")
+    #  icon = None
+    #  self.item['icon_id'] = ''
 
   def add_finance_tag_button_click(self, **event_args):
     """This method is called when the button is clicked"""
