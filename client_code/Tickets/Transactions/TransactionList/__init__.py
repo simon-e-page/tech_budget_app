@@ -11,7 +11,6 @@ from operator import itemgetter
 import anvil.server
 from .... import Data
 
-
       
 class TransactionList(TransactionListTemplate):
   """This Form is responsible for fetching transactions from the server and displaying them.

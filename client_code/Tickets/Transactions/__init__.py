@@ -1,14 +1,11 @@
 from ._anvil_designer import TransactionsTemplate
 from anvil import *
-#import anvil.google.auth, anvil.google.drive
-#from anvil.google.drive import app_files
 import anvil.users
-#import anvil.tables as tables
-#import anvil.tables.query as q
-#from anvil.tables import app_tables
 import anvil.server
-from ... import Data
 from datetime import date, datetime, time, timezone
+
+from ... import Data
+from ...Data import VendorsModel
 
 
 class Transactions(TransactionsTemplate):
@@ -24,6 +21,9 @@ class Transactions(TransactionsTemplate):
       initial_filters (optional): dict of filters on the transaction view
       initial_date_filters (optional): dict of date filters on the transaction view
     """
+    self.vendors = VendorsModel.VENDORS
+    self.vendor_list = self.vendors.get_dropdown()
+    
     self.filter_settings = filter_settings or {}
     self.direction = direction
     self.filters = initial_filters or { 'brand': Data.CURRENT_BRAND }
@@ -48,7 +48,6 @@ class Transactions(TransactionsTemplate):
     else:
       self.set_date_filter_settings()
 
-    self.vendors = Data.VENDORS.get_dropdown()
     self.account_codes = Data.ACCOUNT_CODES_DD
     self.cost_centres = Data.COST_CENTRES_DD
     self.lifecycles = Data.LIFECYCLES_DD

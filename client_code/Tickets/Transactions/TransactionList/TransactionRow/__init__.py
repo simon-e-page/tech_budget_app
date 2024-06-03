@@ -1,15 +1,11 @@
 from ._anvil_designer import TransactionRowTemplate
 from anvil import *
-#import anvil.google.auth, anvil.google.drive
-#from anvil.google.drive import app_files
 import anvil.users
-#import anvil.tables as tables
-#import anvil.tables.query as q
-#from anvil.tables import app_tables
 import anvil.server
 from datetime import datetime, date
+
 from ..... import Data
-from ... import Transactions
+#from ... import Transactions
 
 class TransactionRow(TransactionRowTemplate):
   """This Form is the ItemTemplate of the 'TransactionList' Form."""
@@ -35,15 +31,11 @@ class TransactionRow(TransactionRowTemplate):
       self.role = "tickets-repeating-panel"
 
   def vendor_id_link_click(self, **event_args):
-    return
     # Navigate to the 'Customers.Accounts' Form is the name is clicked
     homepage = get_open_form()
-    homepage.open_account_transactions(account)
+    homepage.open_vendors_form(selected_vendor=self.item['vendor_id'])
 
   
-  def get_icon(self, icon_id):
-    return Data.get_icon(icon_id)  
-
 
 
   
