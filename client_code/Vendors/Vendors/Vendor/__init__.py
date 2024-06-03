@@ -3,8 +3,7 @@ from anvil import *
 
 import datetime as dt
 
-from .... import Data
-from ....Data import IconsModel, VendorsModel
+from ....Data import IconsModel, VendorsModel, ACCEPTABLE_IMAGES
 
 from tabulator.Tabulator import row_selection_column
 
@@ -86,7 +85,7 @@ class Vendor(VendorTemplate):
   def icon_loader_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
     timestamp = dt.datetime.now().strftime('%Y%m%d_%H%M')
-    ext = Data.ACCEPTABLE_IMAGES.get(file.content_type, None)
+    ext = ACCEPTABLE_IMAGES.get(file.content_type, None)
     if ext is None:
       alert("Unacceptable file type! Try again!")
     else:
