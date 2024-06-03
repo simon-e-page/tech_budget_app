@@ -1,24 +1,12 @@
 from ._anvil_designer import HomepageTemplate
 from anvil import *
-##import anvil.google.auth, anvil.google.drive
-##from anvil.google.drive import app_files
 import anvil.users
-#import anvil.tables as tables
-#import anvil.tables.query as q
-#from anvil.tables import app_tables
 import anvil.server
 import plotly.graph_objs as go
 
 from ..Tickets.Transactions import Transactions
 from ..Tickets.Transaction import Transaction
 from ..Dashboard import Dashboard
-#from ..Customers.Accounts import Accounts
-#from ..Customers.Account import Account
-#from ..Customers.Account.Details import Details
-#from ..Customers.AccountDetailsOverlay import AccountDetailsOverlay
-from ..Tickets.NewTransaction import NewTransaction
-#from ..Customers.Account.AccountTransactions import AccountTransactions
-#from ..Settings.Settings import Settings
 from ..Analyse.Analyse import Analyse
 from ..Users.Users import Users
 from ..Vendors.Vendors import Vendors
@@ -39,11 +27,8 @@ class Homepage(HomepageTemplate):
     # Is the 'Ticket' Form currently open? - set default to False
     self.transaction_form_open = False
     # Is the 'Customers' Form currently open? - set default to False
-    self.accounts_form_open = False
     self.vendors_form_open = False
-    self.settings_form_open = False
     self.analyse_form_open = False
-    self.accounts_transaction_form_open = False
     #self.last_import_id = ('', '')
     self.use_dashboard_cache = True
 
@@ -112,19 +97,6 @@ class Homepage(HomepageTemplate):
       self.transaction_form_open = True
       print("opened form")
   
-  def open_new_transaction_form(self, initial_account={}):
-    """Open the 'Transaction' Form with an emptt record, by adding it to the "default" slot.
-    
-    Argments:
-      initial_account - Can be passed in to create a transaction for a specific account. 
-                         Expects a row from the Accounts Data Table
-    """
-    self.transaction_panel.role = 'dash-link-selected'
-    self.headline_label.text = "New Budget Line"
-    self.current_form = Transaction(Data.Transaction(transaction_json={}))
-    self.clear_page()
-    self.add_component(self.current_form, slot="default")
-
     
   def open_vendors(self):
     """Open the 'Vendors' Form, by adding it to the "default" slot."""
