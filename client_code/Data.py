@@ -33,7 +33,6 @@ BILLING_TYPES_DD = [ (x,x) for x in BILLING_TYPES ]
 OWNERS = ['SimonPage', 'AnitaMatuszewski']
 OWNERS_DD = [ (x,x) for x in OWNERS ]
 
-ICONS = {}
 ACCEPTABLE_IMAGES = {'image/png': 'png', 'image/jpg': 'jpg', 'image/jpeg': 'jpeg'}
 
 class AttributeToKey:
@@ -700,6 +699,7 @@ VENDORS = Vendors()
 TRANSACTIONS = LazyTransactionList()
 USERS = Users()
 ROLES = Roles()
+ICONS = Icons()
 
 FIN_YEARS = None
 CURRENT_YEAR = None
@@ -729,16 +729,16 @@ def refresh():
   
 
 
-def get_icon(icon_id):
-  # Loads icons on first load
-  if ICONS.length() == 0:
-    ICONS.load()
-
-  source = None
-  icon = ICONS.get(icon_id, None)
-  if icon:
-    source = icon.content
-  return source
+#def get_icon(icon_id):
+#  # Loads icons on first load
+#  if ICONS.length() == 0:
+#    ICONS.load()
+#
+#  source = None
+#  icon = ICONS.get(icon_id, None)
+#  if icon:
+#    source = icon.content
+#  return source
 
 
 def gpt_set_account_data(account_name):
