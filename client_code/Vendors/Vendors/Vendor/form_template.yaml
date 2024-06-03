@@ -18,7 +18,7 @@ components:
     data_bindings:
     - {property: text, code: 'self.item.get(''vendor_name'',"Add New Vendor")', writeback: false}
 - type: ColumnPanel
-  properties: {col_widths: '{"HUJRYE":30,"WSIPHF":30,"BCKOQO":30,"BXPKPS":30}'}
+  properties: {col_widths: '{"HUJRYE":35,"WSIPHF":25,"BCKOQO":35,"BXPKPS":25}'}
   name: column_panel_1
   layout_properties: {slot: slot-content}
   components:

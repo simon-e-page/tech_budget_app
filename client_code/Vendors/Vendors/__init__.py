@@ -53,7 +53,7 @@ class Vendors(VendorsTemplate):
         "title": "Active", 
         "field": "active", 
         'formatter': 'tickCross',
-        'width': 50
+        'width': 100
       },      
     ]
 
