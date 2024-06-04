@@ -39,7 +39,8 @@ class BudgetLines(BudgetLinesTemplate):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
 
     def link_formatter(cell, **params):
-      tag = cell.getData()['transaction_id']
+      print(dict(cell.getData()))
+      tag = dict(cell.getData())['transaction_id']
   
       def open_budgetline(sender, **event_args):
         transaction_id = sender.text

@@ -65,7 +65,9 @@ class Transaction(AttributeToKey):
     anvil.server.call('Transactions', 'delete_transactions', [self.transaction_id])
 
   def to_dict(self):
-    return { x: self[x] for x in list(self._defaults.keys()) }
+    d = { x: self[x] for x in list(self._defaults.keys()) }
+    d['transaction_id'] = self.transaction_id
+    return d
 
   # TODO: Review - do we need this?
   def copy(self):
