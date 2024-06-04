@@ -1,7 +1,7 @@
 container:
   type: HtmlTemplate
   properties: {tooltip: '', background: '', foreground: '', border: '', visible: true,
-    role: null, html: '@theme:standard-page.html'}
+    role: null, html: '@theme:budget_lines.html'}
   event_bindings: {}
 components:
 - type: ColumnPanel
