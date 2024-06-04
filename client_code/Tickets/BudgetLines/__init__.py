@@ -66,7 +66,31 @@ class BudgetLines(BudgetLinesTemplate):
         "headerFilter": "input",
         "headerFilterFunc": "starts",
       },
-      {"title": "Active", "field": "active", "formatter": "tickCross", "width": 100},
+      {
+        "title": "Category",
+        "field": "category",
+        "headerFilter": "input",
+        "headerFilterFunc": "starts",
+      },
+      {
+        "title": "Account Code",
+        "field": "account_code",
+        "headerFilter": "input",
+        "headerFilterFunc": "starts",
+      },
+      {
+        "title": "Cost Centre",
+        "field": "cost_centre",
+        "headerFilter": "input",
+        "headerFilterFunc": "starts",
+      },
+      {
+        "title": "Service Change",
+        "field": "service_change",
+        "headerFilter": "input",
+        "headerFilterFunc": "starts",
+      },
+      {"title": "Active", "field": "active", "formatter": "tickCross", 'formatterParams': {allowTruthy:true, "width": 100},
     ]
 
     self.budget_lines_table.options = {
