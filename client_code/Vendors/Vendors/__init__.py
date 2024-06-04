@@ -85,7 +85,7 @@ class Vendors(VendorsTemplate):
   def vendors_table_cell_edited(self, cell, **event_args):
     """This method is called when a cell is edited"""
     data = dict(cell.getData())
-    vendor = self.users.get(data["vendor_id"])
+    vendor = self.vendors.get(data["vendor_id"])
     vendor.update(data)
     vendor.save()
 
