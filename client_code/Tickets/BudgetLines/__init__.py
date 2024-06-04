@@ -29,7 +29,8 @@ class BudgetLines(BudgetLinesTemplate):
     self.init_components(**properties)
 
   def reload(self):
-    self.budget_data = self.transactions.load(transaction_type='Budget')
+    self.transactions.load(transaction_type='Budget')
+    self.budget_data = self.transactions.to_records()
 
   def refresh_tables(self, *args, **kwargs):
     self.budget_lines_table_table_built()
@@ -99,7 +100,7 @@ class BudgetLines(BudgetLinesTemplate):
     vendor.update(data)
     vendor.save()
 
-  def delete_vendor_button_click(self, **event_args):
+  def delete_transaction_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     num_lines = len(self.selected_lines)
     if confirm(f"About to delete {num_lines} users! Are you sure?"):

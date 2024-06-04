@@ -93,7 +93,7 @@ class Transaction(AttributeToKey):
 
     
 class LazyTransactionList:  
-  def __init__(self, sort='vendor_id', filters={'active': True}, date_filter={}, direction='descending', page_size=10, initial_page=0):
+  def __init__(self, sort='vendor_id', filters={'deleted': False}, date_filter={}, direction='descending', page_size=10, initial_page=0):
     # Page numbers are zero indexed to match DataGrid
     self.page_loaded = []
     self.indexed = {}
@@ -205,7 +205,8 @@ class LazyTransactionList:
     return length, slice
 
   def load(self, start=None, end=None, **kwargs):
-    self.length, self.data = self._load(start=start, end=end, **kwargs)
+    self.length, slice = self._load(start=start, end=end, **kwargs)
+    self.data = [ Transaction(transaction_json=x) for x in slice ]
     
   def get_page(self, page):
     start = int(page * self.page_size)
@@ -318,6 +319,9 @@ class LazyTransactionList:
     matched_trans = [ Transaction(transaction_json=x) for x in matched_trans_list ]
     return matched_trans
 
+  def to_records(self):
+    return [ x.to_dict() for x in self.data ]
+    
 
 #############
 # MAIN
