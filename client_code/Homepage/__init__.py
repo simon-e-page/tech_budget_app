@@ -56,20 +56,16 @@ class Homepage(HomepageTemplate):
     self.current_form = Dashboard(use_dashboard_cache=self.use_dashboard_cache)
     self.clear_page()
     self.add_component(self.current_form, slot="default")
+
+  def open_actuals(self, initial_filters={}, initial_date_filter={}, initial_page=0, filter_settings={}, direction='descending'):
+    self.current_form = BudgetLines(mode='Actual')
+    self.transaction_panel.role = 'dash-link-selected'
+    self.headline_label.text = "Actual Lines"
+    self.clear_page()
+    self.add_component(self.current_form, slot="default")
   
   def open_transactions(self, initial_filters={}, initial_date_filter={}, initial_page=0, filter_settings={}, direction='descending'):
-    """Open the 'Transactions' Form, by adding it to the "default" slot.
-    
-    Arguments:
-      initial_filters - can be passed through to instantiate 
-                        the 'Transactions' Form with filters already in place.
-                        e.g initial_filters={'status': Data.OPEN} to show all unresolved Tickets.
-      initial_date_filters - as with initial_filters, but for dates.
-      initial_page - page of data_grid to display
-      filter_settings - settings to update controls
-    """
-    #self.current_form = Transactions(initial_filters, initial_date_filter, initial_page=initial_page, filter_settings=filter_settings, direction=direction)
-    self.current_form = BudgetLines(initial_filters=initial_filters, initial_date_filter=initial_date_filter, initial_page=initial_page, filter_settings=filter_settings, direction=direction)
+    self.current_form = BudgetLines(mode='Budget')
     self.transaction_panel.role = 'dash-link-selected'
     self.headline_label.text = "Budget Lines"
     self.clear_page()
@@ -190,6 +186,10 @@ class Homepage(HomepageTemplate):
     self.current_form = Users()
     self.clear_page()
     self.add_component(self.current_form, slot="default")
+
+  def link_1_click(self, **event_args):
+    """This method is called when the link is clicked"""
+    self.open_actuals()
 
 
       

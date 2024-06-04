@@ -62,6 +62,20 @@ components:
       name: transaction_link
       layout_properties: {}
       event_bindings: {click: transaction_link_click}
+  - name: flow_panel_2
+    properties: {spacing: none, vertical_align: middle, spacing_above: none}
+    type: FlowPanel
+    components:
+    - name: spacer_2
+      properties: {height: 32}
+      type: Spacer
+      layout_properties: {width: 35.44923125}
+    - name: link_1
+      properties: {text: Actual Lines}
+      type: Link
+      layout_properties: {}
+      event_bindings: {click: link_1_click}
+    layout_properties: {}
   - type: FlowPanel
     properties: {role: dash-link, spacing: none, align: left, tooltip: '', border: '',
       foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
