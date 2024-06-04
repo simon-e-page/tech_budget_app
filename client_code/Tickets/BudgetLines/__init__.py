@@ -8,7 +8,7 @@ from tabulator.Tabulator import row_selection_column
 
 from ... import Data
 from ...Data import VendorsModel, TransactionsModel
-
+from ...Vendors.Vendors.Vendor import Vendor
 
 class BudgetLines(BudgetLinesTemplate):
 
@@ -39,7 +39,6 @@ class BudgetLines(BudgetLinesTemplate):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
 
     def link_formatter(cell, **params):
-      print(dict(cell.getData()))
       tag = dict(cell.getData())['transaction_id']
   
       def open_budgetline(sender, **event_args):
@@ -54,6 +53,26 @@ class BudgetLines(BudgetLinesTemplate):
       link.set_event_handler("click", open_budgetline)
       return link
 
+    def vendor_formatter(cell, **params):
+      tag = cell.get_value()
+  
+      def open_vendor(sender, **event_args):
+        vendor_id = sender.tag
+        print("Opening vendor: {0}".format(vendor_id))
+        vendor = self.vendors.get(sender.tag)
+        ret = alert(Vendor(item=vendor, show_save=False), large=True, title="Edit Vendor", buttons=[ ('Save', True), ('Cancel', False) ])
+        if ret:
+          try:
+            vendor.update()
+          except Exception as e:
+            print("Failed to update Vendor!")
+        
+        return
+  
+      link = Link(text=cell.getValue(), tag=tag)
+      link.set_event_handler("click", open_vendor)
+      return link
+    
     
     self.budget_lines_table.columns = [
       row_selection_column,
