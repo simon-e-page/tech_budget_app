@@ -43,7 +43,7 @@ class BudgetLines(BudgetLinesTemplate):
       tag = dict(cell.getData())['transaction_id']
   
       def open_budgetline(sender, **event_args):
-        transaction_id = sender.text
+        transaction_id = sender.tag
         print("Opening transaction: {0}".format(transaction_id))
         homepage = get_open_form()
         item = self.transactions.get(transaction_id)
