@@ -103,6 +103,8 @@ class LazyTransactionList:
     self.direction = direction
     self.filters = filters
     self.filters['brand'] = CURRENT_BRAND
+    self.length = 0
+    self.data = []
     
     #self.reset(sort=sort, filters=filters, date_filter=date_filter, direction=direction, page_size=page_size, initial_page=initial_page)
         
@@ -172,7 +174,7 @@ class LazyTransactionList:
       page -= 1
       start = page * self.page_size
       end = start + self.page_size
-      self.length, slice = self.load(start, end)
+      self.length, slice = self._load(start=start, end=end)
       
     self.current_page = page
     self.max_page = int(self.length / self.page_size) 
@@ -188,7 +190,7 @@ class LazyTransactionList:
     self.page_loaded[page] = 1
     print("{0} transactions in {1} pages of {2} items each".format(self.length, self.max_page+1, self.page_size))
       
-  def load(self, start=None, end=None, **kwargs):
+  def _load(self, start=None, end=None, **kwargs):
     """ Setup backend dataset using filters """
     filters = {**self.filters, **kwargs}
     length, slice = anvil.server.call('Transactions', 'get_transaction_slice', 
@@ -201,12 +203,15 @@ class LazyTransactionList:
                                  )
     
     return length, slice
+
+  def load(self, start=None, end=None, **kwargs):
+    self.length, self.data = self._load(start=start, end=end, **kwargs)
     
   def get_page(self, page):
     start = int(page * self.page_size)
     end = start + self.page_size
     if not self.page_loaded[page]:
-      ignore, slice = self.load(start, end)
+      ignore, slice = self._load(start=start, end=end)
       self.page_loaded[page] = 1      
       trans_list = [ Transaction(transaction_json=x) for x in slice ]
       self.list[start:end] = trans_list

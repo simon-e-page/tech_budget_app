@@ -95,7 +95,7 @@ class Vendors(VendorsTemplate):
     num_vendors = len(self.selected_vendors)
     if confirm(f"About to delete {num_vendors} users! Are you sure?"):
       for row in self.selected_vendors:
-        vendor = self.vendors.get(dict(row.getData())["email"])
+        vendor = self.vendors.get(dict(row.getData())["vendor_id"])
         try:
           vendor.delete()
         except Exception as e:

@@ -14,10 +14,17 @@ class BudgetLines(BudgetLinesTemplate):
 
   def __init__(self, **properties):
     self.vendors = VendorsModel.VENDORS
-    self.transactions = TransactionsModel.TRANSACTIONS
+    self.transactions = TransactionsModel.get_transactions()
+    self.vendor_list = self.vendors.get_dropdown()
+    self.account_codes = Data.ACCOUNT_CODES_DD
+    self.cost_centres = Data.COST_CENTRES_DD
+    self.lifecycles = Data.LIFECYCLES_DD
+    self.categories = Data.CATEGORIES_DD
+    self.service_changes = Data.SERVICE_CHANGES_DD
+    self.billing_types = Data.BILLING_TYPES_DD
     
     self.selected_lines = []
-
+    self.reload()
     self.add_event_handler("x-refresh-tables", self.refresh_tables)
     self.init_components(**properties)
 
@@ -30,32 +37,45 @@ class BudgetLines(BudgetLinesTemplate):
   def budget_lines_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
     
-    self.vendors_table.columns = [
+    self.budget_lines_table.columns = [
       row_selection_column,
       {
-        "title": "Name",
-        "field": "vendor_name",
-        "formatter": self.name_formatter,
+        "title": "Owner",
+        "field": "owner",
+        #"formatter": self.name_formatter,
+        #'editor': 'list',
+        #'editorParams': self.owners,
+        "headerFilter": "input",
+        "headerFilterFunc": "starts",
+      },
+      {
+        "title": "Vendor",
+        "field": "vendor_id",
         "headerFilter": "input",
         "headerFilterFunc": "starts",
       },
       {
         "title": "Description",
         "field": "description",
-        "editor": "textarea",
         "headerFilter": "input",
+      },
+      {
+        "title": "Lifecycle",
+        "field": "lifecycle",
+        "headerFilter": "input",
+        "headerFilterFunc": "starts",
       },
       {"title": "Active", "field": "active", "formatter": "tickCross", "width": 100},
     ]
 
-    self.vendors_table.options = {
-      "index": "vendor_id",  # or set the index property here
+    self.budget_lines_table.options = {
+      "index": "transaction_id",  # or set the index property here
       "selectable": "highlight",
       "css_class": ["table-striped", "table-bordered", "table-condensed"],
       "pagination_size": 10,
     }
 
-    self.vendors_table.data = self.vendors.to_records()
+    self.budget_lines_table.data = self.budget_data
 
   def name_formatter(self, cell, **params):
     cell_value = cell.getValue()
@@ -73,26 +93,27 @@ class BudgetLines(BudgetLinesTemplate):
 
   def budget_lines_table_cell_edited(self, cell, **event_args):
     """This method is called when a cell is edited"""
+    pass
     data = dict(cell.getData())
-    vendor = self.users.get(data["vendor_id"])
+    vendor = self.users.get(data["transaction_id"])
     vendor.update(data)
     vendor.save()
 
   def delete_vendor_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    num_vendors = len(self.selected_vendors)
-    if confirm(f"About to delete {num_vendors} users! Are you sure?"):
-      for row in self.selected_vendors:
-        vendor = self.vendors.get(dict(row.getData())["email"])
+    num_lines = len(self.selected_lines)
+    if confirm(f"About to delete {num_lines} users! Are you sure?"):
+      for row in self.selected_lines:
+        transaction = self.transactions.get(dict(row.getData())["transaction_id"])
         try:
-          vendor.delete()
+          transaction.delete()
         except Exception as e:
           alert(
-            f"Could not delete - perhaps there are still existing Entries for {vendor['vendor_name']}"
+            f"Could not delete - perhaps there are still existing Entries for {transaction['transaction_id']}"
           )
       self.vendors.load()
-      self.vendors_table_table_built()
-      self.selected_vendors = []
+      self.budget_lines_table_table_built()
+      self.selected_lines = []
       self.refresh_data_bindings()
 
   def budget_lines_table_row_selection_changed(self, rows, data, **event_args):

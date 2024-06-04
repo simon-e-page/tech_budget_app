@@ -29,7 +29,7 @@ components:
       grid_position: JMIBRO,LGBGLH
     components:
     - name: budget_lines_table
-      properties: {index: vendor_id, pagination_size: 10}
+      properties: {index: vendor_id, pagination_size: 20}
       type: form:TGQCF3WT6FVL2EM2:Tabulator
       layout_properties: {grid_position: 'CLCFZG,JSOUJL'}
       event_bindings: {table_built: budget_lines_table_table_built, cell_edited: budget_lines_table_cell_edited,
