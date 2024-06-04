@@ -91,10 +91,28 @@ class BudgetLines(BudgetLinesTemplate):
         "headerFilterFunc": "starts",
       },
       {
+        "title": "Business Contact",
+        "field": "business_contact",
+        "headerFilter": "input",
+        "headerFilterFunc": "starts",
+      },
+      {
+        "title": "Project",
+        "field": "project",
+        "headerFilter": "input",
+        "headerFilterFunc": "starts",
+      },
+      {
         "title": "Active", 
         "field": "status", 
         "formatter": "tickCross", 
         'formatterParams': { 'allowTruthy': True }, 
+        "width": 100
+      },
+      {
+        "title": "Review?", 
+        "field": "to_review", 
+        "formatter": "tickCross", 
         "width": 100
       },
     ]
