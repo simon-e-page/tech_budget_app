@@ -32,13 +32,6 @@ components:
       properties: {}
       type: FlowPanel
       layout_properties: {grid_position: 'AISRFA,BCCNIM', full_width_row: true}
-      components:
-      - name: delete_transaction_button
-        properties: {text: Delete, role: secondary-button, icon: 'fa:trash', enabled: false}
-        type: Button
-        layout_properties: {}
-        event_bindings: {click: delete_transaction_button_click}
-        data_bindings:
-        - {property: enabled, code: len(self.selected_lines)>0, writeback: false}
+      components: []
 is_package: true
 custom_component: false

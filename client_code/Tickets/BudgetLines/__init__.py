@@ -161,7 +161,8 @@ class BudgetLines(BudgetLinesTemplate):
         "formatter": "tickCross", 
         "width": 100,
         "headerFilter": "tickCross",
-        "hozAlign": 'center'
+        "hozAlign": 'center',
+        'editor': 'tickCross'
       },
     ]
 
@@ -178,11 +179,10 @@ class BudgetLines(BudgetLinesTemplate):
 
   def budget_lines_table_cell_edited(self, cell, **event_args):
     """This method is called when a cell is edited"""
-    pass
     data = dict(cell.getData())
-    vendor = self.users.get(data["transaction_id"])
-    vendor.update(data)
-    vendor.save()
+    transaction = self.transactions.get(data["transaction_id"])
+    transaction.update(data)
+    transaction.save()
 
   #def delete_transaction_button_click(self, **event_args):
   #  """This method is called when the button is clicked"""
