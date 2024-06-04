@@ -90,7 +90,13 @@ class BudgetLines(BudgetLinesTemplate):
         "headerFilter": "input",
         "headerFilterFunc": "starts",
       },
-      {"title": "Active", "field": "active", "formatter": "tickCross", 'formatterParams': { 'allowTruthy': True }, "width": 100},
+      {
+        "title": "Active", 
+        "field": "status", 
+        "formatter": "tickCross", 
+        'formatterParams': { 'allowTruthy': True }, 
+        "width": 100
+      },
     ]
 
     self.budget_lines_table.options = {
