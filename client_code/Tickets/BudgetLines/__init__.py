@@ -93,7 +93,7 @@ class BudgetLines(BudgetLinesTemplate):
     
     
     self.budget_lines_table.columns = [
-      {'title': '', 'field': 'delete', 'formatter': self.delete_formatter, 'formatterParams': {'key': 'transaction_id'} },
+      {'title': '', 'field': 'delete', 'formatter': delete_formatter, 'formatterParams': {'key': 'transaction_id'}, 'width': 30 },
       {
         "title": "Owner",
         "field": "owner",
@@ -156,17 +156,12 @@ class BudgetLines(BudgetLinesTemplate):
         "headerFilterFunc": "starts",
       },
       {
-        "title": "Active", 
-        "field": "status", 
-        "formatter": "tickCross", 
-        'formatterParams': { 'allowTruthy': True }, 
-        "width": 100
-      },
-      {
         "title": "Review?", 
         "field": "to_review", 
         "formatter": "tickCross", 
-        "width": 100
+        "width": 100,
+        "headerFilter": "tickCross",
+        "hozAlign": 'center'
       },
     ]
 
@@ -174,7 +169,8 @@ class BudgetLines(BudgetLinesTemplate):
       "index": "transaction_id",  # or set the index property here
       "selectable": "highlight",
       "css_class": ["table-striped", "table-bordered", "table-condensed"],
-      "pagination_size": 10,
+      'pagination': False,
+      #"pagination_size": 10,
     }
 
     self.budget_lines_table.data = self.budget_data
