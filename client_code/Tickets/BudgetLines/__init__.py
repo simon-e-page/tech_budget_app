@@ -90,6 +90,7 @@ class BudgetLines(BudgetLinesTemplate):
         "field": "vendor_id",
         "headerFilter": "input",
         "headerFilterFunc": "starts",
+        'formatter': vendor_formatter
       },
       {
         "title": "Description",
