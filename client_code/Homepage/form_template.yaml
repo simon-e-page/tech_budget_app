@@ -66,12 +66,8 @@ components:
     properties: {spacing: none, vertical_align: middle, spacing_above: none}
     type: FlowPanel
     components:
-    - name: spacer_2
-      properties: {height: 32}
-      type: Spacer
-      layout_properties: {width: 35.44923125}
     - name: link_1
-      properties: {text: Actual Lines}
+      properties: {text: Actual Lines, icon: 'fa:pencil'}
       type: Link
       layout_properties: {}
       event_bindings: {click: link_1_click}

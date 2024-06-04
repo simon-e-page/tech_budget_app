@@ -32,7 +32,7 @@ class Homepage(HomepageTemplate):
     self.analyse_form_open = False
     #self.last_import_id = ('', '')
     self.use_dashboard_cache = True
-
+    
     Data.record_login()
     
     self.brands = Data.BRANDS_DD
