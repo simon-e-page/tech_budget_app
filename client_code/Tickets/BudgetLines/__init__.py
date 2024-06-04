@@ -37,6 +37,22 @@ class BudgetLines(BudgetLinesTemplate):
 
   def budget_lines_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
+
+    def link_formatter(cell, **params):
+      tag = cell.getData()['transaction_id']
+  
+      def open_budgetline(sender, **event_args):
+        transaction_id = sender.text
+        print("Opening transaction: {0}".format(transaction_id))
+        homepage = get_open_form()
+        item = self.transactions.get(transaction_id)
+        homepage.open_transaction(item=item)
+        return
+  
+      link = Link(text=cell.getValue(), tag=tag)
+      link.set_event_handler("click", open_budgetline)
+      return link
+
     
     self.budget_lines_table.columns = [
       row_selection_column,
@@ -59,6 +75,7 @@ class BudgetLines(BudgetLinesTemplate):
         "title": "Description",
         "field": "description",
         "headerFilter": "input",
+        'formatter': link_formatter
       },
       {
         "title": "Lifecycle",
@@ -126,19 +143,6 @@ class BudgetLines(BudgetLinesTemplate):
 
     self.budget_lines_table.data = self.budget_data
 
-  def name_formatter(self, cell, **params):
-    cell_value = cell.getValue()
-
-    def open_vendor(**event_args):
-      sender = event_args["sender"]
-      vendor_id = sender.text
-      print("Opening vendor: {0}".format(vendor_id))
-      self.vendor_detail.set_item(self.vendors.get(vendor_id))
-      return
-
-    link = Link(text=cell_value)
-    link.set_event_handler("click", open_vendor)
-    return link
 
   def budget_lines_table_cell_edited(self, cell, **event_args):
     """This method is called when a cell is edited"""
