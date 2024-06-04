@@ -4,7 +4,7 @@ import anvil.users
 import anvil.server
 import plotly.graph_objs as go
 
-from ..Tickets.Transactions import Transactions
+#from ..Tickets.Transactions import Transactions
 from ..Tickets.Transaction import Transaction
 from ..Dashboard import Dashboard
 from ..Analyse.Analyse import Analyse
