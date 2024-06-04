@@ -12,7 +12,8 @@ from ...Vendors.Vendors.Vendor import Vendor
 
 class BudgetLines(BudgetLinesTemplate):
 
-  def __init__(self, **properties):
+  def __init__(self, mode = 'Budget', **properties):
+    self.mode = mode
     self.vendors = VendorsModel.VENDORS
     self.transactions = TransactionsModel.get_transactions()
     self.vendor_list = self.vendors.get_dropdown()
@@ -29,7 +30,7 @@ class BudgetLines(BudgetLinesTemplate):
     self.init_components(**properties)
 
   def reload(self):
-    self.transactions.load(transaction_type='Budget')
+    self.transactions.load(transaction_type=self.mode)
     self.budget_data = self.transactions.to_records()
 
   def refresh_tables(self, *args, **kwargs):
@@ -72,16 +73,30 @@ class BudgetLines(BudgetLinesTemplate):
       link = Link(text=cell.getValue(), tag=tag)
       link.set_event_handler("click", open_vendor)
       return link
+
+    def delete_formatter(cell, **params):
+      key = params['key']
+      tag = cell.getData()[key]
+      
+      def delete_tag(sender, **event_args):
+        print("Deleting transaction: {0} from {1}".format(sender.tag, key))
+        item = self.transactions.get(sender.tag)
+        if confirm(f"About to delete '{item.description}'! Are you sure?"):
+          item.delete()
+          self.reload()
+          self.budget_lines_table_table_built()
+          return
+  
+      link = Link(icon='fa:trash', tag=tag)
+      link.set_event_handler('click', delete_tag)
+      return link
     
     
     self.budget_lines_table.columns = [
-      row_selection_column,
+      {'title': '', 'field': 'delete', 'formatter': self.delete_formatter, 'formatterParams': {'key': 'transaction_id'} },
       {
         "title": "Owner",
         "field": "owner",
-        #"formatter": self.name_formatter,
-        #'editor': 'list',
-        #'editorParams': self.owners,
         "headerFilter": "input",
         "headerFilterFunc": "starts",
       },
@@ -173,22 +188,22 @@ class BudgetLines(BudgetLinesTemplate):
     vendor.update(data)
     vendor.save()
 
-  def delete_transaction_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    num_lines = len(self.selected_lines)
-    if confirm(f"About to delete {num_lines} users! Are you sure?"):
-      for row in self.selected_lines:
-        transaction = self.transactions.get(dict(row.getData())["transaction_id"])
-        try:
-          transaction.delete()
-        except Exception as e:
-          alert(
-            f"Could not delete - perhaps there are still existing Entries for {transaction['transaction_id']}"
-          )
-      self.vendors.load()
-      self.budget_lines_table_table_built()
-      self.selected_lines = []
-      self.refresh_data_bindings()
+  #def delete_transaction_button_click(self, **event_args):
+  #  """This method is called when the button is clicked"""
+  #  num_lines = len(self.selected_lines)
+  #  if confirm(f"About to delete {num_lines} users! Are you sure?"):
+  #    for row in self.selected_lines:
+  #      transaction = self.transactions.get(dict(row.getData())["transaction_id"])
+  #      try:
+  #        transaction.delete()
+  #      except Exception as e:
+  #        alert(
+  #          f"Could not delete - perhaps there are still existing Entries for {transaction['transaction_id']}"
+  #        )
+  #    self.vendors.load()
+  #    self.budget_lines_table_table_built()
+  #    self.selected_lines = []
+  #    self.refresh_data_bindings()
 
   def budget_lines_table_row_selection_changed(self, rows, data, **event_args):
     """This method is called when the row selection changes"""

@@ -9,7 +9,7 @@ components:
     visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{"LGBGLH":60}',
     spacing_below: small, background: ''}
   name: transaction_details
-  layout_properties: {slot: nav-right}
+  layout_properties: {slot: slot-1}
   components:
   - type: ColumnPanel
     properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
@@ -39,9 +39,5 @@ components:
         event_bindings: {click: delete_transaction_button_click}
         data_bindings:
         - {property: enabled, code: len(self.selected_lines)>0, writeback: false}
-- name: column_panel_1
-  properties: {}
-  type: ColumnPanel
-  layout_properties: {slot: default}
 is_package: true
 custom_component: false
