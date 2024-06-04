@@ -93,12 +93,17 @@ class Transaction(AttributeToKey):
 
     
 class LazyTransactionList:  
-  def __init__(self, sort='timestamp', filters={'duplicate': False}, date_filter={}, direction='descending', page_size=10, initial_page=0):
+  def __init__(self, sort='vendor_id', filters={'active': True}, date_filter={}, direction='descending', page_size=10, initial_page=0):
     # Page numbers are zero indexed to match DataGrid
     self.page_loaded = []
     self.indexed = {}
     self.max_page = 0
     self.current_page = initial_page
+    self.sort = sort
+    self.direction = direction
+    self.filters = filters
+    self.filters['brand'] = CURRENT_BRAND
+    
     #self.reset(sort=sort, filters=filters, date_filter=date_filter, direction=direction, page_size=page_size, initial_page=initial_page)
         
   def __getitem__(self, item):
@@ -183,11 +188,12 @@ class LazyTransactionList:
     self.page_loaded[page] = 1
     print("{0} transactions in {1} pages of {2} items each".format(self.length, self.max_page+1, self.page_size))
       
-  def load(self, start, end):
+  def load(self, start=None, end=None, **kwargs):
     """ Setup backend dataset using filters """
+    filters = {**self.filters, **kwargs}
     length, slice = anvil.server.call('Transactions', 'get_transaction_slice', 
                                   sort=self.sort, 
-                                  filters=self.filters, 
+                                  filters=filters, 
                                   date_filter={},  # UNUSED
                                   direction=self.direction,
                                   start=start,
