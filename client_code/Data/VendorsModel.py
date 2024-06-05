@@ -81,8 +81,8 @@ class Vendors(AttributeToDict):
   def get(self, vendor_id):
     if vendor_id in self.__d__:
       return self.__d__[vendor_id]
-    else
-    raise KeyError(f"Cant find vendor with ID: {vendor_id}")
+    else:
+      raise KeyError(f"Cant find vendor with ID: {vendor_id}")
 
   def get_by_name(self, vendor_name):
     if vendor_name in self.name_index:

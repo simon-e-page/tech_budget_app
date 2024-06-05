@@ -69,7 +69,7 @@ class BudgetLines(BudgetLinesTemplate):
             print("Failed to update Vendor!")
         return
 
-      vendor_id = self.vendors.get_by_name('vendor_name')
+      vendor_id = self.vendors.get_by_name(vendor_name)
       link = Link(text=vendor_name, tag=vendor_id)
       link.set_event_handler("click", open_vendor)
       return link
