@@ -95,7 +95,7 @@ class Transaction(AttributeToKey):
 
     
 class LazyTransactionList:  
-  def __init__(self, sort='vendor_id', filters={'deleted': False}, date_filter={}, direction='descending', page_size=10, initial_page=0):
+  def __init__(self, sort='owner', filters={'deleted': False}, date_filter={}, direction='descending', page_size=10, initial_page=0):
     # Page numbers are zero indexed to match DataGrid
     self.page_loaded = []
     self.indexed = {}

@@ -55,7 +55,7 @@ class BudgetLines(BudgetLinesTemplate):
       return link
 
     def vendor_formatter(cell, **params):
-      tag = cell.get_value()
+      vendor_id = cell.get_value()
   
       def open_vendor(sender, **event_args):
         vendor_id = sender.tag
@@ -67,10 +67,9 @@ class BudgetLines(BudgetLinesTemplate):
             vendor.update()
           except Exception as e:
             print("Failed to update Vendor!")
-        
         return
   
-      link = Link(text=cell.getValue(), tag=tag)
+      link = Link(text=self.vendors.get(vendor_id)['vendor_name'], tag=vendor_id)
       link.set_event_handler("click", open_vendor)
       return link
 
