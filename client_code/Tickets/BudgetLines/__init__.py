@@ -31,7 +31,7 @@ class BudgetLines(BudgetLinesTemplate):
 
   def reload(self):
     self.transactions.load(transaction_type=self.mode)
-    self.budget_data = self.transactions.to_records(with_vendor_name=True, remove_vendor=False)
+    self.budget_data = self.transactions.to_records(with_vendor_name=True, with_vendor=True)
 
   def refresh_tables(self, *args, **kwargs):
     self.budget_lines_table_table_built()
