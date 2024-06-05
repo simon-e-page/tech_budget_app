@@ -12,7 +12,7 @@ class Vendor(AttributeToKey):
   _defaults = {
     'vendor_name': 'New Vendor',
     'description': 'Unknown vendor',
-    'finance_tags': [],
+    'finance_vendor': None,
     'prior_year_tags': [],
     'deleted': False,
     'active': True,
@@ -66,6 +66,7 @@ class Vendor(AttributeToKey):
     return d
 
 
+
 class Vendors(AttributeToDict):
   def __init__(self, vendor_list=None):
     self.__d__ = {}
@@ -108,6 +109,12 @@ class Vendors(AttributeToDict):
     for vendor in anvil.server.call('Vendors', 'get_vendors'):
       self.new(vendor)
 
+    # Now follow internal references!
+    for key, vendor in self.__d__.items():
+      finance_vendor = vendor.finance_vendor
+      if finance_vendor:
+        vendor.finance_vendor = self.get(finance_vendor)
+  
   def blank(self):
     return Vendor()
 
@@ -115,7 +122,10 @@ class Vendors(AttributeToDict):
     if finance_field is None:
       vendor_list = [ (x.vendor_name, x.vendor_id) for i,x in self.__d__.items() ]
     else:
-      vendor_list = [ (x.vendor_name, x.vendor_id) for i,x in self.__d__.items() if x.finance_field==finance_field ]
+      # Cannot map to a finance vendor if that vendor is already mapped!
+      mapped_set = set([ (x.finance_vendor.vendor_name, x.finance_vendor.vendor_id) for x in self.__d__.values() if x.finance_vendor is not None ])
+      all_set = set([ (x.vendor_name, x.vendor_id) for i,x in self.__d__.items() if x.finance_field==finance_field ])
+      vendor_list = list(all_set | mapped_set)
     return vendor_list
     
   def get_name_dropdown(self):
