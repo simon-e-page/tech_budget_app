@@ -15,7 +15,6 @@ class Vendor(VendorTemplate):
     self.vendors = VendorsModel.VENDORS
     self.vendor_list = self.vendors.get_dropdown()
     self.finance_vendor_list = self.vendors.get_dropdown(finance_field=True)
-    #self.finance_tags_raw = ''
 
     self.finance_columns = [
       {'title': 'Synonym', 'field': 'finance_tags', 'width': 400, 'formatter': self.name_formatter  },
@@ -30,7 +29,18 @@ class Vendor(VendorTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     # Any code you write here will run when the form opens.
+  
+  @property
+  def finance_vendor_name(self):
+    if self.item['finance_vendor']:
+      self.item['finance_vendor'].vendor_name
+    else:
+      return None
 
+  @finance_vendor_name.setter
+  def finance_vendor_name(self, vendor_id):
+    self.item['finance_vendor'] = self.vendors.get(vendor_id)
+    
   def get_icon(self, icon_id):
     if icon_id:
       return self.icons.get_content(icon_id)
