@@ -58,18 +58,23 @@ class Transaction(AttributeToKey):
     for field, default in self._defaults.items():
       if default is not None:
         self[field] = item.get(field, default)
+      elif field=='vendor_id':
+        self['vendor'] = VendorsModel.VENDORS.get(item['vendor_id'])
       else:
         self[field] = item.get(field)
 
   def delete(self):
     anvil.server.call('Transactions', 'delete_transactions', [self.transaction_id])
 
-  def to_dict(self, with_vendor_name=False):
+  def to_dict(self, with_vendor_id=True, with_vendor_name=False):
     d = { x: self[x] for x in list(self._defaults.keys()) }
     d['transaction_id'] = self.transaction_id
     if with_vendor_name:
-      d['vendor_name'] = VendorsModel.VENDORS.get(self.vendor_id)['vendor_name']
-      d.pop('vendor_id', None)
+      d['vendor_name'] = self.vendor['vendor_name']
+      d.pop('vendor', None)
+    elif with_vendor_id:
+      d['vendor_id'] = self.vendor['vendor_id]
+      d.pop('vendor', None)
     return d
 
   # TODO: Review - do we need this?
@@ -325,7 +330,7 @@ class LazyTransactionList:
     return matched_trans
 
   def to_records(self, with_vendor_name=True):
-    return [ x.to_dict(with_vendor_name) for x in self.data ]
+    return [ x.to_dict(with_vendor_name=with_vendor_name, with_vendor_id=False) for x in self.data ]
     
 
 #############
