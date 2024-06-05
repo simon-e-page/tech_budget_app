@@ -40,9 +40,24 @@ class Vendor(AttributeToKey):
       else:
         self[field] = item.get(field)
 
+  def new(self):
+    if self.vendor_id is not None:
+      raise ValueError("Expecting a new vendor with no vendor_id set!")
+    ids = self.save()
+    if ids:
+      self.vendor_id = ids[0]
+    else:
+      print("Error creating new Vendor!")
+      raise ValueError("Error creating new Vendor!")
+    
   def save(self):
     # Saves to backend as new or updated object
-    return anvil.server.call('Vendors', 'add_vendors', [self.to_dict()])    
+    try:
+      ret = anvil.server.call('Vendors', 'add_vendors', [self.to_dict()])
+    except Exception as e:
+      ret = None
+      print("Error saving Vendor!")
+    return ret
     
   def to_dict(self):
     d = { x: self[x] for x in self._defaults }
@@ -62,7 +77,10 @@ class Vendors(AttributeToDict):
       return self.__d__[vendor_id]
 
   def new(self, vendor_data):
-    vendor_id = vendor_data['vendor_name']
+    vendor_id = vendor_data['vendor_id']
+    if vendor_id is None:
+      print("Need to save the vendor first to create an ID!")
+      raise ValueError("No Vendor ID!")
     if vendor_id in self.__d__:
       print("Already an existing Vendor with that ID!")
       return None
