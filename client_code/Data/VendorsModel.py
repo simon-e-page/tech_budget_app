@@ -19,7 +19,7 @@ class Vendor(AttributeToKey):
     'notes': '',
     'icon_id': '',
     'vendor_url': '',
-    'finance_field': False
+    'from_finance_system': False
   }
 
   def __init__(self, vendor_json=None, **kwargs):

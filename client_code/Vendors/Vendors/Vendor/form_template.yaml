@@ -75,6 +75,9 @@ components:
       underline: false, icon: ''}
     name: label_6
     layout_properties: {grid_position: 'DPKUVC,HUJRYE NAFPDE,ZLDVBF'}
+    data_bindings:
+    - {property: text, code: '"Name in Finance System" and self.item[''from_finance_system'']
+        or "IT Vendor Name"', writeback: false}
   - type: TextBox
     properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Enter Vendor Name,
       border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
@@ -84,6 +87,8 @@ components:
     layout_properties: {grid_position: 'DPKUVC,HUJRYE UFYXTD,LPHDDZ'}
     data_bindings:
     - {property: text, code: 'self.item[''vendor_name'']', writeback: true}
+    - {property: enabled, code: 'self.item.get(''from_finance_system'', False)==False',
+      writeback: false}
     event_bindings: {}
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
@@ -156,24 +161,16 @@ components:
           event_bindings: {click: add_prior_year_tag_button_click}
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: 'Maps to Finance vendor: (TODO: should only be one!)',
-      font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-      italic: false, background: '', bold: true, underline: false, icon: ''}
+      visible: true, text: 'Map to Finance vendor code (in Dynamics):', font_size: null,
+      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: true, underline: false, icon: ''}
     name: label_14
     layout_properties: {grid_position: 'DOGXEZ,BCKOQO XBBMDY,IOSSKF'}
   - name: column_panel_5
-    properties: {border: dotted}
+    properties: {border: ''}
     type: ColumnPanel
     layout_properties: {grid_position: 'DOGXEZ,BCKOQO YKLIYT,AJXFYE'}
     components:
-    - name: finance_table
-      properties: {pagination_size: 5, header_visible: false, spacing_below: none,
-        index: finance_tags}
-      type: form:TGQCF3WT6FVL2EM2:Tabulator
-      layout_properties: {grid_position: 'ZHDXSI,FYSARI'}
-      data_bindings:
-      - {property: data, code: self.generate_tags('finance_tags'), writeback: false}
-      - {property: columns, code: self.finance_columns, writeback: false}
     - name: flow_panel_5
       properties: {spacing_above: none}
       type: FlowPanel
@@ -183,19 +180,12 @@ components:
         properties:
           items: [self.vendors]
           include_placeholder: true
-          placeholder: Select new synonym
+          placeholder: Select finance vendor name
           spacing_above: none
         type: DropDown
         layout_properties: {width: 350.7268125}
         data_bindings:
         - {property: items, code: self.finance_vendor_list, writeback: false}
-      - name: add_finance_tag_button
-        properties: {text: '', icon: 'fa:arrow-circle-up', enabled: true, role: secondary-button,
-          spacing_above: none}
-        type: Button
-        layout_properties: {}
-        event_bindings: {click: add_finance_tag_button_click}
-        data_bindings: []
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
       visible: true, text: 'Notes:', font_size: null, font: '', spacing_above: small,
