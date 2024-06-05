@@ -130,7 +130,7 @@ class AttributeToDict:
 FIN_YEARS = None
 CURRENT_YEAR = None
 BUDGET_YEAR = None
-CURRENT_BRAND = None
+CURRENT_BRAND = 'JB_AU'
 
 
 def refresh():
