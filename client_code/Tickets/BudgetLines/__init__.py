@@ -61,7 +61,7 @@ class BudgetLines(BudgetLinesTemplate):
         vendor_id = sender.tag
         print("Opening vendor: {0}".format(vendor_id))
         vendor = self.vendors.get(sender.tag)
-        ret = alert(Vendor(item=vendor, show_save=False), large=True, title="Edit Vendor", buttons=[ ('Save', True), ('Cancel', False) ])
+        ret = alert(Vendor(item=vendor, show_save=False), large=True, title="Vendor Details", buttons=[ ('Save Changes', True), ('Cancel', False) ])
         if ret:
           try:
             vendor.update()
