@@ -11,9 +11,10 @@ class Vendor(VendorTemplate):
   def __init__(self, **properties):
     #self.name_unique = False
     self.show_save = properties.get('show_save', True)
-    self.vendor_list = VendorsModel.VENDORS.get_dropdown()
     self.icons = IconsModel.ICONS
     self.vendors = VendorsModel.VENDORS
+    self.vendor_list = self.vendors.get_dropdown()
+    self.finance_vendor_list = self.vendors.get_dropdown(finance_field=True)
     #self.finance_tags_raw = ''
 
     self.finance_columns = [
@@ -36,7 +37,6 @@ class Vendor(VendorTemplate):
 
   def name_formatter(self, cell, **params):
     vendor_id = cell.get_value()
-    print(vendor_id)
     return self.vendors.get(vendor_id)['vendor_name']
     
   def delete_formatter(self, cell, **params):
@@ -56,7 +56,6 @@ class Vendor(VendorTemplate):
    
   def set_item(self, item):
     self.item = item
-    print(item.to_dict())
     self.refresh_data_bindings()
   
   def generate_tags(self, key):

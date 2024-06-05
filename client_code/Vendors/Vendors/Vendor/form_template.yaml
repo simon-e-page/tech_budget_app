@@ -110,7 +110,7 @@ components:
       data_bindings:
       - {property: checked, code: 'self.item[''active'']', writeback: true}
   - name: label_2
-    properties: {text: 'Prior Year Synonyms:', bold: true}
+    properties: {text: 'Also known as (in prior years):', bold: true}
     type: Label
     layout_properties: {grid_position: 'DPKUVC,HUJRYE DWKEBE,LGYRWR'}
   - type: LinearPanel
@@ -155,9 +155,9 @@ components:
           event_bindings: {click: add_prior_year_tag_button_click}
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: 'Finance Report Synonyms:', font_size: null, font: '',
-      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: true, underline: false, icon: ''}
+      visible: true, text: 'Maps to Finance vendor: (TODO: should only be one!)',
+      font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+      italic: false, background: '', bold: true, underline: false, icon: ''}
     name: label_14
     layout_properties: {grid_position: 'DOGXEZ,BCKOQO XBBMDY,IOSSKF'}
   - name: column_panel_5
@@ -187,7 +187,7 @@ components:
         type: DropDown
         layout_properties: {width: 350.7268125}
         data_bindings:
-        - {property: items, code: self.vendor_list, writeback: false}
+        - {property: items, code: self.finance_vendor_list, writeback: false}
       - name: add_finance_tag_button
         properties: {text: '', icon: 'fa:arrow-circle-up', enabled: true, role: secondary-button,
           spacing_above: none}

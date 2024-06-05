@@ -18,7 +18,8 @@ class Vendor(AttributeToKey):
     'active': True,
     'notes': '',
     'icon_id': '',
-    'vendor_url': ''
+    'vendor_url': '',
+    'finance_field': False
   }
 
   def __init__(self, vendor_json=None, **kwargs):
@@ -110,11 +111,15 @@ class Vendors(AttributeToDict):
   def blank(self):
     return Vendor()
 
-  def get_dropdown(self):
-    return [ (x.vendor_name, x.vendor_id) for i,x in self.__d__.items() ]
-
+  def get_dropdown(self, finance_field=None):
+    if finance_field is None:
+      vendor_list = [ (x.vendor_name, x.vendor_id) for i,x in self.__d__.items() ]
+    else:
+      vendor_list = [ (x.vendor_name, x.vendor_id) for i,x in self.__d__.items() if x.finance_field==finance_field ]
+    return vendor_list
+    
   def get_name_dropdown(self):
     return [ (x.vendor_name, x.vendor_name) for i,x in self.__d__.items() ]
-    
+
 VENDORS = Vendors()
 VENDORS.load()
