@@ -56,7 +56,6 @@ class BudgetLines(BudgetLinesTemplate):
 
     
     def vendor_formatter(cell, **params):
-      print(cell.getData())
       vendor = cell.getData()['vendor']
   
       def open_vendor(sender, **event_args):

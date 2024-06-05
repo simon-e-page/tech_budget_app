@@ -71,15 +71,15 @@ class Transaction(AttributeToKey):
       return False
     return True
       
-  def to_dict(self, with_vendor_id=True, with_vendor_name=False, remove_vendor=True):
+  def to_dict(self, with_vendor_id=True, with_vendor_name=False, with_vendor=False):
     d = { x: self[x] for x in list(self._defaults.keys()) if x != 'vendor_id' }
     d['transaction_id'] = self.transaction_id
     if with_vendor_name:
       d['vendor_name'] = self.vendor['vendor_name']
-    elif with_vendor_id:
+    if with_vendor_id:
       d['vendor_id'] = self.vendor['vendor_id']
-    if remove_vendor:
-      d.pop('vendor', None)
+    if with_vendor:
+      d['vendor'] = self.vendor
     return d
 
   # TODO: Review - do we need this?
@@ -334,8 +334,8 @@ class LazyTransactionList:
     matched_trans = [ Transaction(transaction_json=x) for x in matched_trans_list ]
     return matched_trans
 
-  def to_records(self, with_vendor_name=True, remove_vendor=False):
-    return [ x.to_dict(with_vendor_name=with_vendor_name, with_vendor_id=False, remove_vendor=remove_vendor) for x in self.data ]
+  def to_records(self, with_vendor_name=True, with_vendor=True, with_vendor_id=False):
+    return [ x.to_dict(with_vendor_name=with_vendor_name, with_vendor_id=with_vendor_id, with_vendor=with_vendor) for x in self.data ]
     
 
 #############
