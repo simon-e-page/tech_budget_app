@@ -30,9 +30,7 @@ class Vendor(AttributeToKey):
       item = kwargs
       
     # Remove any None values to force defaults to be used
-    for k, v in item.items():
-      if v is None:
-        del item[k]
+    item = { k:v for k,v in item.items() if v is not None }
 
     self['vendor_id'] = item.get('vendor_id', None)
     for field, default in self._defaults.items():
