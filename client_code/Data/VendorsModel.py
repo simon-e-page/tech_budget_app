@@ -68,14 +68,28 @@ class Vendor(AttributeToKey):
 class Vendors(AttributeToDict):
   def __init__(self, vendor_list=None):
     self.__d__ = {}
+    self.name_index = {}
+    
     if vendor_list:
       for vn in vendor_list:
         self.add(vn.vendor_id, vn)
-            
+
+  def add(self, vendor_id, vendor):
+    self.__d__[vendor_id] = vendor
+    self.name_index[vendor.vendor_name] = vendor_id
+    
   def get(self, vendor_id):
     if vendor_id in self.__d__:
       return self.__d__[vendor_id]
+    else
+    raise KeyError(f"Cant find vendor with ID: {vendor_id}")
 
+  def get_by_name(self, vendor_name):
+    if vendor_name in self.name_index:
+      return self.__d__[self.name_index[vendor_name]]
+    else:
+      raise KeyError(f"Cant find vendor by name {vendor_name}")
+      
   def new(self, vendor_data):
     vendor_id = vendor_data['vendor_id']
     if vendor_id is None:

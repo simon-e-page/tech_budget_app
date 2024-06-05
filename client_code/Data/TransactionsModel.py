@@ -3,7 +3,7 @@ import anvil.users
 
 import datetime as dt
 
-from ..Data import AttributeToDict, AttributeToKey, CURRENT_BRAND
+from ..Data import AttributeToDict, AttributeToKey, CURRENT_BRAND, VendorsModel
 
 #####################################################################
 # TRANSACTION
@@ -64,9 +64,12 @@ class Transaction(AttributeToKey):
   def delete(self):
     anvil.server.call('Transactions', 'delete_transactions', [self.transaction_id])
 
-  def to_dict(self):
+  def to_dict(self, with_vendor_name=False):
     d = { x: self[x] for x in list(self._defaults.keys()) }
     d['transaction_id'] = self.transaction_id
+    if with_vendor_name:
+      d['vendor_name'] = VendorsModel.VENDORS.get(self.vendor_id)['vendor_name']
+      d.pop('vendor_id', None)
     return d
 
   # TODO: Review - do we need this?
@@ -321,8 +324,8 @@ class LazyTransactionList:
     matched_trans = [ Transaction(transaction_json=x) for x in matched_trans_list ]
     return matched_trans
 
-  def to_records(self):
-    return [ x.to_dict() for x in self.data ]
+  def to_records(self, with_vendor_name=True):
+    return [ x.to_dict(with_vendor_name) for x in self.data ]
     
 
 #############
