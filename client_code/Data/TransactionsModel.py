@@ -64,16 +64,21 @@ class Transaction(AttributeToKey):
         self[field] = item.get(field)
 
   def delete(self):
-    anvil.server.call('Transactions', 'delete_transactions', [self.transaction_id])
-
-  def to_dict(self, with_vendor_id=True, with_vendor_name=False):
-    d = { x: self[x] for x in list(self._defaults.keys()) }
+    try:
+      anvil.server.call('Transactions', 'delete_transactions', [self.transaction_id])
+    except Exception as e:
+      print("Error deleting transaction")
+      return False
+    return True
+      
+  def to_dict(self, with_vendor_id=True, with_vendor_name=False, remove_vendor=True):
+    d = { x: self[x] for x in list(self._defaults.keys()) if x != 'vendor_id' }
     d['transaction_id'] = self.transaction_id
     if with_vendor_name:
       d['vendor_name'] = self.vendor['vendor_name']
-      d.pop('vendor', None)
     elif with_vendor_id:
-      d['vendor_id'] = self.vendor['vendor_id]
+      d['vendor_id'] = self.vendor['vendor_id']
+    if remove_vendor:
       d.pop('vendor', None)
     return d
 
@@ -330,7 +335,7 @@ class LazyTransactionList:
     return matched_trans
 
   def to_records(self, with_vendor_name=True):
-    return [ x.to_dict(with_vendor_name=with_vendor_name, with_vendor_id=False) for x in self.data ]
+    return [ x.to_dict(with_vendor_name=with_vendor_name, with_vendor_id=False, remove_vendor=False) for x in self.data ]
     
 
 #############

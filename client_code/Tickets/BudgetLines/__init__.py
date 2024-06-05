@@ -55,12 +55,10 @@ class BudgetLines(BudgetLinesTemplate):
       return link
 
     def vendor_formatter(cell, **params):
-      vendor_name = cell.get_value()
-      if vendor_name is None:
-        print(cell.getData())
+      vendor = cell.getData()['vendor']
   
       def open_vendor(sender, **event_args):
-        print("Opening vendor: {0}".format(vendor.vendor_name))
+        print("Opening vendor: {0}".format(sender.tag.vendor_name))
         ret = alert(Vendor(item=sender.tag, show_save=False), large=True, title="Vendor Details", buttons=[ ('Save Changes', True), ('Cancel', False) ])
         if ret:
           try:
@@ -69,8 +67,7 @@ class BudgetLines(BudgetLinesTemplate):
             print("Failed to update Vendor!")
         return
 
-      vendor = self.vendors.get_by_name(vendor_name)
-      link = Link(text=vendor_name, tag=vendor)
+      link = Link(text=cell.get_value(), tag=vendor)
       link.set_event_handler("click", open_vendor)
       return link
 
