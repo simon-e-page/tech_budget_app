@@ -334,8 +334,8 @@ class LazyTransactionList:
     matched_trans = [ Transaction(transaction_json=x) for x in matched_trans_list ]
     return matched_trans
 
-  def to_records(self, with_vendor_name=True):
-    return [ x.to_dict(with_vendor_name=with_vendor_name, with_vendor_id=False, remove_vendor=False) for x in self.data ]
+  def to_records(self, with_vendor_name=True, remove_vendor=False):
+    return [ x.to_dict(with_vendor_name=with_vendor_name, with_vendor_id=False, remove_vendor=remove_vendor) for x in self.data ]
     
 
 #############

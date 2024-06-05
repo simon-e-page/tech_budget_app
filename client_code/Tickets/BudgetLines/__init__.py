@@ -31,7 +31,7 @@ class BudgetLines(BudgetLinesTemplate):
 
   def reload(self):
     self.transactions.load(transaction_type=self.mode)
-    self.budget_data = self.transactions.to_records(with_vendor_name=True)
+    self.budget_data = self.transactions.to_records(with_vendor_name=True, remove_vendor=False)
 
   def refresh_tables(self, *args, **kwargs):
     self.budget_lines_table_table_built()
@@ -54,7 +54,9 @@ class BudgetLines(BudgetLinesTemplate):
       link.set_event_handler("click", open_budgetline)
       return link
 
+    
     def vendor_formatter(cell, **params):
+      print(cell.getData())
       vendor = cell.getData()['vendor']
   
       def open_vendor(sender, **event_args):
@@ -71,6 +73,7 @@ class BudgetLines(BudgetLinesTemplate):
       link.set_event_handler("click", open_vendor)
       return link
 
+    
     def delete_formatter(cell, **params):
       key = params['key']
       tag = cell.getData()[key]
