@@ -17,12 +17,12 @@ class Vendor(VendorTemplate):
     #self.finance_tags_raw = ''
 
     self.finance_columns = [
-      {'title': 'Synonym', 'field': 'finance_tags', 'width': 400 },
+      {'title': 'Synonym', 'field': 'finance_tags', 'width': 400, 'formatter': self.name_formatter  },
       {'title': 'Delete', 'field': 'delete', 'formatter': self.delete_formatter, 'formatterParams': {'key': 'finance_tags'} }
     ]
 
     self.prior_year_columns = [
-      {'title': 'Synonym', 'field': 'prior_year_tags', 'width': 400},
+      {'title': 'Synonym', 'field': 'prior_year_tags', 'width': 400, 'formatter': self.name_formatter },
       {'title': 'Delete', 'field': 'delete', 'formatter': self.delete_formatter, 'formatterParams': {'key': 'prior_year_tags'} }
     ]
 
@@ -33,6 +33,10 @@ class Vendor(VendorTemplate):
   def get_icon(self, icon_id):
     if icon_id:
       return self.icons.get_content(icon_id)
+
+  def name_formatter(self, cell, **params):
+    vendor_id = cell.get_value()
+    return self.vendors.get(vendor_id)['vendor_name']
     
   def delete_formatter(self, cell, **params):
     key = params['key']
