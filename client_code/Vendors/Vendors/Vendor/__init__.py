@@ -11,7 +11,7 @@ class Vendor(VendorTemplate):
   def __init__(self, **properties):
     #self.name_unique = False
     self.show_save = properties.get('show_save', True)
-    self.vendor_list = VendorsModel.VENDORS.get_dropdown()
+    self.vendor_list = VendorsModel.VENDORS.get_name_dropdown()
     self.icons = IconsModel.ICONS
     self.vendors = VendorsModel.VENDORS
     #self.finance_tags_raw = ''

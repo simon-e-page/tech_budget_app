@@ -67,16 +67,15 @@ class Vendors(VendorsTemplate):
     self.vendors_table.data = self.vendors.to_records()
 
   def name_formatter(self, cell, **params):
-    cell_value = cell.getValue()
+    vendor_id = cell.getData()['vendor_id']
     
-    def open_vendor(**event_args):
-      sender = event_args['sender']
-      vendor_id = sender.text
+    def open_vendor(sender, **event_args):
+      vendor_id = sender.tag
       print("Opening vendor: {0}".format(vendor_id))
       self.vendor_detail.set_item(self.vendors.get(vendor_id))
       return
 
-    link = Link(text=cell_value)
+    link = Link(text=cell.get_value(), tag=vendor_id)
     link.set_event_handler('click', open_vendor)
     return link
 

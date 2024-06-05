@@ -97,7 +97,10 @@ class Vendors(AttributeToDict):
     return Vendor()
 
   def get_dropdown(self):
-    ret [ (x, x.vendor_name) for i,x in self.__d__.items() ]
+    return [ (x.vendor_name, x.vendor_id) for i,x in self.__d__.items() ]
 
+  def get_name_dropdown(self):
+    return [ (x.vendor_name, x.vendor_name) for i,x in self.__d__.items() ]
+    
 VENDORS = Vendors()
 VENDORS.load()
