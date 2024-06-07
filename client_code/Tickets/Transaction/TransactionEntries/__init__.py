@@ -110,7 +110,7 @@ class TransactionEntries(TransactionEntriesTemplate):
       fy_column = {
         "title":x, 
         "field":x, 
-        "width":100, 
+        "width":130, 
         "formatter": format_column,
         "formatterParams": params,
         'headerSort': False,  
