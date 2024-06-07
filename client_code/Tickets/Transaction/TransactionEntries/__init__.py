@@ -91,11 +91,10 @@ class TransactionEntries(TransactionEntriesTemplate):
 
     fy_columns = []
     for x in self.t_data['columns'][1:]:
-      if self.transaction.transaction_type == 'Actual' and int(x) == Data.CURRENT_YEAR:
-        suffix = '\nActual'
+      if 'Actual' in x:
         params = {'backgroundColor': '##ccffff'}
         editor = 'number' if self.transaction.transaction_id is not None else None
-      elif self.transaction.transaction_type == 'Budget' and int(x) == Data.CURRENT_YEAR:
+      elif 'Forecast' in x and int(x) == Data.CURRENT_YEAR:
         suffix = '\nForecast'
         params = {'backgroundColor': '#ccffcc'}
         editor = 'number' if self.transaction.transaction_id is not None else None        
