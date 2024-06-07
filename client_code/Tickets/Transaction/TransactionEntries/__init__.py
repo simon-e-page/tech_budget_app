@@ -94,25 +94,21 @@ class TransactionEntries(TransactionEntriesTemplate):
       if 'Actual' in x:
         params = {'backgroundColor': '##ccffff'}
         editor = 'number' if self.transaction.transaction_id is not None else None
-      elif 'Forecast' in x and int(x) == Data.CURRENT_YEAR:
-        suffix = '\nForecast'
+      elif 'Forecast' in x:
         params = {'backgroundColor': '#ccffcc'}
         editor = 'number' if self.transaction.transaction_id is not None else None        
-      elif self.transaction.transaction_type == 'Budget' and int(x) == Data.BUDGET_YEAR:
-        suffix = '\nBudget'
+      elif 'Budget' in x:
         params = {'backgroundColor': '#ffffcc'}
         editor = 'number' if self.transaction.transaction_id is not None else None
-      elif self.transaction.transaction_type.startswith('Snapshot') and int(x) == Data.BUDGET_YEAR:
-        suffix = f'\n{self.transaction.transaction_type}'
+      elif 'Snapshot' in x:
         params = {'backgroundColor': '#ffff99'}
-        editor = 'number' if self.transaction.transaction_id is not None else None
-      else:
-        suffix = ''
+        editor = None
+      else: # History
         params = {'color': 'grey'}
         editor = None
         
       fy_column = {
-        "title":x + suffix, 
+        "title":x, 
         "field":x, 
         "width":100, 
         "formatter": format_column,
@@ -120,7 +116,6 @@ class TransactionEntries(TransactionEntriesTemplate):
         'headerSort': False,  
         "editor": editor,
         "hozAlign": 'right',
-        #"bottomCalc": 'sum'
       }
       
       fy_columns.append(fy_column)
