@@ -84,10 +84,10 @@ class Transaction(AttributeToKey):
 
   # TODO: Review - do we need this?
   def copy(self):
-    props = { x: self[x] for x in list(self._defaults.keys()) }
+    props = { x: self[x] for x in list(self._defaults.keys()) if x != 'vendor_id' }
+    props['vendor_id'] = self.vendor.vendor_id
     #print(props)
     t = Transaction(transaction_json=props)
-    print(t)
     return t
 
   def update(self):
