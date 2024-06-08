@@ -82,5 +82,6 @@ class ImportActuals(ImportActualsTemplate):
     self.imported_table.data = self.new_entries
     self.label_panel.visible = True
     self.imported_table.visible = True
+    self.refresh_data_bindings()
     
   

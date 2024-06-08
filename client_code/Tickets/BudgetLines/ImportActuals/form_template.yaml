@@ -24,6 +24,10 @@ components:
       properties: {}
       type: FileLoader
       event_bindings: {change: file_loader_change}
+    - name: spacer_1
+      properties: {height: 32}
+      type: Spacer
+      layout_properties: {width: 728.00390625}
   - name: label_panel
     properties: {visible: false}
     type: ColumnPanel
