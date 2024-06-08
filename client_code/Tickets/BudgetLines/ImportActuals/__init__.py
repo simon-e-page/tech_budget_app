@@ -7,12 +7,14 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from .... import Data
-from ....Data import CURRENT_YEAR 
+from ....Data import CURRENT_YEAR, ImporterModel
 
 
 class ImportActuals(ImportActualsTemplate):
   def __init__(self, **properties):
     self.next_month = Data.get_actuals_updated(CURRENT_YEAR)
+    self.importer = ImporterModel.IMPORTER
+    
     if self.next_month is None or self.next_month == 0:
       self.next_month = (CURRENT_YEAR - 1) * 100 + 7
       
@@ -26,4 +28,4 @@ class ImportActuals(ImportActualsTemplate):
 
   def file_loader_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
-    pass
+    self.importer.check_brand(file.name)
