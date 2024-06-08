@@ -7,13 +7,14 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from .... import Data
-from ....Data import CURRENT_YEAR, ImporterModel
+from ....Data import CURRENT_YEAR, ImporterModel, VendorsModel
 
 
 class ImportActuals(ImportActualsTemplate):
   def __init__(self, **properties):
     self.next_month = Data.get_actuals_updated(CURRENT_YEAR)
     self.importer = ImporterModel.IMPORTER
+    self.vendors = VendorsModel.VENDORS
     self.new_entries = None
     self.new_year_month = None
     self.month_total = None
