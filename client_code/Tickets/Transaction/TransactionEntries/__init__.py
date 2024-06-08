@@ -30,7 +30,6 @@ class TransactionEntries(TransactionEntriesTemplate):
 
 
   def build_table(self, item):
-    print(item.transaction_id)
     if item.transaction_id:
       self.t_data = item.get_all_entries()
     else:
@@ -40,16 +39,14 @@ class TransactionEntries(TransactionEntriesTemplate):
     self.transaction = item
     self.entry_label = 'Budget / Forecast Entries' if item.transaction_type == 'Budget' else 'Actual Entries'
     self.refresh_data_bindings()
-    #if self.entry_table.initialized:
     if self.entries.initialized:
-      #self.entry_table.clear()
       self.entries.clear()
       self.render_table()
 
   def render_table(self):
     if not self.t_data:
       return
-    #t = self.entry_table
+      
     t = self.entries
     t.options.update(
       selectable="highlight",
@@ -127,19 +124,20 @@ class TransactionEntries(TransactionEntriesTemplate):
   def update_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     print(self.updated_entries)
-    count = self.transaction.add_entries(self.updated_entries)
-    if not count:
-      alert("Error updating entries! Check logs")
-    else:
-      Notification(f"{count} entries updated successfully").show()
-      self.updated_entries = []
-      self.build_table(self.transaction)
+    if len(self.updated_entries) > 0:
+      count = self.transaction.add_entries(self.updated_entries)
+      if not count:
+        alert("Error updating entries! Check logs")
+      else:
+        Notification(f"{count} entries updated successfully").show()
+        self.updated_entries = []
+        self.build_table(self.transaction)
 
 
   def entries_cell_edited(self, cell, **event_args):
     """This method is called when a cell is edited"""
-    
-    fin_year, transaction_type = cell.getField().split(' ')
+    field = cell.getField()
+    fin_year, transaction_type = field.split(' ')
     fin_year = int(fin_year)      
     month_label = cell.getData()['Month']
     month_index = self.month_map[month_label]
@@ -159,7 +157,7 @@ class TransactionEntries(TransactionEntriesTemplate):
     })
     
     #Update internal data table
-    self.t_data['data'][month_index][str(fin_year)] = value
+    self.t_data['data'][month_index][field] = value
     self.render_table()
   
 
