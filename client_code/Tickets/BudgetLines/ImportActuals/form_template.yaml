@@ -1,0 +1,26 @@
+container: {type: ColumnPanel}
+components:
+- name: column_panel_1
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'DJQSDV,QXCXEM', full_width_row: true}
+  components:
+  - name: label_1
+    properties: {text: Import Actuals, role: header-text}
+    type: Label
+    layout_properties: {grid_position: 'VORKVP,DVETZA'}
+  - name: label_2
+    properties: {}
+    type: Label
+    layout_properties: {grid_position: 'JLFQTG,LKOQSV'}
+    data_bindings:
+    - {property: text, code: '"Import for month: {0}:".format(self.next_month)', writeback: false}
+  - name: flow_panel_1
+    properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'AKTQQP,QPPSQS'}
+    components:
+    - name: file_loader
+      properties: {}
+      type: FileLoader
+is_package: true

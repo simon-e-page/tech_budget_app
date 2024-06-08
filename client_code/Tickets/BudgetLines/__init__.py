@@ -207,3 +207,9 @@ class BudgetLines(BudgetLinesTemplate):
       pass
       # Set item in vendor details
     self.refresh_data_bindings()
+
+  def import_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    pass
+
+

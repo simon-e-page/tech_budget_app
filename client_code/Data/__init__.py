@@ -137,6 +137,11 @@ def refresh():
   global FIN_YEARS, CURRENT_YEAR, BUDGET_YEAR
   FIN_YEARS, BUDGET_YEAR, CURRENT_YEAR = anvil.server.call('Calendar', 'get_fin_years')
 
+def get_actuals_updated(year):
+  return anvil.server.call('Calendar', 'get_actuals_updated', year)
+
+def actuals_updated(year, year_month):
+  return anvil.server.call('Calendar', 'actuals_updated', year_month, year)
 
 #####################################################################
 # MISCELLANEOUS
