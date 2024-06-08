@@ -61,8 +61,8 @@ class ImportActuals(ImportActualsTemplate):
         "headerFilterFunc": "starts"        
       },
       { 
-        'title': 'New',
-        'field': 'new_vendor',
+        'title': 'Existing',
+        'field': 'existing_vendor',
         'formatter': 'tickCross',
         'headerFilter': 'tickCross',
         'width': 100
