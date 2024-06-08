@@ -20,3 +20,6 @@ class ImportActuals(ImportActualsTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+
+  def get_new_entries(self):
+    return [ 'Testing!']

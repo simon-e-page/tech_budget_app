@@ -9,6 +9,7 @@ from tabulator.Tabulator import row_selection_column
 from ... import Data
 from ...Data import VendorsModel, TransactionsModel
 from ...Vendors.Vendors.Vendor import Vendor
+from .ImportActuals import ImportActuals
 
 class BudgetLines(BudgetLinesTemplate):
 
@@ -208,8 +209,16 @@ class BudgetLines(BudgetLinesTemplate):
       # Set item in vendor details
     self.refresh_data_bindings()
 
+  def add_new_entries(self, new_entries):
+    pass
+    
   def import_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    pass
-
+    import_form = ImportActuals()
+    ret = alert(import_form, title="Import", buttons=(("OK", True), ("Cancel", False)))
+    if ret:
+      new_entries = import_form.get_new_entries()
+      print(new_entries)
+      self.add_new_entries(new_entries)
+      
 
