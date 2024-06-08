@@ -45,14 +45,17 @@ class ImportActuals(ImportActualsTemplate):
   def render_table(self):
 
     def vendor_formatter(cell, **params):
-      vendor_id = cell.get_value()
-      vendor_name = self.vendors.get(vendor_id)['vendor_name']
+      data = cell.get_data()
+      vendor_id = data['vendor_id']
+      vendor_name = cell.get_value()
+      if vendor_id is None:
+        vendor_name = f"<b>{vendor_name}</b>"
       return vendor_name
     
     columns = [
       { 
         'title': 'Vendor',
-        'field': 'vendor_id',
+        'field': 'vendor_name',
         'formatter': vendor_formatter
       }
     ]
