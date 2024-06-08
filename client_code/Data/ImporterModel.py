@@ -31,11 +31,20 @@ FILENAME_PATTERNS = {
 class Importer:
   def parse(self, file_obj):
     try:
-      #new_entries = anvil.server.call('Importer', 'import_file', CURRENT_BRAND, file_obj)
+      #new_data = anvil.server.call('Importer', 'import_file', CURRENT_BRAND, file_obj)
+      new_data = {
+        'new_year_month': 202407,
+        'month_total': 100000.0,
+        'cost_centres': [ 'IT (6000)', 'Online (3121)'],
+        'new_entries': [
+          { 'vendor_id': 1003, 'IT (6000)': 500000.0, 'Online (312)': 0.0, 'total': 500000.0 },
+          { 'vendor_id': 1004, 'IT (6000)': 0.0, 'Online (312)': 500000.0, 'total': 500000.0 },
+        ]
+      }
     except Exception as e:
       print("Error importing file!")
       raise
-    return new_entries
+    return new_data
 
   
   def check_brand(self, filename):
