@@ -37,8 +37,8 @@ class Importer:
         'month_total': 100000.0,
         'cost_centres': [ 'IT (6000)', 'Online (3121)'],
         'entries': [
-          { 'vendor_name': 'Existing Vendor', 'vendor_id': 1003, 'IT (6000)': 500000.0, 'Online (3121)': 0.0, 'total': 500000.0 },
-          { 'vendor_name': 'New Vendor', 'vendor_id': None, 'IT (6000)': 0.0, 'Online (3121)': 500000.0, 'total': 500000.0 },
+          { 'vendor_name': 'Existing Vendor', 'vendor_id': 1003, 'new_vendor': False, 'IT (6000)': 500000.0, 'Online (3121)': 0.0, 'total': 500000.0 },
+          { 'vendor_name': 'New Vendor', 'vendor_id': None, 'new_vendor': True, 'IT (6000)': 0.0, 'Online (3121)': 500000.0, 'total': 500000.0 },
         ]
       }
     except Exception as e:

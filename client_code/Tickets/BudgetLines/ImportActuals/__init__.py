@@ -49,15 +49,25 @@ class ImportActuals(ImportActualsTemplate):
       vendor_id = data['vendor_id']
       vendor_name = cell.get_value()
       if vendor_id is None:
-        vendor_name = f"<b>{vendor_name}</b>"
+        vendor_name = f"<b>*{vendor_name}*</b>"
       return vendor_name
     
     columns = [
       { 
         'title': 'Vendor',
         'field': 'vendor_name',
-        'formatter': vendor_formatter
-      }
+        'formatter': vendor_formatter,
+        'headerFilter': 'input',
+        "headerFilterFunc": "starts"        
+      },
+      { 
+        'title': 'New',
+        'field': 'new_vendor',
+        'formatter': 'tickCross',
+        'headerFilter': 'tickCross',
+        'width': 100
+      },
+      
     ]
 
     columns += [
