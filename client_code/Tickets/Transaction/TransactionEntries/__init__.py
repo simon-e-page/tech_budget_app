@@ -127,21 +127,20 @@ class TransactionEntries(TransactionEntriesTemplate):
   def update_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     print(self.updated_entries)
-    self.transaction.add_entries(self.updated_entries)
-    self.updated_entries = []
-    self.build_table(self.transaction)
+    count = self.transaction.add_entries(self.updated_entries)
+    if not count:
+      alert("Error updating entries! Check logs")
+    else:
+      Notification(f"{count} entries updated successfully").show()
+      self.updated_entries = []
+      self.build_table(self.transaction)
 
 
   def entries_cell_edited(self, cell, **event_args):
     """This method is called when a cell is edited"""
-    fin_year = int(cell.getField())
-    if self.transaction['transaction_type'] == 'Actual':
-      transaction_type = 'Actual'
-    elif fin_year == self.current_year:
-      transaction_type = 'Forecast'
-    else:
-      transaction_type = 'Budget'
-      
+    
+    fin_year, transaction_type = cell.getField().split(' ')
+    fin_year = int(fin_year)      
     month_label = cell.getData()['Month']
     month_index = self.month_map[month_label]
 

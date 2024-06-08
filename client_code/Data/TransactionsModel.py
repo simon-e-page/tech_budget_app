@@ -104,7 +104,12 @@ class Transaction(AttributeToKey):
                           )
 
   def add_entries(self, new_entries):
-    return anvil.server.call('Transactions', 'add_entries', self.transaction_id, new_entries)
+    try:
+      ret = anvil.server.call('Transactions', 'add_entries', self.transaction_id, new_entries)
+    except Exception as e:
+      print('Error updating entries!')
+      ret = None
+    return ret
 
     
 class LazyTransactionList:  
