@@ -215,7 +215,7 @@ class BudgetLines(BudgetLinesTemplate):
   def import_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     import_form = ImportActuals()
-    ret = alert(import_form, title="Import", buttons=(("OK", True), ("Cancel", False)))
+    ret = alert(import_form, title="Import Actuals", buttons=(("OK", True), ("Cancel", False)), large=True)
     if ret:
       new_entries = import_form.get_new_entries()
       print(new_entries)
