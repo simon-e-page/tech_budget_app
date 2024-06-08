@@ -13,7 +13,7 @@ from ....Data import CURRENT_YEAR
 class ImportActuals(ImportActualsTemplate):
   def __init__(self, **properties):
     self.next_month = Data.get_actuals_updated(CURRENT_YEAR)
-    if self.next_month == 0:
+    if self.next_month is None or self.next_month == 0:
       self.next_month = (CURRENT_YEAR - 1) * 100 + 7
       
     # Set Form properties and Data Bindings.
