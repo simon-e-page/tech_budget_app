@@ -24,4 +24,30 @@ components:
       properties: {}
       type: FileLoader
       event_bindings: {change: file_loader_change}
+  - name: label_panel
+    properties: {visible: false}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'TBVJBF,PKSJRJ'}
+    components:
+    - name: import_title
+      properties: {visible: true}
+      type: Label
+      layout_properties: {grid_position: 'USAPCI,BPEJDW'}
+      data_bindings:
+      - {property: text, code: 'f"Import Actuals for {self.new_year_month}"', writeback: false}
+    - name: total_label
+      properties: {align: right}
+      type: Label
+      layout_properties: {grid_position: 'USAPCI,CZLNYI'}
+      data_bindings:
+      - {property: text, code: 'f"Total: {self.month_total}"', writeback: false}
+  - name: linear_panel_1
+    properties: {}
+    type: LinearPanel
+    layout_properties: {grid_position: 'IGRMYH,HBUTSB'}
+    components:
+    - name: imported_table
+      properties: {visible: false}
+      type: form:TGQCF3WT6FVL2EM2:Tabulator
+      layout_properties: {}
 is_package: true

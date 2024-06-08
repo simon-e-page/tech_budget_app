@@ -29,11 +29,18 @@ FILENAME_PATTERNS = {
 }
 
 class Importer:
-  def start(self, file_obj, account_name):
-    return None #anvil.server.call('upload_transactions', file_obj, account_name)
+  def parse(self, file_obj):
+    try:
+      #new_entries = anvil.server.call('Importer', 'import_file', CURRENT_BRAND, file_obj)
+    except Exception as e:
+      print("Error importing file!")
+      raise
+    return new_entries
 
+  
   def check_brand(self, filename):
     match = re.search(FILENAME_PATTERNS[CURRENT_BRAND], filename)
+    ret = False
     if match:
       month = match.group(1)  # The month is the first group in the pattern
       year = match.group(2)   # The year is the second group in the pattern
@@ -47,9 +54,14 @@ class Importer:
 
       print(f"Selected file matches Brand {CURRENT_BRAND} and is for {year_month} in the {fin_year} financial year")
       print(f"Current year is {CURRENT_YEAR} and actuals have been imported up to {actuals_to_date}")
-      
+
+      if year_month > actuals_to_date:
+        ret = True
+        
     else:
       print(f"Filename does not match expected pattern for {CURRENT_BRAND}!")
+
+    return ret
     
   def get_import_ids(self, brand):
     return [] #anvil.server.call('get_import_ids', account_name)
