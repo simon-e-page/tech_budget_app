@@ -23,4 +23,5 @@ components:
     - name: file_loader
       properties: {}
       type: FileLoader
+      event_bindings: {change: file_loader_change}
 is_package: true

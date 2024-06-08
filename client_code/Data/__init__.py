@@ -101,32 +101,6 @@ class AttributeToDict:
 
 
 
-
-
-
-    
-
-
-#####################################################################
-# IMPORTER
-#####################################################################
-
-
-#class Importer:
-#  def start(self, file_obj, account_name):
-#    return None #anvil.server.call('upload_transactions', file_obj, account_name)
-#
-#  def next_batch(self, code):
-#    return None #anvil.server.call('upsert_batch', code)
-#
-#  def process_paypal(self, account_name, start, end):
-#    return None #anvil.server.call('process_paypal', account_name, start=start, end=end)
-#
-#  def get_import_ids(self, account_name):
-#    return [] #anvil.server.call('get_import_ids', account_name)
-
-
-
 FIN_YEARS = None
 CURRENT_YEAR = None
 BUDGET_YEAR = None

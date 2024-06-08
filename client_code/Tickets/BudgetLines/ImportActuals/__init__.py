@@ -23,3 +23,7 @@ class ImportActuals(ImportActualsTemplate):
 
   def get_new_entries(self):
     return [ 'Testing!']
+
+  def file_loader_change(self, file, **event_args):
+    """This method is called when a new file is loaded into this FileLoader"""
+    pass
