@@ -278,11 +278,11 @@ class BudgetLines(BudgetLinesTemplate):
       entry_count = 0
       
       if len(new_vendors)>0:
-        print(new_vendors)
+        #print(new_vendors)
         vendor_ids = self.add_new_vendors(new_vendors)
 
       if len(new_actual_lines)>0:
-        print(new_actual_lines)
+        #print(new_actual_lines)
         actual_line_ids = self.add_new_actual_lines(new_actual_lines)
         
       if len(new_entries)>0:

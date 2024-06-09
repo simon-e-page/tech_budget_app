@@ -170,6 +170,7 @@ class LazyTransactionList(AttributeToDict):
     trans = []
     for t_id, t in self.__d__.items():
       found = True
+      print("Looing")
       for k,v in kwargs.items():
         if k=='vendor_name' and t.vendor.vendor_name != v:
           found = False
