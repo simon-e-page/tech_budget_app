@@ -245,7 +245,7 @@ class BudgetLines(BudgetLinesTemplate):
 
       # Look up transaction_id for newly created Actual Line
       if new_entry['transaction_desc'] is not None:
-        transactions = self.transactions.search(new_entry['transaction_desc'])
+        transactions = self.transactions.search(**new_entry['transaction_desc'])
         if len(transactions)==1:
           transaction = transactions[0]
           new_entry['transaction_id'] = transaction.transaction_id
@@ -254,7 +254,7 @@ class BudgetLines(BudgetLinesTemplate):
 
       if transaction is not None:
         new_entry.pop('transaction_desc', None)
-        transaction.add_entries(new_entry)
+        transaction.add_entries([new_entry])
         new_entries_count += 1
       else:
         print(f"Cannot find Actual Line for entry: {new_entry}")
