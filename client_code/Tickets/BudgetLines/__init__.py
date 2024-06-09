@@ -213,10 +213,18 @@ class BudgetLines(BudgetLinesTemplate):
     pass
 
   def add_new_vendors(self, new_vendors):
-    pass
+    vendor_ids = []
+    for v_data in new_vendors:
+      new_vendor = self.vendors.blank(v_data)
+      new_vendor.save_as_new()
+      vendor_ids.append(self.vendors.new(new_vendor))
+    return vendor_ids
 
   def add_new_actual_lines(self, new_actual_lines):
-    pass
+    actual_line_ids = []
+    for a_data in new_actual_lines:
+      new_trans = self.transactions.blank(a_data)
+      new_trans.save
     
   def import_button_click(self, **event_args):
     """This method is called when the button is clicked"""

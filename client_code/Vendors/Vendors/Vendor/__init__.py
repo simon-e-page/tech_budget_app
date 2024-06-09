@@ -85,7 +85,7 @@ class Vendor(VendorTemplate):
         self.item.save()
       else:
         self.item.vendor_id = self.item.vendor_name
-        ret = self.vendors.new(self.item)
+        ret = self.vendors.save_as_new(self.item)
         if ret is not None:
           self.item = ret
         else:

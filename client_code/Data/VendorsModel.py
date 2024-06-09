@@ -39,7 +39,7 @@ class Vendor(AttributeToKey):
       else:
         self[field] = item.get(field)
 
-  def new(self):
+  def save_as_new(self):
     if self.vendor_id is not None:
       raise ValueError("Expecting a new vendor with no vendor_id set!")
     ids = self.save()
@@ -119,8 +119,8 @@ class Vendors(AttributeToDict):
       if finance_vendor:
         vendor.finance_vendor = self.get(finance_vendor)
   
-  def blank(self):
-    return Vendor()
+  def blank(self, vendor_data=None):
+    return Vendor(vendor_json=vendor_data)
 
   def get_dropdown(self, finance_field=None):
     if finance_field is None:
