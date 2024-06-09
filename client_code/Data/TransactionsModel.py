@@ -112,19 +112,18 @@ class Transaction(AttributeToKey):
     return ret
 
     
-class LazyTransactionList:  
+class LazyTransactionList(AttributeToDict):  
   def __init__(self, sort='owner', filters={'deleted': False}, date_filter={}, direction='descending', page_size=10, initial_page=0):
     # Page numbers are zero indexed to match DataGrid
-    self.page_loaded = []
-    self.indexed = {}
-    self.max_page = 0
-    self.current_page = initial_page
+    #self.page_loaded = []
+    #self.indexed = {}
+    #self.max_page = 0
+    #self.current_page = initial_page
     self.sort = sort
     self.direction = direction
     self.filters = filters
     self.filters['brand'] = CURRENT_BRAND
-    self.length = 0
-    self.data = []
+    #self.length = 0
     
     #self.reset(sort=sort, filters=filters, date_filter=date_filter, direction=direction, page_size=page_size, initial_page=initial_page)
         
@@ -226,7 +225,7 @@ class LazyTransactionList:
 
   def load(self, start=None, end=None, **kwargs):
     self.length, slice = self._load(start=start, end=end, **kwargs)
-    self.data = [ Transaction(transaction_json=x) for x in slice ]
+    self.__d__ = { x['transaction_id'] : Transaction(transaction_json=x) for x in slice }
     
   #def get_page(self, page):
   # start = int(page * self.page_size)
@@ -272,20 +271,16 @@ class LazyTransactionList:
       new_trans_dict = transactions[0]
       ret = Transaction(transaction_json=new_trans_dict)
       #self.indexed[ret.transaction_id] = ret
-      self.data[ret.transaction_id] = ret
+      self.__d__[ret.transaction_id] = ret
     except Exception as e:
       print("Error adding new transaction!")
       raise
     return ret
 
-  def get(self, transaction_id):
-    return self.data.get(transaction_id, None)
-
   def delete(self, transaction_ids):
     for transaction_id in transaction_ids:
-      if transaction_id in self.data:
-        self.data[transaction_id].delete()
-        del self.data[transaction_id]
+        t = self.__d__.pop(transaction_id, None)
+        t.delete()
 
   #def reset(self, sort='timestamp', filters={}, date_filter={}, direction='descending', page_size=10, initial_page=0):
   #  self.sort = sort
@@ -310,7 +305,7 @@ class LazyTransactionList:
   def search(self, **kwargs):
     print(kwargs)
     trans = []
-    for t in self.data:
+    for t_id,t in self.__d_.items():
       found = True
       for k,v in kwargs.items():
         #print(f"looking for {k} with a value of {v} in {str(t)}")
@@ -348,7 +343,7 @@ class LazyTransactionList:
   #  return matched_trans
 
   def to_records(self, with_vendor_name=True, with_vendor=True, with_vendor_id=False):
-    return [ x.to_dict(with_vendor_name=with_vendor_name, with_vendor_id=with_vendor_id, with_vendor=with_vendor) for x in self.data ]
+    return [ x.to_dict(with_vendor_name=with_vendor_name, with_vendor_id=with_vendor_id, with_vendor=with_vendor) for x in self.__d__ ]
 
   def blank(self, transaction_data=None):
     return Transaction(transaction_json=transaction_data)
