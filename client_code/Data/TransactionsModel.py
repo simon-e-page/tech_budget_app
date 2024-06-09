@@ -114,101 +114,11 @@ class Transaction(AttributeToKey):
     
 class LazyTransactionList(AttributeToDict):  
   def __init__(self, sort='owner', filters={'deleted': False}, date_filter={}, direction='descending', page_size=10, initial_page=0):
-    # Page numbers are zero indexed to match DataGrid
-    #self.page_loaded = []
-    #self.indexed = {}
-    #self.max_page = 0
-    #self.current_page = initial_page
     self.sort = sort
     self.direction = direction
     self.filters = filters
     self.filters['brand'] = CURRENT_BRAND
-    #self.length = 0
-    
-    #self.reset(sort=sort, filters=filters, date_filter=date_filter, direction=direction, page_size=page_size, initial_page=initial_page)
-        
-  #def __getitem__(self, item):
-  #    if isinstance(item, (int, slice)):
-  #        print("Got indexing: {0}".format(item))
-  #       ret = self.list[item]
-  #        if None in ret:
-  #          print("Found a None in list!")
-  #          print(ret)
-  #        return self.list[item]
-  #    print("Got getitem with {0}".format(item))
-  #    return [self.list[i] for i in item]
-    
-  #def __setitem__(self, item, value):
-  #  print("Got setitem!")
-    
-  #def __delitem__(self, item):
-  #  print("Got delitem!")
-    
-  #def __iter__(self):
-  #  self.iter_obj = self.get_iterable()
-  #  return self
-    
-  #def __len__(self):
-  #  return self.length
-    
-  #def __next__(self):
-  #  return next(self.iter_obj)
-
-  #def get_max_page(self):
-  #  return self.max_page
-    
-  #def get_page_size(self):
-  #  return self.page_size
-
-  #def get_current_page(self):
-  #  return self.current_page
-      
-  #def next_page(self):
-  #  if self.current_page < self.max_page:
-  #    self.set_page(self.current_page + 1)
-
-  #def previous_page(self):
-  #  if self.current_page > 0:
-  #    self.set_page(self.current_page - 1)
-      
-  #def set_page(self, page):
-  #  """ Makes sure this page is loaded """
-  #  self.current_page = page
-  #  self.get_page(page)
-    
-  #def clear_cache(self, page=None):
-  #  """ Ensure pages get reloaded from server """
-  #  if (page is not None) and (page >= 0) and (page <= self.max_page):
-  #    self.page_loaded[page] = 0
-  #  else:
-  #    self.page_loaded = [ 0 for x in range(0, self.max_page+1) ]
-
-  #def initial_load(self, page):
-  #  start = page * self.page_size
-  #  end = start + self.page_size
-  #  self.length, slice = self.load(start, end)
-    
-    # Check if the initial page desired is beyond the actual list!
-  #  while start >= self.length and page > 0:
-  #    page -= 1
-  #    start = page * self.page_size
-  #    end = start + self.page_size
-  #   self.length, slice = self._load(start=start, end=end)
-      
-  #  self.current_page = page
-  # self.max_page = int(self.length / self.page_size) 
-    
-  # trans_list = [ Transaction(transaction_json=x) for x in slice ]
-  #self.list = [ None for x in range(0, self.length) ]        
-  # self.list[start:end] = trans_list
-    
-  #  for t in trans_list:
-  #    self.indexed[t.transaction_id] = t
-  #    
-  #  self.page_loaded = [ 0 for x in range(0, self.max_page+1) ]
-  #  self.page_loaded[page] = 1
-  #  print("{0} transactions in {1} pages of {2} items each".format(self.length, self.max_page+1, self.page_size))
-      
+     
   def _load(self, start=None, end=None, **kwargs):
     """ Setup backend dataset using filters """
     filters = {**self.filters, **kwargs}
@@ -227,50 +137,12 @@ class LazyTransactionList(AttributeToDict):
     self.length, slice = self._load(start=start, end=end, **kwargs)
     self.__d__ = { x['transaction_id'] : Transaction(transaction_json=x) for x in slice }
     
-  #def get_page(self, page):
-  # start = int(page * self.page_size)
-  #  end = start + self.page_size
-  #  if not self.page_loaded[page]:
-  #    ignore, slice = self._load(start=start, end=end)
-  #    self.page_loaded[page] = 1      
-  #    trans_list = [ Transaction(transaction_json=x) for x in slice ]
-  #    self.list[start:end] = trans_list
-  #    for t in trans_list:
-  #      self.indexed[t.transaction_id] = t
-
-  #  ret = self.list[start:end]
-  #  return ret    
-
-  # def reverse(self):
-  #  self.direction = 'descending' if self.direction == 'ascending' else 'ascending'
-  #  self.list = self.list[::-1]
-  #  # Need to clear the cache if not all transactions are present (as reversing the sort order changes the pagination)
-  #  if 0 in self.page_loaded:
-  #    self.clear_cache()
-
-  #def new_sort(self, sort_value):
-  #  self.sort = sort_value
-  #  if 0 in self.page_loaded:
-  #    self.clear_cache()
-  #  else:
-  #    reverse = True if self.direction == 'descending' else False
-  #    # FAIL: Not sure what this was trying to do..!!
-  #    self.list = sorted(self.list, key=itemgetter(sort_value), reverse=reverse)
-    
-  #def get_iterable(self):
-  #  page = 0
-  #  while page <= self.max_page:
-  #    items = self.get_page(page=page)
-  #    for item in items:
-  #        yield item
-  #    page += 1
 
   def new(self, transaction):
     try:
       transactions = anvil.server.call('Transactions', 'add_transaction', transaction.to_dict())
       new_trans_dict = transactions[0]
       ret = Transaction(transaction_json=new_trans_dict)
-      #self.indexed[ret.transaction_id] = ret
       self.__d__[ret.transaction_id] = ret
     except Exception as e:
       print("Error adding new transaction!")
@@ -282,18 +154,7 @@ class LazyTransactionList(AttributeToDict):
         t = self.__d__.pop(transaction_id, None)
         t.delete()
 
-  #def reset(self, sort='timestamp', filters={}, date_filter={}, direction='descending', page_size=10, initial_page=0):
-  #  self.sort = sort
-  #  self.filters = filters
-  #  self.date_filter = date_filter
-  #  self.direction = direction
-  #  self.page_size = page_size
-  ##  self.initial_page = initial_page
-  #  self.clear_cache()
-    #self.initial_load(self.current_page)
-  #  self.initial_load(self.initial_page)
-  #  self.iter_obj = self.get_iterable()
-
+ 
   def update(self, transaction_ids, updates):
     count = 0
     try:
@@ -308,39 +169,12 @@ class LazyTransactionList(AttributeToDict):
     for t_id,t in self.__d_.items():
       found = True
       for k,v in kwargs.items():
-        #print(f"looking for {k} with a value of {v} in {str(t)}")
         if t.get(k, None) != v:
           found = False
       if found:
         trans.append(t)
     return trans
     
-  #def search(self, sort='timestamp', filters = {}, date_filter={}, direction='descending'):
-  #  """ Returns a direct search of transactions from the backend. 
-  #      Operates independently of cached items 
-  #  """ 
-  #  filters['brand']=CURRENT_BRAND
-  #  _ignore, slice = anvil.server.call('Transactions', 'get_transactions_slice', 
-  #                                sort=sort, 
-  #                                filters=filters, 
-  #                                date_filter=date_filter, 
-  #                                direction=direction
-  #                               )
-  #  trans = [ Transaction(transaction_json=x) for x in slice ]
-  #  return trans
-
-  #def reconcile(self, transactions):
-  #  transaction_ids = [ x.transaction_id for x in transactions ]
-  #  count = anvil.server.call('Transactions', 'reconcile_transactions', transaction_ids)
-  #  return count
-    
-  #def match(self, transaction):
-  ##  """ Returns a set of matching transactions from the backend
-  #      Operates independently from the set of cached items
-  #  """
-  ##  matched_trans_list = [] #anvil.server.call('match_transactions', transaction.to_dict())
-  #  matched_trans = [ Transaction(transaction_json=x) for x in matched_trans_list ]
-  #  return matched_trans
 
   def to_records(self, with_vendor_name=True, with_vendor=True, with_vendor_id=False):
     return [ x.to_dict(with_vendor_name=with_vendor_name, with_vendor_id=with_vendor_id, with_vendor=with_vendor) for x in self.__d__.values() ]
