@@ -120,6 +120,7 @@ class LazyTransactionList(AttributeToDict):
     self.direction = direction
     self.filters = filters
     self.filters['brand'] = CURRENT_BRAND
+    self.__d__ = {}
      
   def _load(self, start=None, end=None, **kwargs):
     """ Setup backend dataset using filters """
@@ -181,7 +182,7 @@ class LazyTransactionList(AttributeToDict):
           keep[t_id] = t
       trans = keep
       print(f"After looking for {k}={v} we have {len(keep)} transactions")
-    return trans.values()
+    return list(trans.values())
     
 
   def to_records(self, with_vendor_name=True, with_vendor=True, with_vendor_id=False):

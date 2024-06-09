@@ -14,7 +14,10 @@ class ImportActuals(ImportActualsTemplate):
     self.next_month = Data.get_actuals_updated(CURRENT_YEAR)
     self.importer = ImporterModel.IMPORTER
     self.vendors = VendorsModel.VENDORS
+
+    # Expected to have all 'Actual Lines' loaded
     self.transactions = TransactionsModel.get_transactions()
+
     self.new_entries = None
     self.new_year_month = None
     self.month_total = None

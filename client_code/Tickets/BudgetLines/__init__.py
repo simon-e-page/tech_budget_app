@@ -184,22 +184,6 @@ class BudgetLines(BudgetLinesTemplate):
     transaction.update(data)
     transaction.save()
 
-  #def delete_transaction_button_click(self, **event_args):
-  #  """This method is called when the button is clicked"""
-  #  num_lines = len(self.selected_lines)
-  #  if confirm(f"About to delete {num_lines} users! Are you sure?"):
-  #    for row in self.selected_lines:
-  #      transaction = self.transactions.get(dict(row.getData())["transaction_id"])
-  #      try:
-  #        transaction.delete()
-  #      except Exception as e:
-  #        alert(
-  #          f"Could not delete - perhaps there are still existing Entries for {transaction['transaction_id']}"
-  #        )
-  #    self.vendors.load()
-  #    self.budget_lines_table_table_built()
-  #    self.selected_lines = []
-  #    self.refresh_data_bindings()
 
   def budget_lines_table_row_selection_changed(self, rows, data, **event_args):
     """This method is called when the row selection changes"""
@@ -281,7 +265,7 @@ class BudgetLines(BudgetLinesTemplate):
         actual_line_ids = self.add_new_actual_lines(new_actual_lines)
         
       if len(new_entries)>0:
-        #print(new_entries)
+        print(new_entries)
         entry_count = self.add_new_entries(new_entries)
 
       Notification(f"Successful import! {len(vendor_ids)} new vendors, {len(actual_line_ids)} Actual Lines and {entry_count} new entries created").show()
