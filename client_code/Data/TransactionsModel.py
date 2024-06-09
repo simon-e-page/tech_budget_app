@@ -171,7 +171,11 @@ class LazyTransactionList(AttributeToDict):
     for t_id, t in self.__d__.items():
       found = True
       for k,v in kwargs.items():
-        if t.get(k, None) != v:
+        if k=='vendor_name' and t.vendor.vendor_name != v:
+          found = False
+        elif k=='vendor_id' and t.vendor.vendor_id != v:
+          found = False
+        elif t.get(k, None) != v:
           found = False
       if found:
         trans.append(t)

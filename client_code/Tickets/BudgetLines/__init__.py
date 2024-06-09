@@ -245,10 +245,16 @@ class BudgetLines(BudgetLinesTemplate):
 
       # Look up transaction_id for newly created Actual Line
       if new_entry['transaction_desc'] is not None:
-        transactions = self.transactions.search(**new_entry['transaction_desc'])
+        filter = new_entry['transaction_desc']
+        #vendor = self.vendors.get_by_name(filter['vendor_name'])
+        #filter['vendor'] = vendor
+        #filter.pop('vendor_name', None)
+        transactions = self.transactions.search(**filter)
         if len(transactions)==1:
           transaction = transactions[0]
           new_entry['transaction_id'] = transaction.transaction_id
+        else:
+          print(transactions)
       else:
         transaction = self.transactions.get(new_entry['transaction_id'])
 
