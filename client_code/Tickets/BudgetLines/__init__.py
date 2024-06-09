@@ -211,14 +211,23 @@ class BudgetLines(BudgetLinesTemplate):
 
   def add_new_entries(self, new_entries):
     pass
+
+  def add_new_vendors(self, new_vendors):
+    pass
     
   def import_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     import_form = ImportActuals()
-    ret = alert(import_form, title="Import Actuals", buttons=(("OK", True), ("Cancel", False)), large=True)
+    ret = alert(import_form, title="Import Actuals", buttons=(("Import", True), ("Cancel", False)), large=True)
     if ret:
-      new_entries = import_form.get_new_entries()
-      print(new_entries)
-      self.add_new_entries(new_entries)
+      new_vendors, new_actual_lines, new_entries = import_form.get_new_entries()
+      
+      if len(new_vendors)>0:
+        print(new_vendors)
+        self.add_new_vendors(new_vendors)
+        
+      if len(new_entries)>0:
+        print(new_entries)
+        self.add_new_entries(new_entries)
       
 

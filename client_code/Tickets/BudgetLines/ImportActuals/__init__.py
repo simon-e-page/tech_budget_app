@@ -2,12 +2,11 @@ from ._anvil_designer import ImportActualsTemplate
 from anvil import *
 import anvil.server
 import anvil.users
-import anvil.tables as tables
-import anvil.tables.query as q
-from anvil.tables import app_tables
+
+import datetime as dt
 
 from .... import Data
-from ....Data import CURRENT_YEAR, ImporterModel, VendorsModel
+from ....Data import CURRENT_YEAR, ImporterModel, VendorsModel, CURRENT_BRAND, TransactionsModel
 
 
 class ImportActuals(ImportActualsTemplate):
@@ -15,6 +14,7 @@ class ImportActuals(ImportActualsTemplate):
     self.next_month = Data.get_actuals_updated(CURRENT_YEAR)
     self.importer = ImporterModel.IMPORTER
     self.vendors = VendorsModel.VENDORS
+    self.transactions = TransactionsModel.get_transactions()
     self.new_entries = None
     self.new_year_month = None
     self.month_total = None
@@ -27,9 +27,65 @@ class ImportActuals(ImportActualsTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
-  
+
   def get_new_entries(self):
-    return self.new_entries
+    """ Returns new vendors, actual_lines and entries from import that need to be created """
+    new_vendors = []
+    new_actual_lines = []
+    new_entries = []
+
+    year = int(str(self.new_year_month)[0:4])
+    month = int(str(self.new_year_month)[4:])
+    fin_year = year + int(month>6)
+    
+    for r in self.new_entries:
+      if not r['existing_vendor']:
+        new_vendors.append({
+          'vendor_name': r['vendor_name'],
+          'description': 'New Vendor from Finance System',
+          'from_finance_system': True,
+          'notes': f"Created by Finance Import in month: {self.new_year_month}"
+        })
+        for c in self.cost_centres:
+          new_desc = f"Finance System Actuals - {c}",
+          filter = { 'brand': CURRENT_BRAND,'vendor_name': r['vendor_name'], 'description': new_desc}
+          existing_transaction = self.transactions.search('ascending', filters=filter)
+          if len(existing_transaction)==0:
+            new_actual_lines.append({
+              'vendor_name': r['vendor_name'],
+              'brand': CURRENT_BRAND,
+              'description': new_desc,
+              'owner': anvil.users.get_user()['email'],
+              'transaction_type': 'Actual',
+              'cost_centre': c,
+              'source': 'finance import',
+              'import_id': self.new_year_month
+            })
+            new_entries.append({
+              'transaction_id': None,
+              'transaction_desc': filter,
+              'transaction_type': 'Actual',
+              'timestamp': dt.date(year, month, 1),
+              'fin_year': fin_year,
+              'year_month': self.new_year_month,
+              'amount': r[c]
+            })
+          elif len(existing_transaction)==1:
+            transaction_id = existing_transaction[0].transaction_id
+            new_entries.append({
+              'transaction_id': transaction_id,
+              'transaction_desc': None,
+              'transaction_type': 'Actual',
+              'timestamp': dt.date(year, month, 1),
+              'fin_year': fin_year,
+              'year_month': self.new_year_month,
+              'amount': r[c]
+            })
+          else:
+            alert(f"Should not happen! Multiple Actual Lines found for {CURRENT_BRAND}, {r['vendor_name']}, {c}")
+            
+    return new_vendors, new_actual_lines, new_entries
+
 
   def file_loader_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
