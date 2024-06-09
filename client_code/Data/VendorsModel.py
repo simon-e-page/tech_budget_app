@@ -18,7 +18,7 @@ class Vendor(AttributeToKey):
     'active': True,
     'notes': '',
     'icon_id': '',
-    'vendor_url': '',
+    'vendor_url': None,
     'from_finance_system': False
   }
 

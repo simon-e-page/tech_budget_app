@@ -166,7 +166,7 @@ class LazyTransactionList(AttributeToDict):
   def search(self, **kwargs):
     print(kwargs)
     trans = []
-    for t_id,t in self.__d_.items():
+    for t_id, t in self.__d__.items():
       found = True
       for k,v in kwargs.items():
         if t.get(k, None) != v:
