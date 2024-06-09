@@ -47,8 +47,8 @@ class ImportActuals(ImportActualsTemplate):
           'notes': f"Created by Finance Import in month: {self.new_year_month}"
         })
         for c in self.cost_centres:
-          new_desc = f"Finance System Actuals - {c}",
-          filter = { 'brand': CURRENT_BRAND,'vendor_name': r['vendor_name'], 'description': new_desc}
+          new_desc = f"Finance System Actuals - {c}"
+          filter = { 'brand': CURRENT_BRAND, 'vendor_name': r['vendor_name'], 'description': new_desc }
           existing_transaction = self.transactions.search(**filter)
           if len(existing_transaction)==0:
             new_actual_lines.append({

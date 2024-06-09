@@ -215,7 +215,7 @@ class BudgetLines(BudgetLinesTemplate):
   def add_new_vendors(self, new_vendors):
     pass
 
-  def add_new_actual_lins(self, new_actual_lines):
+  def add_new_actual_lines(self, new_actual_lines):
     pass
     
   def import_button_click(self, **event_args):

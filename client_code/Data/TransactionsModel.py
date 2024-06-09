@@ -313,11 +313,13 @@ class LazyTransactionList:
     return count
 
   def search(self, **kwargs):
+    print(kwargs)
     trans = []
-    for t in self.data.values():
+    for t in self.data:
       found = True
       for k,v in kwargs.items():
-        if k in t and t[k]!=v:
+        #print(f"looking for {k} with a value of {v} in {str(t)}")
+        if t.get(k, None) != v:
           found = False
       if found:
         trans.append(t)
