@@ -209,8 +209,6 @@ class BudgetLines(BudgetLinesTemplate):
       # Set item in vendor details
     self.refresh_data_bindings()
 
-  def add_new_entries(self, new_entries):
-    pass
 
   def add_new_vendors(self, new_vendors):
     vendor_ids = []
@@ -223,12 +221,41 @@ class BudgetLines(BudgetLinesTemplate):
   def add_new_actual_lines(self, new_actual_lines):
     actual_line_ids = []
     for a_data in new_actual_lines:
-      new_trans = self.transactions.blank(a_data)
-      new_trans = self.transactions.new(new_trans)
-      actual_line_ids.apped(new_trans.transaction_id)
+      # Lookup vendor_id including if just created!
+      vendor = self.vendors.get_by_name(a_data['vendor_name'])
+      if vendor:
+        a_data['vendor_id'] = vendor.vendor_id
+        a_data.pop('vendor_name', None)
+        new_trans = self.transactions.blank(a_data)
+        new_trans = self.transactions.new(new_trans)
+        actual_line_ids.apped(new_trans.transaction_id)
+      else:
+        print(f"Error finding vendor records for Actual! {a_data}")
     return actual_line_ids
       
-    
+  def add_new_entries(self, new_entries):
+    new_entries_count = 0
+    for new_entry in new_entries:
+      transaction = None
+
+      # Look up transaction_id for newly created Actual Line
+      if new_entry['transaction_desc'] is not None:
+        transactions = self.transactions.search(new_entry['transaction_desc'])
+        if len(transactions)==1:
+          transaction = transactions[0]
+          new_entry['transaction_id'] = transaction.transaction_id
+      else:
+        transaction = self.transactions.get(new_entry['transaction_id'])
+
+      if transaction is not None:
+        new_entry.pop('transaction_desc', None)
+        transaction.add_entries(new_entry)
+        new_entries_count += 1
+      else:
+        print(f"Cannot find Actual Line for entry: {new_entry}")
+        
+    return new_entries_count
+        
   def import_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     import_form = ImportActuals()
