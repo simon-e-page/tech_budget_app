@@ -80,6 +80,8 @@ class Transaction(AttributeToKey):
       d['vendor_id'] = self.vendor['vendor_id']
     if with_vendor:
       d['vendor'] = self.vendor
+    else:
+      d.pop('vendor', None)
     return d
 
   # TODO: Review - do we need this?

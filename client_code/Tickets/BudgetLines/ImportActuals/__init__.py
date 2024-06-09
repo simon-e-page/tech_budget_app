@@ -59,7 +59,7 @@ class ImportActuals(ImportActualsTemplate):
               'transaction_type': 'Actual',
               'cost_centre': c,
               'source': 'finance import',
-              'import_id': self.new_year_month
+              'import_id': str(self.new_year_month)
             })
             new_entries.append({
               'transaction_id': None,
@@ -86,7 +86,6 @@ class ImportActuals(ImportActualsTemplate):
           else:
             print(f"Amount should equal zero: {r[c]}")
                   
-            
     return new_vendors, new_actual_lines, new_entries
 
 
