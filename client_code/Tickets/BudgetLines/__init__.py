@@ -215,7 +215,8 @@ class BudgetLines(BudgetLinesTemplate):
     for v_data in new_vendors:
       new_vendor = self.vendors.blank(v_data)
       new_vendor.save_as_new()
-      vendor_ids.append(self.vendors.new(new_vendor))
+      self.vendors.add(new_vendor.vendor_id, new_vendor)
+      vendor_ids.append(new_vendor.vendor_id)
     return vendor_ids
 
   def add_new_actual_lines(self, new_actual_lines):
@@ -262,17 +263,21 @@ class BudgetLines(BudgetLinesTemplate):
     ret = alert(import_form, title="Import Actuals", buttons=(("Import", True), ("Cancel", False)), large=True)
     if ret:
       new_vendors, new_actual_lines, new_entries = import_form.get_new_entries()
+      vendor_ids = []
+      actual_line_ids = []
+      entry_count = 0
       
       if len(new_vendors)>0:
         print(new_vendors)
-        self.add_new_vendors(new_vendors)
+        vendor_ids = self.add_new_vendors(new_vendors)
 
       if len(new_actual_lines)>0:
         print(new_actual_lines)
-        self.add_new_actual_lines(new_actual_lines)
+        actual_line_ids = self.add_new_actual_lines(new_actual_lines)
         
       if len(new_entries)>0:
         print(new_entries)
-        self.add_new_entries(new_entries)
-      
+        entry_count = self.add_new_entries(new_entries)
+
+      Notification(f"Successful import! {len(vendor_ids)} new vendors, {len(actual_line_ids)} Actual Lines and {entry_count} new entries created").show()
 

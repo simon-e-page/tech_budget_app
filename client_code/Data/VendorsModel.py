@@ -37,7 +37,7 @@ class Vendor(AttributeToKey):
       if default is not None:
         self[field] = item.get(field, default)
       else:
-        self[field] = item.get(field)
+        self[field] = item.get(field, None)
 
   def save_as_new(self):
     if self.vendor_id is not None:
