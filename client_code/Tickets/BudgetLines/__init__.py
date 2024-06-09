@@ -214,6 +214,9 @@ class BudgetLines(BudgetLinesTemplate):
 
   def add_new_vendors(self, new_vendors):
     pass
+
+  def add_new_actual_lins(self, new_actual_lines):
+    pass
     
   def import_button_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -225,6 +228,10 @@ class BudgetLines(BudgetLinesTemplate):
       if len(new_vendors)>0:
         print(new_vendors)
         self.add_new_vendors(new_vendors)
+
+      if len(new_actual_lines)>0:
+        print(new_actual_lines)
+        self.add_new_actual_lines(new_actual_lines)
         
       if len(new_entries)>0:
         print(new_entries)
