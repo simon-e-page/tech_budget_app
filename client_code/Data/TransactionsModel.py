@@ -166,25 +166,22 @@ class LazyTransactionList(AttributeToDict):
     return count
 
   def search(self, **kwargs):
-    #print(kwargs)
-    trans = []
-    for t_id, t in self.__d__.items():
-      found = True
-      for k,v in kwargs.items():
+    trans = self.__d__.copy()
+    for k,v in kwargs.items():
+      for t_id, t in trans.items():
+        keep = {}
+        found = True
         if k=='vendor_name':
           found = (t.vendor.vendor_name == v)
-          print(f"{t.vendor.vendor_name} != {v}")
-          #found = False
         elif k=='vendor_id':
           found = (t.vendor.vendor_id == v)
-          print(f"{t.vendor.vendor_id} != {v}")
-          #found = False
         else:
           found = (t.get(k, None) == v)
-          print(f"{t[k]} != {v}")
-      if found:
-        trans.append(t)
-    return trans
+        if found:
+          keep[t_id] = t
+      trans = keep
+      print(f"After looking for {k}={v} we have {len(keep)} transactions")
+    return trans.values()
     
 
   def to_records(self, with_vendor_name=True, with_vendor=True, with_vendor_id=False):

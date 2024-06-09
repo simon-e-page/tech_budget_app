@@ -246,15 +246,10 @@ class BudgetLines(BudgetLinesTemplate):
       # Look up transaction_id for newly created Actual Line
       if new_entry['transaction_desc'] is not None:
         filter = new_entry['transaction_desc']
-        #vendor = self.vendors.get_by_name(filter['vendor_name'])
-        #filter['vendor'] = vendor
-        #filter.pop('vendor_name', None)
         transactions = self.transactions.search(**filter)
         if len(transactions)==1:
           transaction = transactions[0]
           new_entry['transaction_id'] = transaction.transaction_id
-        else:
-          print(transactions)
       else:
         transaction = self.transactions.get(new_entry['transaction_id'])
 
@@ -286,7 +281,7 @@ class BudgetLines(BudgetLinesTemplate):
         actual_line_ids = self.add_new_actual_lines(new_actual_lines)
         
       if len(new_entries)>0:
-        print(new_entries)
+        #print(new_entries)
         entry_count = self.add_new_entries(new_entries)
 
       Notification(f"Successful import! {len(vendor_ids)} new vendors, {len(actual_line_ids)} Actual Lines and {entry_count} new entries created").show()
