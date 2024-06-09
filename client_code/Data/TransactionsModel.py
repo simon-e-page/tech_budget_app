@@ -314,7 +314,7 @@ class LazyTransactionList:
 
   def search(self, **kwargs):
     trans = []
-    for t in self.data:
+    for t in self.data.values():
       found = True
       for k,v in kwargs.items():
         if k in t and t[k]!=v:
