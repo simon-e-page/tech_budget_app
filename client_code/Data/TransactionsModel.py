@@ -142,14 +142,14 @@ class LazyTransactionList(AttributeToDict):
 
   def new(self, transaction):
     try:
-      transactions = anvil.server.call('Transactions', 'add_transaction', transaction.to_dict())
-      new_trans_dict = transactions[0]
-      ret = Transaction(transaction_json=new_trans_dict)
-      self.__d__[ret.transaction_id] = ret
+      transaction_ids = anvil.server.call('Transactions', 'add_transaction', transaction.to_dict())
+      new_trans_id = transaction_ids[0]
+      transaction['transaction_id'] = new_trans_id
+      self.__d__[transaction.transaction_id] = transaction
     except Exception as e:
       print("Error adding new transaction!")
       raise
-    return ret
+    return transaction
 
   def delete(self, transaction_ids):
     for transaction_id in transaction_ids:

@@ -30,10 +30,13 @@ class ImportActuals(ImportActualsTemplate):
 
   def get_new_entries(self):
     """ Returns new vendors, actual_lines and entries from import that need to be created """
+    if self.new_entries is None or len(self.new_entries)==0:
+      return [], [], []
+
     new_vendors = []
     new_actual_lines = []
     new_entries = []
-
+      
     year = int(str(self.new_year_month)[0:4])
     month = int(str(self.new_year_month)[4:])
     fin_year = year + int(month>6)

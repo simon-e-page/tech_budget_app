@@ -233,7 +233,7 @@ class BudgetLines(BudgetLinesTemplate):
         a_data.pop('vendor_name', None)
         new_trans = self.transactions.blank(a_data)
         new_trans = self.transactions.new(new_trans)
-        actual_line_ids.apped(new_trans.transaction_id)
+        actual_line_ids.append(new_trans.transaction_id)
       else:
         print(f"Error finding vendor records for Actual! {a_data}")
     return actual_line_ids
