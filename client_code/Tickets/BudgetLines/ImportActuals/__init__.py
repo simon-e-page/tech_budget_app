@@ -49,7 +49,7 @@ class ImportActuals(ImportActualsTemplate):
         for c in self.cost_centres:
           new_desc = f"Finance System Actuals - {c}",
           filter = { 'brand': CURRENT_BRAND,'vendor_name': r['vendor_name'], 'description': new_desc}
-          existing_transaction = self.transactions.search('ascending', filters=filter)
+          existing_transaction = self.transactions.search(**filter)
           if len(existing_transaction)==0:
             new_actual_lines.append({
               'vendor_name': r['vendor_name'],

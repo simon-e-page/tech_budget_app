@@ -312,19 +312,30 @@ class LazyTransactionList:
       print("Error in update_transactions_bulk")
     return count
 
-  def search(self, sort='timestamp', filters = {}, date_filter={}, direction='descending'):
-    """ Returns a direct search of transactions from the backend. 
-        Operates independently of cached items 
-    """ 
-    filters['brand']=CURRENT_BRAND
-    _ignore, slice = anvil.server.call('Transactions', 'get_transactions_slice', 
-                                  sort=sort, 
-                                  filters=filters, 
-                                  date_filter=date_filter, 
-                                  direction=direction
-                                 )
-    trans = [ Transaction(transaction_json=x) for x in slice ]
+  def search(self, **kwargs):
+    trans = []
+    for t in self.data:
+      found = True
+      for k,v in kwargs.items():
+        if k in t and t[k]!=v:
+          found = False
+      if found:
+        trans.append(t)
     return trans
+    
+  #def search(self, sort='timestamp', filters = {}, date_filter={}, direction='descending'):
+  #  """ Returns a direct search of transactions from the backend. 
+  #      Operates independently of cached items 
+  #  """ 
+  #  filters['brand']=CURRENT_BRAND
+  #  _ignore, slice = anvil.server.call('Transactions', 'get_transactions_slice', 
+  #                                sort=sort, 
+  #                                filters=filters, 
+  #                                date_filter=date_filter, 
+  #                                direction=direction
+  #                               )
+  #  trans = [ Transaction(transaction_json=x) for x in slice ]
+  #  return trans
 
   def reconcile(self, transactions):
     transaction_ids = [ x.transaction_id for x in transactions ]
