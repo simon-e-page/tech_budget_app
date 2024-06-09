@@ -214,9 +214,13 @@ class BudgetLines(BudgetLinesTemplate):
     vendor_ids = []
     for v_data in new_vendors:
       new_vendor = self.vendors.blank(v_data)
-      new_vendor.save_as_new()
-      self.vendors.add(new_vendor.vendor_id, new_vendor)
-      vendor_ids.append(new_vendor.vendor_id)
+      try:
+        new_vendor.save_as_new()
+        self.vendors.add(new_vendor.vendor_id, new_vendor)
+        vendor_ids.append(new_vendor.vendor_id)
+      except ValueError as e:
+        print("Vendor already exists - ignoring!")
+        
     return vendor_ids
 
   def add_new_actual_lines(self, new_actual_lines):

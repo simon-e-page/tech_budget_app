@@ -50,7 +50,7 @@ class ImportActuals(ImportActualsTemplate):
           new_desc = f"Finance System Actuals - {c}"
           filter = { 'brand': CURRENT_BRAND, 'vendor_name': r['vendor_name'], 'description': new_desc }
           existing_transaction = self.transactions.search(**filter)
-          if len(existing_transaction)==0:
+          if len(existing_transaction)==0 and r[c]!=0.0:
             new_actual_lines.append({
               'vendor_name': r['vendor_name'],
               'brand': CURRENT_BRAND,
@@ -70,7 +70,7 @@ class ImportActuals(ImportActualsTemplate):
               'year_month': self.new_year_month,
               'amount': r[c]
             })
-          elif len(existing_transaction)==1:
+          elif len(existing_transaction)==1 and r[c]!=0.0:
             transaction_id = existing_transaction[0].transaction_id
             new_entries.append({
               'transaction_id': transaction_id,
@@ -81,8 +81,11 @@ class ImportActuals(ImportActualsTemplate):
               'year_month': self.new_year_month,
               'amount': r[c]
             })
-          else:
+          elif r[c]!=0.0:
             alert(f"Should not happen! Multiple Actual Lines found for {CURRENT_BRAND}, {r['vendor_name']}, {c}")
+          else:
+            print(f"Amount should equal zero: {r[c]}")
+                  
             
     return new_vendors, new_actual_lines, new_entries
 
