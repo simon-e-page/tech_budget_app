@@ -343,7 +343,7 @@ class LazyTransactionList(AttributeToDict):
   #  return matched_trans
 
   def to_records(self, with_vendor_name=True, with_vendor=True, with_vendor_id=False):
-    return [ x.to_dict(with_vendor_name=with_vendor_name, with_vendor_id=with_vendor_id, with_vendor=with_vendor) for x in self.__d__ ]
+    return [ x.to_dict(with_vendor_name=with_vendor_name, with_vendor_id=with_vendor_id, with_vendor=with_vendor) for x in self.__d__.values() ]
 
   def blank(self, transaction_data=None):
     return Transaction(transaction_json=transaction_data)
