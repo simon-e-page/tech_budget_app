@@ -242,14 +242,14 @@ class LazyTransactionList:
   #  ret = self.list[start:end]
   #  return ret    
 
-  def reverse(self):
+  # def reverse(self):
   #  self.direction = 'descending' if self.direction == 'ascending' else 'ascending'
   #  self.list = self.list[::-1]
   #  # Need to clear the cache if not all transactions are present (as reversing the sort order changes the pagination)
   #  if 0 in self.page_loaded:
   #    self.clear_cache()
 
-  def new_sort(self, sort_value):
+  #def new_sort(self, sort_value):
   #  self.sort = sort_value
   #  if 0 in self.page_loaded:
   #    self.clear_cache()

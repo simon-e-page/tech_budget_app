@@ -224,7 +224,10 @@ class BudgetLines(BudgetLinesTemplate):
     actual_line_ids = []
     for a_data in new_actual_lines:
       new_trans = self.transactions.blank(a_data)
-      new_trans.save
+      new_trans = self.transactions.new(new_trans)
+      actual_line_ids.apped(new_trans.transaction_id)
+    return actual_line_ids
+      
     
   def import_button_click(self, **event_args):
     """This method is called when the button is clicked"""
