@@ -41,10 +41,10 @@ class ImportActuals(ImportActualsTemplate):
     # Expected to have all 'Actual Lines' loaded
     self.transactions = TransactionsModel.get_transactions()
 
-    self.new_entries = None
+    self.new_entries = []
     self.new_year_month = None
     self.month_total = None
-    self.cost_centres = None
+    self.cost_centres = []
     print(f"{self.actuals_to_date} vs {CURRENT_YEAR}")
     
     if self.actuals_to_date == CURRENT_YEAR * 100 + 6:
@@ -127,14 +127,14 @@ class ImportActuals(ImportActualsTemplate):
   def file_loader_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
     year_month = self.importer.check_brand(file.name)
-    
+
     if year_month is not None:
       process = False
       if year_month == self.actuals_to_date + 1:
         process = True
       elif year_month > self.actuals_to_date + 1:
         print(f"{year_month} > {self.actuals_to_date}??")
-        alert("FIle is for for a non-consecutive future month which will leave a gap!")
+        alert("File is for for a non-consecutive future month which will leave a gap!")
         process = False
       elif year_month <= self.actuals_to_date and confirm("Importing this file will overwrite existing records. Are you sure?"):
         process = True
@@ -145,6 +145,7 @@ class ImportActuals(ImportActualsTemplate):
         self.cost_centres = new_data['cost_centres']
         self.new_year_month = new_data['year_month']
         self.month_total = new_data['month_total']
+        print(self.cost_centres)
         self.render_table()
 
   
@@ -180,13 +181,19 @@ class ImportActuals(ImportActualsTemplate):
       {
         'title': x,
         'field': x,
+        'hozAlign': 'right',
+        'formatter': 'money',
+        'formatterParams': { 'precision': 0 }
       } for x in self.cost_centres
     ]
 
     columns += [
       {
         'title': 'Total',
-        'field': 'total'
+        'field': 'total',
+        'hozAlign': 'right',
+        'formatter': 'money',
+        'formatterParams': { 'precision': 0 }
       }
     ]
 

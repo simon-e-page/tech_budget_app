@@ -34,7 +34,7 @@ components:
       type: Label
       layout_properties: {grid_position: 'USAPCI,BPEJDW'}
       data_bindings:
-      - {property: text, code: 'f"Import Actuals for {self.new_year_month}"', writeback: false}
+      - {property: text, code: 'f"Import Actuals for {self.new_year_month}: {len(self.new_entries)} rows"', writeback: false}
     - name: total_label
       properties: {align: right}
       type: Label
