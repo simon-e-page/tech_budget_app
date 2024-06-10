@@ -1,20 +1,15 @@
 container:
   type: HtmlTemplate
-  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true,
-    role: null, html: '@theme:two_slots_customers.html'}
+  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true, role: null, html: '@theme:two_slots_customers.html'}
   event_bindings: {refreshing_data_bindings: form_refreshing_data_bindings}
 components:
 - type: ColumnPanel
-  properties: {role: filter-form-shadow, tooltip: '', border: '', foreground: '',
-    visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{"BPVTVB":15,"ZOUBMS":25,"VANLKJ":10,"BJQXOK":13}',
-    spacing_below: small, background: ''}
+  properties: {role: filter-form-shadow, tooltip: '', border: '', foreground: '', visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{"BPVTVB":15,"ZOUBMS":25,"VANLKJ":10,"BJQXOK":13}', spacing_below: small, background: ''}
   name: transaction_details
   layout_properties: {slot: slot-1}
   components:
   - type: ColumnPanel
-    properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-      wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
-      spacing_below: small, background: ''}
+    properties: {role: null, tooltip: '', border: '', foreground: '', visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}', spacing_below: small, background: ''}
     name: column_panel_1_copy
     layout_properties:
       col_widths: {}
@@ -26,21 +21,16 @@ components:
       layout_properties: {grid_position: 'YFTLZN,DZTYIV'}
       components:
       - type: Label
-        properties: {role: header-text, align: left, tooltip: '', border: '', foreground: '',
-          visible: true, text: Budget Line Detail, font_size: null, font: '', spacing_above: small,
-          icon_align: left, spacing_below: medium, italic: false, background: '',
-          bold: false, underline: false, icon: ''}
+        properties: {role: header-text, align: left, tooltip: '', border: '', foreground: '', visible: true, text: Budget Line Detail, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: medium, italic: false, background: '', bold: false, underline: false, icon: ''}
         name: label_1
         data_bindings:
-        - {property: text, code: 'self.budget_labels[self.item[''transaction_type'']==''Budget'']',
-          writeback: false}
+        - {property: text, code: 'self.budget_labels[self.item[''transaction_type'']==''Budget'']', writeback: false}
       - name: actual_button
         properties: {text: '', role: secondary-button}
         type: Button
         layout_properties: {}
         data_bindings:
-        - {property: text, code: 'self.actual_button_labels[self.item.transaction_type==''Budget'']',
-          writeback: false}
+        - {property: text, code: 'self.actual_button_labels[self.item.transaction_type==''Budget'']', writeback: false}
         - {property: visible, code: self.item.transaction_id is None, writeback: false}
         event_bindings: {click: actual_button_click}
   - name: flow_panel_2
@@ -49,10 +39,7 @@ components:
     layout_properties: {grid_position: 'WJRQUG,CEDYMV'}
     components:
     - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Muted
-          purple', visible: true, text: 'Owner: ', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Muted purple', visible: true, text: 'Owner: ', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
       name: label_2_copy
       layout_properties: {}
       data_bindings: []
@@ -97,43 +84,30 @@ components:
       - {property: visible, code: self.item.transaction_id is None, writeback: false}
       event_bindings: {click: new_vendor_button_click}
   - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Muted
-        purple', visible: true, text: 'Description:', font_size: null, font: '', spacing_above: medium,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+    properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Muted purple', visible: true, text: 'Description:', font_size: null, font: '', spacing_above: medium, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
     name: label_2_copy_3
     layout_properties:
       col_widths: {}
       grid_position: MSYHQS,IHHAVP
   - type: TextBox
-    properties: {role: textbox-input, align: left, hide_text: false, tooltip: '',
-      placeholder: Enter Description, border: '', enabled: true, foreground: '', visible: true,
-      text: '', font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
-      italic: false, background: '', bold: false, underline: false}
+    properties: {role: textbox-input, align: left, hide_text: false, tooltip: '', placeholder: Enter Description, border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: text, spacing_below: small, italic: false, background: '', bold: false, underline: false}
     name: description_box
     layout_properties:
       col_widths: {}
       grid_position: UGYKFB,GXVNJM
     data_bindings:
     - {property: text, code: 'self.item[''description'']', writeback: true}
-    event_bindings: {pressed_enter: transaction_description_edit, lost_focus: transaction_description_edit,
-      change: transaction_description_edit}
+    event_bindings: {pressed_enter: transaction_description_edit, lost_focus: transaction_description_edit, change: transaction_description_edit}
   - name: flow_panel_10
     properties: {}
     type: FlowPanel
     layout_properties: {grid_position: 'RCVFDJ,FCVMTE'}
     components:
     - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Muted
-          purple', visible: true, text: 'Business Contact:', font_size: null, font: '',
-        spacing_above: medium, icon_align: left, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false, icon: ''}
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Muted purple', visible: true, text: 'Business Contact:', font_size: null, font: '', spacing_above: medium, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
       name: label_2_copy_4
     - type: TextBox
-      properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Enter Business Contact,
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Enter Business Contact, border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: text, spacing_below: small, italic: false, background: '', bold: false, underline: false}
       name: amount_box
       layout_properties: {}
       data_bindings:
@@ -185,16 +159,12 @@ components:
       data_bindings:
       - {property: text, code: 'self.item[''expected_monthly_amount'']', writeback: true}
   - type: FlowPanel
-    properties: {role: null, spacing: medium, align: left, tooltip: '', border: '',
-      foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
+    properties: {role: null, spacing: medium, align: left, tooltip: '', border: '', foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
     name: flow_panel_3
     layout_properties: {grid_position: 'PEEBXT,MXBJFQ'}
     components:
     - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: Account Code, font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: Account Code, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
       name: label_2
       layout_properties: {}
     - type: DropDown
@@ -290,17 +260,11 @@ components:
       - {property: selected_value, code: 'self.item[''billing_type'']', writeback: true}
       layout_properties: {}
   - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Muted
-        purple', visible: true, text: Notes, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+    properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Muted purple', visible: true, text: Notes, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
     name: label_3
     layout_properties: {grid_position: 'IGHJWB,RWXSIA'}
   - type: TextArea
-    properties: {role: null, align: left, height: 93.7031, tooltip: '', placeholder: Enter notes here..,
-      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-      auto_expand: false, font: '', spacing_above: small, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false}
+    properties: {role: null, align: left, height: 93.7031, tooltip: '', placeholder: Enter notes here.., border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, auto_expand: false, font: '', spacing_above: small, spacing_below: small, italic: false, background: '', bold: false, underline: false}
     name: notes_area
     layout_properties: {grid_position: 'WSDITZ,KIBOHT'}
     data_bindings:
@@ -316,8 +280,7 @@ components:
       type: CheckBox
       data_bindings:
       - {property: checked, code: 'self.item[''to_review'']', writeback: true}
-      - {property: visible, code: 'self.item[''transaction_type''] == ''Actual''',
-        writeback: false}
+      - {property: visible, code: 'self.item[''transaction_type''] == ''Actual''', writeback: false}
       layout_properties: {}
     - name: disable_checkbox
       properties: {text: Disabled}
@@ -338,49 +301,33 @@ components:
       - {property: text, code: '"Updated by: " + self.item[''updated_by'']', writeback: false}
       layout_properties: {}
     - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '', font_size: 14, font: '', spacing_above: small, icon_align: left,
-        spacing_below: small, italic: true, background: '', bold: false, underline: false,
-        icon: ''}
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: '', font_size: 14, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: true, background: '', bold: false, underline: false, icon: ''}
       name: source_label
       data_bindings:
       - {property: text, code: '"Source: {0}".format(self.item[''source''])', writeback: false}
   - type: Button
-    properties: {role: secondary-button, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: Back, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: 'fa:backward'}
+    properties: {role: secondary-button, align: center, tooltip: '', border: '', enabled: true, foreground: '', visible: true, text: Back, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: 'fa:backward'}
     name: back_button
     layout_properties: {grid_position: 'SZJHZM,BPVTVB'}
     event_bindings: {click: back_button_click}
   - type: FlowPanel
-    properties: {role: null, spacing: medium, align: justify, tooltip: '', border: '',
-      foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
+    properties: {role: null, spacing: medium, align: justify, tooltip: '', border: '', foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
     name: flow_panel_1
     layout_properties: {grid_position: 'SZJHZM,ZOUBMS'}
     components:
     - type: Button
-      properties: {role: secondary-button, align: center, tooltip: '', border: '',
-        enabled: true, foreground: '', visible: true, text: Delete, font_size: null,
-        font: '', spacing_above: none, icon_align: left, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false, icon: ''}
+      properties: {role: secondary-button, align: center, tooltip: '', border: '', enabled: true, foreground: '', visible: true, text: Delete, font_size: null, font: '', spacing_above: none, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
       name: delete_button
       layout_properties: {}
       event_bindings: {click: delete_button_click}
       data_bindings: []
   - type: Button
-    properties: {role: secondary-button, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: Revert, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: 'fa:undo'}
+    properties: {role: secondary-button, align: center, tooltip: '', border: '', enabled: true, foreground: '', visible: true, text: Revert, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: 'fa:undo'}
     name: revert_button
     layout_properties: {grid_position: 'SZJHZM,BJQXOK'}
     event_bindings: {click: revert_button_click}
   - type: Button
-    properties: {role: primary-button, align: right, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: Save, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: 'fa:check-circle'}
+    properties: {role: primary-button, align: right, tooltip: '', border: '', enabled: true, foreground: '', visible: true, text: Save, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: 'fa:check-circle'}
     name: save_button
     layout_properties: {grid_position: 'SZJHZM,VANLKJ'}
     event_bindings: {click: save_button_click}

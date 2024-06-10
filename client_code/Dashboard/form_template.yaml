@@ -1,7 +1,6 @@
 container:
   type: HtmlTemplate
-  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true,
-    role: null, html: '@theme:three_slots.html'}
+  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true, role: null, html: '@theme:three_slots.html'}
   event_bindings: {show: form_show}
 components:
 - type: form:Dashboard.Content
@@ -9,89 +8,57 @@ components:
   name: dash_content
   layout_properties: {slot: slot-1}
 - type: ColumnPanel
-  properties: {role: filter-form-shadow, tooltip: '', border: '', foreground: '',
-    visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
-    spacing_below: small, background: ''}
+  properties: {role: filter-form-shadow, tooltip: '', border: '', foreground: '', visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}', spacing_below: small, background: ''}
   name: column_panel_1
   layout_properties: {slot: slot-2}
   components:
   - type: Label
-    properties: {role: header-text, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: 'Accounts:', font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+    properties: {role: header-text, align: left, tooltip: '', border: '', foreground: '', visible: true, text: 'Accounts:', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
     name: label_3
     layout_properties: {grid_position: 'NONZGQ,SEZKON'}
   - type: RadioButton
-    properties: {role: null, selected: true, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: all, visible: true, text: All accounts,
-      font_size: null, font: '', spacing_above: small, spacing_below: small, italic: false,
-      background: '', bold: false, group_name: account_filter, underline: false}
+    properties: {role: null, selected: true, align: left, tooltip: '', border: '', enabled: true, foreground: '', value: all, visible: true, text: All accounts, font_size: null, font: '', spacing_above: small, spacing_below: small, italic: false, background: '', bold: false, group_name: account_filter, underline: false}
     name: all_accounts_check
     layout_properties: {grid_position: 'EOAQBM,CADHNT'}
     event_bindings: {clicked: compare_show_changed}
   - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: budget, visible: true, text: With Budget set,
-      font_size: null, font: '', spacing_above: small, spacing_below: small, italic: false,
-      background: '', bold: false, group_name: account_filter, underline: false}
+    properties: {role: null, selected: false, align: left, tooltip: '', border: '', enabled: true, foreground: '', value: budget, visible: true, text: With Budget set, font_size: null, font: '', spacing_above: small, spacing_below: small, italic: false, background: '', bold: false, group_name: account_filter, underline: false}
     name: budget_check
     layout_properties: {grid_position: 'AMJXXT,DMOZNT'}
     event_bindings: {clicked: compare_show_changed}
   - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: discretionary, visible: true, text: Discretionary,
-      font_size: null, font: '', spacing_above: small, spacing_below: small, italic: false,
-      background: '', bold: false, group_name: account_filter, underline: false}
+    properties: {role: null, selected: false, align: left, tooltip: '', border: '', enabled: true, foreground: '', value: discretionary, visible: true, text: Discretionary, font_size: null, font: '', spacing_above: small, spacing_below: small, italic: false, background: '', bold: false, group_name: account_filter, underline: false}
     name: discretionary_check
     layout_properties: {grid_position: 'WRBGYF,DBXVSO'}
     event_bindings: {clicked: compare_show_changed}
   - type: Label
-    properties: {role: header-text, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: 'Compare against:', font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: medium, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+    properties: {role: header-text, align: left, tooltip: '', border: '', foreground: '', visible: true, text: 'Compare against:', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: medium, italic: false, background: '', bold: false, underline: false, icon: ''}
     name: label_1
     layout_properties: {grid_position: 'UBGWXZ,PCCWTR'}
   - type: RadioButton
-    properties: {role: null, selected: true, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: budget, visible: true, text: Budget, font_size: null,
-      font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
-      bold: false, group_name: compare, underline: false}
+    properties: {role: null, selected: true, align: left, tooltip: '', border: '', enabled: true, foreground: '', value: budget, visible: true, text: Budget, font_size: null, font: '', spacing_above: small, spacing_below: small, italic: false, background: '', bold: false, group_name: compare, underline: false}
     name: budget_radio
     layout_properties: {grid_position: 'AIOYMK,XFSVMC'}
     data_bindings: []
     event_bindings: {clicked: compare_show_changed}
   - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: prior_year, visible: true, text: Prior Year,
-      font_size: null, font: '', spacing_above: small, spacing_below: small, italic: false,
-      background: '', bold: false, group_name: compare, underline: false}
+    properties: {role: null, selected: false, align: left, tooltip: '', border: '', enabled: true, foreground: '', value: prior_year, visible: true, text: Prior Year, font_size: null, font: '', spacing_above: small, spacing_below: small, italic: false, background: '', bold: false, group_name: compare, underline: false}
     name: prior_year_radio
     layout_properties: {grid_position: 'NIGDDR,UVHNJS'}
     data_bindings: []
     event_bindings: {clicked: compare_show_changed}
   - type: Label
-    properties: {role: header-text, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: 'And Show:', font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+    properties: {role: header-text, align: left, tooltip: '', border: '', foreground: '', visible: true, text: 'And Show:', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
     name: label_2
     layout_properties: {grid_position: 'ETKHMC,YQJCQU'}
   - type: RadioButton
-    properties: {role: null, selected: true, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: absolute, visible: true, text: Absolute Values,
-      font_size: null, font: '', spacing_above: small, spacing_below: small, italic: false,
-      background: '', bold: false, group_name: show, underline: false}
+    properties: {role: null, selected: true, align: left, tooltip: '', border: '', enabled: true, foreground: '', value: absolute, visible: true, text: Absolute Values, font_size: null, font: '', spacing_above: small, spacing_below: small, italic: false, background: '', bold: false, group_name: show, underline: false}
     name: absolute_radio
     layout_properties: {grid_position: 'NFIPVV,MJHMUR'}
     data_bindings: []
     event_bindings: {clicked: compare_show_changed}
   - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: deltas, visible: true, text: Deltas, font_size: null,
-      font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
-      bold: false, group_name: show, underline: false}
+    properties: {role: null, selected: false, align: left, tooltip: '', border: '', enabled: true, foreground: '', value: deltas, visible: true, text: Deltas, font_size: null, font: '', spacing_above: small, spacing_below: small, italic: false, background: '', bold: false, group_name: show, underline: false}
     name: delta_radio
     layout_properties: {grid_position: 'JMOPGS,IVXKCQ'}
     data_bindings: []

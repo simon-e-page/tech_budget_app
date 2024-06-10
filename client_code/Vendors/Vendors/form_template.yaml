@@ -1,20 +1,15 @@
 container:
   type: HtmlTemplate
-  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true,
-    role: null, html: '@theme:two_slots_customers.html'}
+  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true, role: null, html: '@theme:two_slots_customers.html'}
   event_bindings: {}
 components:
 - type: ColumnPanel
-  properties: {role: filter-form-shadow, tooltip: '', border: '', foreground: '',
-    visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
-    spacing_below: small, background: ''}
+  properties: {role: filter-form-shadow, tooltip: '', border: '', foreground: '', visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}', spacing_below: small, background: ''}
   name: transaction_details
   layout_properties: {slot: slot-1}
   components:
   - type: ColumnPanel
-    properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-      wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
-      spacing_below: small, background: ''}
+    properties: {role: null, tooltip: '', border: '', foreground: '', visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}', spacing_below: small, background: ''}
     name: column_panel_1_copy
     layout_properties:
       col_widths: {}
@@ -26,10 +21,7 @@ components:
       layout_properties: {grid_position: 'YFTLZN,DZTYIV'}
       components:
       - type: Label
-        properties: {role: header-text, align: left, tooltip: '', border: '', foreground: '',
-          visible: true, text: Vendors, font_size: null, font: '', spacing_above: small,
-          icon_align: left, spacing_below: medium, italic: false, background: '',
-          bold: false, underline: false, icon: ''}
+        properties: {role: header-text, align: left, tooltip: '', border: '', foreground: '', visible: true, text: Vendors, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: medium, italic: false, background: '', bold: false, underline: false, icon: ''}
         name: label_1
         data_bindings: []
         layout_properties: {}
@@ -37,8 +29,7 @@ components:
       properties: {index: vendor_id, pagination_size: 10}
       type: form:TGQCF3WT6FVL2EM2:Tabulator
       layout_properties: {grid_position: 'CLCFZG,JSOUJL'}
-      event_bindings: {table_built: vendors_table_table_built, cell_edited: vendors_table_cell_edited,
-        row_selection_changed: vendors_table_row_selection_changed}
+      event_bindings: {table_built: vendors_table_table_built, cell_edited: vendors_table_cell_edited, row_selection_changed: vendors_table_row_selection_changed}
     - name: flow_panel_1
       properties: {}
       type: FlowPanel

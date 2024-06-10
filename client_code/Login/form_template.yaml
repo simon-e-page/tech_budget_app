@@ -1,33 +1,22 @@
 container:
   type: HtmlTemplate
-  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true,
-    role: null, html: "<div class=\"login-main\">          \n  <div class=\"login-box\"\
-      >\n    <!-- full-height-child applies height:100% to child components of this\
-      \ div -->\n    <div anvil-slot-repeat=\"default\" class=\"anvil-measure-this\"\
-      ></div>\n    <div class=\"placeholder drop-here\" anvil-if-slot-empty=\"default\"\
-      \ anvil-drop-slot=\"default\">Drop a ColumnPanel here.</div>\n  </div> \n</div>\n\
-      <div anvil-drop-default anvil-drop-redirect=\".placeholder\" anvil-drop-container=\"\
-      .anvil-container\"></div>\n\n<style>\n\n/* Top-level div */\n.login-main {\n\
-      \  background-color: #2D2B52; \n  height: 100vh;\n  padding-top: 35px;\n  display:\
-      \ flex;\n  flex-direction: row;\n  justify-content: center;\n  /*overflow-y:\
-      \ hidden;*/\n }\n\n.login-box {\n  width: 500px;\n  margin-top: 20vh;\n  border-radius:\
-      \ 40px;\n  background-color: #393567;\n  height: 25vh;\n  padding: 20px;\n\n\
-      }\n\n  \n /* Remove margin from main ContentPanel */\n.anvil-panel-section-container\
-      \ {\n  margin: 0 !important;\n  }\n  \n\n\n\n</style>\n"}
+  properties:
+    tooltip: ''
+    background: ''
+    foreground: ''
+    border: ''
+    visible: true
+    role: null
+    html: "<div class=\"login-main\">          \n  <div class=\"login-box\">\n    <!-- full-height-child applies height:100% to child components of this div -->\n    <div anvil-slot-repeat=\"default\" class=\"anvil-measure-this\"></div>\n    <div class=\"placeholder drop-here\" anvil-if-slot-empty=\"default\" anvil-drop-slot=\"default\">Drop a ColumnPanel here.</div>\n  </div> \n</div>\n<div anvil-drop-default anvil-drop-redirect=\".placeholder\" anvil-drop-container=\".anvil-container\"></div>\n\n<style>\n\n/* Top-level div */\n.login-main {\n  background-color: #2D2B52; \n  height: 100vh;\n  padding-top: 35px;\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n  /*overflow-y: hidden;*/\n }\n\n.login-box {\n  width: 500px;\n  margin-top: 20vh;\n  border-radius: 40px;\n  background-color: #393567;\n  height: 25vh;\n  padding: 20px;\n\n}\n\n  \n /* Remove margin from main ContentPanel */\n.anvil-panel-section-container {\n  margin: 0 !important;\n  }\n  \n\n\n\n</style>\n"
   event_bindings: {show: form_show}
 components:
 - type: ColumnPanel
-  properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-    wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
-    spacing_below: small, background: ''}
+  properties: {role: null, tooltip: '', border: '', foreground: '', visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}', spacing_below: small, background: ''}
   name: column_panel_1
   layout_properties: {slot: default}
   components:
   - type: Label
-    properties: {role: header-text, align: center, tooltip: '', border: '', foreground: white,
-      visible: true, text: Welcome to the Technology Finance System, font_size: null,
-      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false, icon: ''}
+    properties: {role: header-text, align: center, tooltip: '', border: '', foreground: white, visible: true, text: Welcome to the Technology Finance System, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
     name: app_title_label
     layout_properties: {grid_position: 'VQSSCZ,BNJNUX'}
   - type: Spacer
@@ -35,11 +24,7 @@ components:
     name: spacer_1
     layout_properties: {grid_position: 'KSMUPD,FKVRVJ'}
   - type: Button
-    properties: {role: large-primary-button, align: center, tooltip: '', border: '',
-      enabled: true, foreground: 'theme:Primary 500', visible: true, text: Log in,
-      font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-      italic: false, background: 'theme:Secondary 700', bold: false, underline: false,
-      icon: 'fa:check-circle-o'}
+    properties: {role: large-primary-button, align: center, tooltip: '', border: '', enabled: true, foreground: 'theme:Primary 500', visible: true, text: Log in, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: 'theme:Secondary 700', bold: false, underline: false, icon: 'fa:check-circle-o'}
     name: login_button
     layout_properties: {grid_position: 'SQIHYE,GAPXRQ'}
     event_bindings: {click: login_button_click}

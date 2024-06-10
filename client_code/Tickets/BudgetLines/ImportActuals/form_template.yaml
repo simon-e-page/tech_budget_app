@@ -10,8 +10,7 @@ components:
     type: Label
     layout_properties: {grid_position: 'JLFQTG,LKOQSV'}
     data_bindings:
-    - {property: text, code: '"Next month to import: {0}:".format(self.next_month)',
-      writeback: false}
+    - {property: text, code: '"Next month to import: {0}".format(self.next_month)', writeback: false}
   - name: flow_panel_1
     properties: {}
     type: FlowPanel

@@ -1,22 +1,16 @@
 container:
   type: HtmlTemplate
-  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true,
-    role: null, html: "\n<div class=\"avatar large\">\n  \t<div class=\"avatar-logo\"\
-      \ anvil-slot=\"avatar-logo\">\n        <div class=\"placeholder anvil-designer-only\"\
-      \ anvil-if-slot-empty=\"avatar-logo\" anvil-drop-here>Drop avatar logo here</div>\n\
-      \    </div>\n    <div class=\"avatar-name\" anvil-slot=\"avatar-name\">\n  \
-      \      <div class=\"placeholder anvil-designer-only\" anvil-if-slot-empty=\"\
-      avatar-name\" anvil-drop-here>Drop name label here</div>\n    </div>\n\n</div>\n\
-      \n<style>\n.avatar.large {\n  display: flex;\n  flex-direction: column;\n  align-items:\
-      \ center;\n  background-color: #2D2B52;\n  color: white;\n }\n\n.avatar-name\
-      \ {\n  color: white;\n }\n.avatar-status {\n  color: #00FFAE;\n }\n\n  .avatar.large\
-      \ svg {\n    fill: white;\n    width: 70px;\n</style>"}
+  properties:
+    tooltip: ''
+    background: ''
+    foreground: ''
+    border: ''
+    visible: true
+    role: null
+    html: "\n<div class=\"avatar large\">\n  \t<div class=\"avatar-logo\" anvil-slot=\"avatar-logo\">\n        <div class=\"placeholder anvil-designer-only\" anvil-if-slot-empty=\"avatar-logo\" anvil-drop-here>Drop avatar logo here</div>\n    </div>\n    <div class=\"avatar-name\" anvil-slot=\"avatar-name\">\n        <div class=\"placeholder anvil-designer-only\" anvil-if-slot-empty=\"avatar-name\" anvil-drop-here>Drop name label here</div>\n    </div>\n\n</div>\n\n<style>\n.avatar.large {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  background-color: #2D2B52;\n  color: white;\n }\n\n.avatar-name {\n  color: white;\n }\n.avatar-status {\n  color: #00FFAE;\n }\n\n  .avatar.large svg {\n    fill: white;\n    width: 70px;\n</style>"
 components:
 - type: Label
-  properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-    visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
-    spacing_below: large, italic: false, background: '', bold: false, underline: false,
-    icon: ''}
+  properties: {role: null, align: center, tooltip: '', border: '', foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: large, italic: false, background: '', bold: false, underline: false, icon: ''}
   name: name_label
   layout_properties: {slot: avatar-name}
 - type: form:Icons.UserSVG

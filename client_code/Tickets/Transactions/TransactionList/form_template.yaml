@@ -1,7 +1,6 @@
 container:
   type: HtmlTemplate
-  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true,
-    role: background-image, html: '@theme:scroll_pane.html'}
+  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true, role: background-image, html: '@theme:scroll_pane.html'}
   event_bindings: {}
 components:
 - type: ColumnPanel
@@ -14,10 +13,8 @@ components:
       role: datagrid-padded-header
       columns:
       - {width: '5', title: dots, id: JKSXLL, data_key: column_5, expand: false, $$hashKey: 'object:56812'}
-      - {width: '90', title: Column 6, id: USDYWJ, data_key: column_6, expand: true,
-        $$hashKey: 'object:56813'}
-      - {width: '5', title: Column 7, id: HCOREJ, data_key: column_7, expand: false,
-        $$hashKey: 'object:56814'}
+      - {width: '90', title: Column 6, id: USDYWJ, data_key: column_6, expand: true, $$hashKey: 'object:56813'}
+      - {width: '5', title: Column 7, id: HCOREJ, data_key: column_7, expand: false, $$hashKey: 'object:56814'}
       - {width: '5', title: Column 8, id: MDTPKA, data_key: column_8, $$hashKey: 'object:56815'}
       auto_header: false
       tooltip: ''
@@ -37,9 +34,7 @@ components:
       full_width_row: true
     components:
     - type: RepeatingPanel
-      properties: {role: null, tooltip: '', border: '', foreground: '', items: null,
-        visible: true, spacing_above: none, spacing_below: none, item_template: Tickets.Transactions.TransactionList.TransactionRow,
-        background: ''}
+      properties: {role: null, tooltip: '', border: '', foreground: '', items: null, visible: true, spacing_above: none, spacing_below: none, item_template: Tickets.Transactions.TransactionList.TransactionRow, background: ''}
       name: repeating_panel_1
       layout_properties: {}
       data_bindings:
@@ -49,23 +44,17 @@ components:
   name: timer_1
   event_bindings: {tick: timer_1_tick}
 - type: ColumnPanel
-  properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-    wrap_on: mobile, col_spacing: none, spacing_above: none, col_widths: '{}', spacing_below: none,
-    background: ''}
+  properties: {role: null, tooltip: '', border: '', foreground: '', visible: true, wrap_on: mobile, col_spacing: none, spacing_above: none, col_widths: '{}', spacing_below: none, background: ''}
   name: column_panel_2
   layout_properties: {slot: slot-header}
   components:
   - type: FlowPanel
-    properties: {role: null, spacing: medium, align: left, tooltip: '', border: '',
-      foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
+    properties: {role: null, spacing: medium, align: left, tooltip: '', border: '', foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
     name: flow_panel_6
     layout_properties: {grid_position: 'ERQGAX,FACPYW', full_width_row: true}
     components:
     - type: Button
-      properties: {role: primary-button, align: center, tooltip: '', border: '', enabled: true,
-        foreground: '', visible: true, text: New, font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: 'fa:plus'}
+      properties: {role: primary-button, align: center, tooltip: '', border: '', enabled: true, foreground: '', visible: true, text: New, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: 'fa:plus'}
       name: new_button
       layout_properties: {}
       event_bindings: {click: new_button_click}
@@ -98,10 +87,7 @@ components:
       layout_properties: {}
       event_bindings: {change: import_button_change}
     - type: Button
-      properties: {role: secondary-button, align: center, tooltip: '', border: '',
-        enabled: false, foreground: '', visible: false, text: Undo Import, font_size: null,
-        font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false, icon: 'fa:undo'}
+      properties: {role: secondary-button, align: center, tooltip: '', border: '', enabled: false, foreground: '', visible: false, text: Undo Import, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: 'fa:undo'}
       name: undo_button
       layout_properties: {}
       event_bindings: {click: undo_button_click}
@@ -110,9 +96,7 @@ components:
       name: upload_progress
       layout_properties: {width: 119}
   - type: FlowPanel
-    properties: {role: bottom-border, spacing: medium, align: justify, tooltip: '',
-      border: '', foreground: '', visible: true, spacing_above: none, spacing_below: small,
-      background: ''}
+    properties: {role: bottom-border, spacing: medium, align: justify, tooltip: '', border: '', foreground: '', visible: true, spacing_above: none, spacing_below: small, background: ''}
     name: flow_panel_2
     layout_properties:
       col_widths: {}
@@ -121,34 +105,23 @@ components:
       slot: slot-header
     components:
     - type: FlowPanel
-      properties: {role: null, spacing: medium, align: left, tooltip: '', border: '',
-        foreground: '', visible: true, spacing_above: none, spacing_below: none, background: ''}
+      properties: {role: null, spacing: medium, align: left, tooltip: '', border: '', foreground: '', visible: true, spacing_above: none, spacing_below: none, background: ''}
       name: flow_panel_3
       layout_properties: {}
       components:
       - type: CheckBox
-        properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-          foreground: '', allow_indeterminate: false, visible: true, text: Select all,
-          font_size: null, font: '10', spacing_above: small, spacing_below: small,
-          italic: false, background: '', bold: false, checked: false, underline: false}
+        properties: {role: null, align: left, tooltip: '', border: '', enabled: true, foreground: '', allow_indeterminate: false, visible: true, text: Select all, font_size: null, font: '10', spacing_above: small, spacing_below: small, italic: false, background: '', bold: false, checked: false, underline: false}
         name: select_all_box
         layout_properties: {grid_position: 'NFGNAT,QWJKHF'}
         event_bindings: {change: select_all_box_change}
       - type: Link
-        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Muted
-            purple', visible: false, text: Clear, font_size: null, wrap_on: mobile,
-          font: '', col_spacing: none, spacing_above: none, icon_align: left, col_widths: '',
-          spacing_below: none, italic: false, background: '', bold: false, underline: true,
-          icon: ''}
+        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Muted purple', visible: false, text: Clear, font_size: null, wrap_on: mobile, font: '', col_spacing: none, spacing_above: none, icon_align: left, col_widths: '', spacing_below: none, italic: false, background: '', bold: false, underline: true, icon: ''}
         name: clear_selected_link
         layout_properties: {}
         event_bindings: {click: clear_selected_link_click}
         data_bindings: []
       - type: Label
-        properties: {role: muted-text, align: left, tooltip: '', border: '', foreground: '',
-          visible: true, text: 'Sort by: ', font_size: null, font: '', spacing_above: small,
-          icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
-          underline: false, icon: ''}
+        properties: {role: muted-text, align: left, tooltip: '', border: '', foreground: '', visible: true, text: 'Sort by: ', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: true, underline: false, icon: ''}
         name: label_2
         layout_properties: {grid_position: 'MBLGBS,QFWVTC'}
       - type: DropDown
@@ -204,60 +177,38 @@ components:
         - {property: selected_value, code: self.direction, writeback: true}
         event_bindings: {change: direction_dropdown_change}
     - type: FlowPanel
-      properties: {role: null, spacing: small, align: left, tooltip: '', border: '',
-        foreground: '', visible: true, spacing_above: none, spacing_below: none, background: ''}
+      properties: {role: null, spacing: small, align: left, tooltip: '', border: '', foreground: '', visible: true, spacing_above: none, spacing_below: none, background: ''}
       name: flow_panel_4
       layout_properties: {}
       components:
       - type: Label
-        properties: {role: muted-text, align: left, tooltip: '', border: '', foreground: '',
-          visible: true, text: '', font_size: null, font: '', spacing_above: small,
-          icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-          underline: false, icon: ''}
+        properties: {role: muted-text, align: left, tooltip: '', border: '', foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
         name: pagination_label
         layout_properties: {}
         data_bindings: []
       - type: FlowPanel
-        properties: {role: null, spacing: tiny, align: left, tooltip: '', border: '',
-          foreground: '', visible: true, spacing_above: small, spacing_below: small,
-          background: ''}
+        properties: {role: null, spacing: tiny, align: left, tooltip: '', border: '', foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
         name: flow_panel_1
         layout_properties: {}
         components:
         - type: Link
-          properties: {role: null, url: '', align: left, tooltip: '', border: '',
-            foreground: 'theme:Gray 100', visible: true, text: '<<', font_size: null,
-            wrap_on: mobile, font: '', col_spacing: medium, spacing_above: small,
-            icon_align: left, col_widths: '', spacing_below: small, italic: false,
-            background: '', bold: false, underline: false, icon: ''}
+          properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Gray 100', visible: true, text: '<<', font_size: null, wrap_on: mobile, font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '', spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
           name: first_page_link
           layout_properties: {}
           event_bindings: {click: first_page_link_click}
         - type: Link
-          properties: {role: null, url: '', align: left, tooltip: '', border: '',
-            foreground: 'theme:Gray 100', visible: true, text: <, font_size: null,
-            wrap_on: mobile, font: '', col_spacing: medium, spacing_above: small,
-            icon_align: left, col_widths: '', spacing_below: small, italic: false,
-            background: '', bold: false, underline: false, icon: ''}
+          properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Gray 100', visible: true, text: <, font_size: null, wrap_on: mobile, font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '', spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
           name: previous_page_link
           layout_properties: {}
           event_bindings: {click: previous_page_link_click}
         - type: Link
-          properties: {role: null, url: '', align: left, tooltip: '', border: '',
-            foreground: 'theme:Gray 100', visible: true, text: '>', font_size: null,
-            wrap_on: mobile, font: '', col_spacing: medium, spacing_above: small,
-            icon_align: left, col_widths: '', spacing_below: small, italic: false,
-            background: '', bold: false, underline: false, icon: ''}
+          properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Gray 100', visible: true, text: '>', font_size: null, wrap_on: mobile, font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '', spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
           name: next_page_link
           layout_properties: {}
           event_bindings: {click: next_page_link_click}
           data_bindings: []
         - type: Link
-          properties: {role: null, url: '', align: left, tooltip: '', border: '',
-            foreground: 'theme:Gray 100', visible: true, text: '>>', font_size: null,
-            wrap_on: mobile, font: '', col_spacing: medium, spacing_above: small,
-            icon_align: left, col_widths: '', spacing_below: small, italic: false,
-            background: '', bold: false, underline: false, icon: ''}
+          properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Gray 100', visible: true, text: '>>', font_size: null, wrap_on: mobile, font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '', spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
           name: last_page_link
           layout_properties: {}
           event_bindings: {click: last_page_link_click}
@@ -266,24 +217,17 @@ components:
         name: spacer_1
         layout_properties: {width: 11}
   - type: FlowPanel
-    properties: {role: null, spacing: medium, align: left, tooltip: '', border: '',
-      foreground: '', visible: true, spacing_above: none, spacing_below: none, background: ''}
+    properties: {role: null, spacing: medium, align: left, tooltip: '', border: '', foreground: '', visible: true, spacing_above: none, spacing_below: none, background: ''}
     name: flow_panel_5
     layout_properties: {grid_position: 'HCPPOP,QBEELH', full_width_row: true, slot: default}
     components:
     - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Bright
-          purple', visible: true, text: '', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Bright purple', visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
       name: selected_label
       layout_properties: {}
       data_bindings: []
     - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'Debit:', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: 'Debit:', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
       name: set_debit_account_label
       layout_properties: {}
       data_bindings: []
@@ -293,10 +237,7 @@ components:
       layout_properties: {}
       data_bindings: []
     - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'Credit:', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: 'Credit:', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
       name: set_credit_account_label
       layout_properties: {}
       data_bindings: []
@@ -306,27 +247,18 @@ components:
       layout_properties: {}
       data_bindings: []
     - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: true, visible: true, text: 'Duplicate?',
-        font_size: null, font: '', spacing_above: small, spacing_below: small, italic: false,
-        background: '', bold: false, checked: false, underline: false}
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true, foreground: '', allow_indeterminate: true, visible: true, text: 'Duplicate?', font_size: null, font: '', spacing_above: small, spacing_below: small, italic: false, background: '', bold: false, checked: false, underline: false}
       name: duplicate_check
       layout_properties: {}
       data_bindings: []
     - type: Button
-      properties: {role: primary-button, align: center, tooltip: '', border: '', enabled: true,
-        foreground: '', visible: true, text: Apply, font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: 'fa:check-circle'}
+      properties: {role: primary-button, align: center, tooltip: '', border: '', enabled: true, foreground: '', visible: true, text: Apply, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: 'fa:check-circle'}
       name: set_credit_account_button
       layout_properties: {}
       event_bindings: {click: set_credit_account_button_click}
       data_bindings: []
     - type: Button
-      properties: {role: secondary-button, align: center, tooltip: '', border: '',
-        enabled: true, foreground: '', visible: true, text: Delete, font_size: null,
-        font: '', spacing_above: small, icon_align: left, spacing_below: none, italic: false,
-        background: '', bold: false, underline: false, icon: 'fa:trash'}
+      properties: {role: secondary-button, align: center, tooltip: '', border: '', enabled: true, foreground: '', visible: true, text: Delete, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: none, italic: false, background: '', bold: false, underline: false, icon: 'fa:trash'}
       name: delete_button
       layout_properties: {}
       event_bindings: {click: delete_button_click}

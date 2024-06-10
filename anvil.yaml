@@ -9,9 +9,7 @@ services:
   client_config: {}
   server_config: {}
 - source: /runtime/services/anvil/users.yml
-  client_config: {allow_signup: true, enable_automatically: false, use_email: true,
-    confirm_email: false, use_google: false, allow_remember_me: true, remember_me_days: 30,
-    use_facebook: false}
+  client_config: {allow_signup: true, enable_automatically: false, use_email: true, confirm_email: false, use_google: false, allow_remember_me: true, remember_me_days: 30, use_facebook: false}
   server_config: {user_table: 750970}
 - source: /runtime/services/anvil/email.yml
   client_config: {}
@@ -22,14 +20,13 @@ services:
 package_name: FinanceApp
 allow_embedding: false
 name: Tech_Finance
-runtime_options: {version: 2, server_version: python3-sandbox, client_version: '3',
-  server_spec: null}
-metadata: {title: Tech Finance, description: 'Track IT Budgets, Forecasts and Actuals',
-  logo_img: 'asset:digital-money-technology-logo-vector_new.jpg'}
+runtime_options: {version: 2, server_version: python3-sandbox, client_version: '3', server_spec: null}
+metadata: {title: Tech Finance, description: 'Track IT Budgets, Forecasts and Actuals', logo_img: 'asset:digital-money-technology-logo-vector_new.jpg'}
 startup_form: Login
-native_deps: {head_html: '<script src="//d3js.org/d3.v4.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>'}
+native_deps:
+  head_html: |-
+    <script src="//d3js.org/d3.v4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 db_schema:
   currentticketno:
     title: CurrentTicketNo

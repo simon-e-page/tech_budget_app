@@ -8,6 +8,27 @@ import datetime as dt
 from .... import Data
 from ....Data import CURRENT_YEAR, ImporterModel, VendorsModel, CURRENT_BRAND, TransactionsModel
 
+MONTH = []
+
+def month_number_to_name(month_number):
+    # Dictionary mapping month numbers to month names
+    month_names = {
+        1: "January",
+        2: "February",
+        3: "March",
+        4: "April",
+        5: "May",
+        6: "June",
+        7: "July",
+        8: "August",
+        9: "September",
+        10: "October",
+        11: "November",
+        12: "December"
+    }
+
+    # Get the month name from the dictionary, return None if invalid number
+    return month_names.get(month_number, "Invalid month number")
 
 class ImportActuals(ImportActualsTemplate):
   def __init__(self, **properties):
@@ -24,11 +45,15 @@ class ImportActuals(ImportActualsTemplate):
     self.new_year_month = None
     self.month_total = None
     self.cost_centres = None
-
+    print(f"{self.actuals_to_date} vs {CURRENT_YEAR}")
+    
     if self.actuals_to_date == CURRENT_YEAR * 100 + 6:
       self.next_month = 'Current year Actuals complete!'
     else:
-      self.next_month = str(self.actuals_to_date + 1)
+      next_month = self.actuals_to_date + 1
+      month_label = month_number_to_name(int(str(next_month)[4:]))
+      year = str(next_month)[0:4]
+      self.next_month = f"{month_label} {year}"
       
     # Set Form properties and Data Bindings.
     self.init_components(**properties)

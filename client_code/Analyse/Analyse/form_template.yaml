@@ -1,7 +1,6 @@
 container:
   type: HtmlTemplate
-  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true,
-    role: null, html: '@theme:scroll_pane.html'}
+  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true, role: null, html: '@theme:scroll_pane.html'}
   event_bindings: {show: form_show}
 components:
 - type: form:Analyse.Analyse.AnalyseHeader
