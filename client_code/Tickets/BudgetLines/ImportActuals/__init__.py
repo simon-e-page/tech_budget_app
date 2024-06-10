@@ -11,7 +11,9 @@ from ....Data import CURRENT_YEAR, ImporterModel, VendorsModel, CURRENT_BRAND, T
 
 class ImportActuals(ImportActualsTemplate):
   def __init__(self, **properties):
-    self.next_month = Data.get_actuals_updated(CURRENT_YEAR)
+    self.actuals_to_date = Data.get_actuals_updated(CURRENT_YEAR)
+    #self.actuals_month = int(str(self.actuals_to_date)[4:])
+    #self.actuals_year = int(str(self.actuals_to_date)[0:4])
     self.importer = ImporterModel.IMPORTER
     self.vendors = VendorsModel.VENDORS
 
@@ -22,9 +24,11 @@ class ImportActuals(ImportActualsTemplate):
     self.new_year_month = None
     self.month_total = None
     self.cost_centres = None
-    
-    if self.next_month is None or self.next_month == 0:
-      self.next_month = (CURRENT_YEAR - 1) * 100 + 7
+
+    if self.actuals_to_date == CURRENT_YEAR * 100 + 6:
+      self.next_month = 'Current year Actuals complete!'
+    else:
+      self.next_month = str(self.actuals_to_date + 1)
       
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -97,16 +101,17 @@ class ImportActuals(ImportActualsTemplate):
 
   def file_loader_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
-    year_month, actuals_to_date = self.importer.check_brand(file.name)
+    year_month = self.importer.check_brand(file.name)
     
     if year_month is not None:
       process = False
-      if year_month == actuals_to_date + 1:
+      if year_month == self.actuals_to_date + 1:
         process = True
-      elif year_month > actuals_to_date + 1:
+      elif year_month > self.actuals_to_date + 1:
+        print(f"{year_month} > {self.actuals_to_date}??")
         alert("FIle is for for a non-consecutive future month which will leave a gap!")
         process = False
-      elif year_month <= actuals_to_date and confirm("Importing this file will overwrite existing records. Are you sure?"):
+      elif year_month <= self.actuals_to_date and confirm("Importing this file will overwrite existing records. Are you sure?"):
         process = True
 
       if process:        
