@@ -105,9 +105,9 @@ class Transaction(AttributeToKey):
                            transaction_id=self.transaction_id,
                           )
 
-  def add_entries(self, new_entries):
+  def add_entries(self, new_entries, overwrite=False):
     try:
-      ret = anvil.server.call('Transactions', 'add_entries', self.transaction_id, new_entries)
+      ret = anvil.server.call('Transactions', 'add_entries', self.transaction_id, new_entries, overwrite)
     except Exception as e:
       print('Error updating entries!')
       ret = None

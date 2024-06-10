@@ -239,7 +239,7 @@ class BudgetLines(BudgetLinesTemplate):
 
       if transaction is not None:
         new_entry.pop('transaction_desc', None)
-        transaction.add_entries([new_entry])
+        transaction.add_entries([new_entry], overwrite=True)
         new_entries_count += 1
       else:
         print(f"Cannot find Actual Line for entry: {new_entry}")
