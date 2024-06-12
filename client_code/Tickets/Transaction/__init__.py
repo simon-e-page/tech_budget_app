@@ -12,7 +12,7 @@ from datetime import datetime
 from ... import Data
 from ... import Validation
 from ...Data import VendorsModel
-from ...Data import TransactionsModel
+from ...Data import TransactionsModel, UsersModel
 from ...Vendors.Vendors.Vendor import Vendor
 
 class Transaction(TransactionTemplate):
@@ -35,7 +35,8 @@ class Transaction(TransactionTemplate):
     self.categories = Data.CATEGORIES_DD
     self.service_changes = Data.SERVICE_CHANGES_DD
     self.billing_types = Data.BILLING_TYPES_DD
-  
+    self.teams = UsersModel.TEAMS_DD
+    
     self.back=back
     properties['item'] = item
     
