@@ -167,7 +167,7 @@ TEAMS = {
   'albertosimongini@thegoodguys.com.au': ['Engineering', 'Online', 'Merch and Finance', 'Fulfilment', 'Selling']
 }
 
-TEAMS_DD = { k, [ (v[i], v[i]) for i in v ] for k,v in TEAMS.items() }
+TEAMS_DD = { k: [ (i, i) for i in v ] for k,v in TEAMS.items() }
 
 USERS = Users()
 ROLES = Roles()
