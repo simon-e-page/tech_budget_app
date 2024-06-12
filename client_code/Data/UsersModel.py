@@ -157,6 +157,18 @@ class Roles(AttributeToDict):
 OWNERS = ['SimonPage', 'AnitaMatuszewski']
 OWNERS_DD = [ (x,x) for x in OWNERS ]
 
+TEAMS = {
+  'simon.page@jbhifi.com.au': ['Unknown', 'IT'],
+  'anita,matuszewski@jbhifi.com.au': ['Engineering', 'FOH', 'BOH', 'Commercial', 'Online', 'Core Retail'],
+  'julie.chivers@jbhifi.com.au': ['NCI - C', 'NCI - CIS', 'NCI - N', 'NCI - GRC', 'NCI - DSU'],
+  'graham.wilson@jbhifi.com.au': ['App Support', 'Store Support', 'Desktop'],
+  'harrishaitidis@thegoodguys.com.au': ['Data and Analytics'],
+  'mariaalquiza@thegoodguys.com.au': ['Finance'],
+  'albertosimongini@thegoodguys.com.au': ['Engineering', 'Online', 'Merch and Finance', 'Fulfilment', 'Selling']
+}
+
+TEAMS_DD = { k, [ (v[i], v[i]) for i in v ] for k,v in TEAMS.items() }
+
 USERS = Users()
 ROLES = Roles()
 
