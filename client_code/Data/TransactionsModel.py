@@ -17,6 +17,7 @@ class Transaction(AttributeToKey):
     'vendor_id': None,
     'description': None,
     'owner': 'simon.page@jbhifi.com.au',
+    'team': 'Unknown',
     'transaction_type': 'Budget',
     'account_code': 'Software Maintenance',
     'cost_centre': 'IT (6000)',

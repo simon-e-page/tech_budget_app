@@ -67,7 +67,7 @@ class Homepage(HomepageTemplate):
   def open_transactions(self, initial_filters={}, initial_date_filter={}, initial_page=0, filter_settings={}, direction='descending'):
     self.current_form = BudgetLines(mode='Budget')
     self.transaction_panel.role = 'dash-link-selected'
-    self.headline_label.text = "Budget Lines"
+    self.headline_label.text = "Budget and Forecast Lines"
     self.clear_page()
     self.add_component(self.current_form, slot="default")
   

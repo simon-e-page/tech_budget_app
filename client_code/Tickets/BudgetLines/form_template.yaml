@@ -15,6 +15,10 @@ components:
     data_bindings:
     - {property: visible, code: self.mode=='Actual', writeback: false}
     components:
+    - name: new_year_button
+      properties: {text: Start New Year, icon: 'fa:hourglass-start'}
+      type: Button
+      layout_properties: {}
     - name: import_button
       properties: {text: Import Actuals, role: primary-button}
       type: Button
