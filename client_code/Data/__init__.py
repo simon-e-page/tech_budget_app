@@ -12,19 +12,19 @@ TODO:
 BRANDS = [ 'JB_AU', 'JB_NZ', 'TGG']
 BRANDS_DD = [ (x,x) for x in BRANDS ]
 
-ACCOUNT_CODES = [  'Software Maintenance', 'Hardware Maintenance', 'Consulting' ]
+ACCOUNT_CODES = [  'Software Maintenance', 'Hardware Maintenance', 'Consulting', 'Salary', 'Communications' ]
 ACCOUNT_CODES_DD = [ (x, x) for x in ACCOUNT_CODES ]
 
-COST_CENTRES = [ 'IT (6000)', 'Online (3121)', 'Stores', 'HR', 'Commercial' ]
+COST_CENTRES = [ 'IT', 'Online', 'Stores', 'HR', 'Commercial', 'Legal', 'Finance', 'Supply Chain' ]
 COST_CENTRES_DD = [ (x, x) for x in COST_CENTRES ]
 
 LIFECYCLES = [ 'Existing', 'Existing - Discretionary', 'New - Committed', 'New - Discretionary', 'Legacy', 'Peripherals', 'New - Ex-IT' ]
 LIFECYCLES_DD = [ (x, x) for x in LIFECYCLES ]
 
-CATEGORIES = [ 'Operations', 'Network & Infrastructure', 'E-Commerce & Marketing', 'Cybersecurity', 'Finance & HR', 'Supply Chain', 'SaaS Consulting', 'Non-IT', 'Commercial' ]
+CATEGORIES = [ 'Operations', 'Network & Infrastructure', 'E-Commerce & Marketing', 'Cybersecurity', 'Finance & HR', 'Supply Chain', 'SaaS Consulting', 'Non-IT', 'Commercial', 'Microsoft', 'API platform' ]
 CATEGORIES_DD = [ (x,x) for x in CATEGORIES ]
 
-SERVICE_CHANGES = ['Organic Growth', 'Strategic Projects', 'Commercial', 'Decommissioning']
+SERVICE_CHANGES = ['Organic growth', 'Strategic projects', 'Commercial', 'Decommissioning']
 SERVICE_CHANGES_DD = [ (x,x) for x in SERVICE_CHANGES ]
 
 BILLING_TYPES = [ 'Prepayments', 'Consumption' ]

@@ -4,7 +4,7 @@ container:
   event_bindings: {}
 components:
 - type: ColumnPanel
-  properties: {role: filter-form-shadow, tooltip: '', border: '', foreground: '', visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{"LGBGLH":60}', spacing_below: small, background: ''}
+  properties: {role: filter-form-shadow, col_widths: '{"LGBGLH":60}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
   name: transaction_details
   layout_properties: {slot: slot-1}
   components:
@@ -21,7 +21,7 @@ components:
       layout_properties: {}
       event_bindings: {click: import_button_click}
   - type: ColumnPanel
-    properties: {role: null, tooltip: '', border: '', foreground: '', visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}', spacing_below: small, background: ''}
+    properties: {role: null, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
     name: column_panel_1_copy
     layout_properties:
       col_widths: {}

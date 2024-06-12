@@ -101,6 +101,12 @@ class BudgetLines(BudgetLinesTemplate):
         "headerFilterFunc": "starts",
       },
       {
+        "title": "Team",
+        "field": "team",
+        "headerFilter": "input",
+        "headerFilterFunc": "starts",
+      },
+      {
         "title": "Vendor",
         "field": "vendor_name",
         "headerFilter": "input",
