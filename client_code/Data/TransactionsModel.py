@@ -3,7 +3,7 @@ import anvil.users
 
 import datetime as dt
 
-from ..Data import AttributeToDict, AttributeToKey, CURRENT_BRAND, VendorsModel
+from ..Data import AttributeToDict, AttributeToKey, CURRENT_BRAND, VendorsModel, CURRENT_YEAR, BUDGET_YEAR
 
 #####################################################################
 # TRANSACTION
@@ -185,7 +185,12 @@ class LazyTransactionList(AttributeToDict):
       print(f"After looking for {k}={v} we have {len(keep)} transactions")
     return list(trans.values())
     
-
+  def get_entry_lines(self, transaction_type, data):
+    year = BUDGET_YEAR if transaction_type=='Budget' else CURRENT_YEAR
+    transaction_ids = [ x['transaction_id'] for x in data ]
+    entries = anvil.server.call('Transactions', 'get_entries_by_transaction', year=year, transaction_type=transaction_type, transaction_ids=transaction_ids)
+    return entries
+    
   def to_records(self, with_vendor_name=True, with_vendor=True, with_vendor_id=False):
     return [ x.to_dict(with_vendor_name=with_vendor_name, with_vendor_id=with_vendor_id, with_vendor=with_vendor) for x in self.__d__.values() ]
 

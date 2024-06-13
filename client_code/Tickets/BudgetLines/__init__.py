@@ -25,6 +25,12 @@ class BudgetLines(BudgetLinesTemplate):
     self.service_changes = Data.SERVICE_CHANGES_DD
     self.billing_types = Data.BILLING_TYPES_DD
 
+    self.params = {
+      'Budget': { 'background': '#ffffcc', 'color': 'black', 'editor': 'number' },
+      'Forecast': { 'background': '#ffffcc', 'color': 'black', 'editor': 'number' },
+      'Actual': { 'background': '#ffffcc', 'color': 'black', 'editor': None }
+    }
+    
     self.budget_lines_table.options = {
       "index": "transaction_id",  # or set the index property here
       "selectable": "highlight",
@@ -45,7 +51,12 @@ class BudgetLines(BudgetLinesTemplate):
   def reload(self):
     self.transactions.load(transaction_type=self.mode)
     self.budget_data = self.transactions.to_records(with_vendor_name=True, with_vendor=True)
-
+    self.entry_lines = self.transactions.get_entry_lines(self.mode, self.budget_data)
+    self.year_months = self.entry_lines['columns']
+    for row in self.budget_data:
+      for year_month in self.year_months:
+        row[year_month] = self.year_months['data'][row['transaction_id']][year_month]
+  
   def refresh_tables(self, *args, **kwargs):
     self.budget_lines_table_table_built()
 
@@ -103,8 +114,24 @@ class BudgetLines(BudgetLinesTemplate):
       link.set_event_handler('click', delete_tag)
       return link
     
+    def format_entry(cell, **params):
+      val = cell.getValue()
+      if params.get('backgroundColor', None):
+        cell.getElement().style.backgroundColor = params['backgroundColor']
+      if params.get('color', None):
+        cell.getElement().style.color = params['color']
+      if str(val).isnumeric():
+        val = "{:,.0f}".format(val)
+      return val
+
+    def format_total(cell, **params):
+      data = cell.getData()
+      cell.getElement().style.backgroundColor = 'dark grey'
+      cell.getElement().style.color = 'white'
+      vals = [ data[x] for x in self.year_months ]
+      return "{:,.0f}".format(sum(vals))
     
-    self.budget_lines_table.columns = [
+    columns = [
       {'title': '', 'field': 'delete', 'formatter': delete_formatter, 'formatterParams': {'key': 'transaction_id'}, 'width': 30 },
       {
         "title": "Owner",
@@ -186,7 +213,30 @@ class BudgetLines(BudgetLinesTemplate):
       },
     ]
 
+    for c in self.year_months:
+      columns.append({
+        "title": c, 
+        "field": c, 
+        "formatter": format_entry, 
+        "formatterParams": { 'backgroundColor': self.params[self.mode]['background'], 'color': self.params[self.mode]['color']},
+        "width": 130,
+        "headerFilter": "number",
+        "hozAlign": 'center',
+        'editor': self.params[self.mode]['editor']
+      })
 
+    columns.append({
+        "title": "Total", 
+        "field": 'total', 
+        "formatter": format_total, 
+        "formatterParams": { 'backgroundColor': self.params[self.mode]['background'], 'color': self.params[self.mode]['color']},
+        "width": 130,
+        "headerFilter": "number",
+        "hozAlign": 'center',
+        'editor': None   
+    })
+    
+    self.budget_lines_table.columns = columns
     self.budget_lines_table.data = self.budget_data
 
 
