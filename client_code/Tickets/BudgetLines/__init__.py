@@ -172,15 +172,15 @@ class BudgetLines(BudgetLinesTemplate):
       },
     ]
 
-    self.budget_lines_table.options = {
+    self.budget_lines_table.options.update( **{
       "index": "transaction_id",  # or set the index property here
       "selectable": "highlight",
       "css_class": ["table-striped", "table-bordered", "table-condensed"],
       'pagination': False,
       'frozenRows': 1,
-      'height': '500'
+      'maxHeight': '90%'
       #"pagination_size": 10,
-    }
+    })
 
     self.budget_lines_table.data = self.budget_data
 
