@@ -30,10 +30,10 @@ class BudgetLines(BudgetLinesTemplate):
       "selectable": "highlight",
       "css_class": ["table-striped", "table-bordered", "table-condensed"],
       'pagination': True,
-      'paginationSize': 25,
+      'paginationSize': None,
       'frozenRows': 0,
-      #'height': '70vh',
-      'autoResize': False,
+      'height': '70vh',
+      #'autoResize': False,
       #"pagination_size": 10,
     }
 
@@ -115,12 +115,14 @@ class BudgetLines(BudgetLinesTemplate):
       {
         "title": "Team",
         "field": "team",
+        'width': 100,
         "headerFilter": "input",
         "headerFilterFunc": "starts",
       },
       {
         "title": "Vendor",
         "field": "vendor_name",
+        'width': 200,
         "headerFilter": "input",
         "headerFilterFunc": "starts",
         'formatter': vendor_formatter
