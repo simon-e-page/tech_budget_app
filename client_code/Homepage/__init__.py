@@ -71,7 +71,7 @@ class Homepage(HomepageTemplate):
     self.clear_page()
     self.add_component(self.current_form, slot="default")
 
-  def open_froecasts(self, initial_filters={}, initial_date_filter={}, initial_page=0, filter_settings={}, direction='descending'):
+  def open_forecasts(self, initial_filters={}, initial_date_filter={}, initial_page=0, filter_settings={}, direction='descending'):
     self.current_form = BudgetLines(mode='Forecast')
     self.transaction_panel.role = 'dash-link-selected'
     self.headline_label.text = "Forecast Lines"

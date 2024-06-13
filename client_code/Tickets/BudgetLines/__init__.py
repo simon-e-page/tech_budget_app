@@ -52,10 +52,12 @@ class BudgetLines(BudgetLinesTemplate):
     self.transactions.load(transaction_type=self.mode)
     self.budget_data = self.transactions.to_records(with_vendor_name=True, with_vendor=True)
     self.entry_lines = self.transactions.get_entry_lines(self.mode, self.budget_data)
+    #print(self.entry_lines)
     self.year_months = self.entry_lines['columns']
     for row in self.budget_data:
       for year_month in self.year_months:
-        row[year_month] = self.year_months['data'][row['transaction_id']][year_month]
+        row[year_month] = self.entry_lines['data'][str(row['transaction_id'])][year_month]
+      row['total'] = sum(self.entry_lines['data'][str(row['transaction_id'])].values())
   
   def refresh_tables(self, *args, **kwargs):
     self.budget_lines_table_table_built()
@@ -120,22 +122,28 @@ class BudgetLines(BudgetLinesTemplate):
         cell.getElement().style.backgroundColor = params['backgroundColor']
       if params.get('color', None):
         cell.getElement().style.color = params['color']
-      if str(val).isnumeric():
+      try:
         val = "{:,.0f}".format(val)
+      except Exception:
+        pass
       return val
 
     def format_total(cell, **params):
-      data = cell.getData()
-      cell.getElement().style.backgroundColor = 'dark grey'
+      val = cell.get_value()
+      cell.getElement().style.backgroundColor = '#424140'
       cell.getElement().style.color = 'white'
-      vals = [ data[x] for x in self.year_months ]
-      return "{:,.0f}".format(sum(vals))
+      try:
+        val = "{:,.0f}".format(val)
+      except Exception:
+        val = 'NA'
+      return val
     
     columns = [
       {'title': '', 'field': 'delete', 'formatter': delete_formatter, 'formatterParams': {'key': 'transaction_id'}, 'width': 30 },
       {
         "title": "Owner",
         "field": "owner",
+        'width': 150,
         "headerFilter": "input",
         "headerFilterFunc": "starts",
       },
@@ -157,48 +165,56 @@ class BudgetLines(BudgetLinesTemplate):
       {
         "title": "Description",
         "field": "description",
+        'width': 350,
         "headerFilter": "input",
         'formatter': link_formatter
       },
       {
         "title": "Lifecycle",
         "field": "lifecycle",
+        'width': 150,        
         "headerFilter": "input",
         "headerFilterFunc": "starts",
       },
       {
         "title": "Category",
         "field": "category",
+        'width': 150,
         "headerFilter": "input",
         "headerFilterFunc": "starts",
       },
       {
         "title": "Account Code",
         "field": "account_code",
+        'width': 150,
         "headerFilter": "input",
         "headerFilterFunc": "starts",
       },
       {
         "title": "Cost Centre",
         "field": "cost_centre",
+        'width': 150,
         "headerFilter": "input",
         "headerFilterFunc": "starts",
       },
       {
         "title": "Service Change",
         "field": "service_change",
+        'width': 150,
         "headerFilter": "input",
         "headerFilterFunc": "starts",
       },
       {
         "title": "Business Contact",
         "field": "business_contact",
+        'width': 150,
         "headerFilter": "input",
         "headerFilterFunc": "starts",
       },
       {
         "title": "Project",
         "field": "project",
+        'width': 150,
         "headerFilter": "input",
         "headerFilterFunc": "starts",
       },
@@ -206,7 +222,7 @@ class BudgetLines(BudgetLinesTemplate):
         "title": "Review?", 
         "field": "to_review", 
         "formatter": "tickCross", 
-        "width": 100,
+        "width": 90,
         "headerFilter": "tickCross",
         "hozAlign": 'center',
         'editor': 'tickCross'
@@ -218,10 +234,10 @@ class BudgetLines(BudgetLinesTemplate):
         "title": c, 
         "field": c, 
         "formatter": format_entry, 
+        "hozAlign": "right",
         "formatterParams": { 'backgroundColor': self.params[self.mode]['background'], 'color': self.params[self.mode]['color']},
         "width": 130,
         "headerFilter": "number",
-        "hozAlign": 'center',
         'editor': self.params[self.mode]['editor']
       })
 
@@ -232,7 +248,7 @@ class BudgetLines(BudgetLinesTemplate):
         "formatterParams": { 'backgroundColor': self.params[self.mode]['background'], 'color': self.params[self.mode]['color']},
         "width": 130,
         "headerFilter": "number",
-        "hozAlign": 'center',
+        "hozAlign": 'right',
         'editor': None   
     })
     
