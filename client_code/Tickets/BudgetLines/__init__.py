@@ -30,8 +30,8 @@ class BudgetLines(BudgetLinesTemplate):
       "selectable": "highlight",
       "css_class": ["table-striped", "table-bordered", "table-condensed"],
       'pagination': False,
-      'frozenRows': 1,
-      'height': '80vh'
+      'frozenRows': 0,
+      'height': '80vh',
       #"pagination_size": 10,
     }
 
