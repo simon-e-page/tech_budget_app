@@ -177,6 +177,8 @@ class BudgetLines(BudgetLinesTemplate):
       "selectable": "highlight",
       "css_class": ["table-striped", "table-bordered", "table-condensed"],
       'pagination': False,
+      'frozenRows': 1,
+      'height': '500'
       #"pagination_size": 10,
     }
 
@@ -187,7 +189,7 @@ class BudgetLines(BudgetLinesTemplate):
     """This method is called when a cell is edited"""
     data = dict(cell.getData())
     transaction = self.transactions.get(data["transaction_id"])
-    transaction.update(data)
+    transaction.update()
     transaction.save()
 
 
