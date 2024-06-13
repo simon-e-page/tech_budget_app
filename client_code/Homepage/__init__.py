@@ -64,10 +64,17 @@ class Homepage(HomepageTemplate):
     self.clear_page()
     self.add_component(self.current_form, slot="default")
   
-  def open_transactions(self, initial_filters={}, initial_date_filter={}, initial_page=0, filter_settings={}, direction='descending'):
+  def open_budgets(self, initial_filters={}, initial_date_filter={}, initial_page=0, filter_settings={}, direction='descending'):
     self.current_form = BudgetLines(mode='Budget')
     self.transaction_panel.role = 'dash-link-selected'
-    self.headline_label.text = "Budget and Forecast Lines"
+    self.headline_label.text = "Budget Lines"
+    self.clear_page()
+    self.add_component(self.current_form, slot="default")
+
+  def open_froecasts(self, initial_filters={}, initial_date_filter={}, initial_page=0, filter_settings={}, direction='descending'):
+    self.current_form = BudgetLines(mode='Forecast')
+    self.transaction_panel.role = 'dash-link-selected'
+    self.headline_label.text = "Forecast Lines"
     self.clear_page()
     self.add_component(self.current_form, slot="default")
   
@@ -128,7 +135,7 @@ class Homepage(HomepageTemplate):
     
   def transaction_link_click(self, **event_args):
     # Open the transactions  when the transaction_link is clicked
-    self.open_transactions()
+    self.open_budgets()
   
   def vendor_link_click(self, **event_args):
     # Open the accounts view when the account_link is clicked
@@ -190,6 +197,11 @@ class Homepage(HomepageTemplate):
   def link_1_click(self, **event_args):
     """This method is called when the link is clicked"""
     self.open_actuals()
+
+  def forecast_link_click(self, **event_args):
+    """This method is called when the link is clicked"""
+    self.open_forecasts()
+    
 
 
       
