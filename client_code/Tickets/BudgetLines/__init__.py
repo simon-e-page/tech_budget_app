@@ -258,6 +258,7 @@ class BudgetLines(BudgetLinesTemplate):
 
   def budget_lines_table_cell_edited(self, cell, **event_args):
     """This method is called when a cell is edited"""
+    # TODO: fix to update Entries!
     data = dict(cell.getData())
     transaction = self.transactions.get(data["transaction_id"])
     transaction.update()
