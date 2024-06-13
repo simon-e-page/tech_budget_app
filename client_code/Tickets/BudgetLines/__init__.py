@@ -276,3 +276,22 @@ class BudgetLines(BudgetLinesTemplate):
 
       Notification(f"Successful import! {len(vendor_ids)} new vendors, {len(actual_line_ids)} Actual Lines and {entry_count} new entries created").show()
 
+  def new_year_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    if confirm("This will lock the Budget, set the Forecast starting a new Current Year, and create a new starting Budget for next year. Do you want to continue?"):
+      try:
+        Data.start_new_year()
+      except Exception as e:
+        alert("Operation failed! Check logs!")
+        self.refresh_data_bindings()
+
+  def snapshot_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    if confirm("This will create a snaphshot version of the current Budget. Do you want to contiunue?"):
+      try:
+        Data.create_new_snapshot()
+      except Exception as e:
+        alert("Operation failed! There may be too many snapshots! Check logs!")
+        self.refresh_data_bindings()
+      
+

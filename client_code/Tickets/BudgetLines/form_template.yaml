@@ -8,6 +8,27 @@ components:
   name: transaction_details
   layout_properties: {slot: slot-1}
   components:
+  - name: flow_panel_2
+    properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'MGXKJM,RCCYQE', full_width_row: true}
+    components:
+    - name: snapshot_button
+      properties: {text: Create Snapshot, icon: 'fa:camera', role: secondary-button}
+      type: Button
+      layout_properties: {}
+      event_bindings: {click: snapshot_button_click}
+    data_bindings:
+    - {property: visible, code: self.mode=='Budget', writeback: false}
+  - name: flow_panel_3
+    properties: {align: right}
+    type: FlowPanel
+    layout_properties: {grid_position: 'MGXKJM,ACRANI'}
+    components:
+    - name: new_year_button
+      properties: {text: Start New Year, icon: 'fa:hourglass-start', role: primary-button}
+      type: Button
+      event_bindings: {click: new_year_button_click}
   - name: actuals_panel
     properties: {visible: false}
     type: FlowPanel
@@ -15,12 +36,8 @@ components:
     data_bindings:
     - {property: visible, code: self.mode=='Actual', writeback: false}
     components:
-    - name: new_year_button
-      properties: {text: Start New Year, icon: 'fa:hourglass-start'}
-      type: Button
-      layout_properties: {}
     - name: import_button
-      properties: {text: Import Actuals, role: primary-button}
+      properties: {text: Import Actuals, role: primary-button, icon: 'fa:cloud-upload'}
       type: Button
       layout_properties: {}
       event_bindings: {click: import_button_click}
