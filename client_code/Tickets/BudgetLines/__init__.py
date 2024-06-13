@@ -29,9 +29,11 @@ class BudgetLines(BudgetLinesTemplate):
       "index": "transaction_id",  # or set the index property here
       "selectable": "highlight",
       "css_class": ["table-striped", "table-bordered", "table-condensed"],
-      'pagination': False,
+      'pagination': True,
+      'paginationSize': 25,
       'frozenRows': 0,
-      'height': '80vh',
+      #'height': '70vh',
+      'autoResize': False,
       #"pagination_size": 10,
     }
 
