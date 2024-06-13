@@ -50,7 +50,7 @@ components:
       full_width_row: true
     components:
     - name: budget_lines_table
-      properties: {index: vendor_id, pagination_size: 15, pagination: false, role: 'table-striped, table-bordered, table-condensed', height: 90%}
+      properties: {index: vendor_id, pagination_size: 15, pagination: false, role: 'table-striped, table-bordered, table-condensed', height: 80vh}
       type: form:TGQCF3WT6FVL2EM2:Tabulator
       layout_properties: {grid_position: 'CLCFZG,JSOUJL', full_width_row: true}
       event_bindings: {table_built: budget_lines_table_table_built, cell_edited: budget_lines_table_cell_edited, row_selection_changed: budget_lines_table_row_selection_changed}

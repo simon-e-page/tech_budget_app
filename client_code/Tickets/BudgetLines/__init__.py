@@ -24,7 +24,17 @@ class BudgetLines(BudgetLinesTemplate):
     self.categories = Data.CATEGORIES_DD
     self.service_changes = Data.SERVICE_CHANGES_DD
     self.billing_types = Data.BILLING_TYPES_DD
-    
+
+    self.budget_lines_table.options = {
+      "index": "transaction_id",  # or set the index property here
+      "selectable": "highlight",
+      "css_class": ["table-striped", "table-bordered", "table-condensed"],
+      'pagination': False,
+      'frozenRows': 1,
+      'height': '80vh'
+      #"pagination_size": 10,
+    }
+
     self.selected_lines = []
     self.reload()
     self.add_event_handler("x-refresh-tables", self.refresh_tables)
@@ -172,15 +182,6 @@ class BudgetLines(BudgetLinesTemplate):
       },
     ]
 
-    self.budget_lines_table.options.update( **{
-      "index": "transaction_id",  # or set the index property here
-      "selectable": "highlight",
-      "css_class": ["table-striped", "table-bordered", "table-condensed"],
-      'pagination': False,
-      'frozenRows': 1,
-      'maxHeight': '90%'
-      #"pagination_size": 10,
-    })
 
     self.budget_lines_table.data = self.budget_data
 
