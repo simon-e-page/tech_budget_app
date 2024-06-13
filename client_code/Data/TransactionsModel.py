@@ -188,7 +188,7 @@ class LazyTransactionList(AttributeToDict):
   def get_entry_lines(self, transaction_type, data):
     year = BUDGET_YEAR if transaction_type=='Budget' else CURRENT_YEAR
     transaction_ids = [ x['transaction_id'] for x in data ]
-    entries = anvil.server.call('Transactions', 'get_entries_by_transaction', year=year, transaction_type=transaction_type, transaction_ids=transaction_ids)
+    entries = anvil.server.call('Transactions', 'get_entries_by_transaction', fin_year=year, transaction_type=transaction_type, transaction_ids=transaction_ids)
     return entries
     
   def to_records(self, with_vendor_name=True, with_vendor=True, with_vendor_id=False):
