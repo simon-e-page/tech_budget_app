@@ -110,6 +110,7 @@ CURRENT_BRAND = 'JB_AU'
 def refresh():
   global FIN_YEARS, CURRENT_YEAR, BUDGET_YEAR
   FIN_YEARS, BUDGET_YEAR, CURRENT_YEAR = anvil.server.call('Calendar', 'get_fin_years')
+  print(f"Budget Year: {BUDGET_YEAR}, Current Year: {CURRENT_YEAR}")
   #actuals_updated(202406, 2025)
 
 def get_actuals_updated(year):

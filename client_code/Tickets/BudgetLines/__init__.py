@@ -55,9 +55,16 @@ class BudgetLines(BudgetLinesTemplate):
     #print(self.entry_lines)
     self.year_months = self.entry_lines['columns']
     for row in self.budget_data:
+      entry = self.entry_lines['data'].get(str(row['transaction_id']), None)
       for year_month in self.year_months:
-        row[year_month] = self.entry_lines['data'][str(row['transaction_id'])][year_month]
-      row['total'] = sum(self.entry_lines['data'][str(row['transaction_id'])].values())
+        if entry:
+          row[year_month] = entry[year_month]
+        else:
+          row[year_month] = 'NA'
+      if entry:
+        row['total'] = sum(entry.values())
+      else:
+        row['total'] = 0.0
   
   def refresh_tables(self, *args, **kwargs):
     self.budget_lines_table_table_built()
