@@ -39,6 +39,7 @@ class Homepage(HomepageTemplate):
     Data.CURRENT_BRAND = 'JB_AU'
     self.brand = Data.CURRENT_BRAND
     self.current_year = Data.CURRENT_YEAR
+    self.budget_year = Data.BUDGET_YEAR
      
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -60,21 +61,21 @@ class Homepage(HomepageTemplate):
   def open_actuals(self, initial_filters={}, initial_date_filter={}, initial_page=0, filter_settings={}, direction='descending'):
     self.current_form = BudgetLines(mode='Actual')
     self.transaction_panel.role = 'dash-link-selected'
-    self.headline_label.text = "Actual Lines"
+    self.headline_label.text = f"Actual Lines: {self.current_year}"
     self.clear_page()
     self.add_component(self.current_form, slot="default")
   
   def open_budgets(self, initial_filters={}, initial_date_filter={}, initial_page=0, filter_settings={}, direction='descending'):
     self.current_form = BudgetLines(mode='Budget')
     self.transaction_panel.role = 'dash-link-selected'
-    self.headline_label.text = "Budget Lines"
+    self.headline_label.text = f"Budget Lines: {self.budget_year}"
     self.clear_page()
     self.add_component(self.current_form, slot="default")
 
   def open_forecasts(self, initial_filters={}, initial_date_filter={}, initial_page=0, filter_settings={}, direction='descending'):
     self.current_form = BudgetLines(mode='Forecast')
     self.transaction_panel.role = 'dash-link-selected'
-    self.headline_label.text = "Forecast Lines"
+    self.headline_label.text = f"Forecast Lines: {self.current_year}"
     self.clear_page()
     self.add_component(self.current_form, slot="default")
   
