@@ -45,25 +45,27 @@ class BudgetLines(BudgetLinesTemplate):
 
     self.show_empty = False
     self.selected_lines = []
+    self.budget_data = []
+    self.year_months = []
     self.reload()
     self.add_event_handler("x-refresh-tables", self.refresh_tables)
     self.init_components(**properties)
 
   def reload(self):
     self.transactions.load(transaction_type=self.mode)
-    budget_data = self.transactions.to_records(with_vendor_name=True, with_vendor=True)
-    self.entry_lines = self.transactions.get_entry_lines(self.mode, self.budget_data)
-    #print(self.entry_lines)
+    self.loaded_data = self.transactions.to_records(with_vendor_name=True, with_vendor=True)
+    self.entry_lines = self.transactions.get_entry_lines(self.mode, self.loaded_data)
     self.year_months = self.entry_lines['columns']
+    
+  
+  def refresh_tables(self, *args, **kwargs):
     self.budget_data = []
-    for row in budget_data:
+    for row in self.loaded_data:
       entry = self.entry_lines['data'].get(str(row['transaction_id']), None)
       for year_month in self.year_months:
         row[year_month] = entry[year_month] if entry else 'NA'
       row['total'] = sum(entry.values()) if entry else 0.0
-      self.show_empty and self.budget_data.append(row)
-  
-  def refresh_tables(self, *args, **kwargs):
+      (entry or self.show_empty) and self.budget_data.append(row)
     self.budget_lines_table_table_built()
 
   def budget_lines_table_table_built(self, **event_args):
@@ -374,7 +376,9 @@ class BudgetLines(BudgetLinesTemplate):
 
   def show_empty_toggle_x_change(self, **event_args):
     """This method is called when the switch is toggled"""
+    print(self.show_empty_toggle.checked)
+    print(event_args)
     self.show_empty = self.show_empty_toggle.checked
-    self.reload()
+    self.refresh_tables()
       
 
