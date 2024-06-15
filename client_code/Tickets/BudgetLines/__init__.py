@@ -24,7 +24,7 @@ class BudgetLines(BudgetLinesTemplate):
     self.categories = Data.CATEGORIES_DD
     self.service_changes = Data.SERVICE_CHANGES_DD
     self.billing_types = Data.BILLING_TYPES_DD
-
+    
     self.params = {
       'Budget': { 'background': '#ffffcc', 'color': 'black', 'editor': 'number' },
       'Forecast': { 'background': '#ffffcc', 'color': 'black', 'editor': 'number' },
@@ -43,6 +43,7 @@ class BudgetLines(BudgetLinesTemplate):
       #"pagination_size": 10,
     }
 
+    self.show_empty = False
     self.selected_lines = []
     self.reload()
     self.add_event_handler("x-refresh-tables", self.refresh_tables)
@@ -50,21 +51,17 @@ class BudgetLines(BudgetLinesTemplate):
 
   def reload(self):
     self.transactions.load(transaction_type=self.mode)
-    self.budget_data = self.transactions.to_records(with_vendor_name=True, with_vendor=True)
+    budget_data = self.transactions.to_records(with_vendor_name=True, with_vendor=True)
     self.entry_lines = self.transactions.get_entry_lines(self.mode, self.budget_data)
     #print(self.entry_lines)
     self.year_months = self.entry_lines['columns']
-    for row in self.budget_data:
+    self.budget_data = []
+    for row in budget_data:
       entry = self.entry_lines['data'].get(str(row['transaction_id']), None)
       for year_month in self.year_months:
-        if entry:
-          row[year_month] = entry[year_month]
-        else:
-          row[year_month] = 'NA'
-      if entry:
-        row['total'] = sum(entry.values())
-      else:
-        row['total'] = 0.0
+        row[year_month] = entry[year_month] if entry else 'NA'
+      row['total'] = sum(entry.values()) if entry else 0.0
+      self.show_empty and self.budget_data.append(row)
   
   def refresh_tables(self, *args, **kwargs):
     self.budget_lines_table_table_built()
@@ -374,5 +371,10 @@ class BudgetLines(BudgetLinesTemplate):
       except Exception as e:
         alert("Operation failed! There may be too many snapshots! Check logs!")
         self.refresh_data_bindings()
+
+  def show_empty_toggle_x_change(self, **event_args):
+    """This method is called when the switch is toggled"""
+    self.show_empty = self.show_empty_toggle.checked
+    self.reload()
       
 

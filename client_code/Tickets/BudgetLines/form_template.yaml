@@ -25,6 +25,15 @@ components:
     type: FlowPanel
     layout_properties: {grid_position: 'MGXKJM,ACRANI'}
     components:
+    - name: show_empty_toggle
+      properties: {}
+      type: form:dep_3ged044szjzy7:ToggleSwitch
+      layout_properties: {width: 109}
+      event_bindings: {x_change: show_empty_toggle_x_change}
+    - name: label_1
+      properties: {text: Show empty}
+      type: Label
+      layout_properties: {}
     - name: new_year_button
       properties: {text: Start New Year, icon: 'fa:hourglass-start', role: primary-button}
       type: Button
