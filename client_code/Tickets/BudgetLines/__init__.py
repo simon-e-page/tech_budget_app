@@ -66,6 +66,7 @@ class BudgetLines(BudgetLinesTemplate):
         row[year_month] = entry[year_month] if entry else 'NA'
       row['total'] = sum(entry.values()) if entry else 0.0
       (entry or self.show_empty) and self.budget_data.append(row)
+    self.refresh_data_bindings()
     self.render_table()
 
   
