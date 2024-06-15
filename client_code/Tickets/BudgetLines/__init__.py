@@ -58,7 +58,7 @@ class BudgetLines(BudgetLinesTemplate):
     self.year_months = self.entry_lines['columns']
     
   
-  def refresh_tables(self, *args, **kwargs):
+  def refresh_tables(self):
     self.budget_data = []
     for row in self.loaded_data:
       entry = self.entry_lines['data'].get(str(row['transaction_id']), None)
@@ -66,11 +66,15 @@ class BudgetLines(BudgetLinesTemplate):
         row[year_month] = entry[year_month] if entry else 'NA'
       row['total'] = sum(entry.values()) if entry else 0.0
       (entry or self.show_empty) and self.budget_data.append(row)
-    self.budget_lines_table_table_built()
+    self.render_table()
 
+  
   def budget_lines_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
+    self.refresh_tables()
 
+  
+  def render_table(self):
     def link_formatter(cell, **params):
       tag = dict(cell.getData())['transaction_id']
   
