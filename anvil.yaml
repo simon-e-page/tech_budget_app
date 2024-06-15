@@ -4,6 +4,9 @@ dependencies:
   version: {dev: false}
 - app_id: TGQCF3WT6FVL2EM2
   version: {dev: false}
+- dep_id: dep_3ged044szjzy7
+  version: {dev: false}
+  resolution_hints: {app_id: M3RD6ZOKPZUGJKTL, name: Clone of Toggle Switch, package_name: ToggleSwitch}
 services:
 - source: /runtime/services/tables.yml
   client_config: {}
