@@ -38,38 +38,6 @@ class TrackingTable(TrackingTableTemplate):
     # Any code you write here will run before the form opens.
 
   def load_data(self, year):
-    
-    self.year_months = ['202307', '202308']
-    self.transaction_types = {
-      '202307': 'Actual',
-      '202308': 'Forecast'
-    }
-    self.data = [
-      {
-        'vendor_name': 'Miro', 'vendor_id': 1001, '202307': 100, '202308': 90, 'total': 190
-      },
-      {
-        'vendor_name': 'M2', 'vendor_id': 1002, '202307': 100, '202308': 90, 'total': 190
-      },
-      
-    ]
-    self.ly_data = [
-      {
-        'vendor_name': 'Miro', 'vendor_id': 1001, '202307': 80, '202308': 70, 'total': 150      
-      },
-      {
-        'vendor_name': 'M2', 'vendor_id': 1002, '202307': 100, '202308': 90, 'total': 190
-      },
-    ]
-    self.b_data = [
-      {
-        'vendor_name': 'Miro', 'vendor_id': 1001, '202307': 110, '202308': 100, 'total': 210      
-      },
-      {
-        'vendor_name': 'M2', 'vendor_id': 1002, '202307': 100, '202308': 90, 'total': 190
-      },
-    ]
-
     d = Data.get_tracking_table(year)
     self.year_months = d['year_months']
     self.transaction_types = d['transaction_types']
@@ -152,7 +120,7 @@ class TrackingTable(TrackingTableTemplate):
     columns = [{
         "title": "Vendor",
         "field": "vendor_name",
-        'width': 200,
+        'width': 250,
         "headerFilter": "input",
         "headerFilterFunc": "starts",
         'formatter': vendor_formatter      
@@ -166,7 +134,7 @@ class TrackingTable(TrackingTableTemplate):
         "formatter": format_entry, 
         "hozAlign": "right",
         "formatterParams": { 'backgroundColor': self.colors[transaction_type]['backgroundColor'], 'color': self.colors[transaction_type]['color']},
-        "width": 130,
+        "width": 110,
         "headerFilter": "number",
       })
 
@@ -174,7 +142,7 @@ class TrackingTable(TrackingTableTemplate):
         "title": "Total", 
         "field": 'total', 
         "formatter": format_total, 
-        "width": 130,
+        "width": 110,
         "headerFilter": "number",
         "hozAlign": 'right',
     })
@@ -183,7 +151,7 @@ class TrackingTable(TrackingTableTemplate):
           "title": "Change", 
           "field": 'change', 
           "formatter": format_percent, 
-          "width": 130,
+          "width": 110,
           "hozAlign": 'right',
     }
 
@@ -216,10 +184,10 @@ class TrackingTable(TrackingTableTemplate):
       for year_month in self.year_months:
         new_row[year_month] = row[year_month] - c_data[i][year_month]
       new_data.append(new_row)
-    print(new_data)
+    #print(new_data)
     return new_data
   
   def no_compare(self, c_data):
-    print(self.data)
+    #print(self.data)
     return self.data
   
