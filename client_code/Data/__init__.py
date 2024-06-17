@@ -106,6 +106,8 @@ CURRENT_YEAR = None
 BUDGET_YEAR = None
 CURRENT_BRAND = 'JB_AU'
 
+def get_tracking_table(year):
+  return anvil.server.call('Calendar', 'get_tracking_table', CURRENT_BRAND, year)
 
 def refresh():
   global FIN_YEARS, CURRENT_YEAR, BUDGET_YEAR

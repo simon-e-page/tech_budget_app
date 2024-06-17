@@ -29,13 +29,14 @@ class TrackingTable(TrackingTableTemplate):
       'Actual': {'backgroundColor': '#ffffcc', 'color': 'black' },
       'Forecast': {'backgroundColor': '#ccffcc', 'color': 'black' },
     }
-    self.mode = 'last_year'
-    self.load_data()
+    self.mode = 'absolute'
+    self.loaded = False
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
 
-  def load_data(self):
+  def load_data(self, year):
+    
     self.year_months = ['202307', '202308']
     self.transaction_types = {
       '202307': 'Actual',
@@ -66,11 +67,17 @@ class TrackingTable(TrackingTableTemplate):
         'vendor_name': 'M2', 'vendor': 1002, '202307': 100, '202308': 90, 'total': 190
       },
     ]
-    pass
+
+    self.year_months, self.transaction_types, self.data, self.ly_data, self.b_data = Data.get_tracking_table(year)
+
+    self.loaded = True
+    self.tracking_table_table_built()
     
   def tracking_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
-
+    if not self.loaded:
+      return
+      
     # Vendor Formatter
     def vendor_formatter(cell, **params):
       vendor = cell.getData()['vendor']

@@ -30,7 +30,8 @@ class Content(ContentTemplate):
     self.show = properties.get('show', 'absolute' )
     self.account_filter = properties.get('account_filter', 'all')
     
-    self.fin_year = fin_year_date or self.calc_fin_year(datetime.now())
+    self.fin_year = Data.CURRENT_YEAR
+    
     self.account_data = None
     self.budget_data = None
     self.accounts = []  #Data.ACCOUNTS_D
@@ -474,8 +475,8 @@ class Content(ContentTemplate):
     """This method is called when the link is clicked"""
     self.details_visible = not self.details_visible
     #self.details_link.icon = self.arrows[self.details_visible]
-    if not self.details_loaded:
-      self.initialise_account_grid()
+    if self.details_visible:
+      self.tracking_table_1.load_data(self.fin_year)
     self.refresh_data_bindings()
 
   def overview_link_click(self, **event_args):
