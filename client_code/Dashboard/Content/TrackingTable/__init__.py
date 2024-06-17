@@ -29,6 +29,7 @@ class TrackingTable(TrackingTableTemplate):
       'Actual': {'backgroundColor': '#ffffcc', 'color': 'black' },
       'Forecast': {'backgroundColor': '#ccffcc', 'color': 'black' },
     }
+    self.mode = 'absolute'
     self.load_data()
     self.init_components(**properties)
 
