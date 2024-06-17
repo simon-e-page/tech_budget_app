@@ -61,9 +61,10 @@ class BudgetLines(BudgetLinesTemplate):
   def refresh_tables(self):
     self.budget_data = []
     for row in self.loaded_data:
-      entry = self.entry_lines['data'].get(str(row['transaction_id']), None)
+      entry = self.entry_lines['data'].get(str(row['transaction_id']), {})
       for year_month in self.year_months:
-        row[year_month] = entry[year_month] if entry else 'NA'
+          row[year_month] = entry.get(year_month, 0.0)
+          
       row['total'] = sum(entry.values()) if entry else 0.0
       (entry or self.show_empty) and self.budget_data.append(row)
     self.refresh_data_bindings()

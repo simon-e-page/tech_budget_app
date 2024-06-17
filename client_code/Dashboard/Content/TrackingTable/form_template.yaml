@@ -1,0 +1,8 @@
+container: {type: ColumnPanel}
+components:
+- name: tracking_table
+  properties: {}
+  type: form:TGQCF3WT6FVL2EM2:Tabulator
+  layout_properties: {grid_position: 'ZESDAZ,BUHJTF'}
+  event_bindings: {table_built: tracking_table_table_built}
+is_package: true
