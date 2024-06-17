@@ -119,11 +119,16 @@ class TrackingTable(TrackingTableTemplate):
     def format_percent(cell, **params):
       val = cell.get_value()
       
-      cell.getElement().style.backgroundColor = '#0d6e12' if val > 0 else '#6e0d15'
+      cell.getElement().style.backgroundColor = '#0d6e12' if val <= 0 else '#6e0d15'
       cell.getElement().style.color = 'white'
       
       try:
-        val = "{:,.0f}%".format(val)
+        if val > 0:
+          val = "+{:,.0f}%".format(val)
+        elif val < 0:
+          val = "-{:,.0f}%".format(val)
+        else:
+          val = ''
       except Exception:
         print("Exception!")
         val = 'NA'
