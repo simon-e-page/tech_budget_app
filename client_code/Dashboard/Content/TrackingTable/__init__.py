@@ -13,6 +13,8 @@ from ....Vendors.Vendors.Vendor import Vendor
 class TrackingTable(TrackingTableTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
+    self.vendors = VendorsModel.VENDORS
+    
     self.tracking_table.options = {
       "index": "vendor",  # or set the index property here
       "selectable": "highlight",
@@ -44,32 +46,32 @@ class TrackingTable(TrackingTableTemplate):
     }
     self.data = [
       {
-        'vendor_name': 'Miro', 'vendor': 1001, '202307': 100, '202308': 90, 'total': 190
+        'vendor_name': 'Miro', 'vendor_id': 1001, '202307': 100, '202308': 90, 'total': 190
       },
       {
-        'vendor_name': 'M2', 'vendor': 1002, '202307': 100, '202308': 90, 'total': 190
+        'vendor_name': 'M2', 'vendor_id': 1002, '202307': 100, '202308': 90, 'total': 190
       },
       
     ]
     self.ly_data = [
       {
-        'vendor_name': 'Miro', 'vendor': 1001, '202307': 80, '202308': 70, 'total': 150      
+        'vendor_name': 'Miro', 'vendor_id': 1001, '202307': 80, '202308': 70, 'total': 150      
       },
       {
-        'vendor_name': 'M2', 'vendor': 1002, '202307': 100, '202308': 90, 'total': 190
+        'vendor_name': 'M2', 'vendor_id': 1002, '202307': 100, '202308': 90, 'total': 190
       },
     ]
     self.b_data = [
       {
-        'vendor_name': 'Miro', 'vendor': 1001, '202307': 110, '202308': 100, 'total': 210      
+        'vendor_name': 'Miro', 'vendor_id': 1001, '202307': 110, '202308': 100, 'total': 210      
       },
       {
-        'vendor_name': 'M2', 'vendor': 1002, '202307': 100, '202308': 90, 'total': 190
+        'vendor_name': 'M2', 'vendor_id': 1002, '202307': 100, '202308': 90, 'total': 190
       },
     ]
 
     self.year_months, self.transaction_types, self.data, self.ly_data, self.b_data = Data.get_tracking_table(year)
-
+    
     self.loaded = True
     self.tracking_table_table_built()
     
@@ -84,7 +86,7 @@ class TrackingTable(TrackingTableTemplate):
 
       def open_vendor(sender, **event_args):
         print("Opening vendor: {0}".format(sender.tag.vendor_name))
-        ret = alert(Vendor(item=sender.tag, show_save=False), large=True, title="Vendor Details", buttons=[ ('Save Changes', True), ('Cancel', False) ])
+        ret = alert(Vendor(item=self.vendors.get(sender.tag), show_save=False), large=True, title="Vendor Details", buttons=[ ('Save Changes', True), ('Cancel', False) ])
         if ret:
           try:
             vendor.update()
