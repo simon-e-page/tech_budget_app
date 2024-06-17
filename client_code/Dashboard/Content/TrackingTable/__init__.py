@@ -14,7 +14,7 @@ class TrackingTable(TrackingTableTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.tracking_table.options = {
-      "index": "transaction_id",  # or set the index property here
+      "index": "vendor",  # or set the index property here
       "selectable": "highlight",
       "css_class": ["table-striped", "table-bordered", "table-condensed"],
       'pagination': True,
@@ -43,17 +43,17 @@ class TrackingTable(TrackingTableTemplate):
     }
     self.data = [
       {
-        'vendor_name': 'Miro', 'vendor': None, '202307': 100, '202308': 90
+        'vendor_name': 'Miro', 'vendor': 1001, '202307': 100, '202308': 90, 'total': 190
       }
     ]
     self.ly_data = [
       {
-        'vendor_name': 'Miro', 'vendor': None, '202307': 80, '202308': 70      
+        'vendor_name': 'Miro', 'vendor': 1001, '202307': 80, '202308': 70, 'total': 190      
       }
     ]
     self.b_data = [
       {
-        'vendor_name': 'Miro', 'vendor': None, '202307': 110, '202308': 100      
+        'vendor_name': 'Miro', 'vendor': 1001, '202307': 110, '202308': 100      
       }
     ]
     pass
@@ -183,6 +183,7 @@ class TrackingTable(TrackingTableTemplate):
       for year_month in self.year_months:
         new_row[year_month] = row[year_month] - c_data[i][year_month]
       new_data.append(new_row)
+    return new_data
   
   def no_compare(self, c_data):
     return self.data
