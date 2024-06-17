@@ -29,6 +29,7 @@ class TrackingTable(TrackingTableTemplate):
       'Actual': {'backgroundColor': '#ffffcc', 'color': 'black' },
       'Forecast': {'backgroundColor': '#ccffcc', 'color': 'black' },
     }
+    self.load_data()
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
@@ -128,10 +129,9 @@ class TrackingTable(TrackingTableTemplate):
         "field": c, 
         "formatter": format_entry, 
         "hozAlign": "right",
-        "formatterParams": { 'backgroundColor': self.colors[transaction_type]['backgroundColor'], 'color': self.params[transaction_type]['color']},
+        "formatterParams": { 'backgroundColor': self.colors[transaction_type]['backgroundColor'], 'color': self.colors[transaction_type]['color']},
         "width": 130,
         "headerFilter": "number",
-        'editor': self.params[self.mode]['editor']
       })
 
     columns.append({
@@ -141,7 +141,6 @@ class TrackingTable(TrackingTableTemplate):
         "width": 130,
         "headerFilter": "number",
         "hozAlign": 'right',
-        'editor': None   
     })
 
     change_col = {
@@ -150,7 +149,6 @@ class TrackingTable(TrackingTableTemplate):
           "formatter": format_percent, 
           "width": 130,
           "hozAlign": 'right',
-          'editor': None         
     }
 
     if self.mode == "last_year":
