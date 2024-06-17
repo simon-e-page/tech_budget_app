@@ -18,9 +18,9 @@ class TrackingTable(TrackingTableTemplate):
       "selectable": "highlight",
       "css_class": ["table-striped", "table-bordered", "table-condensed"],
       'pagination': True,
-      'paginationSize': None,
+      'paginationSize': 5,
       'frozenRows': 0,
-      'height': '70vh',
+      'height': '50vh',
       #'autoResize': False,
       #"pagination_size": 10,
     }
@@ -29,7 +29,7 @@ class TrackingTable(TrackingTableTemplate):
       'Actual': {'backgroundColor': '#ffffcc', 'color': 'black' },
       'Forecast': {'backgroundColor': '#ccffcc', 'color': 'black' },
     }
-    self.mode = 'absolute'
+    self.mode = 'last_year'
     self.load_data()
     self.init_components(**properties)
 
@@ -44,17 +44,27 @@ class TrackingTable(TrackingTableTemplate):
     self.data = [
       {
         'vendor_name': 'Miro', 'vendor': 1001, '202307': 100, '202308': 90, 'total': 190
-      }
+      },
+      {
+        'vendor_name': 'M2', 'vendor': 1002, '202307': 100, '202308': 90, 'total': 190
+      },
+      
     ]
     self.ly_data = [
       {
         'vendor_name': 'Miro', 'vendor': 1001, '202307': 80, '202308': 70, 'total': 150      
-      }
+      },
+      {
+        'vendor_name': 'M2', 'vendor': 1002, '202307': 100, '202308': 90, 'total': 190
+      },
     ]
     self.b_data = [
       {
         'vendor_name': 'Miro', 'vendor': 1001, '202307': 110, '202308': 100, 'total': 210      
-      }
+      },
+      {
+        'vendor_name': 'M2', 'vendor': 1002, '202307': 100, '202308': 90, 'total': 190
+      },
     ]
     pass
     
@@ -89,6 +99,7 @@ class TrackingTable(TrackingTableTemplate):
       try:
         val = "{:,.0f}".format(val)
       except Exception:
+        print("Exception!")
         pass
       return val
 
@@ -100,6 +111,7 @@ class TrackingTable(TrackingTableTemplate):
       try:
         val = "{:,.0f}".format(val)
       except Exception:
+        print("Exception!")
         val = 'NA'
       return val
 
@@ -113,6 +125,7 @@ class TrackingTable(TrackingTableTemplate):
       try:
         val = "{:,.0f}%".format(val)
       except Exception:
+        print("Exception!")
         val = 'NA'
       return val
 
@@ -168,6 +181,7 @@ class TrackingTable(TrackingTableTemplate):
       c_data = None
       
     self.tracking_table.columns = columns
+    #self.tracking_table.data = self.data
     self.tracking_table.data = compare(c_data)
 
   def yes_compare(self, c_data):
@@ -176,15 +190,17 @@ class TrackingTable(TrackingTableTemplate):
       new_row = { 'vendor_name': row['vendor_name'], 'vendor': row['vendor'] }
       new_row['total'] = row['total'] - c_data[i]['total']
       try:
-        new_row['change'] = int(row['total'] / c_data[i]['total']*100)
+        new_row['change'] = int((row['total'] - c_data[i]['total']) / c_data[i]['total']*100)
       except Exception as e:
         new_row['change'] = 0
         
       for year_month in self.year_months:
         new_row[year_month] = row[year_month] - c_data[i][year_month]
       new_data.append(new_row)
+    print(new_data)
     return new_data
   
   def no_compare(self, c_data):
+    print(self.data)
     return self.data
   
