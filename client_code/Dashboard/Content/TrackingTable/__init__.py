@@ -46,13 +46,16 @@ class TrackingTable(TrackingTableTemplate):
         'vendor_name': 'Miro', 'vendor': None, '202307': 100, '202308': 90
       }
     ]
-    self.ly_data = {
+    self.ly_data = [
+      {
         'vendor_name': 'Miro', 'vendor': None, '202307': 80, '202308': 70      
-    }
-    self.b_data = {
+      }
+    ]
+    self.b_data = [
+      {
         'vendor_name': 'Miro', 'vendor': None, '202307': 110, '202308': 100      
-    }
-
+      }
+    ]
     pass
     
   def tracking_table_table_built(self, **event_args):
@@ -167,23 +170,20 @@ class TrackingTable(TrackingTableTemplate):
     self.tracking_table.columns = columns
     self.tracking_table.data = compare(c_data)
 
-def yes_compare(self, c_data):
-  new_data = []
-  for i, row in enumerate(self.data):
-    new_row = { 'vendor_name': row['vendor_name'], 'vendor': row['vendor'] }
-    new_row['total'] = row['total'] - c_data[i]['total']
-    try:
-      new_row['change'] = int(row['total'] / c_data[i]['total']*100)
-    except Exception as e:
-      new_row['change'] = 0
-      
-    for year_month in self.year_months:
-      new_row[year_month] = row[year_month] - c_data[i][year_month]
-    new_data.append(new_row)
-    
-
-def no_compare(self):
-  return self.data
-
-def b_compare(self):
-  pass
+  def yes_compare(self, c_data):
+    new_data = []
+    for i, row in enumerate(self.data):
+      new_row = { 'vendor_name': row['vendor_name'], 'vendor': row['vendor'] }
+      new_row['total'] = row['total'] - c_data[i]['total']
+      try:
+        new_row['change'] = int(row['total'] / c_data[i]['total']*100)
+      except Exception as e:
+        new_row['change'] = 0
+        
+      for year_month in self.year_months:
+        new_row[year_month] = row[year_month] - c_data[i][year_month]
+      new_data.append(new_row)
+  
+  def no_compare(self, c_data):
+    return self.data
+  
