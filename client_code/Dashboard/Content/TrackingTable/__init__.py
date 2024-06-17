@@ -82,11 +82,12 @@ class TrackingTable(TrackingTableTemplate):
       
     # Vendor Formatter
     def vendor_formatter(cell, **params):
-      vendor = cell.getData()['vendor']
+      vendor_id = cell.getData()['vendor_id']
+      vendor = self.vendors.get(vendor_id)
 
       def open_vendor(sender, **event_args):
         print("Opening vendor: {0}".format(sender.tag.vendor_name))
-        ret = alert(Vendor(item=self.vendors.get(sender.tag), show_save=False), large=True, title="Vendor Details", buttons=[ ('Save Changes', True), ('Cancel', False) ])
+        ret = alert(Vendor(item=sender.tag, show_save=False), large=True, title="Vendor Details", buttons=[ ('Save Changes', True), ('Cancel', False) ])
         if ret:
           try:
             vendor.update()
