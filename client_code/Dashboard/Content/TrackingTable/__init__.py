@@ -20,7 +20,7 @@ class TrackingTable(TrackingTableTemplate):
       "selectable": "highlight",
       "css_class": ["table-striped", "table-bordered", "table-condensed"],
       'pagination': True,
-      'paginationSize': 5,
+      'paginationSize': 25,
       'frozenRows': 0,
       'height': '50vh',
       #'autoResize': False,
