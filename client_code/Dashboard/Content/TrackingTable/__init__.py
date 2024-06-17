@@ -70,8 +70,12 @@ class TrackingTable(TrackingTableTemplate):
       },
     ]
 
-    self.year_months, self.transaction_types, self.data, self.ly_data, self.b_data = Data.get_tracking_table(year)
-    
+    d = Data.get_tracking_table(year)
+    self.year_months = d['year_months']
+    self.transaction_types = d['transaction_types']
+    self.data = d['data']
+    self.ly_data = d['ly_data']
+    self.b_data =  d['b_data']
     self.loaded = True
     self.tracking_table_table_built()
     
