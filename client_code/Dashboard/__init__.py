@@ -58,6 +58,7 @@ class Dashboard(DashboardTemplate):
     self.initialise_dashboard_data()
       
   def initialise_dashboard_data(self):
+    return
     """Fetch the data required to populate the 'Dashboard' from the server.
     
     Send it to the 'Content' Form to populate the appropriate labels and charts

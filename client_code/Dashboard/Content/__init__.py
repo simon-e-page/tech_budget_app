@@ -39,7 +39,7 @@ class Content(ContentTemplate):
 
     #self.arrows = { True: 'fa:angle-down', False: 'fa:angle-right'}
     self.overview_visible = True
-    self.details_visible = False
+    self.details_visible = True
     self.details_loaded = False
     self.org_visible = False
     self.balance_visible = False
@@ -48,7 +48,7 @@ class Content(ContentTemplate):
     self.balance_data = {} 
     
     self.end_date = self.fin_year
-    self.start_date = datetime(self.fin_year.year - 1, 7, 1, 0, 0, 0)    
+    #self.start_date = datetime(self.fin_year.year - 1, 7, 1, 0, 0, 0)    
     self.set_overview_label_str()
     self.init_components(**properties)
 
@@ -151,140 +151,6 @@ class Content(ContentTemplate):
     else:    
       return None
 
-  def setup_balance_sheet(self):
-    if not self.balance_loaded:
-      self.balance_data = None #anvil.server.call('get_balance_sheet', self.fin_year)
-      self.balance_loaded = True
-    return
-    
-    grid = self.balance_grid
-    grid.clear()
-    entries = None
-    
-    prev_year = datetime(self.fin_year.year - 1, 6, 30, 0, 0, 0)
-
-    py_str = prev_year.strftime('FY%y')
-    cy_str = self.fin_year.strftime('FY%y')
-
-    grid.columns = [
-      { "id": "A", "title": "", "data_key": "type", "width": 250 },
-      { "id": cy_str, "title": "{0} YTD".format(cy_str), "data_key": cy_str, "width": 200 },
-      { "id": py_str, "title": py_str, "data_key": py_str, "width": 200 },
-      { "id": "D", "title": "Change", "data_key": "change", "width": 200 },
-    ]
-    
-    grid.columns = grid.columns
-
-    subtypes = {}
-    for s in self.balance_data['subtype']:
-      t_level = subtypes.get(s['type'], {})
-      s_level = t_level.get(s['subtype'], {})
-      s_level[s['year']] = s['balance']
-      t_level[s['subtype']] = s_level
-      subtypes[s['type']] = t_level
-
-    types = {}
-    for t in self.balance_data['type']:
-      t_level = types.get(t['type'], {})
-      t_level[t['year']] = t['balance']
-      types[t['type']] = t_level
-    
-    totals = { x['year'] : x['balance'] for x in self.balance_data['net_worth'] }
-    
-    years =   { 
-                self.fin_year.year: { 'label': cy_str, 'sign': 1 }, 
-                prev_year.year: { 'label': py_str, 'sign': -1 }
-              }
-        
-    for t, label in { 'ASSET': 'Assets', 'LIABILITY': 'Liabilities'}.items():
-      row = DataRowPanel()
-      #row.background = '#969A9C'
-      row.spacing_above = 'none'
-      row.spacing_below = 'none'
-      row.row_spacing = 20
-  
-      text = '{0}'.format(label)
-      textbox = Label(text=text, bold=True, foreground='black', underline=True, font_size=14)
-      row.add_component(textbox, column='A')
-      grid.add_component(row)
-
-      for s, v in subtypes[t].items():
-        row = DataRowPanel()
-        #row.background = '#969A9C'
-        row.spacing_above = 'none'
-        row.spacing_below = 'none'
-        row.row_spacing = 20
-
-        text = '{0}'.format(s)
-        textbox = Label(text=text, bold=False, foreground='black', underline=False, font_size=14)
-        row.add_component(textbox, column='A')
-
-        delta = 0
-        for y, y_data in years.items():
-          b = v.get(y, 0)
-          #b = get_balance(subtype_data, 'subtype', s, y['year'])
-          text = '{:,.0f}'.format(b)
-          textbox = Label(text=text, bold=False, foreground='black', underline=False, font_size=14)
-          row.add_component(textbox, column=y_data['label'])
-          delta += b * y_data['sign']
-
-        text = '+{:,.0f}'.format(delta).replace('+-', '-')
-        foreground = 'green' if delta >= 0 else 'red'
-        textbox = Label(text=text, bold=False, foreground=foreground, underline=False, font_size=14)
-        row.add_component(textbox, column='D')
-          
-        grid.add_component(row)
-
-      row = DataRowPanel()
-      #row.background = '#969A9C'
-      row.spacing_above = 'none'
-      row.spacing_below = 'none'
-      row.row_spacing = 20
-
-      text = 'Total {0}'.format(label)
-      textbox = Label(text=text, bold=True, foreground='black', underline=True, font_size=14)
-      row.add_component(textbox, column='A')
-      
-      delta = 0
-      for y, y_data in years.items():
-        b = types[t].get(y, 0)
-        #b = get_balance(types, 'type', t, y['year'])
-        text = '{:,.0f}'.format(b)
-        textbox = Label(text=text, bold=True, foreground='black', underline=False, font_size=14)
-        row.add_component(textbox, column=y_data['label'])
-        delta += b * y_data['sign']
-
-      text = '+{:,.0f}'.format(delta).replace('+-', '-')
-      foreground = 'green' if delta >= 0 else 'red'
-      textbox = Label(text=text, bold=True, foreground=foreground, underline=False, font_size=14)
-      row.add_component(textbox, column='D')
-      
-      grid.add_component(row)
-
-    row = DataRowPanel()
-    #row.background = '#969A9C'
-    row.spacing_above = 'none'
-    row.spacing_below = 'none'
-    row.row_spacing = 20
-
-    text = 'Net Worth'
-    textbox = Label(text=text, bold=True, foreground='black', underline=True, font_size=14)
-    row.add_component(textbox, column='A')
-    
-    delta = 0
-    for y, y_data in years.items():
-      b = totals.get(y, 0)
-      text = '{:,.0f}'.format(b)
-      textbox = Label(text=text, bold=True, foreground='black', underline=False, font_size=14)
-      row.add_component(textbox, column=y_data['label'])
-      delta += b * y_data['sign']
-
-    text = '+{:,.0f}'.format(delta).replace('+-', '-')
-    foreground = 'green' if delta >= 0 else 'red'
-    textbox = Label(text=text, bold=True, foreground=foreground, underline=False, font_size=14)
-    row.add_component(textbox, column='D')
-
-    grid.add_component(row)
       
     
   
@@ -324,22 +190,9 @@ class Content(ContentTemplate):
     self.parent.raise_event('x-open-transactions', account=account)
 
   def set_overview_label_str(self):
-    year = self.fin_year.year
-    if self.compare == 'budget':
-      if self.show == 'absolute':
-        self.overview_label_str = '{0} vs Budget'.format(year % 100)
-      else:
-        self.overview_label_str = '{0} minus Budget'.format(year % 100)
-    else:
-      if self.show == 'absolute':
-        self.overview_label_str = '{0} vs FY{1}'.format(year % 100, (year - 1) % 100)
-      else:
-        self.overview_label_str = '{0} minus FY{1}'.format(year % 100, (year - 1) % 100)
-    if self.account_filter == 'budget':
-      self.overview_label_str += ' (budgeted accounts only)'
-    elif self.account_filter == 'discretionary':
-      self.overview_label_str += ' (discretionary accounts only)'
-    
+    self.overview_label_str = f"{self.fin_year}"
+    return
+        
   def initialise_account_grid(self):
     pass
 
@@ -412,60 +265,10 @@ class Content(ContentTemplate):
 
       self.refresh_data_bindings()
 
-  def tabulator_1_row_formatter(self, row, **event_args):
-    """This method is called when the row is rendered - manipulate the tabulator row object"""
-    data = row.getData()
-    if "Expense Total" in data.account:
-      row.getElement().style.backgroundColor = "#01ffae"
-      row.getElement().style.fontWeight = "bold"
-    if int(data.total.replace(',','')) > int(data.compare.replace(',','')):
-      row.getCell('total').getElement().style.color = "red"
-    if self.show =='deltas':
-      for i in self.date_keys:
-        if int(data[i].replace(',', ''))>0:
-          row.getCell(i).getElement().style.color = "red"
-
-  def tabulator_2_row_formatter(self, row, **event_args):
-    """This method is called when the row is rendered - manipulate the tabulator row object"""
-    data = row.getData()
-    if "Income Total" in data.account:
-      row.getElement().style.backgroundColor = "#9588df"
-      row.getElement().style.fontWeight = "bold"
-    if int(data.total.replace(',','')) < int(data.compare.replace(',','')):
-      row.getCell('total').getElement().style.color = "red"
-    if self.show =='deltas':
-      for i in self.date_keys:
-        if int(data[i].replace(',', ''))<0:
-          row.getCell(i).getElement().style.color = "red"
 
 
   def show_expense_graph(self):
-    """ Build and render a pie chart that breaks down expenses by organisation """
-    if self.account_dropdown.selected_value == 'All' or self.account_dropdown.selected_value is None:
-      account_names = self.expense_accounts
-    else:
-      account_names = [self.account_dropdown.selected_value]
-      
-    self.org_data = { 'organisations': [], 'values': [] }
-    #anvil.server.call('get_expenses_by_organisation', fin_year=self.fin_year, account_names=account_names, threshold=0.005)
-      
-    # expect data in the form of:
-    #   organisation
-    #   amount
-    data = self.org_data
-    
-    labels = data['organisations']
-    values = data['values']
-    total = sum(values)
-    
-    #pie_plot = go.Pie(labels=labels, values=values)
-    layout = {
-      'title': "Total amount: ${:,.0f}".format(total)
-        }
-
-    # Make the multi-bar plot
-    #self.org_plot.data = pie_plot
-    #self.org_plot.layout = layout
+    return
 
   def account_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
