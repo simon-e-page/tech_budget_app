@@ -48,12 +48,12 @@ class TrackingTable(TrackingTableTemplate):
     ]
     self.ly_data = [
       {
-        'vendor_name': 'Miro', 'vendor': 1001, '202307': 80, '202308': 70, 'total': 190      
+        'vendor_name': 'Miro', 'vendor': 1001, '202307': 80, '202308': 70, 'total': 150      
       }
     ]
     self.b_data = [
       {
-        'vendor_name': 'Miro', 'vendor': 1001, '202307': 110, '202308': 100      
+        'vendor_name': 'Miro', 'vendor': 1001, '202307': 110, '202308': 100, 'total': 210      
       }
     ]
     pass
