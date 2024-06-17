@@ -3,38 +3,38 @@ container:
   properties: {tooltip: '', background: '', foreground: '', border: '', visible: true, role: dashboard-form, html: '@theme:scroll_pane.html'}
 components:
 - type: ColumnPanel
-  properties: {role: null, tooltip: '', border: '', foreground: '', visible: false, wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{"RPRBUG":6,"FYAKIX":68,"YEDBHO":6}', spacing_below: small, background: ''}
+  properties: {role: null, col_widths: '{"RPRBUG":6,"FYAKIX":68,"YEDBHO":6}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: false, border: '', tooltip: ''}
   name: header_column_panel
   layout_properties: {slot: slot-header}
   components:
   - type: Image
-    properties: {role: null, vertical_align: center, height: 57, tooltip: '', border: '', foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: small, source: 'data:image/png;base64,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', spacing_below: small, background: '', horizontal_align: center}
+    properties: {role: null, vertical_align: center, spacing_above: small, background: '', horizontal_align: center, source: 'data:image/png;base64,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', foreground: '', display_mode: shrink_to_fit, spacing_below: small, visible: true, border: '', tooltip: '', height: 57}
     name: prev_button
     layout_properties: {width: 93, grid_position: 'YRUPLP,RPRBUG', full_width_row: true}
     event_bindings: {mouse_up: prev_button_mouse_up}
   - type: Label
-    properties: {role: semi-bold-text, align: center, tooltip: '', border: '', foreground: '', visible: true, text: Summary - July 2022 to June 2023, font_size: 32, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: true, underline: false, icon: ''}
+    properties: {role: semi-bold-text, bold: true, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: 32, tooltip: '', text: Summary - July 2022 to June 2023}
     name: ticket_overview_label
     layout_properties: {slot: slot-header, grid_position: 'YRUPLP,FYAKIX', full_width_row: true}
     data_bindings:
     - {property: text, code: '"Summary - {0} to {1}".format(self.start_date.strftime(''%B %Y''), self.end_date.strftime(''%B %Y''))'}
   - type: Image
-    properties: {role: null, vertical_align: center, height: 58, tooltip: '', border: '', foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: small, source: 'data:image/png;base64,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', spacing_below: small, background: '', horizontal_align: center}
+    properties: {role: null, vertical_align: center, spacing_above: small, background: '', horizontal_align: center, source: 'data:image/png;base64,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', foreground: '', display_mode: shrink_to_fit, spacing_below: small, visible: true, border: '', tooltip: '', height: 58}
     name: next_button
     layout_properties: {width: 79, grid_position: 'YRUPLP,YEDBHO', full_width_row: true}
     event_bindings: {mouse_up: next_button_mouse_up}
   - type: FlowPanel
-    properties: {role: null, spacing: medium, align: center, tooltip: '', border: '', foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
+    properties: {role: null, align: center, spacing_above: small, background: '', foreground: '', spacing_below: small, visible: true, border: '', tooltip: '', spacing: medium}
     name: flow_panel_headline_stats
     layout_properties: {grid_position: 'OJRUWX,SOWTYQ', full_width_row: true}
     components: []
 - type: ColumnPanel
-  properties: {role: null, tooltip: '', border: '', foreground: '', visible: false, wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}', spacing_below: small, background: ''}
+  properties: {role: null, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: false, border: '', tooltip: ''}
   name: content_column_panel
   layout_properties: {slot: slot-content}
   components:
   - type: FlowPanel
-    properties: {role: null, spacing: tiny, align: center, tooltip: '', border: '', foreground: '', visible: false, spacing_above: small, spacing_below: medium, background: ''}
+    properties: {role: null, align: center, spacing_above: small, background: '', foreground: '', spacing_below: medium, visible: false, border: '', tooltip: '', spacing: tiny}
     name: flow_panel_2
     layout_properties:
       col_widths: {}
@@ -46,16 +46,16 @@ components:
       name: closed_on_first_chart
       layout_properties: {}
     - type: ColumnPanel
-      properties: {role: null, tooltip: '', border: '', foreground: '', visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}', spacing_below: small, background: ''}
+      properties: {role: null, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
       name: progress_graph_1_text
       layout_properties: {width: 184}
       components:
       - type: Label
-        properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: Year to Date Budget, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: true, underline: false, icon: ''}
+        properties: {role: null, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Year to Date Budget}
         name: label_1
         layout_properties: {grid_position: 'OWPMNS,PUFIUV'}
       - type: Label
-        properties: {role: muted-text, align: left, tooltip: '', border: '', foreground: 'theme:Gray 600', visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+        properties: {role: muted-text, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:Gray 600', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: ''}
         name: closed_on_first_label
         layout_properties: {grid_position: 'DZFQHJ,CDDNSO'}
         data_bindings: []
@@ -64,32 +64,32 @@ components:
       name: new_custs_chart
       layout_properties: {}
     - type: ColumnPanel
-      properties: {role: null, tooltip: '', border: '', foreground: '', visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}', spacing_below: small, background: ''}
+      properties: {role: null, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
       name: progress_graph_2_text
       layout_properties: {width: 186}
       components:
       - type: Label
-        properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: New vs. Returning, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: true, underline: false, icon: ''}
+        properties: {role: null, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: New vs. Returning}
         name: label_2
         layout_properties: {grid_position: 'SJKERU,HKITLB'}
       - type: Label
-        properties: {role: muted-text, align: left, tooltip: '', border: '', foreground: 'theme:Gray 600', visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+        properties: {role: muted-text, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:Gray 600', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: ''}
         name: new_custs_label
         layout_properties: {grid_position: 'OAWGBK,PPRKKH'}
   - type: FlowPanel
-    properties: {role: null, spacing: medium, align: left, tooltip: '', border: '', foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
+    properties: {role: null, align: left, spacing_above: small, background: '', foreground: '', spacing_below: small, visible: true, border: '', tooltip: '', spacing: medium}
     name: flow_panel_4
     layout_properties: {grid_position: 'LUJTGC,HOBJLK', full_width_row: true}
     components:
     - type: Link
-      properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '', visible: true, text: '', font_size: null, wrap_on: mobile, font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '', spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-down'}
+      properties: {role: null, bold: false, align: left, col_widths: '', spacing_above: small, background: '', icon: 'fa:angle-down', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: ''}
       name: overview_link
       layout_properties: {grid_position: 'LUJTGC,BBQXIO', full_width_row: true}
       event_bindings: {click: overview_link_click}
       data_bindings:
       - {property: icon, code: '''fa:angle-down'' if self.overview_visible else ''fa:angle-right'''}
     - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: Income/Expense Overview, font_size: 18, font: '', spacing_above: small, icon_align: left, spacing_below: none, italic: false, background: '', bold: true, underline: false, icon: ''}
+      properties: {role: null, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: none, visible: true, border: '', italic: false, font_size: 18, tooltip: '', text: Income/Expense Overview}
       name: overview_label
       layout_properties:
         col_widths: {}
@@ -110,12 +110,12 @@ components:
     data_bindings:
     - {property: visible, code: self.overview_visible}
   - type: FlowPanel
-    properties: {role: null, spacing: medium, align: left, tooltip: '', border: '', foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
+    properties: {role: null, align: left, spacing_above: small, background: '', foreground: '', spacing_below: small, visible: true, border: '', tooltip: '', spacing: medium}
     name: flow_panel_3
     layout_properties: {grid_position: 'URGAYV,OZIJUC', full_width_row: true}
     components:
     - type: Link
-      properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '', visible: true, text: '', font_size: null, wrap_on: mobile, font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '', spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-right'}
+      properties: {role: null, bold: false, align: left, col_widths: '', spacing_above: small, background: '', icon: 'fa:angle-right', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: ''}
       name: details_link
       layout_properties: {}
       event_bindings: {click: details_link_click}
@@ -124,27 +124,27 @@ components:
     - type: Label
       properties:
         role: null
-        align: left
-        tooltip: ''
-        border: ''
-        foreground: ''
-        visible: true
-        text: |
-          Expense and Income Details
-        font_size: 18
-        font: ''
-        spacing_above: small
-        icon_align: left
-        spacing_below: small
-        italic: false
-        background: ''
         bold: true
-        underline: false
+        align: left
+        spacing_above: small
+        background: ''
         icon: ''
+        underline: false
+        font: ''
+        icon_align: left
+        foreground: ''
+        spacing_below: small
+        visible: true
+        border: ''
+        italic: false
+        font_size: 18
+        tooltip: ''
+        text: |
+          Actuals / Forecast
       name: label_7
       layout_properties: {}
   - type: FlowPanel
-    properties: {role: null, spacing: medium, align: left, tooltip: '', border: '', foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
+    properties: {role: null, align: left, spacing_above: small, background: '', foreground: '', spacing_below: small, visible: true, border: '', tooltip: '', spacing: medium}
     name: details_panel
     layout_properties: {grid_position: 'RMAOWE,KSYQVA', full_width_row: true}
     components:
@@ -153,40 +153,25 @@ components:
       name: linear_panel_1
       layout_properties: {width: 1500, expand: false}
       components:
-      - type: Label
-        properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: Expense Accounts, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
-        name: label_3
-        layout_properties: {grid_position: 'JHXIWC,BVLJHP'}
-      - type: form:TGQCF3WT6FVL2EM2:Tabulator
-        properties: {role: '', pagination: false, index: id, height: '', header_visible: true, pagination_size: 5, border: '', visible: true, auto_columns: null, spacing_above: small, spacing_below: small}
-        name: tabulator_1
-        layout_properties: {grid_position: 'ITXPQZ,IKOWVB', full_width_row: true}
-        event_bindings: {row_formatter: tabulator_1_row_formatter}
-      - type: Label
-        properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: Income Accounts, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
-        name: label_4
-        layout_properties: {grid_position: 'XDWGQJ,PWTGIP'}
-      - type: form:TGQCF3WT6FVL2EM2:Tabulator
-        properties: {role: '', pagination: false, index: id, height: '', header_visible: true, pagination_size: 5, border: '', visible: true, auto_columns: null, spacing_above: small, spacing_below: small}
-        name: tabulator_2
-        layout_properties: {grid_position: 'XWQXFC,FMLSTY', full_width_row: true}
-        event_bindings: {row_formatter: tabulator_2_row_formatter}
+      - name: tracking_table_1
+        properties: {}
+        type: form:Dashboard.Content.TrackingTable
     data_bindings:
     - {property: visible, code: self.details_visible}
   - type: FlowPanel
-    properties: {role: null, spacing: medium, align: left, tooltip: '', border: '', foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
+    properties: {role: null, align: left, spacing_above: small, background: '', foreground: '', spacing_below: small, visible: true, border: '', tooltip: '', spacing: medium}
     name: flow_panel_6
     layout_properties: {grid_position: 'DKJNLZ,UJWTSI', full_width_row: true}
     components:
     - type: Link
-      properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '', visible: true, text: '', font_size: null, wrap_on: mobile, font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '', spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-right'}
+      properties: {role: null, bold: false, align: left, col_widths: '', spacing_above: small, background: '', icon: 'fa:angle-right', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: ''}
       name: balance_link
       layout_properties: {}
       event_bindings: {click: balance_link_click}
       data_bindings:
       - {property: icon, code: '''fa:angle-down'' if self.balance_visible else ''fa:angle-right'''}
     - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: Balance Sheet, font_size: 18, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: true, underline: false, icon: ''}
+      properties: {role: null, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: 18, tooltip: '', text: Balance Sheet}
       name: label_8
       layout_properties: {}
   - type: LinearPanel
@@ -199,21 +184,21 @@ components:
     - type: DataGrid
       properties:
         role: null
+        spacing_above: small
         columns:
         - {id: LOWUVS, title: Column 1, data_key: column_1, $$hashKey: 'object:109292'}
         - {id: EFWBPF, title: Column 2, data_key: column_2, $$hashKey: 'object:109293'}
         - {id: EXZIGG, title: Column 3, data_key: column_3, $$hashKey: 'object:109294'}
-        auto_header: true
-        tooltip: ''
-        border: ''
-        foreground: ''
-        rows_per_page: 20
-        visible: true
-        wrap_on: never
-        show_page_controls: false
-        spacing_above: small
-        spacing_below: small
         background: ''
+        rows_per_page: 20
+        wrap_on: never
+        foreground: ''
+        show_page_controls: false
+        auto_header: true
+        spacing_below: small
+        visible: true
+        border: ''
+        tooltip: ''
       name: balance_grid
       layout_properties: {}
       components:
@@ -222,19 +207,19 @@ components:
         name: repeating_panel_1
         layout_properties: {}
   - type: FlowPanel
-    properties: {role: null, spacing: medium, align: left, tooltip: '', border: '', foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
+    properties: {role: null, align: left, spacing_above: small, background: '', foreground: '', spacing_below: small, visible: true, border: '', tooltip: '', spacing: medium}
     name: flow_panel_5
     layout_properties: {grid_position: 'JFYEEW,OZOEXP', full_width_row: true}
     components:
     - type: Link
-      properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '', visible: true, text: '', font_size: null, wrap_on: mobile, font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '', spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-right'}
+      properties: {role: null, bold: false, align: left, col_widths: '', spacing_above: small, background: '', icon: 'fa:angle-right', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: ''}
       name: org_link
       layout_properties: {}
       event_bindings: {click: org_link_click}
       data_bindings:
       - {property: icon, code: '''fa:angle-down'' if self.org_visible else ''fa:angle-right'''}
     - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: Expense Totals by Organisation, font_size: 18, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: true, underline: false, icon: ''}
+      properties: {role: null, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: 18, tooltip: '', text: Expense Totals by Organisation}
       name: label_5
       layout_properties: {grid_position: 'BFMGML,RHMTPO', full_width_row: true}
   - type: LinearPanel
@@ -252,29 +237,29 @@ components:
         name: spacer_1
         layout_properties: {width: 131}
       - type: Label
-        properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: 'Select Expense Account:', font_size: 16, font: '', spacing_above: medium, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+        properties: {role: null, bold: false, align: left, spacing_above: medium, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: 16, tooltip: '', text: 'Select Expense Account:'}
         name: label_6
         layout_properties: {grid_position: 'LBMEYV,QGPMJH'}
       - type: DropDown
         properties:
           role: dropdown-border
+          include_placeholder: true
+          bold: false
           align: full
-          tooltip: ''
           placeholder: All
-          border: ''
-          enabled: true
+          spacing_above: small
+          background: ''
+          underline: false
+          font: ''
           foreground: ''
           items: []
-          visible: true
-          font_size: 14
-          font: ''
-          spacing_above: small
           spacing_below: small
+          visible: true
+          border: ''
           italic: false
-          background: ''
-          bold: false
-          underline: false
-          include_placeholder: true
+          enabled: true
+          font_size: 14
+          tooltip: ''
         name: account_dropdown
         layout_properties: {}
         data_bindings:
