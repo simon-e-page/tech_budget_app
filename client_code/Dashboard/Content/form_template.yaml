@@ -3,7 +3,7 @@ container:
   properties: {tooltip: '', background: '', foreground: '', border: '', visible: true, role: dashboard-form, html: '@theme:scroll_pane.html'}
 components:
 - type: ColumnPanel
-  properties: {role: null, col_widths: '{"RPRBUG":6,"FYAKIX":68,"YEDBHO":6}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: false, border: '', tooltip: ''}
+  properties: {role: null, col_widths: '{"RPRBUG":6,"FYAKIX":68,"YEDBHO":6}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
   name: header_column_panel
   layout_properties: {slot: slot-header}
   components:
@@ -29,7 +29,7 @@ components:
     layout_properties: {grid_position: 'OJRUWX,SOWTYQ', full_width_row: true}
     components: []
 - type: ColumnPanel
-  properties: {role: null, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: false, border: '', tooltip: ''}
+  properties: {role: null, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
   name: content_column_panel
   layout_properties: {slot: slot-content}
   components:

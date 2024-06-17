@@ -113,7 +113,7 @@ class TrackingTable(TrackingTableTemplate):
       try:
         val = "{:,.0f}".format(val)
       except Exception:
-        print("Exception!")
+        print("Entry Exception!")
         pass
       return val
 
@@ -125,7 +125,7 @@ class TrackingTable(TrackingTableTemplate):
       try:
         val = "{:,.0f}".format(val)
       except Exception:
-        print("Exception!")
+        print("Total Exception!")
         val = 'NA'
       return val
 
@@ -144,7 +144,7 @@ class TrackingTable(TrackingTableTemplate):
         else:
           val = ''
       except Exception:
-        print("Exception!")
+        print("Percent Exception!")
         val = 'NA'
       return val
 

@@ -39,7 +39,7 @@ class Content(ContentTemplate):
 
     #self.arrows = { True: 'fa:angle-down', False: 'fa:angle-right'}
     self.overview_visible = True
-    self.details_visible = True
+    self.details_visible = False
     self.details_loaded = False
     self.org_visible = False
     self.balance_visible = False
