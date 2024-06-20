@@ -7,7 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from .... import Data
-from ....Data import VendorsModel, TransactionsModel
+from ....Data import VendorsModel, TransactionsModel, CURRENT_YEAR
 from ....Vendors.Vendors.Vendor import Vendor
 
 class TrackingTable(TrackingTableTemplate):
@@ -20,7 +20,7 @@ class TrackingTable(TrackingTableTemplate):
       "selectable": "highlight",
       "css_class": ["table-striped", "table-bordered", "table-condensed"],
       'pagination': True,
-      'paginationSize': 25,
+      'paginationSize': 250,
       'frozenRows': 0,
       'height': '50vh',
       #'autoResize': False,
@@ -134,7 +134,7 @@ class TrackingTable(TrackingTableTemplate):
         "formatter": format_entry, 
         "hozAlign": "right",
         "formatterParams": { 'backgroundColor': self.colors[transaction_type]['backgroundColor'], 'color': self.colors[transaction_type]['color']},
-        "width": 110,
+        "width": 85,
         "headerFilter": "number",
       })
 
@@ -142,7 +142,7 @@ class TrackingTable(TrackingTableTemplate):
         "title": "Total", 
         "field": 'total', 
         "formatter": format_total, 
-        "width": 110,
+        "width": 100,
         "headerFilter": "number",
         "hozAlign": 'right',
     })
@@ -151,7 +151,7 @@ class TrackingTable(TrackingTableTemplate):
           "title": "Change", 
           "field": 'change', 
           "formatter": format_percent, 
-          "width": 110,
+          "width": 85,
           "hozAlign": 'right',
     }
 
@@ -188,6 +188,14 @@ class TrackingTable(TrackingTableTemplate):
     return new_data
   
   def no_compare(self, c_data):
+    def zero_filter(data, **params):
+      prefix = str(CURRENT_YEAR)[0:2]
+      non_zero = [int(int(x)!=0) for i,x in dict(data).items() if i.startswith(prefix)]
+      #print(f"{data['vendor_name']}: {non_zero}")
+      non_zero = sum(non_zero)
+      return non_zero != 0
+      
+    self.tracking_table.set_filter(zero_filter)
     #print(self.data)
     return self.data
   
