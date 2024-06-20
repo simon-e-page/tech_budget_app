@@ -7,7 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from .... import Data
-from ....Data import VendorsModel, TransactionsModel, CURRENT_YEAR
+from ....Data import VendorsModel, TransactionsModel, CURRENT_YEAR, FinancialNumber
 from ....Vendors.Vendors.Vendor import Vendor
 
 class TrackingTable(TrackingTableTemplate):
@@ -79,7 +79,15 @@ class TrackingTable(TrackingTableTemplate):
       if params.get('color', None):
         cell.getElement().style.color = params['color']
       try:
-        val = "{:,.0f}".format(val)
+        val = Label(text = "{:,.0f}".format(FinancialNumber(val)),
+                    icon="fa:arrow-up", 
+                    tooltip="+5% on LY", 
+                    align='right',
+                    icon_align="left", 
+                    foreground=params['color'], 
+                    background=params['backgroundColor']
+                   )
+        #val = "{:,.0f}".format(val)
       except Exception:
         print("Entry Exception!")
         pass

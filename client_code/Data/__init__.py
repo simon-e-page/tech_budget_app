@@ -8,6 +8,17 @@ import datetime as dt
 TODO:
 """
 
+class FinancialNumber:
+    def __init__(self, number):
+        self.number = number
+
+    def __format__(self, format_spec):
+        if self.number < 0:
+            return f'({format(abs(self.number), format_spec)})'
+        else:
+            return format(self.number, format_spec)
+
+
 # TODO: Move into app_tables?
 BRANDS = [ 'JB_AU', 'JB_NZ', 'TGG']
 BRANDS_DD = [ (x,x) for x in BRANDS ]
