@@ -128,7 +128,7 @@ components:
         align: left
         spacing_above: small
         background: ''
-        icon: arrow
+        icon: ''
         underline: false
         font: ''
         icon_align: left
