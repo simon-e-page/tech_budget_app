@@ -15,6 +15,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.vendors = VendorsModel.VENDORS
+    self.vendor_id = properties('vendor_id')
 
     self.tracking_table.options = {
       "index": "transaction_id",  # or set the index property here
@@ -39,7 +40,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
     # Any code you write here will run before the form opens.
 
   def load_data(self, year):
-    d = Data.get_tracking_table(year)
+    d = Data.get_vendor_detail(year = CURRENT_YEAR, vendor_id=self.vendor_id)
     self.year_months = d["year_months"]
     self.transaction_types = d["transaction_types"]
     self.data = d["data"]
@@ -82,7 +83,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       val = cell.getValue()
       data = cell.get_data()
       ym = params.get("year_month")
-      # b_ym = f"{ym}B"
+      b_ym = f"{ym}B"
       ly_ym = f"{ym}LY"
 
       if params.get("backgroundColor", None):
@@ -186,13 +187,30 @@ class VendorDetailTable(VendorDetailTableTemplate):
 
     columns = [
       {
-        "title": "Vendor",
-        "field": "vendor_name",
+        "title": "Owner",
+        "field": "owner",
+        "width": 100,
+        "headerFilter": "input",
+        "headerFilterFunc": "starts",
+        "formatter": None
+      },
+      {
+        "title": "Description",
+        "field": "description",
         "width": 250,
         "headerFilter": "input",
         "headerFilterFunc": "starts",
-        "formatter": vendor_formatter,
-      }
+        "formatter": transaction_formatter,        
+      },
+      {
+        "title": "Cost centre",
+        "field": "cost_centre",
+        "width": 150,
+        "headerFilter": "input",
+        "headerFilterFunc": "starts",
+        "formatter": None        
+      },
+      
     ]
 
     for c in self.year_months:
@@ -276,5 +294,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       return non_zero != 0
 
     self.tracking_table.set_filter(zero_filter)
+
+    
     # print(self.data)
     return self.data
