@@ -42,8 +42,8 @@ class TrackingTable(TrackingTableTemplate):
     self.year_months = d['year_months']
     self.transaction_types = d['transaction_types']
     self.data = d['data']
-    self.ly_data = d['ly_data']
-    self.b_data =  d['b_data']
+    #self.ly_data = d['ly_data']
+    #self.b_data =  d['b_data']
     self.loaded = True
     self.tracking_table_table_built()
     
@@ -74,14 +74,38 @@ class TrackingTable(TrackingTableTemplate):
     # Entry formatter
     def format_entry(cell, **params):
       val = cell.getValue()
+      data = cell.get_data()
+      ym = params.get('year_month')
+      #b_ym = f"{ym}B"
+      ly_ym = f"{ym}LY"
+      
       if params.get('backgroundColor', None):
         cell.getElement().style.backgroundColor = params['backgroundColor']
       if params.get('color', None):
         cell.getElement().style.color = params['color']
+
+      try:
+        ly_delta = (int(val) - int(data[ly_ym]))/int(data[ly_ym])
+        ly_delta = int(ly_delta * 100)
+      except Exception:
+        ly_delta = "INF"
+        
+      tooltip = f"LY: {FinancialNumber(data[ly_ym]):,.0f}"
+
+      if int(val) < int(data[ly_ym]):
+        icon = "fa:arrow-down"
+        tooltip += f"\n{ly_delta}%"
+      elif int(val) > int(data[ly_ym]):
+        icon = "fa:arrow-up"
+        tooltip += f"\n+{ly_delta}%"
+      else:
+        icon = None
+        tooltip = None
+        
       try:
         val = Label(text = "{:,.0f}".format(FinancialNumber(val)),
-                    icon="fa:arrow-up", 
-                    tooltip="+5% on LY", 
+                    icon=icon, 
+                    tooltip=tooltip, 
                     align='right',
                     icon_align="left", 
                     foreground=params['color'], 
@@ -96,10 +120,38 @@ class TrackingTable(TrackingTableTemplate):
     # Total formatter
     def format_total(cell, **params):
       val = cell.get_value()
-      cell.getElement().style.backgroundColor = '#424140'
-      cell.getElement().style.color = 'white'
+      ly_total = cell.get_data()['totalLY']
+
       try:
-        val = "{:,.0f}".format(val)
+        ly_delta = (int(val) - int(ly_total))/int(ly_total)
+        ly_delta = int(ly_delta * 100)
+      except Exception:
+        ly_delta = 'INF'
+      
+      cell.getElement().style.color = 'white'
+      tooltip = f"LY: {FinancialNumber(ly_total):,.0f}"
+      
+      if int(val) < int(ly_total):
+        background_color = '#043d1b'
+        tooltip += f"\n{ly_delta}%"
+      elif int(val) > int(ly_total):                  
+        background_color = '#4d0404'
+        tooltip += f"\n+{ly_delta}%"
+      else:
+        background_color = '#424140'
+
+      cell.getElement().style.backgroundColor = background_color
+
+      try:
+        val = Label(text = "{:,.0f}".format(FinancialNumber(val)),
+                    bold = True,
+                    align='right',
+                    icon_align="left", 
+                    foreground='white', 
+                    tooltip=tooltip,
+                    background=background_color
+                   )
+        #val = "{:,.0f}".format(val)
       except Exception:
         print("Total Exception!")
         val = 'NA'
@@ -141,7 +193,7 @@ class TrackingTable(TrackingTableTemplate):
         "field": c, 
         "formatter": format_entry, 
         "hozAlign": "right",
-        "formatterParams": { 'backgroundColor': self.colors[transaction_type]['backgroundColor'], 'color': self.colors[transaction_type]['color']},
+        "formatterParams": { 'year_month': c, 'backgroundColor': self.colors[transaction_type]['backgroundColor'], 'color': self.colors[transaction_type]['color']},
         "width": 85,
         "headerFilter": "number",
       })
@@ -197,8 +249,7 @@ class TrackingTable(TrackingTableTemplate):
   
   def no_compare(self, c_data):
     def zero_filter(data, **params):
-      prefix = str(CURRENT_YEAR)[0:2]
-      non_zero = [int(int(x)!=0) for i,x in dict(data).items() if i.startswith(prefix)]
+      non_zero = [int(int(x)!=0) for i,x in dict(data).items() if i in self.year_months]
       #print(f"{data['vendor_name']}: {non_zero}")
       non_zero = sum(non_zero)
       return non_zero != 0
