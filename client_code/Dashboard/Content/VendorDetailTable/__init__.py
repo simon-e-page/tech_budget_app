@@ -82,6 +82,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
     def format_entry(cell, **params):
       val = cell.getValue()
       data = cell.get_data()
+      trans_type = data['transaction_type']
       ym = params.get("year_month")
       b_ym = f"{ym}B"
       f_ym = f"{ym}F"
@@ -92,6 +93,8 @@ class VendorDetailTable(VendorDetailTableTemplate):
       if params.get("color", None):
         cell.getElement().style.color = params["color"]
 
+      if transaction_type == 'Actual':
+        comparison = data[]
       try:
         ly_delta = (int(val) - int(data[ly_ym])) / int(data[ly_ym])
         ly_delta = int(ly_delta * 100)
