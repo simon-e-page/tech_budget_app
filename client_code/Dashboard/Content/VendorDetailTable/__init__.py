@@ -84,6 +84,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       data = cell.get_data()
       ym = params.get("year_month")
       b_ym = f"{ym}B"
+      f_ym = f"{ym}F"
       ly_ym = f"{ym}LY"
 
       if params.get("backgroundColor", None):
