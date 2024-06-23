@@ -85,15 +85,14 @@ class TrackingTable(TrackingTableTemplate):
         'headerSort': False
       })
 
-    columns.append([{
+    columns.append({
         "title": "Total", 
         "field": 'total', 
         "formatter": self.format_summary, 
         "width": 100,
-        "headerFilter": "number",
         "hozAlign": 'right',
         'headerSort': False
-      }])
+      })
 
     self.summary_table.columns = columns
     a_data = { 'id': 'CY Actuals / Forecast', 'total': 0.0 } | { x: 0.0 for x in self.year_months }
@@ -102,8 +101,8 @@ class TrackingTable(TrackingTableTemplate):
     p_data = { 'id': 'Percentage', 'total': 0.0 } | { x: 0.0 for x in self.year_months }
     ac_data = { 'id': 'CY Cumulative', 'total': 0.0 } | { x: 0.0 for x in self.year_months }
     lc_data = { 'id': 'LY Cumulative', 'total': 0.0 } | { x: 0.0 for x in self.year_months }
-    dc_data = { 'id': 'Cum Difference', 'total': 0.0 } | { x: 0.0 for x in self.year_months }
-    pc_data = { 'id': 'Cum Percentage', 'total': 0.0 } | { x: 0.0 for x in self.year_months }
+    dc_data = { 'id': 'Cumul Difference', 'total': 0.0 } | { x: 0.0 for x in self.year_months }
+    pc_data = { 'id': 'Cumul Percentage', 'total': 0.0 } | { x: 0.0 for x in self.year_months }
     
     for row in self.data:
       for year_month in self.year_months:
@@ -115,8 +114,8 @@ class TrackingTable(TrackingTableTemplate):
 
     for i, year_month in enumerate(self.year_months):
       d_data[year_month] += a_data[year_month] - ly_data[year_month]
-      ac_data[year_month] = a_data[year_month] + ac_data[self.year_months[i-1]] if i>0 else 0
-      lc_data[year_month] = ly_data[year_month] + lc_data[self.year_months[i-1]] if i>0 else 0
+      ac_data[year_month] = a_data[year_month] + ac_data[self.year_months[i-1]] if i>0 else a_data[year_month]
+      lc_data[year_month] = ly_data[year_month] + lc_data[self.year_months[i-1]] if i>0 else ly_data[year_month]
       dc_data[year_month] = ac_data[year_month] - lc_data[year_month]
 
       try:
@@ -179,12 +178,14 @@ class TrackingTable(TrackingTableTemplate):
         text = '-'
       val = Label(text = text,
                   align='right',
+                  bold=False,
                   foreground=params['color'], 
                   background=params['backgroundColor']
                   )
     else:
       val = Label(text = "{:,.0f}".format(FinancialNumber(val)),
                   align='right',
+                  bold=False,
                   foreground=params['color'], 
                   background=params['backgroundColor']
                   )
