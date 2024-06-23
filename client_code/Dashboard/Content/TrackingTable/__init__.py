@@ -89,6 +89,7 @@ class TrackingTable(TrackingTableTemplate):
         "title": "Total", 
         "field": 'total', 
         "formatter": self.format_summary, 
+        "formatterParams": { 'year_month': 'total', 'backgroundColor': '#424140', 'color': 'white'},
         "width": 100,
         "hozAlign": 'right',
         'headerSort': False
