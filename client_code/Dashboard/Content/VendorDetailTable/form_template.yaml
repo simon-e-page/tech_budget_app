@@ -1,8 +1,19 @@
 container: {type: ColumnPanel}
 components:
-- name: tracking_table
+- name: flow_panel_1
+  properties: {}
+  type: FlowPanel
+  layout_properties: {grid_position: 'HSVEFQ,GHLMTN', full_width_row: true}
+  components:
+  - name: label_1
+    properties: {text: 'Actual and Forecast Lines for ', bold: true}
+    type: Label
+    data_bindings:
+    - {property: text, code: 'f"Actual and Forecast Lines for {self.vendor.get(''vendor_name'', ''Unknown'')}"', writeback: false}
+    layout_properties: {}
+- name: details_table
   properties: {}
   type: form:TGQCF3WT6FVL2EM2:Tabulator
   layout_properties: {grid_position: 'ZESDAZ,BUHJTF', full_width_row: true}
-  event_bindings: {table_built: tracking_table_table_built}
+  event_bindings: {table_built: details_table_table_built}
 is_package: true

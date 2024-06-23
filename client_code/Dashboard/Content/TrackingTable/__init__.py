@@ -8,7 +8,8 @@ from anvil.tables import app_tables
 
 from .... import Data
 from ....Data import VendorsModel, TransactionsModel, CURRENT_YEAR, FinancialNumber
-from ....Vendors.Vendors.Vendor import Vendor
+#from ....Vendors.Vendors.Vendor import Vendor
+from ..VendorDetailTable import VendorDetailTable
 
 COL_WIDTH = 90
 
@@ -150,10 +151,12 @@ class TrackingTable(TrackingTableTemplate):
 
     def open_vendor(sender, **event_args):
       print("Opening vendor: {0}".format(sender.tag.vendor_name))
-      ret = alert(Vendor(item=sender.tag, show_save=False), large=True, title="Vendor Details", buttons=[ ('Save Changes', True), ('Cancel', False) ])
+      ret = alert(VendorDetailTable(vendor=sender.tag), large=True, title="Vendor Details", buttons=[ ('Save Changes', True), ('Cancel', False) ])
       if ret:
         try:
-          vendor.update()
+          pass
+          print("Save Forecast changes..")
+          #vendor.update()
         except Exception as e:
           print("Failed to update Vendor!")
       return
