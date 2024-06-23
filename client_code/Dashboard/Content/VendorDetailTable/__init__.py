@@ -7,7 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from .... import Data
-from ....Data import VendorsModel, TransactionsModel, CURRENT_YEAR, FinancialNumber
+from ....Data import VendorsModel, TransactionsModel, FinancialNumber
 from ....Vendors.Vendors.Vendor import Vendor
 
 
@@ -16,6 +16,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
     # Set Form properties and Data Bindings.
     self.vendors = VendorsModel.VENDORS
     self.vendor = properties['vendor']
+    self.year = properties['year']
 
     self.details_table.options = {
       "index": "transaction_id",  # or set the index property here
@@ -40,10 +41,11 @@ class VendorDetailTable(VendorDetailTableTemplate):
     # Any code you write here will run before the form opens.
 
   def load_data(self):
-    d = Data.get_vendor_detail(year = CURRENT_YEAR, vendor_id=self.vendor.vendor_id)
+    d = Data.get_vendor_detail(year = self.year, vendor_id=self.vendor.vendor_id)
     self.year_months = d["year_months"]
     self.transaction_types = d["transaction_types"]
     self.data = d["data"]
+    print(self.data)
     # self.ly_data = d['ly_data']
     # self.b_data =  d['b_data']
     self.loaded = True
@@ -219,6 +221,17 @@ class VendorDetailTable(VendorDetailTableTemplate):
       }
     )
 
-
+    def zero_filter(data, **params):
+      non_zero = [int(int(x)!=0) for i,x in dict(data).items() if i in self.year_months]
+      #print(f"{data['vendor_name']}: {non_zero}")
+      non_zero = sum(non_zero)
+      return non_zero != 0
+    
     self.details_table.columns = columns    
+    for row in self.data:
+      if row['transaction_type']=='Budget':
+        for ym in self.year_months:
+         row[ym] = row[f"{ym}F"]
+        
     self.details_table.data = self.data
+    self.tracking_table.set_filter(zero_filter)

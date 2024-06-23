@@ -17,6 +17,7 @@ class TrackingTable(TrackingTableTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.vendors = VendorsModel.VENDORS
+    self.year = properties.get('year', CURRENT_YEAR)
     
     self.tracking_table.options = {
       "index": "vendor",  # or set the index property here
@@ -52,6 +53,7 @@ class TrackingTable(TrackingTableTemplate):
     # Any code you write here will run before the form opens.
 
   def load_data(self, year):
+    self.year = year
     d = Data.get_tracking_table(year)
     self.year_months = d['year_months']
     self.transaction_types = d['transaction_types']

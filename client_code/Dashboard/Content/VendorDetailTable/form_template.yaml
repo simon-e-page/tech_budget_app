@@ -9,7 +9,7 @@ components:
     properties: {text: 'Actual and Forecast Lines for ', bold: true}
     type: Label
     data_bindings:
-    - {property: text, code: 'f"Actual and Forecast Lines for {self.vendor.get(''vendor_name'', ''Unknown'')}"', writeback: false}
+    - {property: text, code: 'f"FY{self.year} Actual and Forecast Lines for {self.vendor.get(''vendor_name'', ''Unknown'')}"', writeback: false}
     layout_properties: {}
 - name: details_table
   properties: {}
