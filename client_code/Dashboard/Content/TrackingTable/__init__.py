@@ -10,6 +10,8 @@ from .... import Data
 from ....Data import VendorsModel, TransactionsModel, CURRENT_YEAR, FinancialNumber
 from ....Vendors.Vendors.Vendor import Vendor
 
+COL_WIDTH = 90
+
 class TrackingTable(TrackingTableTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -81,7 +83,7 @@ class TrackingTable(TrackingTableTemplate):
         "formatter": self.format_summary, 
         "hozAlign": "right",
         "formatterParams": { 'year_month': c, 'backgroundColor': self.colors[transaction_type]['backgroundColor'], 'color': self.colors[transaction_type]['color']},
-        "width": 85,
+        "width": COL_WIDTH,
         'headerSort': False
       })
 
@@ -171,8 +173,8 @@ class TrackingTable(TrackingTableTemplate):
     if params.get('color', None):
       cell.getElement().style.color = params['color']
 
-    if "Cumul" in data['ida']:
-      val = Label(text='',
+    if "Cumul" in data['id'] and col=='total':
+      lbl = Label(text='',
                   align='right',
                   bold=False,
                   foreground=params['color'], 
@@ -185,27 +187,28 @@ class TrackingTable(TrackingTableTemplate):
         text = "{:,.0f}%".format(val)
       else:
         text = '-'
-      val = Label(text = text,
+      lbl = Label(text = text,
                   align='right',
                   bold=False,
                   foreground=params['color'], 
                   background=params['backgroundColor']
                   )
     else:
-      if val > 0:
-        icon='fa:arrow-up'
-      elif val < 0:
-        icon='fa:arrow-down'
-      else:
-        icon = None
-      val = Label(text = "{:,.0f}".format(FinancialNumber(val)),
+      icon = None
+      if 'Difference' in data['id']:
+        if val > 0:
+          icon='fa:arrow-up'
+        elif val < 0:
+          icon='fa:arrow-down'
+      lbl = Label(text = "{:,.0f}".format(FinancialNumber(val)),
                   icon=icon,
+                  icon_align="left", 
                   align='right',
                   bold=False,
                   foreground=params['color'], 
                   background=params['backgroundColor']
                   )
-    return val
+    return lbl
   
   # Entry formatter
   def format_entry(self, cell, **params):
@@ -336,7 +339,7 @@ class TrackingTable(TrackingTableTemplate):
         "formatter": self.format_entry, 
         "hozAlign": "right",
         "formatterParams": { 'year_month': c, 'backgroundColor': self.colors[transaction_type]['backgroundColor'], 'color': self.colors[transaction_type]['color']},
-        "width": 85,
+        "width": COL_WIDTH,
         "headerFilter": "number",
       })
 
@@ -353,7 +356,7 @@ class TrackingTable(TrackingTableTemplate):
           "title": "Change", 
           "field": 'change', 
           "formatter": self.format_percent, 
-          "width": 85,
+          "width": COL_WIDTH,
           "hozAlign": 'right',
     }
 
