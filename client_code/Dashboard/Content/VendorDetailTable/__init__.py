@@ -34,6 +34,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       "Actual": {"backgroundColor": "#ffffcc", "color": "black"},
       "Forecast": {"backgroundColor": "#ccffcc", "color": "black"},
       'Budget': {"backgroundColor": "#ccffff", "color": "black"},
+      'Total': {"backgroundColor": "#ccffff", "color": "white"},
     }
     self.loaded = False
     self.init_components(**properties)
@@ -97,9 +98,9 @@ class VendorDetailTable(VendorDetailTableTemplate):
           color = params["color"]
         compare = data[ly_ym]
         tooltip_prefix = "LY"
-      elif trans_type == 'total':
-        backgroundColor = "#424140"
-        color = 'white'
+      elif trans_type == 'Total':
+        backgroundColor = self.colors['Total']['backgroundColor']
+        color = self.colors['Total']['color']
         compare = val
         tooltip_prefix = None
       else:
@@ -144,14 +145,18 @@ class VendorDetailTable(VendorDetailTableTemplate):
         pass
       return val
 
+    # Text formatter
+    def format_text():
+      pass
+    
     # Total formatter
     def format_total(cell, **params):
       val = cell.get_value()
-
-      cell.getElement().style.color = "white"
-      background_color = "#424140"
+      color = self.colors['Total']['color']
+      background_color = self.colors['Total']['backgroundColor']
 
       cell.getElement().style.backgroundColor = background_color
+      cell.getElement().style.color = color
 
       try:
         val = Label(
@@ -159,7 +164,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
           bold=True,
           align="right",
           icon_align="left",
-          foreground="white",
+          foreground=color,
           #tooltip=tooltip,
           background=background_color,
         )
@@ -172,38 +177,24 @@ class VendorDetailTable(VendorDetailTableTemplate):
 
     columns = [
       {
-        "title": "Type",
-        "field": "transaction_type",
-        "width": 80,
-        "formatter": None,
-        "headerSort": False
+        "title": "Description",
+        "field": "description",
+        "width": 250,
+        "headerSort": False,
+        'formatter': format_text
       },
       {
         "title": "Owner",
         "field": "owner",
         "width": 100,
-        "headerFilter": "input",
-        "headerFilterFunc": "starts",
-        "formatter": None,
-        "headerSort": False        
-      },
-      {
-        "title": "Description",
-        "field": "description",
-        "width": 250,
-        #"headerFilter": "input",
-        #"headerFilterFunc": "starts",
-        #"formatter": transaction_formatter,
-        "headerSort": False
-        
+        "headerSort": False,        
+        'formatter': format_text
       },
       {
         "title": "Cost centre",
         "field": "cost_centre",
         "width": 150,
-        #"headerFilter": "input",
-        #"headerFilterFunc": "starts",
-        "formatter": None,     
+        "formatter": format_text,     
         "headerSort": False
       }
       
@@ -250,7 +241,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
 
     # Insert subtotal rows
     data = {}
-    a_total_row = { 'transaction_type': 'total', 
+    a_total_row = { 'transaction_type': 'Total', 
                     'owner': '', 
                     'description': "Total for Actuals", 
                     'cost_centre': '',  
