@@ -92,20 +92,23 @@ class VendorDetailTable(VendorDetailTableTemplate):
 
       if trans_type == 'Actual':
         if params.get("backgroundColor", None):
-          cell.getElement().style.backgroundColor = params["backgroundColor"]
+          backgroundColor = params["backgroundColor"]
         if params.get("color", None):
-          cell.getElement().style.color = params["color"]
+          color = params["color"]
         compare = data[ly_ym]
         tooltip_prefix = "LY"
       else:
-        cell.getElement().style.backgroundColor = self.colors['Forecast']['backgroundColor']
-        cell.getElement().style.color = self.colors['Forecast']['color']
+        backgroundColor = self.colors['Forecast']['backgroundColor']
+        color = self.colors['Forecast']['color']
         compare = data[b_ym]          
         tooltip_prefix = "Budget"
+        
+      cell.getElement().style.backgroundColor = backgroundColor
+      cell.getElement().style.color = color
 
       try:
         delta = (int(val) - int(compare)) / int(compare)
-        delta = int(compare * 100)
+        delta = int(delta * 100)
       except Exception:
         delta = "INF"
 
@@ -127,8 +130,8 @@ class VendorDetailTable(VendorDetailTableTemplate):
           icon_align="left",
           tooltip = tooltip,
           icon=icon,
-          foreground=params["color"],
-          background=params["backgroundColor"],
+          foreground=color,
+          background=backgroundColor,
         )
         # val = "{:,.0f}".format(val)
       except Exception:
