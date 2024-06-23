@@ -15,15 +15,15 @@ class VendorDetailTable(VendorDetailTableTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.vendors = VendorsModel.VENDORS
-    self.vendor = properties('vendor')
+    self.vendor = properties['vendor']
 
-    self.tracking_table.options = {
+    self.details_table.options = {
       "index": "transaction_id",  # or set the index property here
       "selectable": "highlight",
       "css_class": ["table-striped", "table-bordered", "table-condensed"],
-      "pagination": True,
-      "paginationSize": 250,
-      "frozenRows": 0,
+      "pagination": False,
+      #"paginationSize": 250,
+      #"frozenRows": 0,
       "height": "50vh",
       #'autoResize': False,
       # "pagination_size": 10,
@@ -39,7 +39,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
 
     # Any code you write here will run before the form opens.
 
-  def load_data(self, year):
+  def load_data(self):
     d = Data.get_vendor_detail(year = CURRENT_YEAR, vendor_id=self.vendor.vendor_id)
     self.year_months = d["year_months"]
     self.transaction_types = d["transaction_types"]
@@ -47,12 +47,12 @@ class VendorDetailTable(VendorDetailTableTemplate):
     # self.ly_data = d['ly_data']
     # self.b_data =  d['b_data']
     self.loaded = True
-    self.details_table_table_built()
+    #self.details_table_table_built()
 
   def details_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
     if not self.loaded:
-      return
+      self.load_data()
 
     # Vendor Formatter
     def vendor_formatter(cell, **params):

@@ -297,12 +297,13 @@ class Content(ContentTemplate):
     self.refresh_data_bindings()
 
   def balance_link_click(self, **event_args):
+    pass
     """This method is called when the link is clicked"""
-    self.balance_visible = not self.balance_visible
+    #self.balance_visible = not self.balance_visible
     #self.balance_link.icon = self.arrows[self.balance_visible]
-    if not self.balance_loaded:
-      self.setup_balance_sheet()
-    self.refresh_data_bindings()
+    #if not self.balance_loaded:
+    #  self.setup_balance_sheet()
+    #self.refresh_data_bindings()
 
 
   
