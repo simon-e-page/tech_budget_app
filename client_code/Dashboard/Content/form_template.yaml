@@ -140,7 +140,7 @@ components:
         font_size: 18
         tooltip: ''
         text: |
-          Actuals / Forecast by Vendor
+          Actuals / Forecast Table
       name: label_7
       layout_properties: {}
   - type: FlowPanel
