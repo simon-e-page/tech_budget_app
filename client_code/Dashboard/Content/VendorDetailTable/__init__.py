@@ -29,7 +29,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       #'autoResize': False,
       # "pagination_size": 10,
     }
-
+    #TODO: alter Actual colors in Forecast months.. (grey out)
     self.colors = {
       "Actual": {"backgroundColor": "#ffffcc", "color": "black"},
       "Forecast": {"backgroundColor": "#ccffcc", "color": "black"},
@@ -234,7 +234,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
           "width": 85,
           #"headerFilter": "number",
           'headerSort': False,
-          'editor': self.editors[transaction_type]
+          #'editor': self.editors[transaction_type]
         }
       )
 
@@ -302,13 +302,21 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.details_table.data = data
     self.details_table.set_filter(zero_filter)
 
-  def details_table_cell_edited(self, cell, **event_args):
-    """This method is called when a cell is edited"""
+
+  def details_table_cell_click(self, cell, **event_args):
+    """This method is called when a cell is clicked"""
     data = cell.get_data()
     val = cell.get_value()
     ym = cell.getField()
     desc = data['description']
     if data['transaction_type'] in ['Total', 'Actual']:
       print("Edited an Actual or a Total - ignore!")
+      print(event_args)
     else:
-      print(f"Edited a Forecast value for {ym} in {desc}")
+      textbox = TextBox(text=val, type='number')
+      ret = alert(textbox, title=f"Enter new Forecast value for {desc} in {ym}", buttons=[ ('OK', True), ('Cancel', False) ])
+      if ret:
+        cell.set_value(textbox.text)
+        print(textbox.text)
+        # TODO: save altered entry and update backend if Save Changes is selected..
+      pass
