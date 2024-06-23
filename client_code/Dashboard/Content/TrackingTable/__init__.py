@@ -164,13 +164,21 @@ class TrackingTable(TrackingTableTemplate):
   def format_summary(self, cell, **params):
     val = cell.getValue()
     data = cell.get_data()
+    col = params.get('year_month', 'total')
     
     if params.get('backgroundColor', None):
       cell.getElement().style.backgroundColor = params['backgroundColor']
     if params.get('color', None):
       cell.getElement().style.color = params['color']
 
-    if "Percentage" in data['id']:
+    if "Cumul" in data['ida']:
+      val = Label(text='',
+                  align='right',
+                  bold=False,
+                  foreground=params['color'], 
+                  background=params['backgroundColor']
+                 )
+    elif "Percentage" in data['id']:
       if val > 0:
         text = "+{:,.0f}%".format(val)
       elif val < 0:
@@ -184,7 +192,14 @@ class TrackingTable(TrackingTableTemplate):
                   background=params['backgroundColor']
                   )
     else:
+      if val > 0:
+        icon='fa:arrow-up'
+      elif val < 0:
+        icon='fa:arrow-down'
+      else:
+        icon = None
       val = Label(text = "{:,.0f}".format(FinancialNumber(val)),
+                  icon=icon,
                   align='right',
                   bold=False,
                   foreground=params['color'], 
