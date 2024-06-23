@@ -36,6 +36,12 @@ class VendorDetailTable(VendorDetailTableTemplate):
       'Budget': {"backgroundColor": "#ccffff", "color": "black"},
       'Total': {"backgroundColor": '#424140', "color": "white"},
     }
+
+    self.editors = {
+      'Actual': None,
+      'Forecast': 'number'
+    }
+    
     self.loaded = False
     self.init_components(**properties)
 
@@ -227,7 +233,8 @@ class VendorDetailTable(VendorDetailTableTemplate):
           },
           "width": 85,
           #"headerFilter": "number",
-          'headerSort': False
+          'headerSort': False,
+          'editor': self.editors[transaction_type]
         }
       )
 
@@ -294,3 +301,14 @@ class VendorDetailTable(VendorDetailTableTemplate):
     data = actual_rows + [a_total_row] + forecast_rows + [f_total_row]
     self.details_table.data = data
     self.details_table.set_filter(zero_filter)
+
+  def details_table_cell_edited(self, cell, **event_args):
+    """This method is called when a cell is edited"""
+    data = cell.get_data()
+    val = cell.get_value()
+    ym = cell.getField()
+    desc = data['description']
+    if data['transaction_type'] in ['Total', 'Actual']:
+      print("Edited an Actual or a Total - ignore!")
+    else:
+      print(f"Edited a Forecast value for {ym} in {desc}")
