@@ -220,5 +220,5 @@ class VendorDetailTable(VendorDetailTableTemplate):
     )
 
 
-    self.tracking_table.columns = columns    
-    self.tracking_table.data = self.data
+    self.details_table.columns = columns    
+    self.details_table.data = self.data
