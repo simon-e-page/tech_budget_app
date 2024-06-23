@@ -1,5 +1,9 @@
 container: {type: ColumnPanel}
 components:
+- name: summary_table
+  properties: {}
+  type: form:TGQCF3WT6FVL2EM2:Tabulator
+  layout_properties: {grid_position: 'APMMQE,ZJUMGC', full_width_row: true}
 - name: tracking_table
   properties: {}
   type: form:TGQCF3WT6FVL2EM2:Tabulator
