@@ -88,7 +88,6 @@ class VendorDetailTable(VendorDetailTableTemplate):
       trans_type = data['transaction_type']
       ym = params.get("year_month")
       b_ym = f"{ym}B"
-      f_ym = f"{ym}F"
       ly_ym = f"{ym}LY"
 
       if trans_type == 'Actual':
@@ -98,16 +97,19 @@ class VendorDetailTable(VendorDetailTableTemplate):
           color = params["color"]
         compare = data[ly_ym]
         tooltip_prefix = "LY"
+        bold = False
       elif trans_type == 'Total':
         backgroundColor = self.colors['Total']['backgroundColor']
         color = self.colors['Total']['color']
         compare = val
         tooltip_prefix = None
+        bold = True
       else:
         backgroundColor = self.colors['Forecast']['backgroundColor']
         color = self.colors['Forecast']['color']
         compare = data[b_ym]          
         tooltip_prefix = "Budget"
+        bold = False
         
       cell.getElement().style.backgroundColor = backgroundColor
       cell.getElement().style.color = color
@@ -138,6 +140,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
           icon=icon,
           foreground=color,
           background=backgroundColor,
+          bold=bold
         )
         # val = "{:,.0f}".format(val)
       except Exception:
