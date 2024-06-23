@@ -7,7 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from .... import Data
-from ....Data import VendorsModel, TransactionsModel, FinancialNumber
+from ....Data import VendorsModel, TransactionsModel, FinancialNumber, CURRENT_YEAR
 from ....Vendors.Vendors.Vendor import Vendor
 
 
@@ -16,7 +16,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
     # Set Form properties and Data Bindings.
     self.vendors = VendorsModel.VENDORS
     self.vendor = properties['vendor']
-    self.year = properties['year']
+    self.year = properties.get('year', CURRENT_YEAR)
 
     self.details_table.options = {
       "index": "transaction_id",  # or set the index property here
@@ -45,7 +45,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.year_months = d["year_months"]
     self.transaction_types = d["transaction_types"]
     self.data = d["data"]
-    print(self.data)
+    #print(self.data)
     # self.ly_data = d['ly_data']
     # self.b_data =  d['b_data']
     self.loaded = True
@@ -90,16 +90,43 @@ class VendorDetailTable(VendorDetailTableTemplate):
       f_ym = f"{ym}F"
       ly_ym = f"{ym}LY"
 
-      if params.get("backgroundColor", None):
-        cell.getElement().style.backgroundColor = params["backgroundColor"]
-      if params.get("color", None):
-        cell.getElement().style.color = params["color"]
+      if trans_type == 'Actual':
+        if params.get("backgroundColor", None):
+          cell.getElement().style.backgroundColor = params["backgroundColor"]
+        if params.get("color", None):
+          cell.getElement().style.color = params["color"]
+        compare = data[ly_ym]
+        tooltip_prefix = "LY"
+      else:
+        cell.getElement().style.backgroundColor = self.colors['Forecast']['backgroundColor']
+        cell.getElement().style.color = self.colors['Forecast']['color']
+        compare = data[b_ym]          
+        tooltip_prefix = "Budget"
 
+      try:
+        delta = (int(val) - int(compare)) / int(compare)
+        delta = int(compare * 100)
+      except Exception:
+        delta = "INF"
+
+      tooltip = f"{tooltip_prefix}: {FinancialNumber(compare):,.0f}"
+
+      if int(val) > int(compare):
+        tooltip += f"\n+{delta}%"
+        icon = 'fa:arrow-up'
+      elif int(val) < int(compare):              
+        tooltip += f"\n{delta}%"
+        icon = 'fa:arrow-down'
+      else:
+        icon = None
+      
       try:
         val = Label(
           text="{:,.0f}".format(FinancialNumber(val)),
           align="right",
           icon_align="left",
+          tooltip = tooltip,
+          icon=icon,
           foreground=params["color"],
           background=params["backgroundColor"],
         )
@@ -112,24 +139,8 @@ class VendorDetailTable(VendorDetailTableTemplate):
     # Total formatter
     def format_total(cell, **params):
       val = cell.get_value()
-      #ly_total = cell.get_data()["totalLY"]
-
-      #try:
-      # ly_delta = (int(val) - int(ly_total)) / int(ly_total)
-      #  ly_delta = int(ly_delta * 100)
-      #except Exception:
-      #  ly_delta = "INF"
 
       cell.getElement().style.color = "white"
-      #tooltip = f"LY: {FinancialNumber(ly_total):,.0f}"
-
-      #if int(val) < int(ly_total):
-      #  background_color = "#043d1b"
-      #  tooltip += f"\n{ly_delta}%"
-      #elif int(val) > int(ly_total):
-      #  background_color = "#4d0404"
-      #  tooltip += f"\n+{ly_delta}%"
-      #else:
       background_color = "#424140"
 
       cell.getElement().style.backgroundColor = background_color
@@ -232,6 +243,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       if row['transaction_type']=='Budget':
         for ym in self.year_months:
          row[ym] = row[f"{ym}F"]
+        row['total'] = row['totalF']
         
     self.details_table.data = self.data
-    self.tracking_table.set_filter(zero_filter)
+    self.details_table.set_filter(zero_filter)
