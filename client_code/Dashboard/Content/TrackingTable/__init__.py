@@ -31,8 +31,9 @@ class TrackingTable(TrackingTableTemplate):
       "index": "id",  # or set the index property here
       "css_class": ["table-striped", "table-bordered", "table-condensed"],
       'pagination': False,
-      'frozenRows': 3,
-      'height': '10vh',
+      'frozenRows': 8,
+      'height': '20vh',
+      
       #'autoResize': False,
       #"pagination_size": 10,
     }
@@ -67,7 +68,8 @@ class TrackingTable(TrackingTableTemplate):
         'title': 'Summary',
         'field': 'id',
         "hozAlign": "left",
-        "width": 120
+        "width": 250,
+        'sorter': False
       },
     ]
     
@@ -79,7 +81,8 @@ class TrackingTable(TrackingTableTemplate):
         "formatter": self.format_summary, 
         "hozAlign": "right",
         "formatterParams": { 'year_month': c, 'backgroundColor': self.colors[transaction_type]['backgroundColor'], 'color': self.colors[transaction_type]['color']},
-        "width": 85
+        "width": 85,
+        'sorter': False
       })
 
     columns.append([{
@@ -89,6 +92,7 @@ class TrackingTable(TrackingTableTemplate):
         "width": 100,
         "headerFilter": "number",
         "hozAlign": 'right',
+        'sorter': False
       }])
 
     self.summary_table.columns = columns
