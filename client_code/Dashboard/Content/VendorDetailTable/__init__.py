@@ -34,7 +34,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       "Actual": {"backgroundColor": "#ffffcc", "color": "black"},
       "Forecast": {"backgroundColor": "#ccffcc", "color": "black"},
       'Budget': {"backgroundColor": "#ccffff", "color": "black"},
-      'Total': {"backgroundColor": "#ccffff", "color": "white"},
+      'Total': {"backgroundColor": '#424140', "color": "white"},
     }
     self.loaded = False
     self.init_components(**properties)
@@ -154,6 +154,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       if data['transaction_type']=='Total':
         cell.getElement().style.backgroundColor = background_color
         cell.getElement().style.color = color
+        val = f"<b>{val}</b>"
       return val        
 
     
