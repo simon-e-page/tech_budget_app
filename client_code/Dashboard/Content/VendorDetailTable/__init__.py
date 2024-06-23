@@ -146,7 +146,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       return val
 
     # Text formatter
-    def format_text():
+    def format_text(cell, **parans):
       pass
     
     # Total formatter
