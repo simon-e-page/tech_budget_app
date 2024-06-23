@@ -97,6 +97,11 @@ class VendorDetailTable(VendorDetailTableTemplate):
           color = params["color"]
         compare = data[ly_ym]
         tooltip_prefix = "LY"
+      elif trans_type == 'total':
+        backgroundColor = "#424140"
+        color = 'white'
+        compare = val
+        tooltip_prefix = None
       else:
         backgroundColor = self.colors['Forecast']['backgroundColor']
         color = self.colors['Forecast']['color']
@@ -112,7 +117,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       except Exception:
         delta = "INF"
 
-      tooltip = f"{tooltip_prefix}: {FinancialNumber(compare):,.0f}"
+      tooltip = f"{tooltip_prefix}: {FinancialNumber(compare):,.0f}" if tooltip_prefix is not None else None
 
       if int(val) > int(compare):
         tooltip += f"\n+{delta}%"
