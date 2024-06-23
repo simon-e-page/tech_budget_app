@@ -241,12 +241,48 @@ class VendorDetailTable(VendorDetailTableTemplate):
       non_zero = sum(non_zero)
       return non_zero != 0
     
-    self.details_table.columns = columns    
+    self.details_table.columns = columns
+
+    # Insert subtotal rows
+    data = {}
+    a_total_row = { 'transaction_type': 'total', 
+                    'owner': '', 
+                    'description': "Total for Actuals", 
+                    'cost_centre': '',  
+                    'total': 0.0, 
+                    'totalB': 0.0, 
+                    'totalF': 0.0, 
+                    'totalLY': 0.0 
+                  }
+    a_total_row.update({ x: 0.0 for x in self.year_months })
+    a_total_row.update({ f"{x}B": 0.0 for x in self.year_months })
+    a_total_row.update({ f"{x}F": 0.0 for x in self.year_months })
+    a_total_row.update({ f"{x}LY": 0.0 for x in self.year_months })
+    f_total_row = a_total_row.copy()
+    f_total_row.update({ 'description': "Total for Forecasts" })
+
+    actual_rows = []
+    forecast_rows = []
+    
     for row in self.data:
+      print(row)
       if row['transaction_type']=='Budget':
         for ym in self.year_months:
-         row[ym] = row[f"{ym}F"]
+          row[ym] = row[f"{ym}F"]
+          f_total_row[ym] += row[ym]
+          f_total_row[f"{ym}B"] += row[f"{ym}B"]
         row['total'] = row['totalF']
-        
-    self.details_table.data = self.data
+        f_total_row['total'] += row['total']
+        f_total_row['totalB'] += row['totalB']
+        forecast_rows.append(row)
+      else:
+        for ym in self.year_months:
+          a_total_row[ym] += row[ym]
+          a_total_row[f"{ym}LY"] += row[f"{ym}LY"]
+        a_total_row['total'] += row['total']
+        a_total_row['totalLY'] += row['totalLY']
+        actual_rows.append(row)
+
+    data = actual_rows + [a_total_row] + forecast_rows + [f_total_row]
+    self.details_table.data = data
     self.details_table.set_filter(zero_filter)
