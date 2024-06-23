@@ -147,7 +147,15 @@ class VendorDetailTable(VendorDetailTableTemplate):
 
     # Text formatter
     def format_text(cell, **parans):
-      pass
+      val = cell.get_value()
+      data = cell.get_data()
+      color = self.colors['Total']['color']
+      background_color = self.colors['Total']['backgroundColor']
+      if data['transaction_type']=='Total':
+        cell.getElement().style.backgroundColor = background_color
+        cell.getElement().style.color = color
+      return val        
+
     
     # Total formatter
     def format_total(cell, **params):
