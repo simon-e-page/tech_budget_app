@@ -32,7 +32,7 @@ class TrackingTable(TrackingTableTemplate):
       "css_class": ["table-striped", "table-bordered", "table-condensed"],
       'pagination': False,
       'frozenRows': 8,
-      'height': '20vh',
+      'height': '40vh',
       
       #'autoResize': False,
       #"pagination_size": 10,
@@ -69,7 +69,7 @@ class TrackingTable(TrackingTableTemplate):
         'field': 'id',
         "hozAlign": "left",
         "width": 250,
-        'sorter': False
+        'headerSort': False
       },
     ]
     
@@ -82,7 +82,7 @@ class TrackingTable(TrackingTableTemplate):
         "hozAlign": "right",
         "formatterParams": { 'year_month': c, 'backgroundColor': self.colors[transaction_type]['backgroundColor'], 'color': self.colors[transaction_type]['color']},
         "width": 85,
-        'sorter': False
+        'headerSort': False
       })
 
     columns.append([{
@@ -92,7 +92,7 @@ class TrackingTable(TrackingTableTemplate):
         "width": 100,
         "headerFilter": "number",
         "hozAlign": 'right',
-        'sorter': False
+        'headerSort': False
       }])
 
     self.summary_table.columns = columns
@@ -109,21 +109,33 @@ class TrackingTable(TrackingTableTemplate):
       for year_month in self.year_months:
         a_data[year_month] += row[year_month]
         ly_data[year_month] += row[f"{year_month}LY"]
+      a_data['total'] += row['total']
+      ly_data['total'] += row['totalLY']
 
-      for i, year_month in enumerate(self.year_months):
-        d_data[year_month] += a_data[year_month] - ly_data[year_month]
-        try:
-          p_data[year_month] = int(d_data[year_month] / ly_data[year_month] * 100)
-        except Exception:
-          p_data[year_month] = 0
 
-        ac_data[year_month] = a_data[year_month] + a_data[self.year_months[i-1]] if i>0 else 0
-        lc_data[year_month] = ly_data[year_month] + ly_data[self.year_months[i-1]] if i>0 else 0
-        dc_data[year_month] = ac_data[year_month] - lc_data[year_month]
-        try:
-          pc_data[year_month] = int(dc_data[year_month] / lc_data[year_month] * 100)
-        except Exception:
-          pc_data[year_month] = 0
+    for i, year_month in enumerate(self.year_months):
+      d_data[year_month] += a_data[year_month] - ly_data[year_month]
+      ac_data[year_month] = a_data[year_month] + ac_data[self.year_months[i-1]] if i>0 else 0
+      lc_data[year_month] = ly_data[year_month] + lc_data[self.year_months[i-1]] if i>0 else 0
+      dc_data[year_month] = ac_data[year_month] - lc_data[year_month]
+
+      try:
+        p_data[year_month] = int(d_data[year_month] / ly_data[year_month] * 100)
+        pc_data[year_month] = int(dc_data[year_month] / lc_data[year_month] * 100)
+      except Exception:
+        p_data[year_month] = 0
+        pc_data[year_month] = 0
+
+    d_data['total'] = a_data['total'] - ly_data['total']
+    ac_data['total'] = a_data['total']
+    lc_data['total'] = ly_data['total']
+    dc_data['total'] = ac_data['total'] - lc_data['total']
+
+    try:
+      p_data['total'] = int(d_data['total'] / ly_data['total'] * 100)
+    except Exception:
+      p_data[year_month] = 0
+    pc_data['total'] = p_data['total']
 
     self.summary_table.data = [ a_data, ly_data, d_data, p_data, ac_data, lc_data, dc_data, pc_data ]
       
