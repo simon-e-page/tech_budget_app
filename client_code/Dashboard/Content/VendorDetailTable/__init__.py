@@ -359,8 +359,12 @@ class VendorDetailTable(VendorDetailTableTemplate):
       ret = alert(textbox, title=f"Enter new Forecast value for {desc} in {ym}", buttons=[ ('OK', True), ('Cancel', False) ])
       if ret:
         cell.set_value(textbox.text)
-        data[ym] = float(textbox.text)
+        for row in self.data:
+          if row['transaction_type']=='Budget' and row['transaction_id'] == data['transaction_id']:
+            row[f"{ym}F"] = float(textbox.text)
+            break
         self.prepare_data()
+        self.forecast_details_table.data = self.forecast_data
         
         # TODO: save altered entry and update backend if Save Changes is selected..
       pass

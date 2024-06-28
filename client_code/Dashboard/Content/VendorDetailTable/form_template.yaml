@@ -24,7 +24,7 @@ components:
   properties: {}
   type: form:TGQCF3WT6FVL2EM2:Tabulator
   layout_properties: {grid_position: 'ZESDAZ,BUHJTF', full_width_row: true}
-  event_bindings: {table_built: actual_details_table_table_built, cell_edited: details_table_cell_edited, cell_click: actual_details_table_cell_click}
+  event_bindings: {table_built: actual_details_table_table_built}
 - name: flow_panel_2
   properties: {}
   type: FlowPanel
