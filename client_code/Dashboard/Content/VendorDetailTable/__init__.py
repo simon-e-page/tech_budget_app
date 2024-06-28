@@ -18,17 +18,22 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.vendor = properties['vendor']
     self.year = properties.get('year', CURRENT_YEAR)
 
-    self.details_table.options = {
+    
+    options = {
       "index": "transaction_id",  # or set the index property here
       "selectable": "highlight",
       "css_class": ["table-striped", "table-bordered", "table-condensed"],
       "pagination": False,
       #"paginationSize": 250,
       #"frozenRows": 0,
-      "height": "50vh",
+      "height": "30vh",
       #'autoResize': False,
       # "pagination_size": 10,
     }
+
+    self.forecast_details_table.options = options
+    self.actual_details_table.options = options
+    
     #TODO: alter Actual colors in Forecast months.. (grey out)
     self.colors = {
       "Actual": {"backgroundColor": "#ffffcc", "color": "black"},
@@ -43,6 +48,9 @@ class VendorDetailTable(VendorDetailTableTemplate):
     }
     
     self.loaded = False
+    self.prepared = False
+    self.actual_data = {}
+    self.forecast_data = {}
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
@@ -58,11 +66,27 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.loaded = True
     #self.details_table_table_built()
 
-  def details_table_table_built(self, **event_args):
+  
+  def actual_details_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
     if not self.loaded:
       self.load_data()
+    if not self.prepared:
+      self.prepare_data()
+    self.prepare_columns(self.actual_details_table)
+    self.actual_details_table.data = self.actual_data
 
+  def forecast_details_table_table_built(self, **event_args):
+    """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
+    if not self.loaded:
+      self.load_data()
+    if not self.prepared:
+      self.prepare_data()
+    self.prepare_columns(self.forecast_details_table)
+    self.forecast_details_table.data = self.forecast_data
+  
+
+  def prepare_columns(self, table):
     # Vendor Formatter
     def vendor_formatter(cell, **params):
       vendor_id = cell.getData()["vendor_id"]
@@ -250,16 +274,19 @@ class VendorDetailTable(VendorDetailTableTemplate):
       }
     )
 
+    table.columns = columns
+
+  
+  def prepare_data(self):
+
     def zero_filter(data, **params):
       non_zero = [int(int(x)!=0) for i,x in dict(data).items() if i in self.year_months]
       #print(f"{data['vendor_name']}: {non_zero}")
       non_zero = sum(non_zero)
       return non_zero != 0
     
-    self.details_table.columns = columns
 
     # Insert subtotal rows
-    data = {}
     a_total_row = { 'transaction_type': 'Total', 
                     'owner': '', 
                     'description': "Total for Actuals", 
@@ -298,12 +325,14 @@ class VendorDetailTable(VendorDetailTableTemplate):
         a_total_row['totalLY'] += row['totalLY']
         actual_rows.append(row)
 
-    data = actual_rows + [a_total_row] + forecast_rows + [f_total_row]
-    self.details_table.data = data
-    self.details_table.set_filter(zero_filter)
+    self.actual_data = actual_rows + [a_total_row]
+    self.forecast_data = forecast_rows + [f_total_row]
+    self.actual_details_table.set_filter(zero_filter)
+    self.forecast_details_table.set_filter(zero_filter)
+    self.prepared = True
 
 
-  def details_table_cell_click(self, cell, **event_args):
+  def actual_details_table_cell_click(self, cell, **event_args):
     """This method is called when a cell is clicked"""
     data = cell.get_data()
     val = cell.get_value()
@@ -320,3 +349,4 @@ class VendorDetailTable(VendorDetailTableTemplate):
         print(textbox.text)
         # TODO: save altered entry and update backend if Save Changes is selected..
       pass
+
