@@ -67,7 +67,7 @@ class TrackingTable(TrackingTableTemplate):
 
 
   def update_entries(self, vendor, entries):
-    self.transactions.load(vendor_id=vendor.vendor_id)
+    self.transactions.load(vendor_name=vendor.vendor_name)
     for transaction_id, trans_entries in entries.items():
       transaction = self.transactions.get(transaction_id)
       if transaction is None:
