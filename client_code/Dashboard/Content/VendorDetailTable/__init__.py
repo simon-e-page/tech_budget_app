@@ -40,6 +40,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       "Forecast": {"backgroundColor": "#ccffcc", "color": "black"},
       'Budget': {"backgroundColor": "#ccffff", "color": "black"},
       'Total': {"backgroundColor": '#424140', "color": "white"},
+      'Editable': {"backgroundColor": "#f5e3bf", "color": "black"}
     }
 
     self.editors = {
@@ -117,6 +118,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       data = cell.get_data()
       trans_type = data['transaction_type']
       ym = params.get("year_month")
+      column_type = self.transaction_types[ym]
       b_ym = f"{ym}B"
       ly_ym = f"{ym}LY"
 
@@ -134,6 +136,12 @@ class VendorDetailTable(VendorDetailTableTemplate):
         compare = val
         tooltip_prefix = None
         bold = True
+      elif column_type == 'Forecast':
+        backgroundColor = self.colors['Editable']['backgroundColor']
+        color = self.colors['Editable']['color']
+        compare = data[b_ym]          
+        tooltip_prefix = "Budget"
+        bold = False        
       else:
         backgroundColor = self.colors['Forecast']['backgroundColor']
         color = self.colors['Forecast']['color']
@@ -332,7 +340,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.prepared = True
 
 
-  def actual_details_table_cell_click(self, cell, **event_args):
+  def forecast_details_table_cell_click(self, cell, **event_args):
     """This method is called when a cell is clicked"""
     data = cell.get_data()
     val = cell.get_value()

@@ -38,5 +38,5 @@ components:
   properties: {}
   type: form:TGQCF3WT6FVL2EM2:Tabulator
   layout_properties: {grid_position: 'USHPUP,COQWNS', full_width_row: true}
-  event_bindings: {table_built: forecast_details_table_table_built}
+  event_bindings: {table_built: forecast_details_table_table_built, cell_click: forecast_details_table_cell_click}
 is_package: true
