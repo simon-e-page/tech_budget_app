@@ -89,27 +89,27 @@ class VendorDetailTable(VendorDetailTableTemplate):
 
   def prepare_columns(self, table):
     # Vendor Formatter
-    def vendor_formatter(cell, **params):
-      vendor_id = cell.getData()["vendor_id"]
-      vendor = self.vendors.get(vendor_id)
+    def transaction_formatter(cell, **params):
+      transaction_id = cell.getData()["transaction_id"]
+      transaction = self.vendors.get(transaction_id)
 
-      def open_vendor(sender, **event_args):
-        print("Opening vendor: {0}".format(sender.tag.vendor_name))
+      def open_transaction(sender, **event_args):
+        print("Opening tranaction: {0}".format(sender.tag.description))
         ret = alert(
-          Vendor(item=sender.tag, show_save=False),
+          Transaction(item=sender.tag, show_save=False),
           large=True,
-          title="Vendor Details",
+          title="Transaction Details",
           buttons=[("Save Changes", True), ("Cancel", False)],
         )
         if ret:
           try:
-            vendor.update()
+            transaction.update()
           except Exception as e:
-            print("Failed to update Vendor!")
+            print("Failed to update Transaction!")
         return
 
-      link = Link(text=cell.get_value(), tag=vendor)
-      link.set_event_handler("click", open_vendor)
+      link = Link(text=cell.get_value(), tag=transaction)
+      link.set_event_handler("click", open_transaction)
       return link
 
     # Entry formatter
@@ -315,7 +315,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
     forecast_rows = []
     
     for row in self.data:
-      print(row)
+      #print(row)
       if row['transaction_type']=='Budget':
         for ym in self.year_months:
           row[ym] = row[f"{ym}F"]
@@ -347,14 +347,21 @@ class VendorDetailTable(VendorDetailTableTemplate):
     ym = cell.getField()
     desc = data['description']
     if data['transaction_type'] in ['Total', 'Actual']:
-      print("Edited an Actual or a Total - ignore!")
-      print(event_args)
+      pass
+      #print("Clicked on an Actual or a Total - ignore!")
+      #print(event_args)
+    elif self.transaction_types[ym] != 'Forecast':
+      pass
+      #print("Clicked on a prior month - ignore!")
+      #print(event_args)      
     else:
       textbox = TextBox(text=val, type='number')
       ret = alert(textbox, title=f"Enter new Forecast value for {desc} in {ym}", buttons=[ ('OK', True), ('Cancel', False) ])
       if ret:
         cell.set_value(textbox.text)
-        print(textbox.text)
+        data[ym] = float(textbox.text)
+        self.prepare_data()
+        
         # TODO: save altered entry and update backend if Save Changes is selected..
       pass
 
