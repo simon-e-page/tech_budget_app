@@ -17,6 +17,7 @@ class TrackingTable(TrackingTableTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.vendors = VendorsModel.VENDORS
+    self.transactions = TransactionsModel.get_transactions()
     self.year = properties.get('year', CURRENT_YEAR)
     
     self.tracking_table.options = {
@@ -64,6 +65,16 @@ class TrackingTable(TrackingTableTemplate):
     self.summary_table_table_built()
     self.tracking_table_table_built()
 
+
+  def update_entries(self, entries):
+    for transaction_id, trans_entries in entries.items():
+      try:
+        transaction = self.transactions.get(transaction_id)
+        transaction.add_entries(trans_entries, overwrite=True)
+      except Exception as e:
+        alert(f"Error updating Entries for tranaction {transaction_id}!")
+      
+      
   def summary_table_table_built(self, **event_args):
     if not self.loaded:
       return
@@ -159,8 +170,7 @@ class TrackingTable(TrackingTableTemplate):
         try:
           entries = vendor_form.get_forecast_entries()
           print("Save Forecast changes..")
-          print(entries)
-          #vendor.update()
+          self.update_entries(entries)
         except Exception as e:
           print("Failed to update Vendor!")
       return

@@ -367,21 +367,24 @@ class VendorDetailTable(VendorDetailTableTemplate):
         
   def get_forecast_entries(self):
     """ Returns all forecast entries for updating """
-    entries = []
+    entries = {}
     forecast_months = [ x for x, t in self.transaction_types.items() if t=='Forecast' ]
     for row in self.data:
+      transaction_id = row['transaction_id']
       if row['transaction_type']=='Budget':
         for ym in forecast_months:
           month = int(ym[4:])
           year = int(ym[0:4])
           fin_year = year + int(month>6)
-          entries.append({ 
-                    'transaction_id': row['transaction_id'],
+          trans_entries = entries.get(transaction_id, [])
+          trans_entries.append({ 
+                    'transaction_id': transaction_id,
                     'transaction_type': 'Forecast',
                     'year_month': int(ym),
                     'timestamp': dt.date(year, month, 1),
                     'fin_year': fin_year,
                     'amount': float(row[f"{ym}F"])
                   })
+          entries[transaction_id] = trans_entries
     return entries
           
