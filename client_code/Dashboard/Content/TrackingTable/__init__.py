@@ -66,13 +66,15 @@ class TrackingTable(TrackingTableTemplate):
     self.tracking_table_table_built()
 
 
-  def update_entries(self, entries):
+  def update_entries(self, vendor, entries):
+    self.transactions.load(vendor_id=vendor.vendor_id)
     for transaction_id, trans_entries in entries.items():
-      try:
-        transaction = self.transactions.get(transaction_id)
+      transaction = self.transactions.get(transaction_id)
+      if transaction is None:
+        print(f"Can't find transaction {transaction_id} associated with Vendor {vendor.name}")
+      else:
         transaction.add_entries(trans_entries, overwrite=True)
-      except Exception as e:
-        alert(f"Error updating Entries for tranaction {transaction_id}!")
+      #alert(f"Error updating Entries for tranaction {transaction_id}!")
       
       
   def summary_table_table_built(self, **event_args):
@@ -167,12 +169,11 @@ class TrackingTable(TrackingTableTemplate):
       vendor_form = VendorDetailTable(vendor=sender.tag, year=self.year)
       ret = alert(vendor_form, large=True, title="Vendor Details", buttons=[ ('Save Changes', True), ('Cancel', False) ])
       if ret:
-        try:
-          entries = vendor_form.get_forecast_entries()
-          print("Save Forecast changes..")
-          self.update_entries(entries)
-        except Exception as e:
-          print("Failed to update Vendor!")
+        #try:
+        entries = vendor_form.get_forecast_entries()
+        self.update_entries(sender.tag, entries)
+        #except Exception as e:
+        #  print("Failed to update Vendor!")
       return
 
     link = Link(text=cell.get_value(), tag=vendor)
