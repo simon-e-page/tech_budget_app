@@ -2,9 +2,8 @@ from ._anvil_designer import VendorDetailTableTemplate
 from anvil import *
 import anvil.server
 import anvil.users
-import anvil.tables as tables
-import anvil.tables.query as q
-from anvil.tables import app_tables
+
+import datetime as dt
 
 from .... import Data
 from ....Data import VendorsModel, TransactionsModel, FinancialNumber, CURRENT_YEAR
@@ -366,6 +365,23 @@ class VendorDetailTable(VendorDetailTableTemplate):
         self.prepare_data()
         self.forecast_details_table.data = self.forecast_data
         
-        # TODO: save altered entry and update backend if Save Changes is selected..
-      pass
-
+  def get_forecast_entries(self):
+    """ Returns all forecast entries for updating """
+    entries = []
+    forecast_months = [ x for x, t in self.transaction_types.items() if t=='Forecast' ]
+    for row in self.data:
+      if row['transaction_type']=='Budget':
+        for ym in forecast_months:
+          month = int(ym[4:])
+          year = int(ym[0:4])
+          fin_year = year + int(month>6)
+          entries.append({ 
+                    'transaction_id': row['transaction_id'],
+                    'transaction_type': 'Forecast',
+                    'year_month': int(ym),
+                    'timestamp': dt.date(year, month, 1),
+                    'fin_year': fin_year,
+                    'amount': float(row[f"{ym}F"])
+                  })
+    return entries
+          

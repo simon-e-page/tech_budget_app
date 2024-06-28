@@ -121,7 +121,7 @@ def get_tracking_table(year):
   return anvil.server.call('Calendar', 'get_tracking_table', brand=CURRENT_BRAND, agg_column='vendor_name', year=year, keep_columns=['vendor_name', 'vendor_id'])
 
 def get_vendor_detail(year, vendor_id):
-  return anvil.server.call('Calendar', 'get_tracking_table', brand=CURRENT_BRAND, agg_column=None, year=year, keep_columns=None, vendor_id=vendor_id)
+  return anvil.server.call('Calendar', 'get_tracking_table', brand=CURRENT_BRAND, agg_column=None, year=year, keep_columns=['transaction_id'], vendor_id=vendor_id)
   
 def refresh():
   global FIN_YEARS, CURRENT_YEAR, BUDGET_YEAR
