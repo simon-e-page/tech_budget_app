@@ -141,6 +141,13 @@ class LazyTransactionList(AttributeToDict):
     self.length, slice = self._load(start=start, end=end, **kwargs)
     self.__d__ = { x['transaction_id'] : Transaction(transaction_json=x) for x in slice }
     
+  def bulk_add(self, transactions, update=True):
+    try:
+      transaction_ids = anvil.server.call('Transactions', 'add_transaction', transactions, update=update)
+    except Exception as e:
+      print("Error adding new transactions as bulk addition!")
+      raise
+    return transaction_ids
 
   def new(self, transaction, update=True):
     try:

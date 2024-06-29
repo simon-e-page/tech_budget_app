@@ -311,25 +311,24 @@ class BudgetLines(BudgetLinesTemplate):
 
   def add_new_actual_lines(self, new_actual_lines):
     print(f"Adding up to {len(new_actual_lines)} actual lines")
-    actual_line_ids = []
     for a_data in new_actual_lines:
       # Lookup vendor_id including if just created!
-      vendor = self.vendors.get_by_name(a_data['vendor_name'])
-      if vendor:
-        a_data['vendor_id'] = vendor.vendor_id
-        a_data.pop('vendor_name', None)
-        new_trans = self.transactions.blank(a_data)
-        new_trans = self.transactions.new(new_trans, update=False)
-        actual_line_ids.append(new_trans.transaction_id)
-      else:
-        print(f"Error finding vendor records for Actual! {a_data}")
-    return actual_line_ids
+      if a_data['vendor_id'] is None:
+        vendor = self.vendors.get_by_name(a_data['vendor_name'])
+        if vendor:
+          a_data['vendor_id'] = vendor.vendor_id
+        else:
+          print(f"Error finding vendor records for Actual! {a_data}")
+          
+      a_data.pop('vendor_name', None)
+      new_trans_ids = self.transactions.bulk_add(a_data, update=False)
+    return new_trans_ids
       
   def add_new_entries(self, new_entries):
     print(f"Adding {len(new_entries)} new entries")
 
     new_entries_count = 0
-    for trans in new_entries:
+    for trans in new_entries.values():
         count = self.transactions.search_and_add_entries(filter=trans['filter'], new_entries=trans['entries'], overwrite=True)
         if count is not None:
           new_entries_count += count

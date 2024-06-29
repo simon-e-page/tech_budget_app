@@ -111,6 +111,7 @@ class ImportActuals(ImportActualsTemplate):
         if r[c]!=0:
           new_actual_lines.append({
             'vendor_name': r['vendor_name'],
+            'vendor_id': r['vendor_id'],
             'brand': CURRENT_BRAND,
             'description': new_desc,
             'owner': owner,
