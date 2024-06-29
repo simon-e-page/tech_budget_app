@@ -125,7 +125,6 @@ class ImportActuals(ImportActualsTemplate):
           trans['filter'] = filter
           trans['entries'].append({
             'transaction_id': None,
-            'transaction_desc': filter,
             'transaction_type': 'Actual',
             'timestamp': timestamp,
             'fin_year': fin_year,
