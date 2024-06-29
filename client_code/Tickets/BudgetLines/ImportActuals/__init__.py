@@ -43,6 +43,7 @@ class ImportActuals(ImportActualsTemplate):
 
     self.new_entries = []
     self.new_year_month = None
+    self.fin_year = None
     self.month_total = 0
     self.cost_centres = []
     print(f"{self.actuals_to_date} vs {CURRENT_YEAR}")
@@ -59,7 +60,12 @@ class ImportActuals(ImportActualsTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
-
+  def get_year_month(self):
+    if self.new_entries is None or len(self.new_entries)==0:
+      return None, None
+    else:
+      return self.fin_year, self.new_year_month
+      
   def get_new_entries(self):
     """ Returns new vendors, actual_lines and entries from import that need to be created """
     if self.new_entries is None or len(self.new_entries)==0:
@@ -72,6 +78,7 @@ class ImportActuals(ImportActualsTemplate):
     year = int(str(self.new_year_month)[0:4])
     month = int(str(self.new_year_month)[4:])
     fin_year = year + int(month>6)
+    self.fin_year = fin_year
     
     for r in self.new_entries:
       if not r['existing_vendor']:

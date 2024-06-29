@@ -369,6 +369,11 @@ class BudgetLines(BudgetLinesTemplate):
         print(new_entries)
         entry_count = self.add_new_entries(new_entries)
 
+      if len(vendor_ids)>0 or len(actual_line_ids)>0 or entry_count>0:
+        fin_year, year_month = import_form.get_year_month()
+        if fin_year is not None and year_month is not None:
+          Data.actuals_updated(fin_year, year_month)
+          
       Notification(f"Successful import! {len(vendor_ids)} new vendors, {len(actual_line_ids)} Actual Lines and {entry_count} new entries created").show()
 
   def new_year_button_click(self, **event_args):

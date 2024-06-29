@@ -135,7 +135,6 @@ components:
           layout_properties: {width: 348.9144375}
           data_bindings:
           - {property: items, code: self.vendor_list, writeback: false}
-          - {property: selected_value, code: self.finance_vendor_name, writeback: true}
         - name: add_prior_year_tag_button
           properties: {text: '', icon: 'fa:arrow-circle-up', role: secondary-button}
           type: Button
