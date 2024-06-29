@@ -327,7 +327,7 @@ class BudgetLines(BudgetLinesTemplate):
   
   def add_new_entries(self, new_entries):
     print(f"Adding {len(new_entries)} new entries")
-    count = self.transactions.search_and_add_entries(new_entries=new_entries, overwrite=True)        
+    count = self.transactions.search_and_add_entries(entries=new_entries, overwrite=True)        
     return count
 
   
