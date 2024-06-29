@@ -214,13 +214,9 @@ class LazyTransactionList(AttributeToDict):
       ret = None
     return ret
 
-  def delete_entries(self, transaction_id, year_month):
-    try:
-      ret = anvil.server.call('Transactions', 'delete_entries', transaction_id=transaction_id, year_month=year_month)
-    except Exception:
-      print(f"Error deleting entries for {transaction_id}")
-      raise
-    return ret
+  def delete_entries(self, year_month, transaction_type='Actual'):
+    return anvil.server.call('Transactions', 'delete_entries', brand=CURRENT_BRAND, year_month=year_month, transaction_type='Actual')
+
     
 #############
 # MAIN

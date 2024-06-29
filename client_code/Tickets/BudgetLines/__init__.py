@@ -331,13 +331,6 @@ class BudgetLines(BudgetLinesTemplate):
     return count
 
   
-  def delete_entries(self, new_entries, year_month):
-    transaction_ids = [ x['transaction_id'] for x in new_entries ]
-    transaction_ids = list(set(transaction_ids))
-    for transaction_id in transaction_ids:
-      self.transactions.delete_entries(transaction_id=transaction_id, year_month=year_month)
-
-  
   def import_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     import_form = ImportActuals()
@@ -360,7 +353,7 @@ class BudgetLines(BudgetLinesTemplate):
         
       if len(new_entries)>0:
         print(new_entries)
-        self.delete_entries(new_entries, year_month)
+        self.transactions.delete_entries(year_month=year_month)
         entry_count = self.add_new_entries(new_entries)
 
       if len(vendor_ids)>0 or len(actual_line_ids)>0 or entry_count>0:
