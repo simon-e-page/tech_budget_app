@@ -112,9 +112,9 @@ class ImportActuals(ImportActualsTemplate):
           'import_id': str(self.new_year_month)
         })
         
-        entry = new_entries.get(key, {})
-        entry['filter'] = filter
-        entry['entry'] = {
+        trans = new_entries.get(key, { 'entries': [] })
+        trans['filter'] = filter
+        trans['entries'].append({
           'transaction_id': None,
           'transaction_desc': filter,
           'transaction_type': 'Actual',
@@ -122,8 +122,8 @@ class ImportActuals(ImportActualsTemplate):
           'fin_year': fin_year,
           'year_month': self.new_year_month,
           'amount': r[c]
-        }
-        new_entries[key] = entry
+        })
+        new_entries[key] = trans
                   
     return new_vendors, new_actual_lines, new_entries
 

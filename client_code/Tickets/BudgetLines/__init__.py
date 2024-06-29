@@ -326,8 +326,9 @@ class BudgetLines(BudgetLinesTemplate):
   def add_new_entries(self, new_entries):
     new_entries_count = 0
     for trans in new_entries:
-        self.transactions.add_entries(filter=trans['filter'], new_entries=trans['entries'], overwrite=True)
-        new_entries_count += 1
+        count = self.transactions.search_and_add_entries(filter=trans['filter'], new_entries=trans['entries'], overwrite=True)
+        if count is not None:
+          new_entries_count += count
         
     return new_entries_count
         

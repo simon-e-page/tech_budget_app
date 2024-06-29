@@ -198,7 +198,7 @@ class LazyTransactionList(AttributeToDict):
   def blank(self, transaction_data=None):
     return Transaction(transaction_json=transaction_data)
 
-  def add_entries(self, filter, new_entries, overwrite=False):
+  def search_and_add_entries(self, filter, new_entries, overwrite=False):
     try:
       ret = anvil.server.call('Transactions', 'search_and_add_entries', filter=filter, entries=new_entries, overwrite=overwrite)
     except Exception as e:
