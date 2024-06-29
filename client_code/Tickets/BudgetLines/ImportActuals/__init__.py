@@ -104,7 +104,7 @@ class ImportActuals(ImportActualsTemplate):
         
       for c in self.cost_centres:
         new_desc = f"Finance System Actuals - {c}"
-        key = f"{r['vendor_name']}_{new_desc}"
+        key = f"{r['vendor_id']}_{new_desc}"
 
         # Only try and add Actuals for non-zero values
         if r[c]!=0:

@@ -361,7 +361,7 @@ class BudgetLines(BudgetLinesTemplate):
         if fin_year is not None and year_month is not None:
           Data.actuals_updated(year=fin_year, year_month=year_month)
           
-      Notification(f"Successful import! {len(vendor_ids)} new vendors, {len(actual_line_ids)} Actual Lines and {entry_count} new entries created").show()
+      alert(f"Successful import! {len(vendor_ids)} new vendors, {len(actual_line_ids)} Actual Lines and {entry_count} new entries created")
 
   def new_year_button_click(self, **event_args):
     """This method is called when the button is clicked"""
