@@ -28,7 +28,9 @@ class Vendors(VendorsTemplate):
     self.init_components(**properties)
 
   def refresh_tables(self, *args, **kwargs):
+    current_page = self.vendors_table.get_page()
     self.vendors_table_table_built()
+    self.vendors_table.set_page(current_page)
 
 
   def vendors_table_table_built(self, **event_args):

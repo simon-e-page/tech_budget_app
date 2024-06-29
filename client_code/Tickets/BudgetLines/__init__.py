@@ -13,7 +13,7 @@ from .ImportActuals import ImportActuals
 
 class BudgetLines(BudgetLinesTemplate):
 
-  def __init__(self, mode = 'Budget', **properties):
+  def __init__(self, mode = 'Budget', initial_filters={}, **properties):
     self.mode = mode
     self.vendors = VendorsModel.VENDORS
     self.transactions = TransactionsModel.get_transactions()
@@ -24,6 +24,7 @@ class BudgetLines(BudgetLinesTemplate):
     self.categories = Data.CATEGORIES_DD
     self.service_changes = Data.SERVICE_CHANGES_DD
     self.billing_types = Data.BILLING_TYPES_DD
+    self.data_filters = initial_filters
     
     self.params = {
       'Budget': { 'background': '#ffffcc', 'color': 'black', 'editor': 'number' },
@@ -59,6 +60,14 @@ class BudgetLines(BudgetLinesTemplate):
     
   
   def refresh_tables(self):
+    def data_filter(data, **params):
+      if len(self.data_filters)>0:
+        found = all(data.get(field)==value for field, value in self.data_filters.items)
+      else:
+        found = True
+      #print(f"{data['vendor_name']}: {non_zero}")
+      return found
+
     self.budget_data = []
     for row in self.loaded_data:
       entry = self.entry_lines['data'].get(str(row['transaction_id']), {})
@@ -68,8 +77,8 @@ class BudgetLines(BudgetLinesTemplate):
       row['total'] = sum(entry.values()) if entry else 0.0
       (entry or self.show_empty) and self.budget_data.append(row)
     self.refresh_data_bindings()
+    self.budget_lines_table.set_filter(data_filter)
     self.render_table()
-
   
   def budget_lines_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""

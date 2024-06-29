@@ -43,7 +43,7 @@ class ImportActuals(ImportActualsTemplate):
 
     self.new_entries = []
     self.new_year_month = None
-    self.month_total = None
+    self.month_total = 0
     self.cost_centres = []
     print(f"{self.actuals_to_date} vs {CURRENT_YEAR}")
     

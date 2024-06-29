@@ -8,7 +8,7 @@ components:
   layout_properties: {slot: slot-header}
   components:
   - type: Label
-    properties: {role: header-text, align: left, tooltip: '', border: '', foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+    properties: {role: header-text, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: ''}
     name: vendor_label
     layout_properties: {}
     data_bindings:
@@ -29,7 +29,7 @@ components:
       layout_properties: {grid_position: 'NYIHKT,PTVCIM'}
       components:
       - type: Image
-        properties: {role: null, vertical_align: center, height: 113, tooltip: '', border: thin dotted black, foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: small, source: '', spacing_below: small, background: '', horizontal_align: center}
+        properties: {role: null, vertical_align: center, spacing_above: small, background: '', horizontal_align: center, source: '', foreground: '', display_mode: shrink_to_fit, spacing_below: small, visible: true, border: thin dotted black, tooltip: '', height: 113}
         name: icon_image
         data_bindings:
         - {property: source, code: 'self.get_icon(self.item[''icon_id''])'}
@@ -62,13 +62,13 @@ components:
       type: Spacer
       layout_properties: {grid_position: 'NYIHKT,TZKTCA YDTMOI,TVKDHH'}
   - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: 'Name:', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: true, underline: false, icon: ''}
+    properties: {role: null, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: 'Name:'}
     name: label_6
     layout_properties: {grid_position: 'DPKUVC,HUJRYE NAFPDE,ZLDVBF'}
     data_bindings:
     - {property: text, code: '"Name in Finance System" and self.item[''from_finance_system''] or "IT Vendor Name"', writeback: false}
   - type: TextBox
-    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Enter Vendor Name, border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: text, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+    properties: {role: null, bold: false, align: left, placeholder: Enter Vendor Name, spacing_above: small, background: '', type: text, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
     name: name_textbox
     layout_properties: {grid_position: 'DPKUVC,HUJRYE UFYXTD,LPHDDZ'}
     data_bindings:
@@ -76,7 +76,7 @@ components:
     - {property: enabled, code: 'self.item.get(''from_finance_system'', False)==False', writeback: false}
     event_bindings: {}
   - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: 'Description: ', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: true, underline: false, icon: ''}
+    properties: {role: null, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: 'Description: '}
     name: label_1
     layout_properties: {grid_position: 'DPKUVC,HUJRYE HCUNLS,CMTVCV'}
   - name: description_textbox
@@ -84,7 +84,7 @@ components:
     type: TextArea
     layout_properties: {grid_position: 'DPKUVC,HUJRYE PCPTGB,VYVWRZ'}
     data_bindings:
-    - {property: text, code: 'self.item[''description'']', writeback: false}
+    - {property: text, code: 'self.item[''description'']', writeback: true}
   - type: FlowPanel
     properties: {}
     name: flow_panel_2
@@ -142,7 +142,7 @@ components:
           layout_properties: {}
           event_bindings: {click: add_prior_year_tag_button_click}
   - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: 'Map to Finance vendor code (in Dynamics):', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: true, underline: false, icon: ''}
+    properties: {role: null, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: 'Map to Finance vendor code (in Dynamics):'}
     name: label_14
     layout_properties: {grid_position: 'DOGXEZ,BCKOQO XBBMDY,IOSSKF'}
   - name: column_panel_5
@@ -166,11 +166,11 @@ components:
         data_bindings:
         - {property: items, code: self.finance_vendor_list, writeback: false}
   - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: 'Notes:', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: true, underline: false, icon: ''}
+    properties: {role: null, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: 'Notes:'}
     name: label_13
     layout_properties: {grid_position: 'DOGXEZ,BCKOQO BBQFRK,ZVKYPW'}
   - type: TextArea
-    properties: {role: null, align: left, height: 83.7031, tooltip: '', placeholder: Enter any notes, border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, auto_expand: false, font: '', spacing_above: small, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+    properties: {role: null, bold: false, align: left, placeholder: Enter any notes, spacing_above: small, background: '', underline: false, font: '', foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, auto_expand: false, font_size: null, tooltip: '', height: 83.7031, text: ''}
     name: notes_areabox
     layout_properties: {grid_position: 'DOGXEZ,BCKOQO FTWQKC,ZMTJNF'}
     data_bindings:
@@ -181,7 +181,7 @@ components:
     layout_properties: {grid_position: 'DOGXEZ,BXPKPS JOFNVY,AOXALQ'}
     components: []
   - type: FlowPanel
-    properties: {role: null, spacing: medium, align: left, tooltip: '', border: '', foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
+    properties: {role: null, align: left, spacing_above: small, background: '', foreground: '', spacing_below: small, visible: true, border: '', tooltip: '', spacing: medium}
     name: flow_panel_8
     layout_properties: {grid_position: 'DOGXEZ,BXPKPS MCQMXE,SJTWHF'}
     components: []
@@ -198,10 +198,15 @@ components:
       layout_properties: {grid_position: 'YPIRKR,EEVNIA'}
       components:
       - type: Button
-        properties: {role: primary-button, align: center, tooltip: '', border: '', enabled: true, foreground: '', visible: true, text: Save, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: true, underline: false, icon: 'fa:check-circle'}
+        properties: {role: primary-button, bold: true, align: center, spacing_above: small, background: '', icon: 'fa:check-circle', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: Save}
         name: save_button
         layout_properties: {}
         event_bindings: {click: save_button_click}
         data_bindings:
         - {property: visible, code: self.show_save, writeback: false}
+      - name: actuals_button
+        properties: {text: Actuals, icon: 'fa:external-link', role: secondary-button}
+        type: Button
+        layout_properties: {}
+        event_bindings: {click: actuals_button_click}
 is_package: true

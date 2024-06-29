@@ -56,6 +56,7 @@ class Vendor(AttributeToKey):
     except Exception as e:
       ret = None
       print("Error saving Vendor!")
+      raise
     return ret
     
   def to_dict(self, with_finance_vendor=True, with_finance_vendor_name=False, with_finance_vendor_id=False):

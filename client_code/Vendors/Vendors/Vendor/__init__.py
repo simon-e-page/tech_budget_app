@@ -69,6 +69,7 @@ class Vendor(VendorTemplate):
     self.refresh_data_bindings()
   
   def generate_tags(self, key):
+    print(f'getting tags for {key}')
     return [ { key: x} for x in self.item.get(key, []) ]
     
   def save_button_click(self, **event_args):
@@ -90,8 +91,10 @@ class Vendor(VendorTemplate):
           self.item = ret
         else:
           alert("There is already an existing Vendor with that name!")
+      self.parent.raise_event('x-refresh-tables')
     except Exception as e:
       alert("Error adding/updating vendor! Check logs!")
+      raise
 
     self.refresh_data_bindings()
       
@@ -146,6 +149,12 @@ class Vendor(VendorTemplate):
     if new_url:
       self.item['vendor_url'] = new_url
       self.refresh_data_bindings()
+
+  def actuals_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    homepage = get_open_form()
+    homepage.open_actuals(vendor_name=self.item.vendor_name)
+    
 
 
 
