@@ -142,9 +142,9 @@ class LazyTransactionList(AttributeToDict):
     self.__d__ = { x['transaction_id'] : Transaction(transaction_json=x) for x in slice }
     
 
-  def new(self, transaction):
+  def new(self, transaction, update=True):
     try:
-      transaction_ids = anvil.server.call('Transactions', 'add_transaction', transaction.to_dict())
+      transaction_ids = anvil.server.call('Transactions', 'add_transaction', transaction.to_dict(), update=update)
       new_trans_id = transaction_ids[0]
       transaction['transaction_id'] = new_trans_id
       self.__d__[transaction.transaction_id] = transaction
@@ -197,6 +197,14 @@ class LazyTransactionList(AttributeToDict):
 
   def blank(self, transaction_data=None):
     return Transaction(transaction_json=transaction_data)
+
+  def add_entries(self, filter, new_entries, overwrite=False):
+    try:
+      ret = anvil.server.call('Transactions', 'search_and_add_entries', filter=filter, entries=new_entries, overwrite=overwrite)
+    except Exception as e:
+      print('Error updating entries!')
+      ret = None
+    return ret
 
 #############
 # MAIN
