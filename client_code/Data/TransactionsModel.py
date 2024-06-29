@@ -142,6 +142,7 @@ class LazyTransactionList(AttributeToDict):
     self.__d__ = { x['transaction_id'] : Transaction(transaction_json=x) for x in slice }
     
   def bulk_add(self, transactions, update=True):
+    """ Adds a list of transactions present as a list of dictionaries """
     try:
       transaction_ids = anvil.server.call('Transactions', 'add_transaction', transactions, update=update)
     except Exception as e:
