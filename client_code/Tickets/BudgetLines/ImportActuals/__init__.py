@@ -88,6 +88,8 @@ class ImportActuals(ImportActualsTemplate):
     month = int(str(self.new_year_month)[4:])
     fin_year = year + int(month>6)
     self.fin_year = fin_year
+    owner = anvil.users.get_user()['email']
+    timestamp = dt.date(year, month, 1)
     
     for r in self.new_entries:
       print(f"Working on {r['vendor_name']}")
@@ -109,7 +111,7 @@ class ImportActuals(ImportActualsTemplate):
           'vendor_name': r['vendor_name'],
           'brand': CURRENT_BRAND,
           'description': new_desc,
-          'owner': anvil.users.get_user()['email'],
+          'owner': owner,
           'transaction_type': 'Actual',
           'cost_centre': c,
           'source': 'finance import',
@@ -122,7 +124,7 @@ class ImportActuals(ImportActualsTemplate):
           'transaction_id': None,
           'transaction_desc': filter,
           'transaction_type': 'Actual',
-          'timestamp': dt.date(year, month, 1),
+          'timestamp': timestamp,
           'fin_year': fin_year,
           'year_month': self.new_year_month,
           'amount': r[c]
