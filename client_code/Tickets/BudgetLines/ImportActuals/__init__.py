@@ -80,7 +80,7 @@ class ImportActuals(ImportActualsTemplate):
 
     new_vendors = []
     new_actual_lines = []
-    new_entries = []
+    new_entries = {}
       
     year = int(str(self.new_year_month)[0:4])
     month = int(str(self.new_year_month)[4:])
@@ -95,11 +95,12 @@ class ImportActuals(ImportActualsTemplate):
           'from_finance_system': True,
           'notes': f"Created by Finance Import in month: {self.new_year_month}"
         })
+        
       for c in self.cost_centres:
         new_desc = f"Finance System Actuals - {c}"
-        #filter = { 'brand': CURRENT_BRAND, 'vendor_name': r['vendor_name'], 'description': new_desc }
-        #existing_transaction = self.transactions.search(**filter)
-        #if len(existing_transaction)==0 and r[c]!=0.0:
+        filter = { 'brand': CURRENT_BRAND, 'vendor_name': r['vendor_name'], 'description': new_desc }
+        key = f"{r['vendor_name']}_{new_desc}"
+        
         new_actual_lines.append({
           'vendor_name': r['vendor_name'],
           'brand': CURRENT_BRAND,
@@ -110,7 +111,10 @@ class ImportActuals(ImportActualsTemplate):
           'source': 'finance import',
           'import_id': str(self.new_year_month)
         })
-        new_entries.append({
+        
+        entry = new_entries.get(key, {})
+        entry['filter'] = filter
+        entry['entry'] = {
           'transaction_id': None,
           'transaction_desc': filter,
           'transaction_type': 'Actual',
@@ -118,22 +122,8 @@ class ImportActuals(ImportActualsTemplate):
           'fin_year': fin_year,
           'year_month': self.new_year_month,
           'amount': r[c]
-        })
-        #elif len(existing_transaction)==1 and r[c]!=0.0:
-        #  transaction_id = existing_transaction[0].transaction_id
-        #  new_entries.append({
-        #    'transaction_id': transaction_id,
-        #    'transaction_desc': None,
-        #    'transaction_type': 'Actual',
-        #    'timestamp': dt.date(year, month, 1),
-        #    'fin_year': fin_year,
-        #    'year_month': self.new_year_month,
-        #    'amount': r[c]
-        #  })
-        #elif r[c]!=0.0:
-        #  alert(f"Should not happen! Multiple Actual Lines found for {CURRENT_BRAND}, {r['vendor_name']}, {c}")
-        # else:
-        #  print(f"Amount should equal zero: {r[c]}")
+        }
+        new_entries[key] = entry
                   
     return new_vendors, new_actual_lines, new_entries
 
