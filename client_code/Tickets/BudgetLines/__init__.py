@@ -327,21 +327,17 @@ class BudgetLines(BudgetLinesTemplate):
   
   def add_new_entries(self, new_entries):
     print(f"Adding {len(new_entries)} new entries")
+    count = self.transactions.search_and_add_entries(new_entries=new_entries, overwrite=True)        
+    return count
 
-    new_entries_count = 0
-    for trans in new_entries.values():
-        count = self.transactions.search_and_add_entries(filter=trans['filter'], new_entries=trans['entries'], overwrite=True)
-        if count is not None:
-          new_entries_count += count
-        
-    return new_entries_count
-
+  
   def delete_entries(self, new_entries, year_month):
     transaction_ids = [ x['transaction_id'] for x in new_entries ]
     transaction_ids = list(set(transaction_ids))
     for transaction_id in transaction_ids:
       self.transactions.delete_entries(transaction_id=transaction_id, year_month=year_month)
-    
+
+  
   def import_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     import_form = ImportActuals()

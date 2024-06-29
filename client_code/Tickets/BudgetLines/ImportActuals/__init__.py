@@ -82,7 +82,7 @@ class ImportActuals(ImportActualsTemplate):
     
     new_vendors = []
     new_actual_lines = []
-    new_entries = {}
+    new_entries = []
       
     year = int(str(self.new_year_month)[0:4])
     month = int(str(self.new_year_month)[4:])
