@@ -165,6 +165,7 @@ components:
         layout_properties: {width: 350.7268125}
         data_bindings:
         - {property: items, code: self.finance_vendor_list, writeback: false}
+        - {property: selected_value, code: 'self.item[''finance_vendor'']', writeback: true}
   - type: Label
     properties: {role: null, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: 'Notes:'}
     name: label_13

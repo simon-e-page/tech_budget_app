@@ -62,7 +62,7 @@ class BudgetLines(BudgetLinesTemplate):
   def refresh_tables(self):
     def data_filter(data, **params):
       if len(self.data_filters)>0:
-        found = all(data.get(field)==value for field, value in self.data_filters.items)
+        found = all(data.get(field)==value for field, value in self.data_filters.items())
       else:
         found = True
       #print(f"{data['vendor_name']}: {non_zero}")
@@ -394,6 +394,11 @@ class BudgetLines(BudgetLinesTemplate):
     print(self.show_empty_toggle.checked)
     print(event_args)
     self.show_empty = self.show_empty_toggle.checked
+    self.refresh_tables()
+
+  def clear_filter_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.data_filters = {}
     self.refresh_tables()
       
 

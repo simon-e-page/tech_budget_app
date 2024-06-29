@@ -30,16 +30,16 @@ class Vendor(VendorTemplate):
     self.init_components(**properties)
     # Any code you write here will run when the form opens.
   
-  @property
-  def finance_vendor_name(self):
-    if self.item['finance_vendor']:
-      self.item['finance_vendor'].vendor_name
-    else:
-      return None
+  #@property
+  #def finance_vendor_name(self):
+  #  if self.item['finance_vendor']:
+  #    self.item['finance_vendor'].vendor_name
+  #  else:
+  #    return None
 
-  @finance_vendor_name.setter
-  def finance_vendor_name(self, vendor_id):
-    self.item['finance_vendor'] = self.vendors.get(vendor_id)
+  #@finance_vendor_name.setter
+  #def finance_vendor_name(self, vendor_id):
+  #  self.item['finance_vendor'] = self.vendors.get(vendor_id)
     
   def get_icon(self, icon_id):
     if icon_id:
@@ -153,7 +153,7 @@ class Vendor(VendorTemplate):
   def actuals_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     homepage = get_open_form()
-    homepage.open_actuals(vendor_name=self.item.vendor_name)
+    homepage.open_actuals(initial_filters={ 'vendor_name': self.item.vendor_name })
     
 
 

@@ -123,8 +123,8 @@ class Vendors(AttributeToDict):
   def blank(self, vendor_data=None):
     return Vendor(vendor_json=vendor_data)
 
-  def get_dropdown(self, finance_field=None):
-    if finance_field is None:
+  def get_dropdown(self, finance_field=False):
+    if not finance_field:
       vendor_list = [ (x.vendor_name, x.vendor_id) for i,x in self.__d__.items() ]
     else:
       # Cannot map to a finance vendor if that vendor is already mapped!
