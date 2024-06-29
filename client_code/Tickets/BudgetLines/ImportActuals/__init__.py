@@ -78,6 +78,8 @@ class ImportActuals(ImportActualsTemplate):
     if self.new_entries is None or len(self.new_entries)==0:
       return [], [], []
 
+    start = dt.datetime.now()
+    
     new_vendors = []
     new_actual_lines = []
     new_entries = {}
@@ -88,6 +90,8 @@ class ImportActuals(ImportActualsTemplate):
     self.fin_year = fin_year
     
     for r in self.new_entries:
+      print(f"Working on {r['vendor_name']}")
+      
       if not r['existing_vendor']:
         new_vendors.append({
           'vendor_name': r['vendor_name'],
@@ -124,7 +128,11 @@ class ImportActuals(ImportActualsTemplate):
           'amount': r[c]
         })
         new_entries[key] = trans
-                  
+
+    end = dt.datetime.now()
+    dur = (end-start).seconds()
+    print(f"Got entries prepared in: {dur}s")
+    
     return new_vendors, new_actual_lines, new_entries
 
 

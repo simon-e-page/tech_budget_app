@@ -296,6 +296,7 @@ class BudgetLines(BudgetLinesTemplate):
 
 
   def add_new_vendors(self, new_vendors):
+    print(f"Adding {len(new_vendors)} vendots")
     vendor_ids = []
     for v_data in new_vendors:
       new_vendor = self.vendors.blank(v_data)
@@ -309,6 +310,7 @@ class BudgetLines(BudgetLinesTemplate):
     return vendor_ids
 
   def add_new_actual_lines(self, new_actual_lines):
+    print(f"Adding up to {len(new_actual_lines)} actual lines")
     actual_line_ids = []
     for a_data in new_actual_lines:
       # Lookup vendor_id including if just created!
@@ -324,6 +326,8 @@ class BudgetLines(BudgetLinesTemplate):
     return actual_line_ids
       
   def add_new_entries(self, new_entries):
+    print(f"Adding {len(new_entries)} new entries")
+
     new_entries_count = 0
     for trans in new_entries:
         count = self.transactions.search_and_add_entries(filter=trans['filter'], new_entries=trans['entries'], overwrite=True)
