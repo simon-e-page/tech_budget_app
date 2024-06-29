@@ -106,33 +106,35 @@ class ImportActuals(ImportActualsTemplate):
         new_desc = f"Finance System Actuals - {c}"
         filter = { 'brand': CURRENT_BRAND, 'vendor_name': r['vendor_name'], 'description': new_desc }
         key = f"{r['vendor_name']}_{new_desc}"
-        
-        new_actual_lines.append({
-          'vendor_name': r['vendor_name'],
-          'brand': CURRENT_BRAND,
-          'description': new_desc,
-          'owner': owner,
-          'transaction_type': 'Actual',
-          'cost_centre': c,
-          'source': 'finance import',
-          'import_id': str(self.new_year_month)
-        })
-        
-        trans = new_entries.get(key, { 'entries': [] })
-        trans['filter'] = filter
-        trans['entries'].append({
-          'transaction_id': None,
-          'transaction_desc': filter,
-          'transaction_type': 'Actual',
-          'timestamp': timestamp,
-          'fin_year': fin_year,
-          'year_month': self.new_year_month,
-          'amount': r[c]
-        })
-        new_entries[key] = trans
+
+        # Only try and add Actuals for non-zero values
+        if r[c]!=0:
+          new_actual_lines.append({
+            'vendor_name': r['vendor_name'],
+            'brand': CURRENT_BRAND,
+            'description': new_desc,
+            'owner': owner,
+            'transaction_type': 'Actual',
+            'cost_centre': c,
+            'source': 'finance import',
+            'import_id': str(self.new_year_month)
+          })
+          
+          trans = new_entries.get(key, { 'entries': [] })
+          trans['filter'] = filter
+          trans['entries'].append({
+            'transaction_id': None,
+            'transaction_desc': filter,
+            'transaction_type': 'Actual',
+            'timestamp': timestamp,
+            'fin_year': fin_year,
+            'year_month': self.new_year_month,
+            'amount': r[c]
+          })
+          new_entries[key] = trans
 
     end = dt.datetime.now()
-    dur = (end-start).seconds()
+    dur = (end-start).seconds
     print(f"Got entries prepared in: {dur}s")
     
     return new_vendors, new_actual_lines, new_entries
