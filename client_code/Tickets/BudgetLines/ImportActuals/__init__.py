@@ -55,6 +55,13 @@ class ImportActuals(ImportActualsTemplate):
       month_label = month_number_to_name(int(str(next_month)[4:]))
       year = str(next_month)[0:4]
       self.next_month = f"{month_label} {year}"
+
+    self.imported_table.options = {
+      'selectable': "highlight",
+      'pagination': True,
+      'pagination_size': 10,
+      'css_class': ["table-striped", "table-bordered", "table-condensed"]
+    }
       
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -204,12 +211,6 @@ class ImportActuals(ImportActualsTemplate):
       }
     ]
 
-    self.imported_table.options.update(
-      selectable="highlight",
-      pagination=False,
-      pagination_size=15,
-      css_class=["table-striped", "table-bordered", "table-condensed"]
-    )
     
     self.imported_table.columns = columns
     self.imported_table.data = self.new_entries

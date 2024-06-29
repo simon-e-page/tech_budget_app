@@ -130,10 +130,10 @@ def refresh():
   #actuals_updated(202406, 2025)
 
 def get_actuals_updated(year):
-  return anvil.server.call('Calendar', 'get_actuals_updated', year)
+  return anvil.server.call('Calendar', 'get_actuals_updated', year=year)
 
-def actuals_updated(year, year_month):
-  return anvil.server.call('Calendar', 'actuals_updated', year_month, year)
+def actuals_updated(year_month, year):
+  return anvil.server.call('Calendar', 'actuals_updated', year_month=year_month, year=year)
 
 #####################################################################
 # MISCELLANEOUS
