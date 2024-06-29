@@ -104,7 +104,6 @@ class ImportActuals(ImportActualsTemplate):
         
       for c in self.cost_centres:
         new_desc = f"Finance System Actuals - {c}"
-        filter = { 'brand': CURRENT_BRAND, 'vendor_name': r['vendor_name'], 'description': new_desc }
         key = f"{r['vendor_name']}_{new_desc}"
 
         # Only try and add Actuals for non-zero values
@@ -121,17 +120,15 @@ class ImportActuals(ImportActualsTemplate):
             'import_id': str(self.new_year_month)
           })
           
-          trans = new_entries.get(key, { 'entries': [] })
-          trans['filter'] = filter
-          trans['entries'].append({
+          new_entries.append({
             'transaction_id': None,
             'transaction_type': 'Actual',
+            'key': key,
             'timestamp': timestamp,
             'fin_year': fin_year,
             'year_month': self.new_year_month,
             'amount': r[c]
           })
-          new_entries[key] = trans
 
     end = dt.datetime.now()
     dur = (end-start).seconds

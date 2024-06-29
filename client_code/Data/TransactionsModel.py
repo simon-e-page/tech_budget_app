@@ -206,14 +206,22 @@ class LazyTransactionList(AttributeToDict):
   def blank(self, transaction_data=None):
     return Transaction(transaction_json=transaction_data)
 
-  def search_and_add_entries(self, filter, new_entries, overwrite=False):
+  def search_and_add_entries(self, new_entries, overwrite=False):
     try:
-      ret = anvil.server.call('Transactions', 'search_and_add_entries', filter=filter, entries=new_entries, overwrite=overwrite)
+      ret = anvil.server.call('Transactions', 'search_and_add_entries', brand=CURRENT_BRAND, entries=new_entries, overwrite=overwrite)
     except Exception as e:
       print('Error updating entries!')
       ret = None
     return ret
 
+  def delete_entries(self, transaction_id, year_month):
+    try:
+      ret = anvil.server.call('Transactions', 'delete_entries', transaction_id=transaction_id, year_month=year_month)
+    except Exception:
+      print(f"Error deleting entries for {transaction_id}")
+      raise
+    return ret
+    
 #############
 # MAIN
 ###############

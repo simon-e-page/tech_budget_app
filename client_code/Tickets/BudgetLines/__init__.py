@@ -323,7 +323,8 @@ class BudgetLines(BudgetLinesTemplate):
       a_data.pop('vendor_name', None)
     new_trans_ids = self.transactions.bulk_add(new_actual_lines, update=False)
     return new_trans_ids
-      
+
+  
   def add_new_entries(self, new_entries):
     print(f"Adding {len(new_entries)} new entries")
 
@@ -334,13 +335,21 @@ class BudgetLines(BudgetLinesTemplate):
           new_entries_count += count
         
     return new_entries_count
-        
+
+  def delete_entries(self, new_entries, year_month):
+    transaction_ids = [ x['transaction_id'] for x in new_entries ]
+    transaction_ids = list(set(transaction_ids))
+    for transaction_id in transaction_ids:
+      self.transactions.delete_entries(transaction_id=transaction_id, year_month=year_month)
+    
   def import_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     import_form = ImportActuals()
     ret = alert(import_form, title="Import Actuals", buttons=(("Import", True), ("Cancel", False)), large=True)
     if ret:
       new_vendors, new_actual_lines, new_entries = import_form.get_new_entries()
+      fin_year, year_month = import_form.get_year_month()
+
       vendor_ids = []
       actual_line_ids = []
       entry_count = 0
@@ -355,6 +364,7 @@ class BudgetLines(BudgetLinesTemplate):
         
       if len(new_entries)>0:
         print(new_entries)
+        self.delete_entries(new_entries, year_month)
         entry_count = self.add_new_entries(new_entries)
 
       if len(vendor_ids)>0 or len(actual_line_ids)>0 or entry_count>0:
