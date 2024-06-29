@@ -321,7 +321,7 @@ class BudgetLines(BudgetLinesTemplate):
           print(f"Error finding vendor records for Actual! {a_data}")
           
       a_data.pop('vendor_name', None)
-      new_trans_ids = self.transactions.bulk_add(a_data, update=False)
+    new_trans_ids = self.transactions.bulk_add(new_actual_lines, update=False)
     return new_trans_ids
       
   def add_new_entries(self, new_entries):
