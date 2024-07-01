@@ -107,7 +107,7 @@ class ImportActuals(ImportActualsTemplate):
         key = f"{r['vendor_id']}_{new_desc}"
 
         # Only try and add Actuals for non-zero values
-        if r[c]!=0:
+        if r.get(c, 0.0) != 0.0:
           new_actual_lines.append({
             'vendor_name': r['vendor_name'],
             'vendor_id': r['vendor_id'],
