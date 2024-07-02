@@ -97,6 +97,7 @@ class ImportActuals(ImportActualsTemplate):
       
       if not r['existing_vendor']:
         if r['mapped_vendor'] is None:
+          # Add new vendor
           new_vendors.append({
             'vendor_name': r['vendor_name'],
             'description': 'New Vendor from Finance System',
@@ -105,6 +106,7 @@ class ImportActuals(ImportActualsTemplate):
           })
           vendor_id = None
         else:
+          # Rename a different but existing vendor to the name provided by Finance
           renamed_vendors[r['mapped_vendor']] = r['vendor_name']
           vendor_id = self.vendors.get_by_name(r['mapped_vendor']).vendor_id
       else:

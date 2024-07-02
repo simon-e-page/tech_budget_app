@@ -331,8 +331,15 @@ class BudgetLines(BudgetLinesTemplate):
     return count
 
   def rename_vendors(self, renamed_vendors):
-    for mapping in renamed_vendors:
-      
+    for old_name, new_name in renamed_vendors:
+      try:
+        v = self.vendors.get_by_name(old_name)
+        if v is not None:
+          v.vendor_name = new_name
+          v.save()
+      except Exception:
+        print(f"Error renaming vendor: {old_name} to {new_name}!")
+        raise
   
   def import_button_click(self, **event_args):
     """This method is called when the button is clicked"""
