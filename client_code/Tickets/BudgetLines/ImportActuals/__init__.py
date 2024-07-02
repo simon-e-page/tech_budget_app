@@ -81,6 +81,7 @@ class ImportActuals(ImportActualsTemplate):
     start = dt.datetime.now()
     
     new_vendors = []
+    renamed_vendors = []
     new_actual_lines = []
     new_entries = []
       
@@ -95,22 +96,35 @@ class ImportActuals(ImportActualsTemplate):
       print(f"Working on {r['vendor_name']}")
       
       if not r['existing_vendor']:
-        new_vendors.append({
-          'vendor_name': r['vendor_name'],
-          'description': 'New Vendor from Finance System',
-          'from_finance_system': True,
-          'notes': f"Created by Finance Import in month: {self.new_year_month}"
-        })
+        if r['mapped_vendor'] is None:
+          new_vendors.append({
+            'vendor_name': r['vendor_name'],
+            'description': 'New Vendor from Finance System',
+            'from_finance_system': True,
+            'notes': f"Created by Finance Import in month: {self.new_year_month}"
+          })
+          vendor_id = None
+        else:
+          renamed_vendors.append({
+            'current_name': r['mapped_vendor'],
+            'new_name': r['vendor_name']
+          })
+          vendor_id = self.vendors.get_by_name(r['mapped_vendor']).vendor_id
+      else:
+        vendor_id = r['vendor_id']
         
+      vendor_name = r['vendor_name']
+      
       for c in self.cost_centres:
+        
         new_desc = f"Finance System Actuals - {c}"
-        key = f"{r['vendor_id']}_{new_desc}"
+        key = f"{vendor_name}_{new_desc}"
 
         # Only try and add Actuals for non-zero values
         if r.get(c, 0.0) != 0.0:
           new_actual_lines.append({
-            'vendor_name': r['vendor_name'],
-            'vendor_id': r['vendor_id'],
+            'vendor_name': vendor_name,
+            'vendor_id': vendor_id,
             'brand': CURRENT_BRAND,
             'description': new_desc,
             'owner': owner,
@@ -134,7 +148,7 @@ class ImportActuals(ImportActualsTemplate):
     dur = (end-start).seconds
     print(f"Got entries prepared in: {dur}s")
     
-    return new_vendors, new_actual_lines, new_entries
+    return new_vendors, renamed_vendors, new_actual_lines, new_entries
 
 
   def file_loader_change(self, file, **event_args):
@@ -186,6 +200,21 @@ class ImportActuals(ImportActualsTemplate):
         'formatter': 'tickCross',
         'headerFilter': 'tickCross',
         'width': 100
+      },
+      { 
+        'title': 'Map to',
+        'field': 'mapped_vendor',
+        'headerFilter': None,
+        "editor": "list",
+        'editorParams': {
+          'valuesLookup': "active",
+          'valuesLookupField': 'suggested_vendors',
+          'clearable': True,
+          'defaultValue': "",
+          'emptyValue': None,
+          'maxWidth': True,
+          'allowEmpty': True,
+        },
       },
       
     ]
