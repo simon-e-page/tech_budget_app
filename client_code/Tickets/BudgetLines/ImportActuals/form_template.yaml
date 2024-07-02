@@ -50,9 +50,10 @@ components:
       data_bindings:
       - {property: text, code: '"Next month to import: {0}".format(self.next_month)', writeback: false}
     - name: file_loader
-      properties: {}
+      properties: {text: Preview}
       type: FileLoader
       event_bindings: {change: file_loader_change}
+      layout_properties: {}
     - name: spacer_1
       properties: {height: 32}
       type: Spacer

@@ -254,12 +254,12 @@ class ImportActuals(ImportActualsTemplate):
   def download_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     year_month = self.download_dropdown.selected_value
-    file_info = self.importer.get_import_file(year_month)
-    if file_info is not None:
-      filename = file_info['filename']
-      content = file_info('excel_file')
-      content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-      media_object = anvil.BlobMedia(content_type=content_type, content=content, name=filename)
+    media_object = self.importer.get_import_file(year_month)
+    if media_object is not None:
+      #filename = file_info['filename']
+      #content = file_info('excel_file')
+      #content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      #media_object = anvil.BlobMedia(content_type=content_type, content=content, name=filename)
       anvil.media.download(media_object)
 
   def download_dropdown_change(self, **event_args):
