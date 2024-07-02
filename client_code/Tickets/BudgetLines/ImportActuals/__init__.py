@@ -2,6 +2,7 @@ from ._anvil_designer import ImportActualsTemplate
 from anvil import *
 import anvil.server
 import anvil.users
+import anvil.media
 
 import datetime as dt
 
@@ -37,7 +38,8 @@ class ImportActuals(ImportActualsTemplate):
     self.transactions = TransactionsModel.get_transactions()
 
     self.actuals_to_date = Data.get_actuals_updated(CURRENT_YEAR)
-    self.download_months = self.importer.get_import_months(CURRENT_YEAR)
+    import_months = self.importer.get_import_months(CURRENT_YEAR)
+    self.download_months = [ (str(x), x) for x in import_months ]
 
     self.new_entries = []
     self.new_year_month = None
@@ -246,10 +248,26 @@ class ImportActuals(ImportActualsTemplate):
 
   def delete_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    pass
+    if confirm("This will delete the current month Actuals! Are you sure?"):
+      pass
 
-  def button_1_click(self, **event_args):
+  def download_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    pass
+    year_month = self.download_dropdown.selected_value
+    file_info = self.importer.get_import_file(year_month)
+    if file_info is not None:
+      filename = file_info['filename']
+      content = file_info('excel_file')
+      content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      media_object = anvil.BlobMedia(content_type=content_type, content=content, name=filename)
+      anvil.media.download(media_object)
+
+  def download_dropdown_change(self, **event_args):
+    """This method is called when an item is selected"""
+    if self.download_dropdown.selected_value is not None:
+      self.download_button.enabled = True
+    else:
+      self.download_button.enabled = False
+
     
   

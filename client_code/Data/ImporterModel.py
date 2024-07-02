@@ -64,6 +64,15 @@ class Importer:
     if fin_year is None:
       fin_year = CURRENT_YEAR
     return anvil.server.call("Importer", 'list_import_files', brand=brand, fin_year=fin_year)
-      
+
+  def get_import_file(self, year_month, brand = None):
+    if brand is None:
+      brand = CURRENT_BRAND
+    try:
+      file_obj = anvil.server.call("Importer", 'get_import_file', brand=brand, year_month=year_month)
+    except Exception:
+      file_obj = None
+      raise
+    return file_obj
     
 IMPORTER = Importer()

@@ -26,18 +26,19 @@ components:
       type: Label
       layout_properties: {}
     - name: download_dropdown
-      properties: {}
+      properties: {include_placeholder: true, placeholder: Select month to download}
       type: DropDown
       layout_properties: {width: 207.23046875}
       data_bindings:
       - {property: items, code: self.download_months, writeback: false}
-    - name: button_1
+      event_bindings: {change: download_dropdown_change}
+    - name: download_button
       properties: {text: '', icon: 'fa:download', role: secondary-button}
       type: Button
       data_bindings:
       - {property: enabled, code: self.download_dropdown.selected_value is not None, writeback: false}
       layout_properties: {}
-      event_bindings: {click: button_1_click}
+      event_bindings: {click: download_button_click}
   - name: flow_panel_1
     properties: {}
     type: FlowPanel
