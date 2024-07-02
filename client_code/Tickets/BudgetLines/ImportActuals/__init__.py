@@ -81,7 +81,7 @@ class ImportActuals(ImportActualsTemplate):
     start = dt.datetime.now()
     
     new_vendors = []
-    renamed_vendors = []
+    renamed_vendors = {}
     new_actual_lines = []
     new_entries = []
       
@@ -105,10 +105,7 @@ class ImportActuals(ImportActualsTemplate):
           })
           vendor_id = None
         else:
-          renamed_vendors.append({
-            'current_name': r['mapped_vendor'],
-            'new_name': r['vendor_name']
-          })
+          renamed_vendors[r['mapped_vendor']] = r['vendor_name']
           vendor_id = self.vendors.get_by_name(r['mapped_vendor']).vendor_id
       else:
         vendor_id = r['vendor_id']

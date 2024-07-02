@@ -330,13 +330,16 @@ class BudgetLines(BudgetLinesTemplate):
     count = self.transactions.search_and_add_entries(entries=new_entries, overwrite=True)        
     return count
 
+  def rename_vendors(self, renamed_vendors):
+    for mapping in renamed_vendors:
+      
   
   def import_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     import_form = ImportActuals()
     ret = alert(import_form, title="Import Actuals", buttons=(("Import", True), ("Cancel", False)), large=True)
     if ret:
-      new_vendors, new_actual_lines, new_entries = import_form.get_new_entries()
+      new_vendors, renamed_vendors, new_actual_lines, new_entries = import_form.get_new_entries()
       fin_year, year_month = import_form.get_year_month()
 
       vendor_ids = []
@@ -347,6 +350,9 @@ class BudgetLines(BudgetLinesTemplate):
         #print(new_vendors)
         vendor_ids = self.add_new_vendors(new_vendors)
 
+      if len(renamed_vendors)>0:
+        renamed = self.rename_vendors(renamed_vendors)
+        
       if len(new_actual_lines)>0:
         #print(new_actual_lines)
         actual_line_ids = self.add_new_actual_lines(new_actual_lines)
@@ -361,7 +367,7 @@ class BudgetLines(BudgetLinesTemplate):
         if fin_year is not None and year_month is not None:
           Data.actuals_updated(year=fin_year, year_month=year_month)
           
-      alert(f"Successful import! {len(vendor_ids)} new vendors, {len(actual_line_ids)} Actual Lines and {entry_count} new entries created")
+      alert(f"Successful import! {len(vendor_ids)} new vendors, {renamed} existing vendors remapped, {len(actual_line_ids)} Actual Lines and {entry_count} new entries created")
 
   def new_year_button_click(self, **event_args):
     """This method is called when the button is clicked"""
