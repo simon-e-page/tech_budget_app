@@ -32,15 +32,6 @@ class Importer:
   def parse(self, year_month, file_obj):
     try:
       new_data = anvil.server.call('Importer', 'parse', CURRENT_BRAND, year_month, file_obj)
-      #new_data = {
-      #  'year_month': 202407,
-      #  'month_total': 100000.0,
-      #  'cost_centres': [ 'IT (6000)', 'Online (3121)'],
-      #  'entries': [
-      #    { 'vendor_name': 'Testing Vendor PLC Ltd', 'vendor_id': 1003, 'existing_vendor': True, 'IT (6000)': 500000.0, 'Online (3121)': 0.0, 'total': 500000.0 },
-      #    { 'vendor_name': 'New Vendor', 'vendor_id': None, 'existing_vendor': False, 'IT (6000)': 0.0, 'Online (3121)': 500000.0, 'total': 500000.0 },
-      #  ]
-      #}
     except Exception as e:
       print("Error importing file!")
       raise
@@ -67,4 +58,12 @@ class Importer:
   def get_import_ids(self, brand):
     return [] #anvil.server.call('get_import_ids', account_name)
 
+  def get_import_months(self, fin_year = None, brand = None):
+    if brand is None:
+      brand = CURRENT_BRAND
+    if fin_year is None:
+      fin_year = CURRENT_YEAR
+    return anvil.server.call("Importer", 'list_import_files', brand=brand, fin_year=fin_year)
+      
+    
 IMPORTER = Importer()

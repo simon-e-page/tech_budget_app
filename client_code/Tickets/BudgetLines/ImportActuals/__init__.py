@@ -32,14 +32,12 @@ def month_number_to_name(month_number):
 
 class ImportActuals(ImportActualsTemplate):
   def __init__(self, **properties):
-    self.actuals_to_date = Data.get_actuals_updated(CURRENT_YEAR)
-    #self.actuals_month = int(str(self.actuals_to_date)[4:])
-    #self.actuals_year = int(str(self.actuals_to_date)[0:4])
     self.importer = ImporterModel.IMPORTER
     self.vendors = VendorsModel.VENDORS
-
-    # Expected to have all 'Actual Lines' loaded
     self.transactions = TransactionsModel.get_transactions()
+
+    self.actuals_to_date = Data.get_actuals_updated(CURRENT_YEAR)
+    self.download_months = self.importer.get_import_months(CURRENT_YEAR)
 
     self.new_entries = []
     self.new_year_month = None
@@ -153,26 +151,27 @@ class ImportActuals(ImportActualsTemplate):
   def file_loader_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
     year_month = self.importer.check_brand(file.name)
-
+    process = False
+    
     if year_month is not None:
-      process = False
       if year_month == self.actuals_to_date + 1:
         process = True
       elif year_month > self.actuals_to_date + 1:
         print(f"{year_month} > {self.actuals_to_date}??")
-        alert("File is for for a non-consecutive future month which will leave a gap!")
-        process = False
-      elif year_month <= self.actuals_to_date and confirm("Importing this file will overwrite existing records. Are you sure?"):
+        alert(f"File is for for a non-consecutive future month! Please choose a file for {self.next_month}")
+      elif year_month == self.actuals_to_date and confirm("Importing this file will overwrite existing records. Are you sure?"):
         process = True
-
-      if process:        
-        new_data = self.importer.parse(year_month, file)
-        self.new_entries = new_data['entries']
-        self.cost_centres = new_data['cost_centres']
-        self.new_year_month = new_data['year_month']
-        self.month_total = new_data['month_total']
-        print(self.cost_centres)
-        self.render_table()
+      elif confirm(f"File is for a previous month. Proceeding will delete all months after {year_month}. Are you sure?"):
+        process = True
+        
+    if process:        
+      new_data = self.importer.parse(year_month, file)
+      self.new_entries = new_data['entries']
+      self.cost_centres = new_data['cost_centres']
+      self.new_year_month = new_data['year_month']
+      self.month_total = new_data['month_total']
+      #print(self.cost_centres)
+      self.render_table()
 
   
   def render_table(self):
@@ -244,5 +243,13 @@ class ImportActuals(ImportActualsTemplate):
     self.label_panel.visible = True
     self.imported_table.visible = True
     self.refresh_data_bindings()
+
+  def delete_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    pass
+
+  def button_1_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    pass
     
   
