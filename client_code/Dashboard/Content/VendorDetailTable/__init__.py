@@ -11,12 +11,17 @@ from ....Vendors.Vendors.Vendor import Vendor
 
 
 class VendorDetailTable(VendorDetailTableTemplate):
-  def __init__(self, **properties):
+  def __init__(self, mode='Actual', **properties):
     # Set Form properties and Data Bindings.
     self.vendors = VendorsModel.VENDORS
     self.vendor = properties['vendor']
     self.year = properties.get('year', CURRENT_YEAR)
+    if mode == 'Actual':
+      mode_str = ' Actual and Forecast lines for '
+    else:
+      mode_str = ' Forecast and Budget lines for '
 
+    self.title = f"FY{self.year} {mode_str} {self.vendor.get('vendor_name')}"
     
     options = {
       "index": "transaction_id",  # or set the index property here
@@ -32,6 +37,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
 
     self.forecast_details_table.options = options
     self.actual_details_table.options = options
+    self.budget_details_table.options = options
     
     #TODO: alter Actual colors in Forecast months.. (grey out)
     self.colors = {
@@ -44,19 +50,23 @@ class VendorDetailTable(VendorDetailTableTemplate):
 
     self.editors = {
       'Actual': None,
-      'Forecast': 'number'
+      'Forecast': 'number',
+      'Budget': 'number'
     }
     
     self.loaded = False
     self.prepared = False
     self.actual_data = {}
     self.forecast_data = {}
+    self.budget_data = {}
     self.init_components(**properties)
 
+    self.actual_panel.visible = (mode == 'Actual')
+    self.budget_panel.visible = (mode == 'Budget')
     # Any code you write here will run before the form opens.
 
   def load_data(self):
-    d = Data.get_vendor_detail(year = self.year, vendor_id=self.vendor.vendor_id)
+    d = Data.get_vendor_detail(year = self.year, vendor_id=self.vendor.vendor_id, mode='Actual')
     self.year_months = d["year_months"]
     self.transaction_types = d["transaction_types"]
     self.data = d["data"]
@@ -69,6 +79,9 @@ class VendorDetailTable(VendorDetailTableTemplate):
   
   def actual_details_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
+    if self.mode != 'Actual':
+      return
+      
     if not self.loaded:
       self.load_data()
     if not self.prepared:
@@ -85,7 +98,19 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.prepare_columns(self.forecast_details_table)
     self.forecast_details_table.data = self.forecast_data
   
+  def budget_details_table_table_built(self, **event_args):
+    """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
+    if self.mode != 'Budget':
+      return
+      
+    if not self.loaded:
+      self.load_data()
+    if not self.prepared:
+      self.prepare_data()
+    self.prepare_columns(self.budget_details_table)
+    self.budget_details_table.data = self.budget_data
 
+  
   def prepare_columns(self, table):
     # Vendor Formatter
     def transaction_formatter(cell, **params):
@@ -309,21 +334,31 @@ class VendorDetailTable(VendorDetailTableTemplate):
     a_total_row.update({ f"{x}LY": 0.0 for x in self.year_months })
     f_total_row = a_total_row.copy()
     f_total_row.update({ 'description': "Total for Forecasts" })
-
+    b_total_row = a_total_row.copy()
+    b_total_row.update({ 'description': "Total for Budgets" })
+    
     actual_rows = []
     forecast_rows = []
+    budget_rows = []
     
     for row in self.data:
       #print(row)
       if row['transaction_type']=='Budget':
+        f_row = row.copy()
+        b_row = row.copy()
         for ym in self.year_months:
-          row[ym] = row[f"{ym}F"]
-          f_total_row[ym] += row[ym]
+          f_row[ym] = row[f"{ym}F"]
+          b_row[ym] = row[f"{ym}B"]
+          f_total_row[ym] += f_row[ym]
           f_total_row[f"{ym}B"] += row[f"{ym}B"]
-        row['total'] = row['totalF']
-        f_total_row['total'] += row['total']
+          b_total_row[ym] += b_row[ym] 
+        f_row['total'] = row['totalF']
+        b_row['total'] = row['totalB']
+        f_total_row['total'] += f_row['total']
         f_total_row['totalB'] += row['totalB']
-        forecast_rows.append(row)
+        b_total_row['total'] += b_row['total']
+        forecast_rows.append(f_row)
+        budget_rows.append(b_row)
       else:
         for ym in self.year_months:
           a_total_row[ym] += row[ym]
@@ -334,8 +369,10 @@ class VendorDetailTable(VendorDetailTableTemplate):
 
     self.actual_data = actual_rows + [a_total_row]
     self.forecast_data = forecast_rows + [f_total_row]
+    self.budget_data = budget_rows + [b_total_row]
     self.actual_details_table.set_filter(zero_filter)
     self.forecast_details_table.set_filter(zero_filter)
+    self.budget_details_table.set_filter(zero_filter)
     self.prepared = True
 
 
@@ -387,4 +424,5 @@ class VendorDetailTable(VendorDetailTableTemplate):
                   })
           entries[transaction_id] = trans_entries
     return entries
+
           

@@ -9,34 +9,43 @@ components:
     properties: {text: 'Actual and Forecast Lines for ', bold: true}
     type: Label
     data_bindings:
-    - {property: text, code: 'f"FY{self.year} Actual and Forecast Lines for {self.vendor.get(''vendor_name'', ''Unknown'')}"', writeback: false}
+    - {property: text, code: self.title, writeback: false}
     layout_properties: {}
-- name: flow_panel_3
+- name: actual_panel
   properties: {}
-  type: FlowPanel
-  layout_properties: {grid_position: 'DSPSQP,VAAIAY', full_width_row: true}
+  type: LinearPanel
+  layout_properties: {grid_position: 'CCFPEM,GWJHSB', full_width_row: true}
   components:
   - name: label_3
     properties: {text: Actual lines vs Last year, underline: true}
     type: Label
-    layout_properties: {}
-- name: actual_details_table
+  - name: actual_details_table
+    properties: {}
+    type: form:TGQCF3WT6FVL2EM2:Tabulator
+    event_bindings: {table_built: actual_details_table_table_built}
+- name: forecast_panel
   properties: {}
-  type: form:TGQCF3WT6FVL2EM2:Tabulator
-  layout_properties: {grid_position: 'ZESDAZ,BUHJTF', full_width_row: true}
-  event_bindings: {table_built: actual_details_table_table_built}
-- name: flow_panel_2
-  properties: {}
-  type: FlowPanel
-  layout_properties: {grid_position: 'GJUFFD,EHPYUL', full_width_row: true}
+  type: LinearPanel
+  layout_properties: {grid_position: 'VCAVMW,EPYFNU', full_width_row: true}
   components:
   - name: label_2
     properties: {text: Forecast lines vs Budget, underline: true}
     type: Label
-    layout_properties: {}
-- name: forecast_details_table
+  - name: forecast_details_table
+    properties: {}
+    type: form:TGQCF3WT6FVL2EM2:Tabulator
+    event_bindings: {table_built: forecast_details_table_table_built, cell_click: forecast_details_table_cell_click}
+- name: budget_panel
   properties: {}
-  type: form:TGQCF3WT6FVL2EM2:Tabulator
-  layout_properties: {grid_position: 'USHPUP,COQWNS', full_width_row: true}
-  event_bindings: {table_built: forecast_details_table_table_built, cell_click: forecast_details_table_cell_click}
+  type: LinearPanel
+  layout_properties: {grid_position: 'XAKAZF,XMDMMU', full_width_row: true}
+  components:
+  - name: label_4
+    properties: {text: Budget Lines vs Last year, underline: true}
+    type: Label
+    layout_properties: {}
+  - name: budget_details_table
+    properties: {}
+    type: form:TGQCF3WT6FVL2EM2:Tabulator
+    event_bindings: {table_built: budget_details_table_table_built}
 is_package: true

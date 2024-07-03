@@ -171,7 +171,7 @@ components:
       data_bindings:
       - {property: icon, code: '''fa:angle-down'' if self.balance_visible else ''fa:angle-right'''}
     - type: Label
-      properties: {role: null, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: 18, tooltip: '', text: Vendor Detail}
+      properties: {role: null, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: 18, tooltip: '', text: Budget / Forecast Table}
       name: label_8
       layout_properties: {}
   - type: LinearPanel
