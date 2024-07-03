@@ -16,11 +16,12 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.vendors = VendorsModel.VENDORS
     self.vendor = properties['vendor']
     self.year = properties.get('year', CURRENT_YEAR)
+    
     if mode == 'Actual':
       mode_str = ' Actual and Forecast lines for '
     else:
       mode_str = ' Forecast and Budget lines for '
-
+    self.mode = mode
     self.title = f"FY{self.year} {mode_str} {self.vendor.get('vendor_name')}"
     
     options = {

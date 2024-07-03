@@ -120,7 +120,7 @@ CURRENT_BRAND = 'JB_AU'
 def get_tracking_table(year):
   return anvil.server.call('Calendar', 'get_tracking_table', brand=CURRENT_BRAND, agg_column='vendor_name', year=year, keep_columns=['vendor_name', 'vendor_id'])
 
-def get_vendor_detail(year, vendor_id):
+def get_vendor_detail(year, vendor_id, mode='Actual'):
   return anvil.server.call('Calendar', 'get_tracking_table', brand=CURRENT_BRAND, agg_column=None, year=year, keep_columns=['transaction_id'], vendor_id=vendor_id)
   
 def refresh():
