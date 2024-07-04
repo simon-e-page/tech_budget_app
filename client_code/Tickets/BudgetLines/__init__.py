@@ -53,10 +53,15 @@ class BudgetLines(BudgetLinesTemplate):
     self.init_components(**properties)
 
   def reload(self):
-    self.transactions.load(transaction_type=self.mode)
-    self.loaded_data = self.transactions.to_records(with_vendor_name=True, with_vendor=True)
-    self.entry_lines = self.transactions.get_entry_lines(self.mode, self.loaded_data)
-    self.year_months = self.entry_lines['columns']
+    #self.transactions.load(transaction_type=self.mode)
+    #self.loaded_data = self.transactions.to_records(with_vendor_name=True, with_vendor=True)
+    #self.entry_lines = self.transactions.get_entry_lines(self.mode, self.loaded_data)
+    d = Data.get_budget_detail(year = self.year, vendor_id=self.vendor.vendor_id, mode=self.mode)
+    self.year_months = d["year_months"]
+    self.transaction_types = d["transaction_types"]
+    self.loaded_data = d["data"]
+    
+    #self.year_months = self.entry_lines['columns']
     
   
   def refresh_tables(self):
