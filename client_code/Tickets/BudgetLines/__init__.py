@@ -7,7 +7,7 @@ from datetime import datetime
 from tabulator.Tabulator import row_selection_column
 
 from ... import Data
-from ...Data import VendorsModel, TransactionsModel
+from ...Data import VendorsModel, TransactionsModel, CURRENT_YEAR
 from ...Vendors.Vendors.Vendor import Vendor
 from .ImportActuals import ImportActuals
 
@@ -15,6 +15,7 @@ class BudgetLines(BudgetLinesTemplate):
 
   def __init__(self, mode = 'Budget', initial_filters={}, **properties):
     self.mode = mode
+    self.year = properties.get('year', CURRENT_YEAR)
     self.vendors = VendorsModel.VENDORS
     self.transactions = TransactionsModel.get_transactions()
     self.vendor_list = self.vendors.get_dropdown()
@@ -56,7 +57,7 @@ class BudgetLines(BudgetLinesTemplate):
     #self.transactions.load(transaction_type=self.mode)
     #self.loaded_data = self.transactions.to_records(with_vendor_name=True, with_vendor=True)
     #self.entry_lines = self.transactions.get_entry_lines(self.mode, self.loaded_data)
-    d = Data.get_budget_detail(year = self.year, vendor_id=self.vendor.vendor_id, mode=self.mode)
+    d = Data.get_budget_detail(year = self.year, mode=self.mode)
     self.year_months = d["year_months"]
     self.transaction_types = d["transaction_types"]
     self.loaded_data = d["data"]
@@ -73,14 +74,14 @@ class BudgetLines(BudgetLinesTemplate):
       #print(f"{data['vendor_name']}: {non_zero}")
       return found
 
-    self.budget_data = []
-    for row in self.loaded_data:
-      entry = self.entry_lines['data'].get(str(row['transaction_id']), {})
-      for year_month in self.year_months:
-          row[year_month] = entry.get(year_month, 0.0)
+    self.budget_data = [ x for x in self.loaded_data if self.show_empty or not all(x[c]==0 for c in self.year_months) ]
+    #for row in self.loaded_data:
+      #entry = self.entry_lines['data'].get(str(row['transaction_id']), {})
+      #for year_month in self.year_months:
+      #    row[year_month] = entry.get(year_month, 0.0)
           
-      row['total'] = sum(entry.values()) if entry else 0.0
-      (entry or self.show_empty) and self.budget_data.append(row)
+      #row['total'] = sum(entry.values()) if entry else 0.0
+      #(entry or self.show_empty) and self.budget_data.append(row)
     self.refresh_data_bindings()
     self.budget_lines_table.set_filter(data_filter)
     self.render_table()
