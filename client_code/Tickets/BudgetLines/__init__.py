@@ -75,11 +75,11 @@ class BudgetLines(BudgetLinesTemplate):
       return found
 
     # TODO: fix at backend..
-    tag = 'B' if m
-    for row in self.loaded_data:
-      for c in self.year_months:
-        row[c] = row[f"{c}B"]
-      row['total'] = row['totalB']
+    if self.mode == 'Budget':    
+      for row in self.loaded_data:
+        for c in self.year_months:
+          row[c] = row[f"{c}B"]
+        row['total'] = row['totalB']
       
     self.budget_data = [ x for x in self.loaded_data if self.show_empty or not all(x[c]==0 for c in self.year_months) ]
     #for row in self.loaded_data:
