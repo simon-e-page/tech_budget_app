@@ -74,9 +74,13 @@ class BudgetLines(BudgetLinesTemplate):
       #print(f"{data['vendor_name']}: {non_zero}")
       return found
 
+    # TODO: fix at backend..
+    tag = 'B' if m
     for row in self.loaded_data:
       for c in self.year_months:
-        row[c]
+        row[c] = row[f"{c}B"]
+      row['total'] = row['totalB']
+      
     self.budget_data = [ x for x in self.loaded_data if self.show_empty or not all(x[c]==0 for c in self.year_months) ]
     #for row in self.loaded_data:
       #entry = self.entry_lines['data'].get(str(row['transaction_id']), {})
