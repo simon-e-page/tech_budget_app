@@ -205,13 +205,17 @@ class Homepage(HomepageTemplate):
 
   def prev_button_click(self, **event_args):
     """This method is called when the link is clicked"""
-    Data.prev_year()
+    Data.move_year(diff=-1)
+    self.current_year = Data.CURRENT_YEAR
     self.refresh_data_bindings()
+    self.open_dashboard()
 
   def next_button_click(self, **event_args):
     """This method is called when the link is clicked"""
-    Data.next_year()
+    Data.move_year()
+    self.current_year = Data.CURRENT_YEAR
     self.refresh_data_bindings()    
+    self.open_dashboard()
 
 
       
