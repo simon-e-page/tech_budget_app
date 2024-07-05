@@ -30,7 +30,7 @@ class Content(ContentTemplate):
     self.show = properties.get('show', 'absolute' )
     self.account_filter = properties.get('account_filter', 'all')
     
-    self.fin_year = Data.CURRENT_YEAR
+    self.fin_year = Data.get_year()
     
     self.account_data = None
     self.budget_data = None
@@ -42,8 +42,8 @@ class Content(ContentTemplate):
     self.details_visible = False
     self.details_loaded = False
     self.org_visible = False
-    self.balance_visible = False
-    self.balance_loaded = False
+    self.budget_visible = False
+    #self.balance_loaded = False
 
     self.balance_data = {} 
     
@@ -296,14 +296,10 @@ class Content(ContentTemplate):
       self.show_expense_graph()
     self.refresh_data_bindings()
 
-  def balance_link_click(self, **event_args):
-    pass
-    """This method is called when the link is clicked"""
-    #self.balance_visible = not self.balance_visible
-    #self.balance_link.icon = self.arrows[self.balance_visible]
-    #if not self.balance_loaded:
-    #  self.setup_balance_sheet()
-    #self.refresh_data_bindings()
-
+  def budget_link_click(self, **event_args):
+    self.budget_visible = not self.budget_visible
+    if self.budget_visible:
+      self.budget_table_1.load_data(self.fin_year)
+    self.refresh_data_bindings()
 
   
