@@ -70,6 +70,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
     d = Data.get_vendor_detail(year = self.year, vendor_id=self.vendor.vendor_id, mode='Actual')
     self.year_months = d["year_months"]
     self.transaction_types = d["transaction_types"]
+    print(self.transaction_types)
     self.data = d["data"]
     #print(self.data)
     # self.ly_data = d['ly_data']
