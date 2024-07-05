@@ -200,11 +200,11 @@ class BudgetTable(BudgetTableTemplate):
 
     def open_vendor(sender, **event_args):
       print("Opening vendor: {0}".format(sender.tag.vendor_name))
-      vendor_form = VendorDetailTable(vendor=sender.tag, year=self.year)
+      vendor_form = VendorDetailTable(vendor=sender.tag, year=self.year, mode="Budget")
       ret = alert(
         vendor_form,
         large=True,
-        title="Vendor Details",
+        title=f"Vendor Details - {self.year} Budget",
         buttons=[("Save Changes", True), ("Cancel", False)],
       )
       if ret:
@@ -414,7 +414,7 @@ class BudgetTable(BudgetTableTemplate):
     columns.append(
       {
         "title": "Total",
-        "field": "total",
+        "field": "totalB",
         "formatter": self.format_total,
         "width": 100,
         "headerFilter": "number",

@@ -169,7 +169,7 @@ components:
       layout_properties: {}
       event_bindings: {click: budget_link_click}
       data_bindings:
-      - {property: icon, code: '''fa:angle-down'' if self.balance_visible else ''fa:angle-right'''}
+      - {property: icon, code: '''fa:angle-down'' if self.budget_visible else ''fa:angle-right''', writeback: false}
     - type: Label
       properties: {role: null, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: 18, tooltip: '', text: Budget / Forecast Table}
       name: label_8

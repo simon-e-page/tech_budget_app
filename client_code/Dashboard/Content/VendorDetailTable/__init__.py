@@ -392,21 +392,35 @@ class VendorDetailTable(VendorDetailTableTemplate):
       #print("Clicked on a prior month - ignore!")
       #print(event_args)      
     else:
+      if self.mode == "Budget":
+        tt = "budget"
+        suf = "B"
+      else:
+        tt = "forecast"
+        suf = "F"
+      
       textbox = TextBox(text=val, type='number')
-      ret = alert(textbox, title=f"Enter new Forecast value for {desc} in {ym}", buttons=[ ('OK', True), ('Cancel', False) ])
+      ret = alert(textbox, title=f"Enter new {tt} value for {desc} in {ym}", buttons=[ ('OK', True), ('Cancel', False) ])
       if ret:
         cell.set_value(textbox.text)
         for row in self.data:
           if row['transaction_type']=='Budget' and row['transaction_id'] == data['transaction_id']:
-            row[f"{ym}F"] = float(textbox.text)
+            row[f"{ym}{B}"] = float(textbox.text)
+            row['edited'] = True
             break
         self.prepare_data()
         self.forecast_details_table.data = self.forecast_data
         
-  def get_forecast_entries(self):
+  def get_forecast_entries(self, entry_type='Forecast'):
     """ Returns all forecast entries for updating """
     entries = {}
-    forecast_months = [ x for x, t in self.transaction_types.items() if t=='Forecast' ]
+    if entry_type == 'Forecast':
+      forecast_months = [ x for x, t in self.transaction_types.items() if t=='Forecast' ]
+      suf = 'F'
+    else:
+      forecast_months = [ x for x in self.year_months ]
+      suf = 'B'
+      
     for row in self.data:
       transaction_id = row['transaction_id']
       if row['transaction_type']=='Budget':
@@ -417,11 +431,11 @@ class VendorDetailTable(VendorDetailTableTemplate):
           trans_entries = entries.get(transaction_id, [])
           trans_entries.append({ 
                     'transaction_id': transaction_id,
-                    'transaction_type': 'Forecast',
+                    'transaction_type': entry_type,
                     'year_month': int(ym),
                     'timestamp': dt.date(year, month, 1),
                     'fin_year': fin_year,
-                    'amount': float(row[f"{ym}F"])
+                    'amount': float(row[f"{ym}{suf}"])
                   })
           entries[transaction_id] = trans_entries
     return entries
