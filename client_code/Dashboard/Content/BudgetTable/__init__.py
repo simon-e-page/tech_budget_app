@@ -145,9 +145,9 @@ class BudgetTable(BudgetTableTemplate):
 
     for row in self.data:
       for year_month in self.year_months:
-        a_data[year_month] += row[year_month]
+        a_data[year_month] += row[f"{year_month}B"]
         ly_data[year_month] += row[f"{year_month}LY"]
-      a_data["total"] += row["total"]
+      a_data["total"] += row["totalB"]
       ly_data["total"] += row["totalLY"]
 
     for i, year_month in enumerate(self.year_months):
@@ -394,11 +394,11 @@ class BudgetTable(BudgetTableTemplate):
     ]
 
     for c in self.year_months:
-      transaction_type = self.transaction_types[c]
+      transaction_type = 'Budget'
       columns.append(
         {
           "title": c,
-          "field": c,
+          "field": f"{c}B",
           "formatter": self.format_entry,
           "hozAlign": "right",
           "formatterParams": {
@@ -465,9 +465,10 @@ class BudgetTable(BudgetTableTemplate):
     return new_data
 
   def no_compare(self, c_data):
+    b_year_months = [ f"{c}B" for c in self.year_months ]
     def zero_filter(data, **params):
       non_zero = [
-        int(int(x) != 0) for i, x in dict(data).items() if i in self.year_months
+        int(int(x) != 0) for i, x in dict(data).items() if i in b_year_months
       ]
       # print(f"{data['vendor_name']}: {non_zero}")
       non_zero = sum(non_zero)
