@@ -80,6 +80,11 @@ class BudgetLines(BudgetLinesTemplate):
         for c in self.year_months:
           row[c] = row[f"{c}B"]
         row['total'] = row['totalB']
+    elif self.mode == 'Forecast':
+      for row in self.loaded_data:
+        for c in self.year_months:
+          row[c] = row[f"{c}F"]
+        row['total'] = row['totalF']
       
     self.budget_data = [ x for x in self.loaded_data if self.show_empty or not all(x[c]==0 for c in self.year_months) ]
     #for row in self.loaded_data:

@@ -68,7 +68,7 @@ class Homepage(HomepageTemplate):
   def open_budgets(self, initial_filters={}, initial_date_filter={}, initial_page=0, filter_settings={}, direction='descending', **kwargs):
     self.current_form = BudgetLines(mode='Budget', initial_filters=initial_filters)
     self.transaction_panel.role = 'dash-link-selected'
-    self.headline_label.text = f"Budget Lines: {self.budget_year}"
+    self.headline_label.text = f"Budget Lines: {self.current_year}"
     self.clear_page()
     self.add_component(self.current_form, slot="default")
 
