@@ -57,7 +57,7 @@ class BudgetTable(BudgetTableTemplate):
 
   def load_data(self, year):
     self.year = year
-    d = Data.get_budget_table(year)
+    d = Data.get_tracking_table(year)
     self.year_months = d["year_months"]
     self.transaction_types = d["transaction_types"]
     self.data = d["data"]

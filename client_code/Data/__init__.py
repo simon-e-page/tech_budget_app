@@ -138,6 +138,12 @@ def get_actuals_updated(year):
 def actuals_updated(year_month, year):
   return anvil.server.call('Calendar', 'actuals_updated', year_month=year_month, year=year)
 
+def get_year():
+  return CURRENT_YEAR
+
+def get_brand():
+  return CURRENT_BRAND
+  
 def move_year(diff=1):
   global CURRENT_YEAR
   next_year = CURRENT_YEAR + diff

@@ -7,7 +7,7 @@ from datetime import datetime
 from tabulator.Tabulator import row_selection_column
 
 from ... import Data
-from ...Data import VendorsModel, TransactionsModel, CURRENT_YEAR
+from ...Data import VendorsModel, TransactionsModel
 from ...Vendors.Vendors.Vendor import Vendor
 from .ImportActuals import ImportActuals
 
@@ -15,7 +15,7 @@ class BudgetLines(BudgetLinesTemplate):
 
   def __init__(self, mode = 'Budget', initial_filters={}, **properties):
     self.mode = mode
-    self.year = properties.get('year', CURRENT_YEAR)
+    self.year = properties.get('year', Data.get_year())
     self.vendors = VendorsModel.VENDORS
     self.transactions = TransactionsModel.get_transactions()
     self.vendor_list = self.vendors.get_dropdown()
@@ -51,6 +51,7 @@ class BudgetLines(BudgetLinesTemplate):
     self.year_months = []
     self.reload()
     self.add_event_handler("x-refresh-tables", self.refresh_tables)
+    print(f"Öpening {mode} for {self.year}")
     self.init_components(**properties)
 
   def reload(self):

@@ -59,21 +59,21 @@ class Homepage(HomepageTemplate):
     self.add_component(self.current_form, slot="default")
 
   def open_actuals(self, initial_filters={}, initial_date_filter={}, initial_page=0, filter_settings={}, direction='descending', **kwargs):
-    self.current_form = BudgetLines(mode='Actual',  initial_filters=initial_filters)
+    self.current_form = BudgetLines(mode='Actual',  initial_filters=initial_filters, year=Data.get_year())
     self.transaction_panel.role = 'dash-link-selected'
     self.headline_label.text = f"Actual Lines: {self.current_year}"
     self.clear_page()
     self.add_component(self.current_form, slot="default")
   
   def open_budgets(self, initial_filters={}, initial_date_filter={}, initial_page=0, filter_settings={}, direction='descending', **kwargs):
-    self.current_form = BudgetLines(mode='Budget', initial_filters=initial_filters)
+    self.current_form = BudgetLines(mode='Budget', initial_filters=initial_filters, year=Data.get_year())
     self.transaction_panel.role = 'dash-link-selected'
     self.headline_label.text = f"Budget Lines: {self.current_year}"
     self.clear_page()
     self.add_component(self.current_form, slot="default")
 
   def open_forecasts(self, initial_filters={}, initial_date_filter={}, initial_page=0, filter_settings={}, direction='descending', **kwargs):
-    self.current_form = BudgetLines(mode='Forecast', initial_filters=initial_filters)
+    self.current_form = BudgetLines(mode='Forecast', initial_filters=initial_filters, year=Data.get_year())
     self.transaction_panel.role = 'dash-link-selected'
     self.headline_label.text = f"Forecast Lines: {self.current_year}"
     self.clear_page()

@@ -148,14 +148,14 @@ components:
     - name: prev_button
       properties: {text: '<<'}
       type: Link
-      layout_properties: {}
+      layout_properties: {width: 15}
       event_bindings: {click: prev_button_click}
     - name: year_label
       properties: {align: center, bold: true}
       type: Label
       data_bindings:
       - {property: text, code: self.current_year, writeback: false}
-      layout_properties: {width: 50}
+      layout_properties: {width: 45}
     - name: next_button
       properties: {text: '>>'}
       type: Link
