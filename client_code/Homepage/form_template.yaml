@@ -140,6 +140,26 @@ components:
   type: LinearPanel
   layout_properties: {slot: sidebar-items}
   components:
+  - name: flow_panel_3
+    properties: {align: center, spacing: none}
+    type: FlowPanel
+    layout_properties: {}
+    components:
+    - name: prev_button
+      properties: {text: '<<'}
+      type: Link
+      layout_properties: {}
+      event_bindings: {click: prev_button_click}
+    - name: year_label
+      properties: {}
+      type: Label
+      data_bindings:
+      - {property: text, code: self.current_year, writeback: false}
+      layout_properties: {width: 50}
+    - name: next_button
+      properties: {text: '>>'}
+      type: Link
+      event_bindings: {click: next_button_click}
   - name: brand_image
     properties: {height: 37.0859375}
     type: Image

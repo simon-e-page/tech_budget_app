@@ -138,6 +138,15 @@ def get_actuals_updated(year):
 def actuals_updated(year_month, year):
   return anvil.server.call('Calendar', 'actuals_updated', year_month=year_month, year=year)
 
+def move_year(diff=1):
+  global CURRENT_YEAR
+  next_year = CURRENT_YEAR + diff
+  if next_year in FIN_YEARS:
+    print(f"OK to change year to {next_year}")
+    CURRENT_YEAR = next_year
+  else:
+    print(f"No data for {next_year}")
+
 #####################################################################
 # MISCELLANEOUS
 #####################################################################

@@ -202,7 +202,16 @@ class Homepage(HomepageTemplate):
   def forecast_link_click(self, **event_args):
     """This method is called when the link is clicked"""
     self.open_forecasts()
-    
+
+  def prev_button_click(self, **event_args):
+    """This method is called when the link is clicked"""
+    Data.prev_year()
+    self.refresh_data_bindings()
+
+  def next_button_click(self, **event_args):
+    """This method is called when the link is clicked"""
+    Data.next_year()
+    self.refresh_data_bindings()    
 
 
       
