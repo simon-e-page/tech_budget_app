@@ -146,9 +146,9 @@ class BudgetTable(BudgetTableTemplate):
     for row in self.data:
       for year_month in self.year_months:
         a_data[year_month] += row[f"{year_month}B"]
-        ly_data[year_month] += row[f"{year_month}LY"]
+        ly_data[year_month] += row[f"{year_month}LB"]
       a_data["total"] += row["totalB"]
-      ly_data["total"] += row["totalLY"]
+      ly_data["total"] += row["totalLB"]
 
     for i, year_month in enumerate(self.year_months):
       d_data[year_month] += a_data[year_month] - ly_data[year_month]
