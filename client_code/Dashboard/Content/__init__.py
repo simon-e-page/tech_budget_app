@@ -57,8 +57,8 @@ class Content(ContentTemplate):
     self.flow_panel_headline_stats.set_event_handler('x-open-transactions', self.open_transactions)
     #self.initialise_account_grid()
     #self.setup_balance_sheet()
-    anvil.js.get_dom_node(self.next_button).style.cursor = 'pointer'
-    anvil.js.get_dom_node(self.prev_button).style.cursor = 'pointer'
+    #anvil.js.get_dom_node(self.next_button).style.cursor = 'pointer'
+    #anvil.js.get_dom_node(self.prev_button).style.cursor = 'pointer'
     #self.show_expense_graph()
 
     

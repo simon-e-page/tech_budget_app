@@ -384,7 +384,9 @@ class VendorDetailTable(VendorDetailTableTemplate):
     val = cell.get_value()
     ym = cell.getField()
     desc = data['description']
-    if data['transaction_type'] in ['Total', 'Actual']:
+    if ym not in self.year_months:
+      pass
+    elif data['transaction_type'] in ['Total', 'Actual']:
       pass
       #print("Clicked on an Actual or a Total - ignore!")
       #print(event_args)
@@ -406,7 +408,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
         cell.set_value(textbox.text)
         for row in self.data:
           if row['transaction_type']=='Budget' and row['transaction_id'] == data['transaction_id']:
-            row[f"{ym}{B}"] = float(textbox.text)
+            row[f"{ym}{suf}"] = float(textbox.text)
             row['edited'] = True
             break
         self.prepare_data()
