@@ -21,7 +21,6 @@ class TrackingTable(TrackingTableTemplate):
     self.transactions = TransactionsModel.get_transactions()
     self.year = properties.get('year', CURRENT_YEAR)
     self.task = None
-    self.data_loading = False
     
     self.tracking_table.options = {
       "index": "vendor",  # or set the index property here
@@ -69,14 +68,15 @@ class TrackingTable(TrackingTableTemplate):
         x=actual_months,
         y=actuals,
         name='Actuals',
-        marker=dict(color='blue')
+        #marker=dict(color='blue')
+        marker=dict(color=self.colors['Actual']['backgroundColor'])
     )
     
     trace_forecast = go.Bar(
         x=forecast_months,
         y=forecasts,
         name='Forecast',
-        line=dict(color='green')
+        marker=dict(color=self.colors['Forecast']['backgroundColor'])
     )
     
     trace_budget = go.Scatter(
@@ -99,11 +99,9 @@ class TrackingTable(TrackingTableTemplate):
     self.tracking_plot.data = [trace_actuals, trace_forecast, trace_budget]
     
   def load_data(self, year):
-    if self.data_loading:
+    if self.task is not None:
       print("Called twice!")
       return
-    else:
-      self.data_loading = True
       
     self.year = self.year
     task = Data.get_tracking_table_background(year)
@@ -111,10 +109,9 @@ class TrackingTable(TrackingTableTemplate):
       print("Error launching background task!")
       return
 
-    print(f"Got task: {task}")
+    #print(f"Got task: {task}")
     self.task = task
     t = anvil.Timer(interval=1)
-    self.add_component(t)
     
     def test_loaded(**event_args):
       task = self.task
@@ -125,16 +122,18 @@ class TrackingTable(TrackingTableTemplate):
         
       if not task.is_running():
         t.interval = 0
-        print("Fnished Loading!")
+        #print("Fnished Loading!")
         d = task.get_return_value()
         if isinstance(d, dict):
           self.load_data2(d)
         else:
           print(d)
         self.task = None
-        self.data_loading = False
+        t.remove_from_parent()
+        
         
     t.set_event_handler('tick', test_loaded)
+    self.add_component(t)
   
   def load_data2(self, d):
    #self.year = year
