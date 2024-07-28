@@ -54,44 +54,66 @@ class TrackingTable(TrackingTableTemplate):
 
     # Any code you write here will run before the form opens.
 
-  def get_plot_layout(self):
-# Create the traces
-trace_actuals = go.Bar(
-    x=x,
-    y=actuals,
-    name='Actuals',
-    marker=dict(color='blue')
-)
+  def set_plot_layout(self):
+    actuals = [ self.actuals_summary[x] for x in self.year_months if self.transaction_types[x]=='Actual' ]
+    forecasts = [ self.actuals_summary[x] for x in self.year_months if self.transaction_types[x]!='Actual' ]
+    budgets = [ self.budget_summary[x] for x in self.year_months ]
+    actual_months = [ f"{x[0:4]}-{x[4:]}" for x in self.year_months if self.transaction_types[x]=='Actual']
+    forecast_months = [ f"{x[0:4]}-{x[4:]}" for x in self.year_months if self.transaction_types[x]!='Actual']
+    x_values = [ f"{x[0:4]}-{x[4:]}" for x in self.year_months]
 
-trace_forecast = go.Scatter(
-    x=x,
-    y=forecast,
-    name='Forecast',
-    mode='lines+markers',
-    line=dict(color='green')
-)
-
-trace_budget = go.Scatter(
-    x=x,
-    y=budget,
-    name='Budget',
-    mode='lines+markers',
-    line=dict(color='red')
-)
-
-# Create the layout
-layout = go.Layout(
-    title='Actuals vs Forecast and Budget',
-    xaxis=dict(title='Quarter'),
-    yaxis=dict(title='Value'),
-    barmode='group'
-)
-
+    # Create the traces
+    trace_actuals = go.Bar(
+        x=actual_months,
+        y=actuals,
+        name='Actuals',
+        marker=dict(color='blue')
+    )
     
-  
+    trace_forecast = go.Bar(
+        x=forecast_months,
+        y=forecasts,
+        name='Forecast',
+        line=dict(color='green')
+    )
+    
+    trace_budget = go.Scatter(
+        x=x_values,
+        y=budgets,
+        name='Budget',
+        mode='lines+markers',
+        line=dict(color='red')
+    )
+    
+    # Create the layout
+    layout = go.Layout(
+        title='Actuals vs Forecast and Budget',
+        xaxis=dict(title='Month'),
+        yaxis=dict(title='$'),
+        barmode='group'
+    )
+
+    self.tracking_plot.layout = layout
+    self.tracking_plot.data = [trace_actuals, trace_forecast, trace_budget]
+    
   def load_data(self, year):
-    self.year = year
-    d = Data.get_tracking_table(year)
+    self.year = self.year
+    self.task = Data.get_tracking_table_background(year)
+    t = anvil.Timer(interval=1)
+    self.add_component(t)
+    
+    def test_loaded():
+      if self.task.is_completed():
+        t.interval = 0
+        print("Fnished Loading!")
+        d = self.task.get_return_value()
+        self.load_data2(d)
+        
+    t.set_event_handler('tick', test_loaded)
+  
+  def load_data2(self, d):
+   #self.year = year
+    #d = Data.get_tracking_table(year)
     self.year_months = d['year_months']
     self.transaction_types = d['transaction_types']
     self.data = d['data']
@@ -100,6 +122,7 @@ layout = go.Layout(
     self.loaded = True
     self.summary_table_table_built()
     self.tracking_table_table_built()
+    self.set_plot_layout()
 
 
   def update_entries(self, vendor, entries):
@@ -150,7 +173,8 @@ layout = go.Layout(
       })
 
     self.summary_table.columns = columns
-    a_data = { 'id': 'CY Actuals / Forecast', 'total': 0.0 } | { x: 0.0 for x in self.year_months }
+    a_data = { 'id': 'CY Actuals / Forecast', 'total': 0.0 } | { x: 0.0 for x in self.year_months }    
+    b_data = { 'id': 'Budgets', 'total': 0.0 } | { x: 0.0 for x in self.year_months }
     ly_data = { 'id': 'LY Actuals', 'total': 0.0 } | { x: 0.0 for x in self.year_months }
     d_data = { 'id': 'Difference', 'total': 0.0 } | { x: 0.0 for x in self.year_months }
     p_data = { 'id': 'Percentage', 'total': 0.0 } | { x: 0.0 for x in self.year_months }
@@ -163,8 +187,10 @@ layout = go.Layout(
       for year_month in self.year_months:
         a_data[year_month] += row[year_month]
         ly_data[year_month] += row[f"{year_month}LY"]
+        b_data[year_month] += row[f"{year_month}B"]
       a_data['total'] += row['total']
       ly_data['total'] += row['totalLY']
+      b_data['total'] += row['totalB']
 
 
     for i, year_month in enumerate(self.year_months):
@@ -191,6 +217,8 @@ layout = go.Layout(
       p_data[year_month] = 0
     pc_data['total'] = p_data['total']
 
+    self.actuals_summary = a_data
+    self.budget_summary = b_data
     self.summary_table.data = [ a_data, ly_data, d_data, p_data, ac_data, lc_data, dc_data, pc_data ]
       
     
