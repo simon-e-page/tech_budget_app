@@ -1,5 +1,6 @@
 from ._anvil_designer import TrackingTableTemplate
 from anvil import *
+import plotly.graph_objects as go
 import anvil.server
 import anvil.users
 import anvil.tables as tables
@@ -53,6 +54,41 @@ class TrackingTable(TrackingTableTemplate):
 
     # Any code you write here will run before the form opens.
 
+  def get_plot_layout(self):
+# Create the traces
+trace_actuals = go.Bar(
+    x=x,
+    y=actuals,
+    name='Actuals',
+    marker=dict(color='blue')
+)
+
+trace_forecast = go.Scatter(
+    x=x,
+    y=forecast,
+    name='Forecast',
+    mode='lines+markers',
+    line=dict(color='green')
+)
+
+trace_budget = go.Scatter(
+    x=x,
+    y=budget,
+    name='Budget',
+    mode='lines+markers',
+    line=dict(color='red')
+)
+
+# Create the layout
+layout = go.Layout(
+    title='Actuals vs Forecast and Budget',
+    xaxis=dict(title='Quarter'),
+    yaxis=dict(title='Value'),
+    barmode='group'
+)
+
+    
+  
   def load_data(self, year):
     self.year = year
     d = Data.get_tracking_table(year)

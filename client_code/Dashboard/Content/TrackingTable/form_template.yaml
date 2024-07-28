@@ -1,5 +1,9 @@
 container: {type: ColumnPanel}
 components:
+- name: tracking_plot
+  properties: {}
+  type: Plot
+  layout_properties: {grid_position: 'GESIKR,IZKEKL', full_width_row: true}
 - name: summary_table
   properties: {}
   type: form:TGQCF3WT6FVL2EM2:Tabulator
