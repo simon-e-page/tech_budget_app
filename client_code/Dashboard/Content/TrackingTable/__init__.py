@@ -20,6 +20,7 @@ class TrackingTable(TrackingTableTemplate):
     self.vendors = VendorsModel.VENDORS
     self.transactions = TransactionsModel.get_transactions()
     self.year = properties.get('year', CURRENT_YEAR)
+    self.task = None
     
     self.tracking_table.options = {
       "index": "vendor",  # or set the index property here
@@ -108,6 +109,7 @@ class TrackingTable(TrackingTableTemplate):
     
     def test_loaded(*args, **kwargs):
       if self.task.is_completed():
+        self.task = None
         t.interval = 0
         print("Fnished Loading!")
         d = self.task.get_return_value()
