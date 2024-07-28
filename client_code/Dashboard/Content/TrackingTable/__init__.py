@@ -21,6 +21,7 @@ class TrackingTable(TrackingTableTemplate):
     self.transactions = TransactionsModel.get_transactions()
     self.year = properties.get('year', CURRENT_YEAR)
     self.task = None
+    self.data_loading = False
     
     self.tracking_table.options = {
       "index": "vendor",  # or set the index property here
@@ -98,22 +99,40 @@ class TrackingTable(TrackingTableTemplate):
     self.tracking_plot.data = [trace_actuals, trace_forecast, trace_budget]
     
   def load_data(self, year):
+    if self.data_loading:
+      print("Called twice!")
+      return
+    else:
+      self.data_loading = True
+      
     self.year = self.year
-    self.task = Data.get_tracking_table_background(year)
-    if self.task is None:
+    task = Data.get_tracking_table_background(year)
+    if task is None:
       print("Error launching background task!")
       return
-      
+
+    print(f"Got task: {task}")
+    self.task = task
     t = anvil.Timer(interval=1)
     self.add_component(t)
     
-    def test_loaded(*args, **kwargs):
-      if self.task.is_completed():
-        self.task = None
+    def test_loaded(**event_args):
+      task = self.task
+      if task is None:
+        print("Error: No Task object!!")
+        t.interval = 0
+        return
+        
+      if not task.is_running():
         t.interval = 0
         print("Fnished Loading!")
-        d = self.task.get_return_value()
-        self.load_data2(d)
+        d = task.get_return_value()
+        if isinstance(d, dict):
+          self.load_data2(d)
+        else:
+          print(d)
+        self.task = None
+        self.data_loading = False
         
     t.set_event_handler('tick', test_loaded)
   
