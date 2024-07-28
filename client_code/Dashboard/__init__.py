@@ -22,19 +22,19 @@ class Dashboard(DashboardTemplate):
     self.filters = {}
     # Initialise a dict of empty date filters when the dashboard loads
     self.date_filters = {}
-    self.use_cache = use_dashboard_cache
-    self.initialise_start_dates()
+    #self.use_cache = use_dashboard_cache
+    #self.initialise_start_dates()
     # This returns a list of tuples to form the items of the category_dropdown. 
     # category_dropdown is data bound to self.categories
-    self.accounts =[] #]Data.ACCOUNTS_D.get_dropdown()
+    #self.accounts =[] #]Data.ACCOUNTS_D.get_dropdown()
     #self.categories = Data.CATEGORIES
     # This returns a list of tuples to form the items of the priority_dropdown. 
     # priority_dropdown is data bound to self.priorities
     #self.priorities = Data.PRIORITIES
     # Set Form properties and Data Bindings.
-    properties['compare'] = "budget"
-    properties['show'] = "absolute"
-    properties['account_filter'] = 'all'
+    #properties['compare'] = "budget"
+    #properties['show'] = "absolute"
+    #properties['account_filter'] = 'all'
     self.init_components(**properties)
 
     # Any code you write here will run when the form opens.
@@ -64,30 +64,40 @@ class Dashboard(DashboardTemplate):
     Send it to the 'Content' Form to populate the appropriate labels and charts
     """
     
-    month = datetime.now().month
-    year = datetime.now().year
-    self.date_filters['fin_year'] = datetime(year + (month > 7), 6, 30, 0, 0, 0).date()
-    self.date_filters['start'] = self.date_filters['fin_year']
+   #month = datetime.now().month
+   # year = datetime.now().year
+   # self.date_filters['fin_year'] = datetime(year + (month > 7), 6, 30, 0, 0, 0).date()
+   # self.date_filters['start'] = self.date_filters['fin_year']
 
     # Ensure timeperiod runs from start date to *end* of end date, by adding a day to end date
-    self.date_filters['end'] =datetime.now().date() + timedelta(days=1)
+    #self.date_filters['end'] =datetime.now().date() + timedelta(days=1)
     # Work out the time period for the dashboard data
-    self.date_filters['time_period'] = (self.date_filters['end'] - self.date_filters['start']).days
+    #self.date_filters['time_period'] = (self.date_filters['end'] - self.date_filters['start']).days
     # Get all the data to populate the dashboard from the server
-    headline_stats, progress_dash_stats, resolution_data = anvil.server.call('get_dashboard_data', 
-                                                                             date_filters=self.date_filters, 
-                                                                             dash_filters=self.filters, 
-                                                                             compare=self.dash_content.compare,
-                                                                             use_cache=self.use_cache
-                                                                            )
+    #headline_stats, progress_dash_stats, resolution_data = anvil.server.call('get_dashboard_data', 
+    #                                                                         date_filters=self.date_filters, 
+    #                                                                         dash_filters=self.filters, 
+    #                                                                         compare=self.dash_content.compare,
+    #                                                                         use_cache=self.use_cache
+    #                                                                        )
 
-    resolution_data = self.dash_content.setup_summary_chart()
+    #headline_stats = {
+    #    'net_worth': {'delta': 0, 'number': 0 },
+    #    'unknown':   {'delta': 0, 'number': 0 },
+    #    'income':    {'delta': 0, 'number': 0},
+    #    'expense':  {'delta': 0, 'number': 0}
+    #}
+
+    #progress_dash_stats = {}
+    #resolution_data = {'dates':[], 'data': {'resolved': [], 'unresolved': [] }}
+
+    #resolution_data = self.dash_content.setup_summary_chart()
     
     # Send the data to the 'Content' Form to populate the charts and data
-    self.dash_content.initialise_headline_cards(headline_stats, str(self.date_filters['time_period']))
-    self.dash_content.initialise_resolution_chart(resolution_data)
-    self.dash_content.initialise_progress_charts(progress_dash_stats)
-    self.use_cache = True
+    #self.dash_content.initialise_headline_cards(headline_stats, str(self.date_filters['time_period']))
+    #self.dash_content.initialise_resolution_chart(resolution_data)
+    #self.dash_content.initialise_progress_charts(progress_dash_stats)
+    #self.use_cache = True
     
   def open_transactions(self, account, **event_args):
     # This receieves a 'account' from the 'HeadlineStats' Form, 
@@ -102,18 +112,18 @@ class Dashboard(DashboardTemplate):
   def form_show(self, **event_args):
     self.initialise_dashboard_data()
 
-  def reset_filters_link_click(self, **event_args):
-    self.filters = {}
-    self.initialise_start_dates()
-    self.refresh_data_bindings()
-    self.initialise_dashboard_data()
+  #def reset_filters_link_click(self, **event_args):
+  #  self.filters = {}
+  #  self.initialise_start_dates()
+  #  self.refresh_data_bindings()
+  #  self.initialise_dashboard_data()
 
-  def compare_show_changed(self, sender, **event_args):
-    """This method is called when this radio button is selected"""
-    self.dash_content.set_compare_show(name=sender.group_name, value=sender.value)
-    #print(self.compare_show)
-    self.initialise_dashboard_data()
-    self.dash_content.initialise_account_grid()
-    self.refresh_data_bindings()
+  #def compare_show_changed(self, sender, **event_args):
+  #  """This method is called when this radio button is selected"""
+  #  #self.dash_content.set_compare_show(name=sender.group_name, value=sender.value)
+  #  #print(self.compare_show)
+  #  self.initialise_dashboard_data()
+  #  #self.dash_content.initialise_account_grid()
+  #  self.refresh_data_bindings()
   
 

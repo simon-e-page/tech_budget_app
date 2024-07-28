@@ -38,7 +38,7 @@ class Content(ContentTemplate):
     self.balance_data = {} 
     
     self.end_date = self.fin_year
-    self.set_overview_label_str()
+    #self.set_overview_label_str()
     self.init_components(**properties)
 
     # Any code you write here will run when the form opens.
