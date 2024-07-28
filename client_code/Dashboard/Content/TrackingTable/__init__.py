@@ -102,7 +102,7 @@ class TrackingTable(TrackingTableTemplate):
     t = anvil.Timer(interval=1)
     self.add_component(t)
     
-    def test_loaded():
+    def test_loaded(*args, **kwargs):
       if self.task.is_completed():
         t.interval = 0
         print("Fnished Loading!")
