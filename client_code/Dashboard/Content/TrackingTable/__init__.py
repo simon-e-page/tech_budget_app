@@ -99,6 +99,10 @@ class TrackingTable(TrackingTableTemplate):
   def load_data(self, year):
     self.year = self.year
     self.task = Data.get_tracking_table_background(year)
+    if self.task is None:
+      print("Error launching background task!")
+      return
+      
     t = anvil.Timer(interval=1)
     self.add_component(t)
     
