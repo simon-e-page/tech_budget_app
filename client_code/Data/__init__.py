@@ -121,7 +121,8 @@ def get_tracking_table(year):
   return anvil.server.call('Calendar', 'get_tracking_table', brand=CURRENT_BRAND, agg_column='vendor_name', year=year, keep_columns=['vendor_name', 'vendor_id'])
 
 def get_tracking_table_background(year):
-  task = anvil.server.call('Calendar', 'get_tracking_table_background', brand=CURRENT_BRAND, agg_column='vendor_name', year=year, keep_columns=['vendor_name', 'vendor_id'])
+  # This signature kicks off a background process
+  task = anvil.server.call('Calendar_launcher', '_background_get_tracking_table', brand=CURRENT_BRAND, agg_column='vendor_name', year=year, keep_columns=['vendor_name', 'vendor_id'])
   #print(task)
   return task
 
