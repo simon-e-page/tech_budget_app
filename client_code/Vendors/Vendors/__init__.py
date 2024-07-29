@@ -54,16 +54,25 @@ class Vendors(VendorsTemplate):
         'headerFilter': "input"
       },
       {
-        "title": f"Active {self.year}", 
+        "title": "Finance System", 
+        "field": 'from_finance_system', 
+        'formatter': 'tickCross',
+        'headerFilter': "tickCross",
+        'width': 150
+      },      
+      {
+        "title": f"Used {self.year}", 
         "field": self.active_field, 
         'formatter': 'tickCross',
-        'width': 100
+        'headerFilter': "tickCross",
+        'width': 120
       },      
       {
         "title": "Used", 
         "field": 'used', 
         'formatter': 'tickCross',
-        'width': 100
+        'headerFilter': "tickCross",
+        'width': 120
       },      
     ]
 
@@ -79,7 +88,6 @@ class Vendors(VendorsTemplate):
   def get_vendor_data(self):
     data = self.vendors.to_records()
     active_vendors = self.vendors.get_active()
-    print(active_vendors)
     for r in data:
       r[self.active_field] = 1 if self.year in active_vendors.get(r['vendor_name'], []) else 0
       r['used'] = 1 if len(active_vendors.get(r['vendor_name'], [])) > 0 else 0
