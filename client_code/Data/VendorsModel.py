@@ -137,12 +137,9 @@ class Vendors(AttributeToDict):
   def get_name_dropdown(self):
     return [ (x.vendor_name, x.vendor_name) for i,x in self.__d__.items() ]
 
-  def get_active(self, year):
-    if year is None:
-      year = Data.CURRENT_YEAR
-
-    active_vendors = anvil.server.call('Calendar', 'get_active_vendors', year)
-    return active_vendors
+  def get_active(self):
+    active_vendor_map = anvil.server.call('Calendar', 'get_active_vendors')
+    return active_vendor_map
     
 VENDORS = Vendors()
 VENDORS.load()

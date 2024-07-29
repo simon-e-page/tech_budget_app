@@ -59,6 +59,12 @@ class Vendors(VendorsTemplate):
         'formatter': 'tickCross',
         'width': 100
       },      
+      {
+        "title": "Used", 
+        "field": 'used', 
+        'formatter': 'tickCross',
+        'width': 100
+      },      
     ]
 
     self.vendors_table.options = {
@@ -72,11 +78,14 @@ class Vendors(VendorsTemplate):
 
   def get_vendor_data(self):
     data = self.vendors.to_records()
-    active_vendors = self.vendors.get_active(self.year)
+    active_vendors = self.vendors.get_active()
+    print(active_vendors)
     for r in data:
-      r[self.active_field] = 1 if r['vendor_name'] in active_vendors else 0
+      r[self.active_field] = 1 if self.year in active_vendors.get(r['vendor_name'], []) else 0
+      r['used'] = 1 if len(active_vendors.get(r['vendor_name'], [])) > 0 else 0
     return data
-    
+
+  
   def name_formatter(self, cell, **params):
     vendor_id = cell.getData()['vendor_id']
     
