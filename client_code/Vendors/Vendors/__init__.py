@@ -23,6 +23,8 @@ class Vendors(VendorsTemplate):
   def __init__(self, **properties):
     self.vendors = VendorsModel.VENDORS
     self.selected_vendors = []
+    self.year = Data.CURRENT_YEAR
+    self.active_field = f"active_{self.year}"
 
     self.add_event_handler("x-refresh-tables", self.refresh_tables)
     self.init_components(**properties)
@@ -52,8 +54,8 @@ class Vendors(VendorsTemplate):
         'headerFilter': "input"
       },
       {
-        "title": "Active", 
-        "field": "active", 
+        "title": f"Active {self.year}", 
+        "field": self.active_field, 
         'formatter': 'tickCross',
         'width': 100
       },      
@@ -66,8 +68,15 @@ class Vendors(VendorsTemplate):
       'pagination_size': 10
     }
 
-    self.vendors_table.data = self.vendors.to_records()
+    self.vendors_table.data = self.get_vendor_data()
 
+  def get_vendor_data(self):
+    data = self.vendors.to_records()
+    active_vendors = self.vendors.get_active(self.year)
+    for r in data:
+      r[self.active_field] = 1 if r['vendor_name'] in active_vendors else 0
+    return data
+    
   def name_formatter(self, cell, **params):
     vendor_id = cell.getData()['vendor_id']
     
@@ -113,4 +122,8 @@ class Vendors(VendorsTemplate):
       pass
       # Set item in vendor details
     self.refresh_data_bindings()
+
+  def new_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    pass
 

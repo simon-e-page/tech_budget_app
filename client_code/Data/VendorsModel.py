@@ -1,6 +1,7 @@
 import anvil.server
 import anvil.users
 
+from .. import Data
 from ..Data import AttributeToDict, AttributeToKey
 
 #####################################################################
@@ -136,5 +137,12 @@ class Vendors(AttributeToDict):
   def get_name_dropdown(self):
     return [ (x.vendor_name, x.vendor_name) for i,x in self.__d__.items() ]
 
+  def get_active_vendors(self, year):
+    if year is None:
+      year = Data.CURRENT_YEAR
+
+    active_vendors = anvil.server.call('Calendar', 'get_active_vendors', year)
+    return active_vendors
+    
 VENDORS = Vendors()
 VENDORS.load()
