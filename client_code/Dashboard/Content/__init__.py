@@ -53,7 +53,7 @@ class Content(ContentTemplate):
     #anvil.js.get_dom_node(self.prev_button).style.cursor = 'pointer'
 
         
-  def initialise_headline_cards(self, headline_stats, period):
+  def initialise_headline_cards(self, sender, **kwargs):
     """Add three HeadlineStats components to the Dashboard.
     
     Arguments:
