@@ -24,49 +24,6 @@ components:
   layout_properties: {slot: slot-content}
   components:
   - type: FlowPanel
-    properties: {role: null, align: center, spacing_above: small, background: '', foreground: '', spacing_below: medium, visible: false, border: '', tooltip: '', spacing: tiny}
-    name: flow_panel_2
-    layout_properties:
-      col_widths: {}
-      grid_position: IAYKLA,UJNYVT
-      full_width_row: true
-    components:
-    - type: form:Dashboard.Content.ProgressGraph
-      properties: {}
-      name: closed_on_first_chart
-      layout_properties: {}
-    - type: ColumnPanel
-      properties: {role: null, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
-      name: progress_graph_1_text
-      layout_properties: {width: 184}
-      components:
-      - type: Label
-        properties: {role: null, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Year to Date Budget}
-        name: label_1
-        layout_properties: {grid_position: 'OWPMNS,PUFIUV'}
-      - type: Label
-        properties: {role: muted-text, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:Gray 600', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: ''}
-        name: closed_on_first_label
-        layout_properties: {grid_position: 'DZFQHJ,CDDNSO'}
-        data_bindings: []
-    - type: form:Dashboard.Content.ProgressGraph
-      properties: {}
-      name: new_custs_chart
-      layout_properties: {}
-    - type: ColumnPanel
-      properties: {role: null, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
-      name: progress_graph_2_text
-      layout_properties: {width: 186}
-      components:
-      - type: Label
-        properties: {role: null, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: New vs. Returning}
-        name: label_2
-        layout_properties: {grid_position: 'SJKERU,HKITLB'}
-      - type: Label
-        properties: {role: muted-text, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:Gray 600', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: ''}
-        name: new_custs_label
-        layout_properties: {grid_position: 'OAWGBK,PPRKKH'}
-  - type: FlowPanel
     properties: {role: null, align: left, spacing_above: small, background: '', foreground: '', spacing_below: small, visible: true, border: '', tooltip: '', spacing: medium}
     name: flow_panel_3
     layout_properties: {grid_position: 'URGAYV,OZIJUC', full_width_row: true}

@@ -35,6 +35,10 @@ class Content(ContentTemplate):
     self.org_visible = False
     self.budget_visible = False
 
+    self.budget = { 'total': 0, 'delta': 0 }
+    self.forecast = { 'total': 0, 'delta': 0 }
+    self.actuals = { 'total': 0, 'delta': 0 }
+
     self.balance_data = {} 
     
     self.end_date = self.fin_year
@@ -44,12 +48,12 @@ class Content(ContentTemplate):
     # Any code you write here will run when the form opens.
     # This event is called from the HeadlineStats Form
     self.flow_panel_headline_stats.set_event_handler('x-open-transactions', self.open_transactions)
+    self.tracking_table_1.set_event_handler('x-data-loaded', self.initialise_headline_cards)
     #anvil.js.get_dom_node(self.next_button).style.cursor = 'pointer'
     #anvil.js.get_dom_node(self.prev_button).style.cursor = 'pointer'
 
         
   def initialise_headline_cards(self, headline_stats, period):
-    return
     """Add three HeadlineStats components to the Dashboard.
     
     Arguments:
@@ -61,36 +65,36 @@ class Content(ContentTemplate):
                       }
       period (string): number of days of data being displayed            
     """
+    print('Got event!')
     self.flow_panel_headline_stats.clear()
     # Add three HeadlineStats components to the Dashboard
-    if self.compare == 'budget':
-      comment = ' YTD vs Budget'
-    else:
-      comment = ' YTD vs LY'
-      
-    # Net Worth    
+    self.actuals = self.tracking_table_1.get_actual_totals()
+    
+    # Budget   
     self.flow_panel_headline_stats.add_component(HeadlineStats(
-      title="Net Worth", 
-      value="${0:,.0f}".format(headline_stats['net_worth']['number']), 
-      delta=headline_stats['net_worth']['delta'], 
+      title="Budget", 
+      value="${0:,.0f}".format(self.budget['total']), 
+      delta=self.budget['delta'], 
+      time_period=" vs LY", 
+      good=(self.budget['delta']<0) and 'positive' or 'negative'
+    ))
+    
+    # Forecast
+    self.flow_panel_headline_stats.add_component(HeadlineStats(
+      title="Forecast", 
+      delta=self.forecast['delta'], 
+      value="+${0:,.0f}".format(round(self.forecast['total'],0)).replace('+$-', '-$'), 
+      time_period=" vs LY", 
+      good=(self.forecast['delta']<0) and 'positive' or 'negative'
+    ))
+    
+    # Actuals
+    self.flow_panel_headline_stats.add_component(HeadlineStats(
+      title="Actuals", 
+      delta=self.actuals['delta'], 
+      value="+${0:,.0f}".format(round(self.actuals['total'],0)).replace('+$-', '-$'), 
       time_period=" YTD vs LY", 
-      good=(headline_stats['net_worth']['delta']>0) and 'positive' or 'negative'
-    ))
-    # Income total
-    self.flow_panel_headline_stats.add_component(HeadlineStats(
-      title="Income", 
-      delta=headline_stats['income']['number'], 
-      value="+${0:,.0f}".format(round(headline_stats['income']['delta'],0)).replace('+$-', '-$'), 
-      time_period=comment, 
-      good=(headline_stats['income']['delta']>0) and 'positive' or 'negative'
-    ))
-    # Expenses total
-    self.flow_panel_headline_stats.add_component(HeadlineStats(
-      title="Expense", 
-      delta=headline_stats['expense']['number'], 
-      value="+${0:,.0f}".format(round(headline_stats['expense']['delta'],0)).replace('+$-', '-$'), 
-      time_period=comment, 
-      good=(headline_stats['expense']['delta']<0) and 'positive' or 'negative'
+      good=(self.actuals['delta']<0) and 'positive' or 'negative'
     ))
 
   # This is called initially in the form_show event of the Dashboard Form
