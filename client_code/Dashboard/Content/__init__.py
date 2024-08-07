@@ -122,19 +122,19 @@ class Content(ContentTemplate):
     
     # Budget   
     if budgets:
-      self.budget_card.value = "${0:,.0f}".format(budgets['total']),
+      self.budget_card.value = "${0:,.0f}".format(budgets['total'])
       self.budget_card.delta = budgets['delta']
       self.budget_card.good = (budgets['delta']<0) and 'positive' or 'negative'
       
     # Forecast   
     if forecasts:
-      self.forecast_card.value = "${0:,.0f}".format(forecasts['total']),
+      self.forecast_card.value = "${0:,.0f}".format(forecasts['total'])
       self.forecast_card.delta = forecasts['delta']
       self.forecast_card.good = (forecasts['delta']<0) and 'positive' or 'negative'
 
     # Actuals
     if actuals:
-      self.actuals_card.value = "${0:,.0f}".format(actuals['total']),
+      self.actuals_card.value = "${0:,.0f}".format(actuals['total'])
       self.actuals_card.delta = actuals['delta']
       self.actuals_card.good = (actuals['delta']<0) and 'positive' or 'negative'
 

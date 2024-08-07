@@ -105,10 +105,10 @@ class TrackingTable(TrackingTableTemplate):
     self.transaction_types = d['transaction_types']
     self.data = d['data']
     #self.loaded = True
-    actuals_summary = self.summary_table_table_built()
+    summary = self.summary_table_table_built()
     self.tracking_table_table_built()
     self.set_plot_layout()
-    self.raise_event('x-data-loaded', actuals=actuals_summary)
+    self.raise_event('x-data-loaded', actuals=summary['actuals'], forecasts=summary['forecasts'])
 
 
   def update_entries(self, vendor, entries):
@@ -168,15 +168,24 @@ class TrackingTable(TrackingTableTemplate):
     lc_data = { 'id': 'LY Cumulative', 'total': 0.0 } | { x: 0.0 for x in self.year_months }
     dc_data = { 'id': 'Cumul Difference', 'total': 0.0 } | { x: 0.0 for x in self.year_months }
     pc_data = { 'id': 'Cumul Percentage', 'total': 0.0 } | { x: 0.0 for x in self.year_months }
+
+    # Not used for table - just for headline cards
+    f_data = { 'id': 'CY Forecast', 'total': 0.0 } | { x: 0.0 for x in self.year_months }    
+    lf_data = { 'id': 'LY Forecast', 'total': 0.0 } | { x: 0.0 for x in self.year_months }    
     
     for row in self.data:
       for year_month in self.year_months:
         a_data[year_month] += row[year_month]
         ly_data[year_month] += row[f"{year_month}LY"]
         b_data[year_month] += row[f"{year_month}B"]
+        f_data[year_month] += row[f"{year_month}F"]
+        lf_data[year_month] += row[f"{year_month}LF"]
+        
       a_data['total'] += row['total']
       ly_data['total'] += row['totalLY']
       b_data['total'] += row['totalB']
+      f_data['total'] += row['totalF']
+      lf_data['total'] += row['totalLF']
 
 
     for i, year_month in enumerate(self.year_months):
@@ -199,8 +208,11 @@ class TrackingTable(TrackingTableTemplate):
 
     try:
       p_data['total'] = int(d_data['total'] / ly_data['total'] * 100)
+      fp_total = int((f_data['total'] = lf_data['total']) / lf_data['total'] * 100)
     except Exception:
       p_data[year_month] = 0
+      fp_total = 0
+      
     pc_data['total'] = p_data['total']
 
     self.actuals_summary = a_data
@@ -208,8 +220,10 @@ class TrackingTable(TrackingTableTemplate):
     self.ly_summary = ly_data
   
     self.summary_table.data = [ a_data, ly_data, d_data, p_data, ac_data, lc_data, dc_data, pc_data ]
-    return { 'total': a_data['total'], 'delta': p_data['total'] }
-    
+    return { 
+              'actuals':   { 'total': a_data['total'], 'delta': p_data['total'] }, 
+              'forecasts': { 'total': f_data['total'], 'delta': fp_total }
+           }    
   
   # Vendor Formatter
   def vendor_formatter(self, cell, **params):
