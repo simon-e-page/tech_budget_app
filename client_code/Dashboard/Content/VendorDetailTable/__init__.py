@@ -132,12 +132,13 @@ class VendorDetailTable(VendorDetailTableTemplate):
         
       else:
         transaction_id = data["transaction_id"]
-        transaction = self.transactions.get(transaction_id)
   
         def open_transaction(sender, **event_args):
-          print("Opening transaction: {0}".format(sender.tag.description))
+          transaction = self.transactions.get(sender.tag)
+          print("Opening transaction: {0}".format(transaction.description))
+          
           ret = alert(
-            Transaction(item=sender.tag, show_save=False),
+            Transaction(item=transaction, show_save=False),
             large=True,
             title="Transaction Details",
             buttons=[("Save Changes", True), ("Cancel", False)],
@@ -150,7 +151,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
               print("Failed to update Transaction!")
           return
   
-        link = Link(text=val, tag=transaction)
+        link = Link(text=val, tag=transaction_id)
         link.set_event_handler("click", open_transaction)
         return link
 
