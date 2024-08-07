@@ -52,18 +52,25 @@ class Content(ContentTemplate):
     # Any code you write here will run when the form opens.
     # This event is called from the HeadlineStats Form
     self.flow_panel_headline_stats.set_event_handler('x-open-transactions', self.open_transactions)
-    self.tracking_table_1.set_event_handler('x-data-loaded', self.initialise_headline_cards)
-    self.budget_table_1.set_event_handler('x-data-loaded', self.initialise_headline_cards)
+    self.initialise_headline_cards()
+    self.tracking_table_1.set_event_handler('x-data-loaded', self.update_headline_cards)
+    self.budget_table_1.set_event_handler('x-data-loaded', self.update_headline_cards)
     #anvil.js.get_dom_node(self.next_button).style.cursor = 'pointer'
     #anvil.js.get_dom_node(self.prev_button).style.cursor = 'pointer'
     self.load_data(self.fin_year)
 
+
+  
   def reset(self):
     self.loaded = False
 
+
+  
   def get_data(self):
     return self.raw_data
-    
+
+
+  
   def load_data(self, year):
     if self.task is not None or self.loaded:
       return
@@ -99,13 +106,41 @@ class Content(ContentTemplate):
       t.set_event_handler('tick', test_loaded)
       self.add_component(t)
 
+
+  
   def prepare_components(self, d):
     self.raw_data = d
     self.tracking_table_1.prepare_data(d)
     self.budget_table_1.prepare_data(d)
-    
+
+
   
-  def initialise_headline_cards(self, sender, **kwargs):
+  def update_headline_cards(self, sender, **kwargs):
+    actuals = kwargs.get('actuals', None)
+    budgets = kwargs.get('budgets', None)
+    forecasts = kwargs.get('forecasts', None)
+    
+    # Budget   
+    if budgets:
+      self.budget_card.value = "${0:,.0f}".format(budgets['total']),
+      self.budget_card.delta = budgets['delta']
+      self.budget_card.good = (budgets['delta']<0) and 'positive' or 'negative'
+      
+    # Forecast   
+    if forecasts:
+      self.forecast_card.value = "${0:,.0f}".format(forecasts['total']),
+      self.forecast_card.delta = forecasts['delta']
+      self.forecast_card.good = (forecasts['delta']<0) and 'positive' or 'negative'
+
+    # Actuals
+    if actuals:
+      self.actuals_card.value = "${0:,.0f}".format(actuals['total']),
+      self.actuals_card.delta = actuals['delta']
+      self.actuals_card.good = (actuals['delta']<0) and 'positive' or 'negative'
+
+
+  
+  def initialise_headline_cards(self):
     """Add three HeadlineStats components to the Dashboard.
     
     Arguments:
@@ -117,52 +152,27 @@ class Content(ContentTemplate):
                       }
       period (string): number of days of data being displayed            
     """
-    #self.flow_panel_headline_stats.clear()
+    self.flow_panel_headline_stats.clear()
     
     # Add three HeadlineStats components to the Dashboard
-    actuals = kwargs.get('actuals', None)
-    budgets = kwargs.get('budgets', None)
-    forecasts = kwargs.get('forecasts', None)
-    
-    # Budget   
-    if budgets:
-      self.flow_panel_headline_stats.add_component(HeadlineStats(
-        title="Budget", 
-        value="${0:,.0f}".format(budgets['total']), 
-        delta=budgets['delta'], 
-        time_period=" vs LY", 
-        good=(budgets['delta']<0) and 'positive' or 'negative'
-      ))
-    
-    # Forecast
-    if forecasts:
-      self.flow_panel_headline_stats.add_component(HeadlineStats(
-        title="Forecast", 
-        delta=forecasts['delta'], 
-        value="+${0:,.0f}".format(round(forecasts['total'],0)).replace('+$-', '-$'), 
-        time_period=" vs LY", 
-        good=(forecasts['delta']<0) and 'positive' or 'negative'
-      ))
-    
-    # Actuals
-    if actuals:
-      self.flow_panel_headline_stats.add_component(HeadlineStats(
-        title="Actuals", 
-        delta=actuals['delta'], 
-        value="${0:,.0f}".format(round(actuals['total'],0)).replace('+$-', '-$'), 
-        time_period="vs LY", 
-        good=(actuals['delta']<0) and 'positive' or 'negative'
-      ))
+    def new_card(title):
+      empty = {'total': 0, 'delta': 0}
+      return HeadlineStats(
+              title=title, 
+              value="${0:,.0f}".format(empty['total']), 
+              delta=empty['delta'], 
+              time_period=" vs LY", 
+              good=(empty['delta']<0) and 'positive' or 'negative'
+      )
 
-  # This is called initially in the form_show event of the Dashboard Form
-  def initialise_progress_charts(self, progress_dash_stats):
-    return
-
-  def setup_summary_chart(self): 
-    return
-      
-  def initialise_resolution_chart(self, resolution_data):
-    return
+    self.budget_card = new_card('Budget')
+    self.forecast_card = new_card('Forecast')
+    self.actuals_card = new_card('Actuals')
+    
+    self.flow_panel_headline_stats.add_component(self.budget_card)
+    self.flow_panel_headline_stats.add_component(self.forecast_card)
+    self.flow_panel_headline_stats.add_component(self.actuals_card)
+    
    
   def open_transactions(self, account, **event_args):
     # This event is raised from the 'HeadlineStats' Form
