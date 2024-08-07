@@ -137,6 +137,15 @@ class LazyTransactionList(AttributeToDict):
     
     return length, slice
 
+  def get(self, transaction_id):
+    """ Load and return a single transaction by ID """
+    transaction = anvil.server.call('Transactions', 'get_transaction_by_id', transaction_id=transaction_id)
+    if transaction is not None:
+      trans = Transaction(transaction_json=transaction)
+    else:
+      trans = None
+    return trans
+    
   def load(self, start=None, end=None, **kwargs):
     self.length, slice = self._load(start=start, end=end, **kwargs)
     self.__d__ = { x['transaction_id'] : Transaction(transaction_json=x) for x in slice }

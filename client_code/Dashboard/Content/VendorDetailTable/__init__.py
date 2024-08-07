@@ -8,12 +8,13 @@ import datetime as dt
 from .... import Data
 from ....Data import VendorsModel, TransactionsModel, FinancialNumber, CURRENT_YEAR
 from ....Vendors.Vendors.Vendor import Vendor
-
+from ....Tickets.Transaction import Transaction
 
 class VendorDetailTable(VendorDetailTableTemplate):
   def __init__(self, mode='Actual', **properties):
     # Set Form properties and Data Bindings.
     self.vendors = VendorsModel.VENDORS
+    self.transactions = TransactionsModel.get_transactions()
     self.vendor = properties['vendor']
     self.year = properties.get('year', CURRENT_YEAR)
     
@@ -114,29 +115,44 @@ class VendorDetailTable(VendorDetailTableTemplate):
 
   
   def prepare_columns(self, table):
-    # Vendor Formatter
+
+    
+    # Transacion Formatter
     def transaction_formatter(cell, **params):
-      transaction_id = cell.getData()["transaction_id"]
-      transaction = self.vendors.get(transaction_id)
-
-      def open_transaction(sender, **event_args):
-        print("Opening tranaction: {0}".format(sender.tag.description))
-        ret = alert(
-          Transaction(item=sender.tag, show_save=False),
-          large=True,
-          title="Transaction Details",
-          buttons=[("Save Changes", True), ("Cancel", False)],
-        )
-        if ret:
-          try:
-            transaction.update()
-          except Exception as e:
-            print("Failed to update Transaction!")
-        return
-
-      link = Link(text=cell.get_value(), tag=transaction)
-      link.set_event_handler("click", open_transaction)
-      return link
+      data = cell.getData()
+      val = cell.get_value()
+      
+      if data['transaction_type']=='Total':
+        color = self.colors['Total']['color']
+        background_color = self.colors['Total']['backgroundColor']
+        cell.getElement().style.backgroundColor = background_color
+        cell.getElement().style.color = color
+        val = f"<b>{val}</b>"
+        return val   
+        
+      else:
+        transaction_id = data["transaction_id"]
+        transaction = self.transactions.get(transaction_id)
+  
+        def open_transaction(sender, **event_args):
+          print("Opening transaction: {0}".format(sender.tag.description))
+          ret = alert(
+            Transaction(item=sender.tag, show_save=False),
+            large=True,
+            title="Transaction Details",
+            buttons=[("Save Changes", True), ("Cancel", False)],
+          )
+          if ret:
+            try:
+              transaction.update()
+            except Exception as e:
+              print(e)
+              print("Failed to update Transaction!")
+          return
+  
+        link = Link(text=val, tag=transaction)
+        link.set_event_handler("click", open_transaction)
+        return link
 
     # Entry formatter
     def format_entry(cell, **params):
@@ -222,8 +238,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
         cell.getElement().style.backgroundColor = background_color
         cell.getElement().style.color = color
         val = f"<b>{val}</b>"
-      return val        
-
+      return val            
     
     # Total formatter
     def format_total(cell, **params):
@@ -257,7 +272,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
         "field": "description",
         "width": 250,
         "headerSort": False,
-        'formatter': format_text
+        'formatter': transaction_formatter
       },
       {
         "title": "Owner",
@@ -453,6 +468,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
         #new_vendor = self.vendors.add(new_vendor.vendor_id, new_vendor)
         #new_vendor.save()
       except Exception as e:
+        print(e)
         print(f"Failed to update Vendor! {vendor.vendor_name}")
 
           

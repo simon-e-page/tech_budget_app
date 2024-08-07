@@ -53,7 +53,7 @@ class Vendor(AttributeToKey):
   def save(self):
     # Saves to backend as new or updated object
     try:
-      ret = anvil.server.call('Vendors', 'add_vendors', [self.to_dict()])
+      ret = anvil.server.call('Vendors', 'add_vendors', [self.to_dict(with_finance_vendor=False)])
     except Exception as e:
       ret = None
       print("Error saving Vendor!")
@@ -63,12 +63,12 @@ class Vendor(AttributeToKey):
   def to_dict(self, with_finance_vendor=True, with_finance_vendor_name=False, with_finance_vendor_id=False):
     d = { x: self[x] for x in self._defaults }
     d['vendor_id'] = self.vendor_id
-    if with_finance_vendor_id:
-      d['finance_vendor_id'] = self.finance_vendor.vendor_id
     if with_finance_vendor_name:
       d['finance_vendor_name'] = self.finance_vendor.vendor_name
+    if with_finance_vendor_id:
+      d['finance_vendor_id'] = self.finance_vendor.vendor_id
     if not with_finance_vendor:
-      d.pop('finance_vendor', None)
+      d['finance_vendor'] = self.finance_vendor.vendor_id
     return d
 
 
