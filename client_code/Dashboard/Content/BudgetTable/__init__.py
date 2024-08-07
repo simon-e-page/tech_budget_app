@@ -195,7 +195,7 @@ class BudgetTable(BudgetTableTemplate):
       pc_data,
     ]
 
-    return { 'total': a_data['total'], 'delta': d_data['total'] }
+    return { 'total': a_data['total'], 'delta': p_data['total'] }
   
   # Vendor Formatter
   def vendor_formatter(self, cell, **params):

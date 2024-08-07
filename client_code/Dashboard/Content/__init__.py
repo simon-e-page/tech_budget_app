@@ -117,7 +117,7 @@ class Content(ContentTemplate):
                       }
       period (string): number of days of data being displayed            
     """
-    self.flow_panel_headline_stats.clear()
+    #self.flow_panel_headline_stats.clear()
     
     # Add three HeadlineStats components to the Dashboard
     actuals = kwargs.get('actuals', None)
