@@ -118,15 +118,6 @@ class Vendor(VendorTemplate):
       icon = None
       self.item['icon_id'] = ''
 
-  def add_finance_tag_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    new_synonym = self.finance_tag_dropdown.selected_value
-    if new_synonym is not None:
-      current = self.item.finance_tags
-      current.append(new_synonym)
-      self.item.finance_tags = list(set(current))
-      self.finance_tag_dropdown.selected_value = None
-      self.refresh_data_bindings()
 
   def add_prior_year_tag_button_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -154,6 +145,14 @@ class Vendor(VendorTemplate):
     """This method is called when the button is clicked"""
     homepage = get_open_form()
     homepage.open_actuals(initial_filters={ 'vendor_name': self.item.vendor_name })
+
+  def finance_tag_dropdown_change(self, **event_args):
+    """This method is called when an item is selected"""
+    if self.finance_tag_dropdown.selected_value is not None:
+      finance_vendor = self.vendors.get(self.finance_tag_dropdown.selected_value)
+    else:
+      finance_vendor = None
+    self.item['finance_vendor'] = finance_vendor
     
 
 

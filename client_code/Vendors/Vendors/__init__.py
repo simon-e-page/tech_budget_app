@@ -8,6 +8,7 @@ from tabulator.Tabulator import row_selection_column
 
 from ... import Data
 from ...Data import VendorsModel
+from .Vendor import Vendor
 
 
 class Vendors(VendorsTemplate):
@@ -100,7 +101,16 @@ class Vendors(VendorsTemplate):
     def open_vendor(sender, **event_args):
       vendor_id = sender.tag
       print("Opening vendor: {0}".format(vendor_id))
-      self.vendor_detail.set_item(self.vendors.get(vendor_id))
+      vendor = self.vendors.get(vendor_id)
+      ret = alert(Vendor(item=vendor, show_save=False), large=True, title=vendor.vendor_name, buttons=[ ('OK', True), ('Cancel', False) ])
+      if ret:
+        try:
+          vendor.save()
+          #new_vendor = self.vendors.add(new_vendor.vendor_id, new_vendor)
+          #new_vendor.save()
+        except Exception as e:
+          print(f"Failed to update Vendor! {vendor.vendor_name}")
+        #self.vendor_detail.set_item(self.vendors.get(vendor_id))
       return
 
     link = Link(text=cell.get_value(), tag=vendor_id)
