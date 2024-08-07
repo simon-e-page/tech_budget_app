@@ -141,6 +141,13 @@ class Vendors(AttributeToDict):
   def get_active(self):
     active_vendor_map = anvil.server.call('Calendar', 'get_active_vendors')
     return active_vendor_map
+
+  def get_unused(self):
+    unused_vendors = anvil.server.call('Calendar', 'get_unused_vendors')
+    return unused_vendors
+
+  def delete(self, vendor_names):
+    
     
 VENDORS = Vendors()
 VENDORS.load()

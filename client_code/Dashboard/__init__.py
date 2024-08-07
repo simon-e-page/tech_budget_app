@@ -10,6 +10,7 @@ import anvil.server
 from datetime import datetime, timedelta, date
 from .. import Data
 
+from ..Data import VendorsModel
 
 class Dashboard(DashboardTemplate):
   """This Form fetches the information required to populate the Dashboard from the server.
@@ -20,6 +21,7 @@ class Dashboard(DashboardTemplate):
   def __init__(self, use_dashboard_cache=True, **properties):
     # Initialise a dict of empty filters when the dashboard loads
     self.filters = {}
+    self.vendors = VendorsModel.VENDORS
     # Initialise a dict of empty date filters when the dashboard loads
     self.date_filters = {}
     #self.use_cache = use_dashboard_cache
@@ -128,7 +130,20 @@ class Dashboard(DashboardTemplate):
 
   def unused_vendors_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    pass
+    unused_vendors = self.vendors.get_unused()
+    unused_list = "\n".join(unused_vendors)
+    textbox = TextArea(text=unused_list, auto_expand=True)
+    message = Label(text=f"There are {len(unused_vendors)} vendors that are unused (no transaction lines, no entries) and can be deleted:")
+    message2 = Label(text="Proceed?")
+    panel = LinearPanel()
+    panel.add_component(message)
+    panel.add_component(textbox)
+    panel.add_component(message2)
+    ret = alert(panel, 'Delete unused vendors?', buttons=[('Yes', True), ('Cancel', False)] )
+    if ret:
+      pass
+      #self.vendors.delete(unused_vendors)
+      
 
   def match_button_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -143,3 +158,4 @@ class Dashboard(DashboardTemplate):
     """This method is called when the button is clicked"""
     self.dash_content.reset()
 
+  
