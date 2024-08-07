@@ -208,7 +208,7 @@ class TrackingTable(TrackingTableTemplate):
 
     try:
       p_data['total'] = int(d_data['total'] / ly_data['total'] * 100)
-      fp_total = int((f_data['total'] = lf_data['total']) / lf_data['total'] * 100)
+      fp_total = int((f_data['total'] - lf_data['total']) / lf_data['total'] * 100)
     except Exception:
       p_data[year_month] = 0
       fp_total = 0
@@ -331,6 +331,7 @@ class TrackingTable(TrackingTableTemplate):
                   tooltip=tooltip, 
                   align='right',
                   icon_align="left", 
+                  bold=False,
                   foreground=params['color'], 
                   background=params['backgroundColor']
                   )

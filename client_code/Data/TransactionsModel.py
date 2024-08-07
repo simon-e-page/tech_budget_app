@@ -218,7 +218,7 @@ class LazyTransactionList(AttributeToDict):
   def delete_entries(self, year_month, transaction_type='Actual'):
     return anvil.server.call('Transactions', 'delete_entries', brand=CURRENT_BRAND, year_month=year_month, transaction_type='Actual')
 
-    
+  
 #############
 # MAIN
 ###############

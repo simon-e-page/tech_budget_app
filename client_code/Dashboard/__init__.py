@@ -125,5 +125,17 @@ class Dashboard(DashboardTemplate):
   #  self.initialise_dashboard_data()
   #  #self.dash_content.initialise_account_grid()
   #  self.refresh_data_bindings()
-  
+
+  def unused_vendors_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    pass
+
+  def match_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    pass
+
+  def export_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    obj = Data.get_excel_table(self.dash_content.fin_year)
+    anvil.media.download(obj)
 

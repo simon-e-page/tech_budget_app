@@ -132,6 +132,9 @@ def get_vendor_detail(year, vendor_id, mode='Actual'):
 def get_budget_detail(year, mode='Actual'):
   return anvil.server.call('Calendar', 'get_tracking_table', brand=CURRENT_BRAND, agg_column=None, year=year, keep_columns=None)
 
+def get_excel_table(year):
+  return anvil.server.call('Calendar', 'get_excel_table', brand=CURRENT_BRAND, agg_column=None, year=year, keep_columns=None)
+  
 def refresh():
   global FIN_YEARS, CURRENT_YEAR, BUDGET_YEAR
   FIN_YEARS, BUDGET_YEAR, CURRENT_YEAR = anvil.server.call('Calendar', 'get_fin_years')
