@@ -9,6 +9,7 @@ from tabulator.Tabulator import row_selection_column
 from ... import Data
 from ...Data import VendorsModel, TransactionsModel
 from ...Vendors.Vendors.Vendor import Vendor
+from ..Transaction import Transaction
 from .ImportActuals import ImportActuals
 
 class BudgetLines(BudgetLinesTemplate):
@@ -107,17 +108,27 @@ class BudgetLines(BudgetLinesTemplate):
   def render_table(self):
     def link_formatter(cell, **params):
       tag = dict(cell.getData())['transaction_id']
-  
-      def open_budgetline(sender, **event_args):
-        transaction_id = sender.tag
-        print("Opening transaction: {0}".format(transaction_id))
-        homepage = get_open_form()
-        item = self.transactions.get(transaction_id)
-        homepage.open_transaction(item=item)
+
+      def open_transaction(sender, **event_args):
+        transaction = self.transactions.get(sender.tag)
+        print("Opening transaction: {0}".format(transaction.description))
+        
+        ret = alert(
+          Transaction(item=transaction, show_save=False),
+          large=True,
+          title="Transaction Details",
+          buttons=[("Save Changes", True), ("Cancel", False)],
+        )
+        if ret:
+          try:
+            transaction.update()
+          except Exception as e:
+            print(e)
+            print("Failed to update Transaction!")
         return
   
       link = Link(text=cell.getValue(), tag=tag)
-      link.set_event_handler("click", open_budgetline)
+      link.set_event_handler("click", open_transaction)
       return link
 
     
