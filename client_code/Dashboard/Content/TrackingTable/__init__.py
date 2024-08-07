@@ -233,7 +233,7 @@ class TrackingTable(TrackingTableTemplate):
     def open_vendor(sender, **event_args):
       print("Opening vendor: {0}".format(sender.tag.vendor_name))
       vendor_form = VendorDetailTable(vendor=sender.tag, year=self.year)
-      ret = alert(vendor_form, large=True, title="Vendor Details", buttons=[ ('Save Changes', True), ('Cancel', False) ])
+      ret = alert(vendor_form, large=True, title=f"Vendor Entries for {self.year}", buttons=[ ('Save Changes', True), ('Cancel', False) ])
       if ret:
         #try:
         entries = vendor_form.get_forecast_entries()

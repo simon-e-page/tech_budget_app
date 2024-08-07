@@ -21,6 +21,20 @@ components:
       properties: {text: 'Actions:', role: header-text, bold: true}
       type: Label
       layout_properties: {}
+  - name: flow_panel_5
+    properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'LSNSHG,UUTJWF'}
+    components:
+    - name: label_5
+      properties: {text: 'Refresh and reload:'}
+      type: Label
+      layout_properties: {}
+    - name: refresh_button
+      properties: {text: Refresh, role: primary-button, bold: true, icon: 'fa:refresh'}
+      type: Button
+      layout_properties: {}
+      event_bindings: {click: refresh_button_click}
   - name: flow_panel_1
     properties: {}
     type: FlowPanel

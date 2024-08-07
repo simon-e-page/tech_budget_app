@@ -139,3 +139,7 @@ class Dashboard(DashboardTemplate):
     obj = Data.get_excel_table(self.dash_content.fin_year)
     anvil.media.download(obj)
 
+  def refresh_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.dash_content.reset()
+

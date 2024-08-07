@@ -443,4 +443,16 @@ class VendorDetailTable(VendorDetailTableTemplate):
           entries[transaction_id] = trans_entries
     return entries
 
+  def open_vendor_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    vendor = self.vendor
+    ret = alert(Vendor(item=vendor, show_save=False), large=True, title=vendor.vendor_name, buttons=[ ('OK', True), ('Cancel', False) ])
+    if ret:
+      try:
+        vendor.save()
+        #new_vendor = self.vendors.add(new_vendor.vendor_id, new_vendor)
+        #new_vendor.save()
+      except Exception as e:
+        print(f"Failed to update Vendor! {vendor.vendor_name}")
+
           
