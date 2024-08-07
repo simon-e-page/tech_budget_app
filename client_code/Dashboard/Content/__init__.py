@@ -70,7 +70,6 @@ class Content(ContentTemplate):
     
     # Add three HeadlineStats components to the Dashboard
     actuals = kwargs.get('actuals', empty)
-    print(actuals)
     
     # Budget   
     self.flow_panel_headline_stats.add_component(HeadlineStats(
@@ -94,8 +93,8 @@ class Content(ContentTemplate):
     self.flow_panel_headline_stats.add_component(HeadlineStats(
       title="Actuals", 
       delta=actuals['delta'], 
-      value="+${0:,.0f}".format(round(actuals['total'],0)).replace('+$-', '-$'), 
-      time_period=" YTD vs LY", 
+      value="${0:,.0f}".format(round(actuals['total'],0)).replace('+$-', '-$'), 
+      time_period="vs LY", 
       good=(actuals['delta']<0) and 'positive' or 'negative'
     ))
 

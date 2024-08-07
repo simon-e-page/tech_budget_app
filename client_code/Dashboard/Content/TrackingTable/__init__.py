@@ -137,13 +137,9 @@ class TrackingTable(TrackingTableTemplate):
     self.add_component(t)
   
   def load_data2(self, d):
-   #self.year = year
-    #d = Data.get_tracking_table(year)
     self.year_months = d['year_months']
     self.transaction_types = d['transaction_types']
     self.data = d['data']
-    #self.ly_data = d['ly_data']
-    #self.b_data =  d['b_data']
     self.loaded = True
     actuals_summary = self.summary_table_table_built()
     self.tracking_table_table_built()
