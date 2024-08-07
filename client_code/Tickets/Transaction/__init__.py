@@ -112,7 +112,7 @@ class Transaction(TransactionTemplate):
   def reset_controls(self):
     print("In reset_controls")
     #self.credit_account_dropdown.enabled = True
-    self.revert_button.enabled = False
+    #self.revert_button.enabled = False
 
 
   #def delete_button_click(self, **event_args):
