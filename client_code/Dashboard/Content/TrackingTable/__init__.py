@@ -50,7 +50,7 @@ class TrackingTable(TrackingTableTemplate):
       'Forecast': {'backgroundColor': '#ccffcc', 'color': 'black' },
     }
     self.mode = 'absolute'
-    self.loaded = False
+    self.data = None
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
@@ -98,49 +98,13 @@ class TrackingTable(TrackingTableTemplate):
 
     self.tracking_plot.layout = layout
     self.tracking_plot.data = [trace_actuals, trace_forecast, trace_budget]
-    
-  def load_data(self, year):
-    if self.task is not None:
-      print("Called twice!")
-      return
-      
-    self.year = self.year
-    task = Data.get_tracking_table_background(year)
-    if task is None:
-      print("Error launching background task!")
-      return
 
-    #print(f"Got task: {task}")
-    self.task = task
-    t = anvil.Timer(interval=1)
-    
-    def test_loaded(**event_args):
-      task = self.task
-      if task is None:
-        print("Error: No Task object!!")
-        t.interval = 0
-        return
-        
-      if not task.is_running():
-        t.interval = 0
-        #print("Fnished Loading!")
-        d = task.get_return_value()
-        if isinstance(d, dict):
-          self.load_data2(d)
-        else:
-          print(d)
-        self.task = None
-        t.remove_from_parent()
-        
-        
-    t.set_event_handler('tick', test_loaded)
-    self.add_component(t)
   
-  def load_data2(self, d):
+  def prepare_data(self, d):
     self.year_months = d['year_months']
     self.transaction_types = d['transaction_types']
     self.data = d['data']
-    self.loaded = True
+    #self.loaded = True
     actuals_summary = self.summary_table_table_built()
     self.tracking_table_table_built()
     self.set_plot_layout()
@@ -159,7 +123,7 @@ class TrackingTable(TrackingTableTemplate):
       
       
   def summary_table_table_built(self, **event_args):
-    if not self.loaded:
+    if self.data is None:
       return
 
     columns = [
@@ -425,7 +389,7 @@ class TrackingTable(TrackingTableTemplate):
   
   def tracking_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
-    if not self.loaded:
+    if self.data is None:
       return
           
     columns = [{

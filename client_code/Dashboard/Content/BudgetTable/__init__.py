@@ -55,7 +55,47 @@ class BudgetTable(BudgetTableTemplate):
 
     # Any code you write here will run before the form opens.
 
+  def reset(self):
+    self.loaded = False
+    
   def load_data(self, year):
+    if self.task is not None or self.loaded:
+      return
+      
+    self.year = self.year
+    with anvil.server.no_loading_indicator:
+      task = Data.get_tracking_table_background(year)
+      if task is None:
+        print("Error launching background task!")
+        return
+  
+      #print(f"Got task: {task}")
+      self.task = task
+      t = anvil.Timer(interval=1)
+    
+      def test_loaded(**event_args):
+        task = self.task
+        if task is None:
+          print("Error: No Task object!!")
+          t.interval = 0
+          return
+          
+        if not task.is_running():
+          t.interval = 0
+          #print("Fnished Loading!")
+          d = task.get_return_value()
+          if isinstance(d, dict):
+            self.load_data2(d)
+          else:
+            print(d)
+          self.task = None
+          t.remove_from_parent()
+          
+      t.set_event_handler('tick', test_loaded)
+      self.add_component(t)
+
+  
+  def load_data2(self, year):
     self.year = year
     d = Data.get_tracking_table(year)
     self.year_months = d["year_months"]

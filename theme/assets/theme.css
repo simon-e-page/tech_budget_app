@@ -602,8 +602,9 @@ body>div[data-notify="container"] {
     background-size: cover;
     box-shadow: none;/*0px 0px 10px 10px #fcfcfc;*/
     background-color: transparent;
-    background-image: url("_/theme/spinner.png") !important;
+    background-image: url("_/theme/gold-dollar.webp") !important;
 }
+/* background-image: url("_/theme/spinner.png") !important; */
 
 /* Customise default scrollbars */
 ::-webkit-scrollbar {

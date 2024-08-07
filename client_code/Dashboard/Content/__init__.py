@@ -35,6 +35,9 @@ class Content(ContentTemplate):
     self.org_visible = False
     self.budget_visible = False
 
+    self.loaded = False
+    self.raw_data = None
+
     self.budget = { 'total': 0, 'delta': 0 }
     self.forecast = { 'total': 0, 'delta': 0 }
     #self.actuals = { 'total': 0, 'delta': 0 }
@@ -51,8 +54,51 @@ class Content(ContentTemplate):
     self.tracking_table_1.set_event_handler('x-data-loaded', self.initialise_headline_cards)
     #anvil.js.get_dom_node(self.next_button).style.cursor = 'pointer'
     #anvil.js.get_dom_node(self.prev_button).style.cursor = 'pointer'
+    self.load_data(self.fin_year)
 
-        
+  def reset(self):
+    self.loaded = False
+
+  def get_data(self):
+    return self.raw_data
+    
+  def load_data(self, year):
+    if self.task is not None or self.loaded:
+      return
+      
+    with anvil.server.no_loading_indicator:
+      task = Data.get_tracking_table_background(year)
+      if task is None:
+        print("Error launching background task!")
+        return
+  
+      #print(f"Got task: {task}")
+      self.task = task
+      t = anvil.Timer(interval=1)
+    
+      def test_loaded(**event_args):
+        task = self.task
+        if task is None:
+          print("Error: No Task object!!")
+          t.interval = 0
+          return
+          
+        if not task.is_running():
+          t.interval = 0
+          #print("Fnished Loading!")
+          d = task.get_return_value()
+          if isinstance(d, dict):
+            self.raw_data = d
+          else:
+            print(d)
+          self.task = None
+          t.remove_from_parent()
+          
+      t.set_event_handler('tick', test_loaded)
+      self.add_component(t)
+
+  
+  
   def initialise_headline_cards(self, sender, **kwargs):
     """Add three HeadlineStats components to the Dashboard.
     
@@ -118,8 +164,9 @@ class Content(ContentTemplate):
     """This method is called when the link is clicked"""
     self.details_visible = not self.details_visible
     #self.details_link.icon = self.arrows[self.details_visible]
-    if self.details_visible:
-      self.tracking_table_1.load_data(self.fin_year)
+    if self.details_visible and self.loaded:
+      self.tracking_table_1.prepare_data(self.raw_data)
+      #self.tracking_table_1.load_data(self.fin_year)
     self.refresh_data_bindings()
 
 
