@@ -145,10 +145,9 @@ class TrackingTable(TrackingTableTemplate):
     #self.ly_data = d['ly_data']
     #self.b_data =  d['b_data']
     self.loaded = True
-    self.summary_table_table_built()
+    actuals_summary = self.summary_table_table_built()
     self.tracking_table_table_built()
     self.set_plot_layout()
-    actuals_summary = { 'total': self.actuals_summary['total'], 'delta': self.actuals_summary['total'] - self.ly_summary['total'] }
     self.raise_event('x-data-loaded', actuals=actuals_summary)
 
 
@@ -247,8 +246,9 @@ class TrackingTable(TrackingTableTemplate):
     self.actuals_summary = a_data
     self.budget_summary = b_data
     self.ly_summary = ly_data
+  
     self.summary_table.data = [ a_data, ly_data, d_data, p_data, ac_data, lc_data, dc_data, pc_data ]
-      
+    return { 'total': a_data['total'], 'delta': p_data['total'] }
     
   
   # Vendor Formatter
