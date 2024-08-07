@@ -50,62 +50,24 @@ class BudgetTable(BudgetTableTemplate):
       "Budget": {"backgroundColor": "#ccccff", "color": "black"},
     }
     self.mode = "absolute"
-    self.loaded = False
+    self.data = None
+    #self.loaded = False
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
 
-  def reset(self):
-    self.loaded = False
-    
-  def load_data(self, year):
-    if self.task is not None or self.loaded:
-      return
-      
-    self.year = self.year
-    with anvil.server.no_loading_indicator:
-      task = Data.get_tracking_table_background(year)
-      if task is None:
-        print("Error launching background task!")
-        return
-  
-      #print(f"Got task: {task}")
-      self.task = task
-      t = anvil.Timer(interval=1)
-    
-      def test_loaded(**event_args):
-        task = self.task
-        if task is None:
-          print("Error: No Task object!!")
-          t.interval = 0
-          return
-          
-        if not task.is_running():
-          t.interval = 0
-          #print("Fnished Loading!")
-          d = task.get_return_value()
-          if isinstance(d, dict):
-            self.load_data2(d)
-          else:
-            print(d)
-          self.task = None
-          t.remove_from_parent()
-          
-      t.set_event_handler('tick', test_loaded)
-      self.add_component(t)
 
   
-  def load_data2(self, year):
-    self.year = year
-    d = Data.get_tracking_table(year)
+  def prepare_data(self, d):
     self.year_months = d["year_months"]
     self.transaction_types = d["transaction_types"]
     self.data = d["data"]
     # self.ly_data = d['ly_data']
     # self.b_data =  d['b_data']
-    self.loaded = True
-    self.summary_table_table_built()
+    #self.loaded = True
+    budget_summary = self.summary_table_table_built()
     self.tracking_table_table_built()
+    self.raise_event('x-data-loaded', budgets=budget_summary)
 
   def update_entries(self, vendor, entries):
     self.transactions.load(vendor_name=vendor.vendor_name)
@@ -120,7 +82,7 @@ class BudgetTable(BudgetTableTemplate):
       # alert(f"Error updating Entries for tranaction {transaction_id}!")
 
   def summary_table_table_built(self, **event_args):
-    if not self.loaded:
+    if self.data is None:
       return
 
     columns = [
@@ -233,6 +195,8 @@ class BudgetTable(BudgetTableTemplate):
       pc_data,
     ]
 
+    return { 'total': a_data['total'], 'delta': d_data['total'] }
+  
   # Vendor Formatter
   def vendor_formatter(self, cell, **params):
     vendor_id = cell.getData()["vendor_id"]
@@ -419,7 +383,7 @@ class BudgetTable(BudgetTableTemplate):
 
   def tracking_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
-    if not self.loaded:
+    if self.data is None:
       return
 
     columns = [

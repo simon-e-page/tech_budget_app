@@ -35,6 +35,7 @@ class Content(ContentTemplate):
     self.org_visible = False
     self.budget_visible = False
 
+    self.task = None
     self.loaded = False
     self.raw_data = None
 
@@ -52,6 +53,7 @@ class Content(ContentTemplate):
     # This event is called from the HeadlineStats Form
     self.flow_panel_headline_stats.set_event_handler('x-open-transactions', self.open_transactions)
     self.tracking_table_1.set_event_handler('x-data-loaded', self.initialise_headline_cards)
+    self.budget_table_1.set_event_handler('x-data-loaded', self.initialise_headline_cards)
     #anvil.js.get_dom_node(self.next_button).style.cursor = 'pointer'
     #anvil.js.get_dom_node(self.prev_button).style.cursor = 'pointer'
     self.load_data(self.fin_year)
@@ -88,7 +90,7 @@ class Content(ContentTemplate):
           #print("Fnished Loading!")
           d = task.get_return_value()
           if isinstance(d, dict):
-            self.raw_data = d
+            self.prepare_components(d)
           else:
             print(d)
           self.task = None
@@ -97,7 +99,11 @@ class Content(ContentTemplate):
       t.set_event_handler('tick', test_loaded)
       self.add_component(t)
 
-  
+  def prepare_components(self, d):
+    self.raw_data = d
+    self.tracking_table_1.prepare_data(d)
+    self.budget_table_1.prepare_data(d)
+    
   
   def initialise_headline_cards(self, sender, **kwargs):
     """Add three HeadlineStats components to the Dashboard.
@@ -112,37 +118,41 @@ class Content(ContentTemplate):
       period (string): number of days of data being displayed            
     """
     self.flow_panel_headline_stats.clear()
-    empty = { 'total': 0, 'delta': 0 }
     
     # Add three HeadlineStats components to the Dashboard
-    actuals = kwargs.get('actuals', empty)
+    actuals = kwargs.get('actuals', None)
+    budgets = kwargs.get('budgets', None)
+    forecasts = kwargs.get('forecasts', None)
     
     # Budget   
-    self.flow_panel_headline_stats.add_component(HeadlineStats(
-      title="Budget", 
-      value="${0:,.0f}".format(self.budget['total']), 
-      delta=self.budget['delta'], 
-      time_period=" vs LY", 
-      good=(self.budget['delta']<0) and 'positive' or 'negative'
-    ))
+    if budgets:
+      self.flow_panel_headline_stats.add_component(HeadlineStats(
+        title="Budget", 
+        value="${0:,.0f}".format(budgets['total']), 
+        delta=budgets['delta'], 
+        time_period=" vs LY", 
+        good=(budgets['delta']<0) and 'positive' or 'negative'
+      ))
     
     # Forecast
-    self.flow_panel_headline_stats.add_component(HeadlineStats(
-      title="Forecast", 
-      delta=self.forecast['delta'], 
-      value="+${0:,.0f}".format(round(self.forecast['total'],0)).replace('+$-', '-$'), 
-      time_period=" vs LY", 
-      good=(self.forecast['delta']<0) and 'positive' or 'negative'
-    ))
+    if forecasts:
+      self.flow_panel_headline_stats.add_component(HeadlineStats(
+        title="Forecast", 
+        delta=forecasts['delta'], 
+        value="+${0:,.0f}".format(round(forecasts['total'],0)).replace('+$-', '-$'), 
+        time_period=" vs LY", 
+        good=(forecasts['delta']<0) and 'positive' or 'negative'
+      ))
     
     # Actuals
-    self.flow_panel_headline_stats.add_component(HeadlineStats(
-      title="Actuals", 
-      delta=actuals['delta'], 
-      value="${0:,.0f}".format(round(actuals['total'],0)).replace('+$-', '-$'), 
-      time_period="vs LY", 
-      good=(actuals['delta']<0) and 'positive' or 'negative'
-    ))
+    if actuals:
+      self.flow_panel_headline_stats.add_component(HeadlineStats(
+        title="Actuals", 
+        delta=actuals['delta'], 
+        value="${0:,.0f}".format(round(actuals['total'],0)).replace('+$-', '-$'), 
+        time_period="vs LY", 
+        good=(actuals['delta']<0) and 'positive' or 'negative'
+      ))
 
   # This is called initially in the form_show event of the Dashboard Form
   def initialise_progress_charts(self, progress_dash_stats):
@@ -163,17 +173,15 @@ class Content(ContentTemplate):
   def details_link_click(self, **event_args):
     """This method is called when the link is clicked"""
     self.details_visible = not self.details_visible
-    #self.details_link.icon = self.arrows[self.details_visible]
     if self.details_visible and self.loaded:
       self.tracking_table_1.prepare_data(self.raw_data)
-      #self.tracking_table_1.load_data(self.fin_year)
     self.refresh_data_bindings()
 
 
   def budget_link_click(self, **event_args):
     self.budget_visible = not self.budget_visible
-    if self.budget_visible:
-      self.budget_table_1.load_data(self.fin_year)
+    if self.budget_visible and self.loaded:
+      self.budget_table_1.prepare_data(self.raw_data)
     self.refresh_data_bindings()
 
   
