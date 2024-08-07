@@ -53,7 +53,7 @@ class Transaction(TransactionTemplate):
     print("In Transaction.__init__")
     # Any code you write here will run when the form opens.
     self.reset_controls()
-    self.transaction_entries_1.build_table(self.item)
+    #self.transaction_entries_1.build_table(self.item)
     print("Complete Transaction.__init__")
     
     
@@ -77,37 +77,37 @@ class Transaction(TransactionTemplate):
     self.item.update()
     self.refresh_data_bindings()
 
-  def revert_button_click(self, **event_args):
-    """This method is called when the link is clicked"""
-    self.item = self.transaction_copy.copy()
-    self.reset_controls()
+  #def revert_button_click(self, **event_args):
+  #  """This method is called when the link is clicked"""
+  #  self.item = self.transaction_copy.copy()
+  #  self.reset_controls()
 
-  def save_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    if self.item.transaction_id is not None:
-      self.update_transaction()
-      Notification('Transaction details updated successfully').show()
-    else:
-      try:
-        self.item = self.transactions.new(self.item)
-        Notification('Transaction details updated successfully').show()
-      except Exception as e:
-        Notification("Error adding new Transaction! Check logs!").show()
-        
-    #alert("Updates saved!")
-    self.reset_controls()
-    self.refresh_data_bindings()
+  #def save_button_click(self, **event_args):
+  #  """This method is called when the button is clicked"""
+  #  if self.item.transaction_id is not None:
+  #    self.update_transaction()
+  #    Notification('Transaction details updated successfully').show()
+  #  else:
+  #    try:
+  #      self.item = self.transactions.new(self.item)
+  #      Notification('Transaction details updated successfully').show()
+  #    except Exception as e:
+  #      Notification("Error adding new Transaction! Check logs!").show()
+  #      
+  #  #alert("Updates saved!")
+  #  self.reset_controls()
+  #  self.refresh_data_bindings()
       
-  def back_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    back = self.back
-    if back is not None:
-      open_func = back.pop('open_func')
-      print(back)
-      open_func(**back)
-    else:
-      homepage = get_open_form()
-      homepage.open_transactions()
+  #def back_button_click(self, **event_args):
+  # """This method is called when the button is clicked"""
+  #  back = self.back
+  #  if back is not None:
+  #    open_func = back.pop('open_func')
+  #    print(back)
+  #    open_func(**back)
+  #  else:
+  #    homepage = get_open_form()
+  #    homepage.open_transactions()
 
   def reset_controls(self):
     print("In reset_controls")
@@ -115,11 +115,11 @@ class Transaction(TransactionTemplate):
     self.revert_button.enabled = False
 
 
-  def delete_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    if confirm("Are you sure you want to delete this transaction?", large=True):
-      self.item.delete()
-      self.back_button_click()
+  #def delete_button_click(self, **event_args):
+  #  """This method is called when the button is clicked"""
+  #  if confirm("Are you sure you want to delete this transaction?", large=True):
+  #    self.item.delete()
+  #    self.back_button_click()
 
   def disable_checkbox_change(self, **event_args):
     """This method is called when this checkbox is checked or unchecked"""
@@ -142,7 +142,7 @@ class Transaction(TransactionTemplate):
   def actual_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     self.item.transaction_type = 'Actual' if self.item.transaction_type == 'Budget' else 'Budget'
-    self.transaction_entries_1.build_table(self.item)
+    #self.transaction_entries_1.build_table(self.item)
     self.refresh_data_bindings()
     
   
