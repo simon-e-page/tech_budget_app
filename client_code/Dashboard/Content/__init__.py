@@ -37,7 +37,7 @@ class Content(ContentTemplate):
 
     self.budget = { 'total': 0, 'delta': 0 }
     self.forecast = { 'total': 0, 'delta': 0 }
-    self.actuals = { 'total': 0, 'delta': 0 }
+    #self.actuals = { 'total': 0, 'delta': 0 }
 
     self.balance_data = {} 
     
@@ -65,10 +65,12 @@ class Content(ContentTemplate):
                       }
       period (string): number of days of data being displayed            
     """
-    print('Got event!')
     self.flow_panel_headline_stats.clear()
+    empty = { 'total': 0, 'delta': 0 }
+    
     # Add three HeadlineStats components to the Dashboard
-    self.actuals = self.tracking_table_1.get_actual_totals()
+    actuals = kwargs.get('actuals', empty)
+    print(actuals)
     
     # Budget   
     self.flow_panel_headline_stats.add_component(HeadlineStats(
@@ -91,10 +93,10 @@ class Content(ContentTemplate):
     # Actuals
     self.flow_panel_headline_stats.add_component(HeadlineStats(
       title="Actuals", 
-      delta=self.actuals['delta'], 
-      value="+${0:,.0f}".format(round(self.actuals['total'],0)).replace('+$-', '-$'), 
+      delta=actuals['delta'], 
+      value="+${0:,.0f}".format(round(actuals['total'],0)).replace('+$-', '-$'), 
       time_period=" YTD vs LY", 
-      good=(self.actuals['delta']<0) and 'positive' or 'negative'
+      good=(actuals['delta']<0) and 'positive' or 'negative'
     ))
 
   # This is called initially in the form_show event of the Dashboard Form

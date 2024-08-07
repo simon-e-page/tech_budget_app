@@ -55,12 +55,6 @@ class TrackingTable(TrackingTableTemplate):
 
     # Any code you write here will run before the form opens.
 
-  def get_actual_totals(self):
-    if not self.loaded:
-      return None
-    else:
-      return { 'total': self.actuals_summary['total'], 'delta': self.actuals_summary['total'] - self.ly_summary['total'] }
-
   
   def set_plot_layout(self):
     actuals = [ self.actuals_summary[x] for x in self.year_months if self.transaction_types[x]=='Actual' ]
@@ -154,7 +148,8 @@ class TrackingTable(TrackingTableTemplate):
     self.summary_table_table_built()
     self.tracking_table_table_built()
     self.set_plot_layout()
-    self.raise_event('x-data-loaded')
+    actuals_summary = { 'total': self.actuals_summary['total'], 'delta': self.actuals_summary['total'] - self.ly_summary['total'] }
+    self.raise_event('x-data-loaded', actuals=actuals_summary)
 
 
   def update_entries(self, vendor, entries):
