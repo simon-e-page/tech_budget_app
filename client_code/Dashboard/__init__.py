@@ -143,7 +143,6 @@ class Dashboard(DashboardTemplate):
     if ret:
       count = self.vendors.delete(unused_vendors)
       Notification(message=f"{count} vendors deleted successfully!").show()
-      self.vendors.load()
       
 
   def match_button_click(self, **event_args):

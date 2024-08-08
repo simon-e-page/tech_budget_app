@@ -154,6 +154,7 @@ class Vendors(AttributeToDict):
       print(e)
       print("Error deleting vendors!")
       num = 0
+    self.load()
     return num
     
     
