@@ -131,18 +131,21 @@ class Dashboard(DashboardTemplate):
   def unused_vendors_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     unused_vendors = self.vendors.get_unused()
-    unused_list = "\n".join(unused_vendors)
-    textbox = TextArea(text=unused_list, auto_expand=True)
-    message = Label(text=f"There are {len(unused_vendors)} vendors that are unused (no transaction lines, no entries) and can be deleted:")
-    message2 = Label(text="Proceed?")
-    panel = LinearPanel()
-    panel.add_component(message)
-    panel.add_component(textbox)
-    panel.add_component(message2)
-    ret = alert(panel, 'Delete unused vendors?', buttons=[('Yes', True), ('Cancel', False)] )
-    if ret:
-      count = self.vendors.delete(unused_vendors)
-      Notification(message=f"{count} vendors deleted successfully!").show()
+    if len(unused_vendors)>0:
+      unused_list = "\n".join(unused_vendors)
+      textbox = TextArea(text=unused_list, auto_expand=True)
+      message = Label(text=f"There are {len(unused_vendors)} vendors that are unused (no transaction lines, no entries) and can be deleted:")
+      message2 = Label(text="Proceed?")
+      panel = LinearPanel()
+      panel.add_component(message)
+      panel.add_component(textbox)
+      panel.add_component(message2)
+      ret = alert(panel, 'Delete unused vendors?', buttons=[('Yes', True), ('Cancel', False)] )
+      if ret:
+        count = self.vendors.delete(unused_vendors)
+        Notification(message=f"{count} vendors deleted successfully!").show()
+    else:
+      Notification(message="There are no vendors that are unused!").show()
       
 
   def match_button_click(self, **event_args):
