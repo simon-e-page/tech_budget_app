@@ -141,8 +141,8 @@ class Dashboard(DashboardTemplate):
     panel.add_component(message2)
     ret = alert(panel, 'Delete unused vendors?', buttons=[('Yes', True), ('Cancel', False)] )
     if ret:
-      pass
-      #self.vendors.delete(unused_vendors)
+      count = self.vendors.delete(unused_vendors)
+      Notification(message="")
       
 
   def match_button_click(self, **event_args):
