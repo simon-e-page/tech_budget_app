@@ -147,6 +147,14 @@ class Vendors(AttributeToDict):
     return unused_vendors
 
   def delete(self, vendor_names):
+    vendor_ids = [ self.get_by_name(v).vendor_id for v in vendor_names ]
+    try:
+      num = anvil.server.call('Vendors', 'delete_vendor', vendor_ids)
+    except Exception as e:
+      print(e)
+      print("Error deleting vendors!")
+      num = 0
+    return num
     
     
 VENDORS = Vendors()
