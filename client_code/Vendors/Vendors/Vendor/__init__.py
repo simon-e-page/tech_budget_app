@@ -14,12 +14,12 @@ class Vendor(VendorTemplate):
     self.icons = IconsModel.ICONS
     self.vendors = VendorsModel.VENDORS
     self.vendor_list = self.vendors.get_dropdown()
-    vendor_id = properties['item'].get('vendor_id', None)
-    if vendor_id:
-      vendor_id = [vendor_id]
+    vendor_name = properties['item'].get('vendor_name', None)
+    if vendor_name:
+      vendor_name = [vendor_name]
     else:
-      vendor_id = None
-    self.finance_vendor_list = self.vendors.get_dropdown(finance_field=True, exclude=vendor_id)
+      vendor_name = None
+    self.finance_vendor_list = self.vendors.get_dropdown(finance_field=True, exclude=vendor_name)
 
     self.finance_columns = [
       {'title': 'Synonym', 'field': 'finance_tags', 'width': 400, 'formatter': self.name_formatter  },
