@@ -128,7 +128,7 @@ class Vendors(AttributeToDict):
     if exclude is None:
       exclude = []
     else:
-      exclude = [ (x.vendor_name, x.venor_id) for x in exclude ]
+      exclude = [ (self.get(x).vendor_name, x) for x in exclude ]
 
     exclude_set = set(exclude)
     
