@@ -14,7 +14,7 @@ class Vendor(VendorTemplate):
     self.icons = IconsModel.ICONS
     self.vendors = VendorsModel.VENDORS
     self.vendor_list = self.vendors.get_dropdown()
-    self.finance_vendor_list = self.vendors.get_dropdown(finance_field=True)
+    self.finance_vendor_list = self.vendors.get_dropdown(finance_field=True, exclude=[self.item['vendor']])
 
     self.finance_columns = [
       {'title': 'Synonym', 'field': 'finance_tags', 'width': 400, 'formatter': self.name_formatter  },

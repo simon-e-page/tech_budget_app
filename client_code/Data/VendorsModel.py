@@ -124,7 +124,14 @@ class Vendors(AttributeToDict):
   def blank(self, vendor_data=None):
     return Vendor(vendor_json=vendor_data)
 
-  def get_dropdown(self, finance_field=False):
+  def get_dropdown(self, finance_field=False, exclude=None):
+    if exclude is None:
+      exclude = []
+    else:
+      exclude = [ (x.vendor_name, x.venor_id) for x in exclude ]
+
+    exclude_set = set(exclude)
+    
     if not finance_field:
       vendor_list = [ (x.vendor_name, x.vendor_id) for i,x in self.__d__.items() ]
     else:
@@ -133,6 +140,8 @@ class Vendors(AttributeToDict):
       mapped_set = set([ (x.finance_vendor.vendor_name, x.finance_vendor.vendor_id) for x in sorted_by_name if x.finance_vendor is not None ])
       all_set = set([ (x.vendor_name, x.vendor_id) for x in sorted_by_name if x.from_finance_system==finance_field ])
       vendor_list = list(all_set | mapped_set)
+
+    vendor_list = list(set(vendor_list) | exclude_set)
     return vendor_list
     
   def get_name_dropdown(self):
