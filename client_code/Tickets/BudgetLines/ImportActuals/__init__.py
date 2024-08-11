@@ -174,6 +174,8 @@ class ImportActuals(ImportActualsTemplate):
       self.month_total = new_data['month_total']
       #print(self.cost_centres)
       self.render_table()
+    else:
+      alert("Please choose another file!")
 
   
   def render_table(self):

@@ -63,12 +63,13 @@ class Vendor(AttributeToKey):
   def to_dict(self, with_finance_vendor=True, with_finance_vendor_name=False, with_finance_vendor_id=False):
     d = { x: self[x] for x in self._defaults }
     d['vendor_id'] = self.vendor_id
-    if with_finance_vendor_name:
-      d['finance_vendor_name'] = self.finance_vendor.vendor_name
-    if with_finance_vendor_id:
-      d['finance_vendor_id'] = self.finance_vendor.vendor_id
-    if not with_finance_vendor:
-      d['finance_vendor'] = self.finance_vendor.vendor_id
+    if self.finance_vendor is not None:
+      if with_finance_vendor_name:
+        d['finance_vendor_name'] = self.finance_vendor.vendor_name
+      if with_finance_vendor_id:
+        d['finance_vendor_id'] = self.finance_vendor.vendor_id
+      if not with_finance_vendor:
+        d['finance_vendor'] = self.finance_vendor.vendor_id
     return d
 
 

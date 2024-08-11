@@ -328,7 +328,7 @@ class BudgetLines(BudgetLinesTemplate):
 
 
   def add_new_vendors(self, new_vendors):
-    print(f"Adding {len(new_vendors)} vendots")
+    print(f"Adding {len(new_vendors)} vendors")
     vendor_ids = []
     for v_data in new_vendors:
       new_vendor = self.vendors.blank(v_data)
@@ -391,6 +391,8 @@ class BudgetLines(BudgetLinesTemplate):
 
       if len(renamed_vendors)>0:
         renamed = self.rename_vendors(renamed_vendors)
+      else:
+        renamed = 0
         
       if len(new_actual_lines)>0:
         #print(new_actual_lines)
