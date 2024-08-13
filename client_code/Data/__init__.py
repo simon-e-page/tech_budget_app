@@ -162,6 +162,12 @@ def move_year(diff=1):
   else:
     print(f"No data for {next_year}")
 
+
+def start_new_year():
+  ret = anvil.server.call("Calendar", 'create_forecast', lock=True)
+  if ret:
+    ret2 = anvil.server.call("Calendar", 'create_new_budget', lock=True)
+  
 #####################################################################
 # MISCELLANEOUS
 #####################################################################
@@ -180,5 +186,6 @@ def gpt_set_account_data(account_name):
 
 def gpt_run(prompt):
   return None #anvil.server.call('gpt_run', prompt=prompt)
+
 
 refresh()

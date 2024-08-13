@@ -412,10 +412,11 @@ class BudgetLines(BudgetLinesTemplate):
 
   def new_year_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    if confirm("This will lock the Budget, set the Forecast starting a new Current Year, and create a new starting Budget for next year. Do you want to continue?"):
+    if confirm(f"This will lock the Budget, set the Forecast for this {self.year}, and create a new starting Budget for next year. Do you want to continue?"):
       try:
         Data.start_new_year()
       except Exception as e:
+        print(e)
         alert("Operation failed! Check logs!")
         self.refresh_data_bindings()
 
