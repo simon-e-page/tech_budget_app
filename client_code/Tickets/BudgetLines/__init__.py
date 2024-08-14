@@ -412,6 +412,7 @@ class BudgetLines(BudgetLinesTemplate):
 
   def create_budget_button_click(self, **event_args):
     """This method is called when the button is clicked"""
+    ret = False
     if confirm("This will create a new starting Budget for next year. Do you want to continue?"):
       try:
         ret = Data.create_new_budget(year=self.year+1)
@@ -420,7 +421,10 @@ class BudgetLines(BudgetLinesTemplate):
       except Exception as e:
         print(e)
         alert("Operation failed! Check logs!")
-        self.refresh_data_bindings()
+      if ret:
+        Notification("New budget created successfully!").show()
+      self.refresh_data_bindings()
+    
 
   def snapshot_button_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -447,6 +451,7 @@ class BudgetLines(BudgetLinesTemplate):
   
   def create_forecast_button_click(self, **event_args):
     """This method is called when the button is clicked"""
+    ret = False
     if confirm(f"This will lock this Budget and create a forecast for {self.year}. Do you want to continue?"):
       try:
         ret = Data.create_forecast(year=self.year)
@@ -455,7 +460,9 @@ class BudgetLines(BudgetLinesTemplate):
       except Exception as e:
         print(e)
         alert("Operation failed! Check logs!")
-        self.refresh_data_bindings()
+      if ret:
+        Notification("New budget created successfully!").show()
+      self.refresh_data_bindings()
 
       
 
