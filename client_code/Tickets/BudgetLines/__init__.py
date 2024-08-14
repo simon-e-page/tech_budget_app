@@ -410,11 +410,13 @@ class BudgetLines(BudgetLinesTemplate):
           
       alert(f"Successful import! {len(vendor_ids)} new vendors, {renamed} existing vendors remapped, {len(actual_line_ids)} Actual Lines and {entry_count} new entries created")
 
-  def new_year_button_click(self, **event_args):
+  def create_budget_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    if confirm(f"This will lock the Budget, set the Forecast for this {self.year}, and create a new starting Budget for next year. Do you want to continue?"):
+    if confirm("This will create a new starting Budget for next year. Do you want to continue?"):
       try:
-        Data.start_new_year()
+        ret = Data.create_new_budget(year=self.year+1)
+        if not ret:
+          alert("Operation failed! Check logs!")
       except Exception as e:
         print(e)
         alert("Operation failed! Check logs!")
@@ -436,9 +438,24 @@ class BudgetLines(BudgetLinesTemplate):
     self.show_empty = self.show_empty_toggle.checked
     self.refresh_tables()
 
+  
   def clear_filter_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     self.data_filters = {}
     self.refresh_tables()
+
+  
+  def create_forecast_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    if confirm(f"This will lock this Budget and create a forecast for {self.year}. Do you want to continue?"):
+      try:
+        ret = Data.create_forecast(year=self.year)
+        if not ret:
+          alert("Operation failed! Check logs!")
+      except Exception as e:
+        print(e)
+        alert("Operation failed! Check logs!")
+        self.refresh_data_bindings()
+
       
 

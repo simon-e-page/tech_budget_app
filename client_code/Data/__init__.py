@@ -163,11 +163,18 @@ def move_year(diff=1):
     print(f"No data for {next_year}")
 
 
-def start_new_year():
-  ret = anvil.server.call("Calendar", 'create_forecast', lock=True)
-  if ret:
-    ret2 = anvil.server.call("Calendar", 'create_new_budget', lock=True)
+def create_forecast(year=None):
+  if year is None:
+    year = CURRENT_YEAR
+  return anvil.server.call("Calendar", 'create_forecast', lock=True, year=year)
+
+def create_new_budget(year=None):
+  if year is None:
+    year = CURRENT_YEAR + 1
+  return anvil.server.call("Calendar", 'create_new_budget', lock=True, year=year)
   
+    
+      
 #####################################################################
 # MISCELLANEOUS
 #####################################################################
