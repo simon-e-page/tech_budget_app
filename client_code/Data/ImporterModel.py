@@ -35,6 +35,7 @@ class Importer:
       new_data = anvil.server.call('Importer', 'parse', CURRENT_BRAND, year_month, file_obj)
     except Exception as e:
       print("Error importing file!")
+      print(e)
       raise
     return new_data
 
