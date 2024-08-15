@@ -327,88 +327,95 @@ class BudgetLines(BudgetLinesTemplate):
     self.refresh_data_bindings()
 
 
-  def add_new_vendors(self, new_vendors):
-    print(f"Adding {len(new_vendors)} vendors")
-    vendor_ids = []
-    for v_data in new_vendors:
-      new_vendor = self.vendors.blank(v_data)
-      try:
-        new_vendor.save_as_new()
-        self.vendors.add(new_vendor.vendor_id, new_vendor)
-        vendor_ids.append(new_vendor.vendor_id)
-      except ValueError as e:
-        print("Vendor already exists - ignoring!")
-        
-    return vendor_ids
-
-  def add_new_actual_lines(self, new_actual_lines):
-    print(f"Adding up to {len(new_actual_lines)} actual lines")
-    for a_data in new_actual_lines:
-      # Lookup vendor_id including if just created!
-      if a_data['vendor_id'] is None:
-        vendor = self.vendors.get_by_name(a_data['vendor_name'])
-        if vendor:
-          a_data['vendor_id'] = vendor.vendor_id
-        else:
-          print(f"Error finding vendor records for Actual! {a_data}")
-          
-      a_data.pop('vendor_name', None)
-    new_trans_ids = self.transactions.bulk_add(new_actual_lines, update=False)
-    return new_trans_ids
-
-  
-  def add_new_entries(self, new_entries):
-    print(f"Adding {len(new_entries)} new entries")
-    count = self.transactions.search_and_add_entries(entries=new_entries, overwrite=True)        
-    return count
-
-  def rename_vendors(self, renamed_vendors):
-    for old_name, new_name in renamed_vendors:
-      try:
-        v = self.vendors.get_by_name(old_name)
-        if v is not None:
-          v.vendor_name = new_name
-          v.save()
-      except Exception:
-        print(f"Error renaming vendor: {old_name} to {new_name}!")
-        raise
+#  def add_new_vendors(self, new_vendors):
+#    print(f"Adding {len(new_vendors)} vendors")
+#    vendor_ids = []
+#    for v_data in new_vendors:
+#      new_vendor = self.vendors.blank(v_data)
+#      try:
+#        new_vendor.save_as_new()
+#        self.vendors.add(new_vendor.vendor_id, new_vendor)
+#        vendor_ids.append(new_vendor.vendor_id)
+#      except ValueError as e:
+#        print("Vendor already exists - ignoring!")
+#        
+#    return vendor_ids
+#
+#  def add_new_actual_lines(self, new_actual_lines):
+#    print(f"Adding up to {len(new_actual_lines)} actual lines")
+#    for a_data in new_actual_lines:
+#      # Lookup vendor_id including if just created!
+#      if a_data['vendor_id'] is None:
+#        vendor = self.vendors.get_by_name(a_data['vendor_name'])
+#        if vendor:
+#          a_data['vendor_id'] = vendor.vendor_id
+#        else:
+#          print(f"Error finding vendor records for Actual! {a_data}")
+#          
+#      a_data.pop('vendor_name', None)
+#    new_trans_ids = self.transactions.bulk_add(new_actual_lines, update=False)
+#    return new_trans_ids
+#
+#  
+#  def add_new_entries(self, new_entries):
+#    print(f"Adding {len(new_entries)} new entries")
+#    count = self.transactions.search_and_add_entries(entries=new_entries, overwrite=True)        
+#    return count
+#
+#  def rename_vendors(self, renamed_vendors):
+#    for old_name, new_name in renamed_vendors:
+#      try:
+#        v = self.vendors.get_by_name(old_name)
+#        if v is not None:
+#          v.vendor_name = new_name
+#          v.save()
+#      except Exception:
+#        print(f"Error renaming vendor: {old_name} to {new_name}!")
+#        raise
   
   def import_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     import_form = ImportActuals()
-    ret = alert(import_form, title="Import Actuals", buttons=(("Import", True), ("Cancel", False)), large=True)
-    if ret:
-      new_vendors, renamed_vendors, new_actual_lines, new_entries = import_form.get_new_entries()
-      fin_year, year_month = import_form.get_year_month()
+    (success, num_vendor_ids, num_renamed, num_actual_line_ids, num_entries) = import_form.run_import()
+    if success:
+      alert(f"Successful import! {num_vendor_ids} new vendors, {num_renamed} existing vendors remapped, {num_actual_line_ids} Actual Lines and {num_entries} new entries created")
 
-      vendor_ids = []
-      actual_line_ids = []
-      entry_count = 0
-      
-      if len(new_vendors)>0:
-        #print(new_vendors)
-        vendor_ids = self.add_new_vendors(new_vendors)
-
-      if len(renamed_vendors)>0:
-        renamed = self.rename_vendors(renamed_vendors)
-      else:
-        renamed = 0
-        
-      if len(new_actual_lines)>0:
-        #print(new_actual_lines)
-        actual_line_ids = self.add_new_actual_lines(new_actual_lines)
-        
-      if len(new_entries)>0:
-        print(new_entries)
-        self.transactions.delete_entries(year_month=year_month)
-        entry_count = self.add_new_entries(new_entries)
-
-      if len(vendor_ids)>0 or len(actual_line_ids)>0 or entry_count>0:
-        fin_year, year_month = import_form.get_year_month()
-        if fin_year is not None and year_month is not None:
-          Data.actuals_updated(year=fin_year, year_month=year_month)
-          
-      alert(f"Successful import! {len(vendor_ids)} new vendors, {renamed} existing vendors remapped, {len(actual_line_ids)} Actual Lines and {entry_count} new entries created")
+#  def run_import(self):
+#    ret = alert(import_form, title="Import Actuals", buttons=(("Import", True), ("Cancel", False)), large=True)
+#    if ret:
+#      new_vendors, renamed_vendors, new_actual_lines, new_entries = import_form.get_new_entries()
+#      fin_year, year_month = import_form.get_year_month()#
+#
+#      vendor_ids = []
+#      actual_line_ids = []
+#      entry_count = 0
+#      
+#      if len(new_vendors)>0:
+#        #print(new_vendors)
+#        vendor_ids = self.add_new_vendors(new_vendors)
+#
+#      if len(renamed_vendors)>0:
+#        renamed = self.rename_vendors(renamed_vendors)
+#      else:
+#        renamed = 0
+#        
+#      if len(new_actual_lines)>0:
+#        #print(new_actual_lines)
+#        actual_line_ids = self.add_new_actual_lines(new_actual_lines)
+#        
+#      if len(new_entries)>0:
+#        print(new_entries)
+#        self.transactions.delete_entries(year_month=year_month)
+#        entry_count = self.add_new_entries(new_entries)
+#
+#      if len(vendor_ids)>0 or len(actual_line_ids)>0 or entry_count>0:
+#        fin_year, year_month = import_form.get_year_month()
+#        if fin_year is not None and year_month is not None:
+#          Data.actuals_updated(year=fin_year, year_month=year_month)#
+#
+#      return (True, len(vendor_ids), renamed, len(actual_line_ids), entry_count)
+#    else:
+#      return (False, 0, 0, 0, 0)
 
   def create_budget_button_click(self, **event_args):
     """This method is called when the button is clicked"""

@@ -8,24 +8,25 @@ from ..Data import CURRENT_BRAND, CURRENT_YEAR, get_actuals_updated, actuals_upd
 # IMPORTER
 #####################################################################
 MONTH_TO_NUMBER = {
-    "January": 1,
-    "February": 2,
-    "March": 3,
-    "April": 4,
+    "Jan": 1,
+    "Feb": 2,
+    "Mar": 3,
+    "Apr": 4,
     "May": 5,
-    "June": 6,
-    "July": 7,
-    "August": 8,
-    "September": 9,
-    "October": 10,
-    "November": 11,
-    "December": 12
+    "Jun": 6,
+    "Jul": 7,
+    "Aug": 8,
+    "Sep": 9,
+    "Oct": 10,
+    "Nov": 11,
+    "Dec": 12
 }
 
 # Examp
 
 FILENAME_PATTERNS = {
-  'JB_AU': r"FY\d\d IT Spend - \b(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{4})\b.xlsx"
+  r"FY\d\d IT Spend - \b(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{4})\b.xlsx": 'JB_AU',
+  r"FY\d\d IT Spend - \b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{4})\b.xlsx": 'JB_AU',
 }
 
 class Importer:
@@ -39,19 +40,24 @@ class Importer:
 
   
   def check_brand(self, filename):
-    match = re.search(FILENAME_PATTERNS[CURRENT_BRAND], filename)
+    patterns = [ pattern for pattern,brand in FILENAME_PATTERNS.items() if brand == CURRENT_BRAND ]
+    match = False
     ret = None
-    if match:
-      month = match.group(1)  # The month is the first group in the pattern
-      year = match.group(2)   # The year is the second group in the pattern
-      month_num = MONTH_TO_NUMBER[month]
-      year_month = (int(year) * 100) + MONTH_TO_NUMBER[month]
-      fin_year = int(year) + int(month_num>6)
-      print(f"Selected file matches Brand {CURRENT_BRAND} and is for {year_month} in the {fin_year} financial year")
-      ret = year_month
+    
+    for pattern in patterns:
+      match = re.search(pattern, filename)
+      if match:
+        month = match.group(1)[0:3]  # The month is the first group in the pattern - shorten to first three characters
+        year = match.group(2)   # The year is the second group in the pattern
+        month_num = MONTH_TO_NUMBER[month]
+        year_month = (int(year) * 100) + MONTH_TO_NUMBER[month]
+        fin_year = int(year) + int(month_num>6)
+        print(f"Selected file matches Brand {CURRENT_BRAND} and is for {year_month} in the {fin_year} financial year")
+        ret = year_month
+        break
         
-    else:
-      print(f"Filename does not match expected pattern for {CURRENT_BRAND}!")
+    if not match:
+      print(f"Filename does not match expected pattern(s) for {CURRENT_BRAND}!")
 
     return ret
     

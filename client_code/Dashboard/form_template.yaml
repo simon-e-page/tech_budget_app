@@ -77,4 +77,18 @@ components:
       type: Button
       layout_properties: {}
       event_bindings: {click: unused_vendors_button_click}
+  - name: flow_panel_6
+    properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'UUWODU,YIBWVG'}
+    components:
+    - name: label_6
+      properties: {text: 'Import Actuals: '}
+      type: Label
+      layout_properties: {}
+    - name: import_button
+      properties: {text: Import, role: primary-button, icon: 'fa:cloud-upload'}
+      type: Button
+      layout_properties: {}
+      event_bindings: {click: import_button_click}
 is_package: true

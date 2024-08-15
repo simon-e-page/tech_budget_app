@@ -11,6 +11,7 @@ from datetime import datetime, timedelta, date
 from .. import Data
 
 from ..Data import VendorsModel
+from ..Tickets.BudgetLines.ImportActuals import ImportActuals
 
 class Dashboard(DashboardTemplate):
   """This Form fetches the information required to populate the Dashboard from the server.
@@ -161,4 +162,10 @@ class Dashboard(DashboardTemplate):
     """This method is called when the button is clicked"""
     self.dash_content.reset()
 
+  def import_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    import_form = ImportActuals()
+    (success, num_vendor_ids, num_renamed, num_actual_line_ids, num_entries) = import_form.run_import()
+    if success:
+      alert(f"Successful import! {num_vendor_ids} new vendors, {num_renamed} existing vendors remapped, {num_actual_line_ids} Actual Lines and {num_entries} new entries created")
   
