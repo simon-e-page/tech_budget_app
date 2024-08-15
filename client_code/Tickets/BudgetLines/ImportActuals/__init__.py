@@ -166,14 +166,19 @@ class ImportActuals(ImportActualsTemplate):
       elif confirm(f"File is for a previous month. Proceeding will delete all months after {year_month}. Are you sure?"):
         process = True
         
-    if process:        
-      new_data = self.importer.parse(year_month, file)
-      self.new_entries = new_data['entries']
-      self.cost_centres = new_data['cost_centres']
-      self.new_year_month = new_data['year_month']
-      self.month_total = new_data['month_total']
+    if process:
+      try:
+        new_data = self.importer.parse(year_month, file)
+        self.new_entries = new_data['entries']
+        self.cost_centres = new_data['cost_centres']
+        self.new_year_month = new_data['year_month']
+        self.month_total = new_data['month_total']
+        self.render_table()
+      except Exception as e:
+        alert("Error importing file! Check logs!")
+        print(e)
+        
       #print(self.cost_centres)
-      self.render_table()
     else:
       alert("Please choose another file!")
 
