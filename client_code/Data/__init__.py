@@ -195,4 +195,24 @@ def gpt_run(prompt):
   return None #anvil.server.call('gpt_run', prompt=prompt)
 
 
+## Create import config for JB_AU
+def create_import_config():
+  COST_CENTRE_MAP: dict = {
+          'SUPPORT - IT': 'IT',
+          'ONLINE': 'Online',
+          'SOLUTIONS': 'Commercial',
+          'STORES': 'Stores',
+          '(blank)': 'Other',
+          'MARKETPLACE': 'Marketplace',
+          'JB COMMERCIAL': 'Commercial',
+          'NZ RECHARGE': 'IT'
+      }
+  VENDOR_COLUMN = "VENDOR"
+  TOTAL_COLUMN = "Grand Total"
+  BRAND = 'JB_AU'
+  
+  ret = anvil.server.call("Importer", 'add_import_config', brand=BRAND, cost_centre_map=COST_CENTRE_MAP, vendor_column=VENDOR_COLUMN, total_column=TOTAL_COLUMN)
+  if not ret:
+    print("Failed to make initial import config!")
+    
 refresh()

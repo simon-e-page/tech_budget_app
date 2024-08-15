@@ -38,9 +38,16 @@ class Importer:
       raise
     return new_data
 
+  def get_filename_patterns(self, brand=None):
+    if brand is None:
+      brand = CURRENT_BRAND
+
+    patterns = anvil.server.call('Importer', 'get_filename_patterns', brand=brand)
+    return patterns
   
   def check_brand(self, filename):
-    patterns = [ pattern for pattern,brand in FILENAME_PATTERNS.items() if brand == CURRENT_BRAND ]
+    patterns = self.get_filename_patterns()
+    #patterns = [ pattern for pattern,brand in self.get_filename_patterns() if brand == CURRENT_BRAND ]
     match = False
     ret = None
     
