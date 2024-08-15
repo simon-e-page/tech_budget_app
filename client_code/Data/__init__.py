@@ -209,10 +209,15 @@ def create_import_config():
       }
   VENDOR_COLUMN = "VENDOR"
   TOTAL_COLUMN = "Grand Total"
+  FILENAME_PATTERNS = [
+  r"FY\d\d IT Spend - \b(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{4})\b.xlsx",
+  r"FY\d\d IT Spend - \b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{4})\b.xlsx",    
+  ]
   BRAND = 'JB_AU'
   
-  ret = anvil.server.call("Importer", 'add_import_config', brand=BRAND, cost_centre_map=COST_CENTRE_MAP, vendor_column=VENDOR_COLUMN, total_column=TOTAL_COLUMN)
+  ret = anvil.server.call("Importer", 'add_import_config', brand=BRAND, cost_centre_map=COST_CENTRE_MAP, vendor_column=VENDOR_COLUMN, total_column=TOTAL_COLUMN, filename_patterns=FILENAME_PATTERNS)
   if not ret:
     print("Failed to make initial import config!")
-    
+
+create_import_config()
 refresh()
