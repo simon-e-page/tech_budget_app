@@ -23,22 +23,28 @@ class FinancialNumber:
 BRANDS = [ 'JB_AU', 'JB_NZ', 'TGG']
 BRANDS_DD = [ (x,x) for x in BRANDS ]
 
-ACCOUNT_CODES = [  'Software Maintenance', 'Hardware Maintenance', 'Consulting', 'Salary', 'Communications' ]
+#ACCOUNT_CODES = [  'Software Maintenance', 'Hardware Maintenance', 'Consulting', 'Salary', 'Communications' ]
+ACCOUNT_CODES = anvil.server.call('Reference', 'get_attributes', attribute_name='account_code')
 ACCOUNT_CODES_DD = [ (x, x) for x in ACCOUNT_CODES ]
 
-COST_CENTRES = [ 'IT', 'Online', 'Stores', 'HR', 'Commercial', 'Legal', 'Finance', 'Supply Chain' ]
+#COST_CENTRES = [ 'IT', 'Online', 'Stores', 'HR', 'Commercial', 'Legal', 'Finance', 'Supply Chain' ]
+COST_CENTRES = anvil.server.call('Reference', 'get_attributes', attribute_name='cost_centre')
 COST_CENTRES_DD = [ (x, x) for x in COST_CENTRES ]
 
-LIFECYCLES = [ 'Existing', 'Existing - Discretionary', 'New - Committed', 'New - Discretionary', 'Legacy', 'Peripherals', 'New - Ex-IT' ]
+#LIFECYCLES = [ 'Existing', 'Existing - Discretionary', 'New - Committed', 'New - Discretionary', 'Legacy', 'Peripherals', 'New - Ex-IT' ]
+LIFECYCLES = anvil.server.call('Reference', 'get_attributes', attribute_name='lifecycle')
 LIFECYCLES_DD = [ (x, x) for x in LIFECYCLES ]
 
-CATEGORIES = [ 'Operations', 'Network & Infrastructure', 'E-Commerce & Marketing', 'Cybersecurity', 'Finance & HR', 'Supply Chain', 'SaaS Consulting', 'Non-IT', 'Commercial', 'Microsoft', 'API platform' ]
+#CATEGORIES = [ 'Operations', 'Network & Infrastructure', 'E-Commerce & Marketing', 'Cybersecurity', 'Finance & HR', 'Supply Chain', 'SaaS Consulting', 'Non-IT', 'Commercial', 'Microsoft', 'API platform' ]
+CATEGORIES = anvil.server.call('Reference', 'get_attributes', attribute_name='category')
 CATEGORIES_DD = [ (x,x) for x in CATEGORIES ]
 
-SERVICE_CHANGES = ['Organic growth', 'Strategic projects', 'Commercial', 'Decommissioning']
+#SERVICE_CHANGES = ['Organic growth', 'Strategic projects', 'Commercial', 'Decommissioning']
+SERVICE_CHANGES = anvil.server.call('Reference', 'get_attributes', attribute_name='service_change')
 SERVICE_CHANGES_DD = [ (x,x) for x in SERVICE_CHANGES ]
 
-BILLING_TYPES = [ 'Prepayments', 'Consumption' ]
+#BILLING_TYPES = [ 'Prepayments', 'Consumption' ]
+BILLING_TYPES = anvil.server.call('Reference', 'get_attributes', attribute_name='billing_type')
 BILLING_TYPES_DD = [ (x,x) for x in BILLING_TYPES ]
 
 
