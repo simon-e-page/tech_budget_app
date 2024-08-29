@@ -1,52 +1,52 @@
-container:
-  type: HtmlTemplate
-  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true, role: null, html: '@theme:two_slots_customers.html'}
-  event_bindings: {}
 components:
-- type: ColumnPanel
-  properties: {role: filter-form-shadow, tooltip: '', border: '', foreground: '', visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}', spacing_below: small, background: ''}
-  name: transaction_details
-  layout_properties: {slot: slot-1}
-  components:
-  - type: ColumnPanel
-    properties: {role: null, tooltip: '', border: '', foreground: '', visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}', spacing_below: small, background: ''}
-    name: column_panel_1_copy
+- components:
+  - components:
+    - components:
+      - data_bindings: []
+        layout_properties: {}
+        name: label_1
+        properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-text, spacing_above: small, spacing_below: medium, text: Users, tooltip: '', underline: false, visible: true}
+        type: Label
+      layout_properties: {grid_position: 'YFTLZN,DZTYIV'}
+      name: flow_panel_11
+      properties: {}
+      type: FlowPanel
+    - event_bindings: {cell_edited: users_table_cell_edited, row_selection_changed: users_table_row_selection_changed, table_built: users_table_table_built}
+      layout_properties: {grid_position: 'CLCFZG,JSOUJL'}
+      name: users_table
+      properties: {index: email}
+      type: form:TGQCF3WT6FVL2EM2:Tabulator
     layout_properties:
       col_widths: {}
       grid_position: JMIBRO,LGBGLH
-    components:
-    - name: flow_panel_11
-      properties: {}
-      type: FlowPanel
-      layout_properties: {grid_position: 'YFTLZN,DZTYIV'}
-      components:
-      - type: Label
-        properties: {role: header-text, align: left, tooltip: '', border: '', foreground: '', visible: true, text: Users, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: medium, italic: false, background: '', bold: false, underline: false, icon: ''}
-        name: label_1
-        data_bindings: []
-        layout_properties: {}
-    - name: users_table
-      properties: {index: email}
-      type: form:TGQCF3WT6FVL2EM2:Tabulator
-      layout_properties: {grid_position: 'CLCFZG,JSOUJL'}
-      event_bindings: {table_built: users_table_table_built, cell_edited: users_table_cell_edited, row_selection_changed: users_table_row_selection_changed}
-  - name: flow_panel_7
+    name: column_panel_1_copy
+    properties: {background: '', border: '', col_spacing: medium, col_widths: '{}', foreground: '', role: null, spacing_above: small, spacing_below: small, tooltip: '', visible: true, wrap_on: mobile}
+    type: ColumnPanel
+  - components:
+    - layout_properties: {}
+      name: label_2
+      properties: {font_size: null, role: header-text, text: Roles and Permissions}
+      type: Label
+    layout_properties: {grid_position: 'LVUDAS,GHGCOZ'}
+    name: flow_panel_7
     properties: {}
     type: FlowPanel
-    layout_properties: {grid_position: 'LVUDAS,GHGCOZ'}
-    components:
-    - name: label_2
-      properties: {text: Roles and Permissions, font_size: null, role: header-text}
-      type: Label
-      layout_properties: {}
-  - name: roles_table
+  - event_bindings: {cell_edited: roles_table_cell_edited, row_selection_changed: roles_table_row_selection_changed, table_built: roles_table_table_built}
+    layout_properties: {grid_position: 'EWTIIY,GIYSCH'}
+    name: roles_table
     properties: {}
     type: form:TGQCF3WT6FVL2EM2:Tabulator
-    layout_properties: {grid_position: 'EWTIIY,GIYSCH'}
-    event_bindings: {table_built: roles_table_table_built, cell_edited: roles_table_cell_edited, row_selection_changed: roles_table_row_selection_changed}
-- name: new_user_1
+  layout_properties: {slot: slot-1}
+  name: transaction_details
+  properties: {background: '', border: '', col_spacing: medium, col_widths: '{}', foreground: '', role: filter-form-shadow, spacing_above: small, spacing_below: small, tooltip: '', visible: true, wrap_on: mobile}
+  type: ColumnPanel
+- layout_properties: {slot: slot-1}
+  name: new_user_1
   properties: {}
   type: form:Users.Users.NewUser
-  layout_properties: {slot: slot-1}
-is_package: true
+container:
+  event_bindings: {}
+  properties: {background: '', border: '', foreground: '', html: '@theme:two_slots_customers.html', role: null, tooltip: '', visible: true}
+  type: HtmlTemplate
 custom_component: false
+is_package: true

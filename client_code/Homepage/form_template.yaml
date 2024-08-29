@@ -1,184 +1,184 @@
-container:
-  type: HtmlTemplate
-  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true, role: null, html: '@theme:homepage.html'}
-  event_bindings: {show: form_show}
 components:
-- type: Label
-  properties: {role: header-text, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: ''}
+- layout_properties: {slot: title}
   name: headline_label
-  layout_properties: {slot: title}
-- type: LinearPanel
-  properties: {}
-  name: links_panel
-  layout_properties: {slot: sidebar-items-2}
-  components:
-  - type: FlowPanel
-    properties: {role: dash-link, align: left, spacing_above: small, background: '', foreground: '', spacing_below: small, visible: true, border: '', tooltip: '', spacing: none}
-    name: dash_panel
-    layout_properties: {}
-    components:
-    - type: Spacer
-      properties: {height: 32}
+  properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-text, spacing_above: small, spacing_below: small, text: '', tooltip: '', underline: false, visible: true}
+  type: Label
+- components:
+  - components:
+    - layout_properties: {width: 14}
       name: spacer_1
-      layout_properties: {width: 14}
-    - type: form:Icons.DashboardSVG
-      properties: {}
+      properties: {height: 32}
+      type: Spacer
+    - layout_properties: {width: 18.4}
       name: custom_2
-      layout_properties: {width: 18.4}
-    - type: Link
-      properties: {role: null, bold: false, align: left, col_widths: '', spacing_above: small, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Dashboard}
+      properties: {}
+      type: form:Icons.DashboardSVG
+    - event_bindings: {click: dash_link_click}
+      layout_properties: {}
       name: dash_link
-      layout_properties: {}
-      event_bindings: {click: dash_link_click}
-  - type: FlowPanel
-    properties: {role: dash-link, align: left, spacing_above: small, background: '', foreground: '', spacing_below: small, visible: true, border: '', tooltip: '', spacing: none}
-    name: transaction_panel
+      properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Dashboard, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+      type: Link
     layout_properties: {}
-    components:
-    - type: Link
-      properties: {role: null, bold: false, align: left, col_widths: '', spacing_above: small, background: '', icon: 'fa:pencil', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Budget Lines}
+    name: dash_panel
+    properties: {align: left, background: '', border: '', foreground: '', role: dash-link, spacing: none, spacing_above: small, spacing_below: small, tooltip: '', visible: true}
+    type: FlowPanel
+  - components:
+    - event_bindings: {click: transaction_link_click}
+      layout_properties: {}
       name: transaction_link
+      properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: 'fa:pencil', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Budget Lines, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+      type: Link
+    layout_properties: {}
+    name: transaction_panel
+    properties: {align: left, background: '', border: '', foreground: '', role: dash-link, spacing: none, spacing_above: small, spacing_below: small, tooltip: '', visible: true}
+    type: FlowPanel
+  - components:
+    - event_bindings: {click: forecast_link_click}
       layout_properties: {}
-      event_bindings: {click: transaction_link_click}
-  - name: forecast_flow
+      name: forecast_link
+      properties: {icon: 'fa:binoculars', text: Forecast Lines}
+      type: Link
+    name: forecast_flow
     properties: {}
     type: FlowPanel
-    components:
-    - name: forecast_link
-      properties: {text: Forecast Lines, icon: 'fa:binoculars'}
-      type: Link
+  - components:
+    - event_bindings: {click: link_1_click}
       layout_properties: {}
-      event_bindings: {click: forecast_link_click}
-  - name: flow_panel_2
-    properties: {spacing: none, vertical_align: middle, spacing_above: none}
+      name: link_1
+      properties: {icon: 'fa:lock', text: Actual Lines}
+      type: Link
+    layout_properties: {}
+    name: flow_panel_2
+    properties: {spacing: none, spacing_above: none, vertical_align: middle}
     type: FlowPanel
-    components:
-    - name: link_1
-      properties: {text: Actual Lines, icon: 'fa:lock'}
-      type: Link
-      layout_properties: {}
-      event_bindings: {click: link_1_click}
-    layout_properties: {}
-  - type: FlowPanel
-    properties: {role: dash-link, align: left, spacing_above: small, background: '', foreground: '', spacing_below: small, visible: true, border: '', tooltip: '', spacing: none}
-    name: vendor_panel
-    layout_properties: {}
-    components:
-    - type: Spacer
-      properties: {height: 32}
+  - components:
+    - layout_properties: {width: 14}
       name: spacer_1_copy_2
-      layout_properties: {width: 14}
-    - type: form:Icons.CustomersSVG
-      properties: {}
-      name: custom_4
-      layout_properties: {width: 20.4}
-    - type: Link
-      properties: {role: null, bold: false, align: left, col_widths: '{}', spacing_above: small, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Vendors}
-      name: vendor_link
-      layout_properties: {}
-      components: []
-      event_bindings: {click: vendor_link_click}
-  - type: FlowPanel
-    properties: {role: dash-link, align: left, spacing_above: small, background: '', foreground: '', spacing_below: small, visible: true, border: '', tooltip: '', spacing: none}
-    name: settings_panel
-    layout_properties: {}
-    components:
-    - type: Spacer
       properties: {height: 32}
-      name: spacer_1_copy_3
-      layout_properties: {width: 14}
-    - type: form:Icons.SettingsSVG
+      type: Spacer
+    - layout_properties: {width: 20.4}
+      name: custom_4
       properties: {}
+      type: form:Icons.CustomersSVG
+    - components: []
+      event_bindings: {click: vendor_link_click}
+      layout_properties: {}
+      name: vendor_link
+      properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '{}', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Vendors, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+      type: Link
+    layout_properties: {}
+    name: vendor_panel
+    properties: {align: left, background: '', border: '', foreground: '', role: dash-link, spacing: none, spacing_above: small, spacing_below: small, tooltip: '', visible: true}
+    type: FlowPanel
+  - components:
+    - layout_properties: {width: 14}
+      name: spacer_1_copy_3
+      properties: {height: 32}
+      type: Spacer
+    - layout_properties: {width: 21.4}
       name: custom_5
-      layout_properties: {width: 21.4}
-    - type: Link
-      properties: {role: null, bold: false, align: left, col_widths: '', spacing_above: small, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Rules}
+      properties: {}
+      type: form:Icons.SettingsSVG
+    - event_bindings: {click: link_2_click}
+      layout_properties: {}
       name: link_2
-      layout_properties: {}
-      event_bindings: {click: link_2_click}
-  - type: FlowPanel
-    properties: {}
-    name: flow_panel_1
+      properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Rules, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+      type: Link
     layout_properties: {}
-    components:
-    - type: Link
-      properties: {role: null, bold: false, align: left, col_widths: '', spacing_above: small, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Analyse with GPT}
+    name: settings_panel
+    properties: {align: left, background: '', border: '', foreground: '', role: dash-link, spacing: none, spacing_above: small, spacing_below: small, tooltip: '', visible: true}
+    type: FlowPanel
+  - components:
+    - event_bindings: {click: gpt_link_click}
+      layout_properties: {}
       name: gpt_link
-      layout_properties: {}
-      event_bindings: {click: gpt_link_click}
-  - name: users_link
-    properties: {text: Users, icon: 'fa:gear'}
-    type: Link
+      properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Analyse with GPT, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+      type: Link
     layout_properties: {}
-    event_bindings: {click: users_link_click}
-- type: FlowPanel
-  properties: {role: dash-link, align: center, spacing_above: small, background: '', foreground: '', spacing_below: small, visible: true, border: '', tooltip: '', spacing: none}
-  name: signout_panel
-  layout_properties: {grid_position: 'NPJJLK,MNQFQA', slot: sidebar-items-bottom}
-  components:
-  - type: form:Icons.SignOutSVG
+    name: flow_panel_1
     properties: {}
-    name: custom_1
-    layout_properties: {grid_position: 'AVXMCE,ZKUWHO'}
-  - type: Link
-    properties: {role: null, bold: false, align: left, col_widths: '{}', spacing_above: small, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Sign out}
-    name: signout_link
+    type: FlowPanel
+  - event_bindings: {click: users_link_click}
     layout_properties: {}
-    components: []
-    event_bindings: {click: signout_link_click}
-- type: form:Icons.Avatar
-  properties: {}
-  name: avatar_1
-  layout_properties: {slot: avatar}
-- type: ColumnPanel
-  properties: {}
-  name: column_panel_1
-  layout_properties: {slot: default}
-  components: []
-- name: linear_panel_1
+    name: users_link
+    properties: {icon: 'fa:gear', text: Users}
+    type: Link
+  layout_properties: {slot: sidebar-items-2}
+  name: links_panel
   properties: {}
   type: LinearPanel
-  layout_properties: {slot: sidebar-items}
-  components:
-  - name: flow_panel_3
-    properties: {align: center, spacing: none}
-    type: FlowPanel
+- components:
+  - layout_properties: {grid_position: 'AVXMCE,ZKUWHO'}
+    name: custom_1
+    properties: {}
+    type: form:Icons.SignOutSVG
+  - components: []
+    event_bindings: {click: signout_link_click}
     layout_properties: {}
-    components:
-    - name: prev_button
+    name: signout_link
+    properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '{}', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Sign out, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+    type: Link
+  layout_properties: {grid_position: 'NPJJLK,MNQFQA', slot: sidebar-items-bottom}
+  name: signout_panel
+  properties: {align: center, background: '', border: '', foreground: '', role: dash-link, spacing: none, spacing_above: small, spacing_below: small, tooltip: '', visible: true}
+  type: FlowPanel
+- layout_properties: {slot: avatar}
+  name: avatar_1
+  properties: {}
+  type: form:Icons.Avatar
+- components: []
+  layout_properties: {slot: default}
+  name: column_panel_1
+  properties: {}
+  type: ColumnPanel
+- components:
+  - components:
+    - event_bindings: {click: prev_button_click}
+      layout_properties: {width: 15}
+      name: prev_button
       properties: {text: '<<'}
       type: Link
-      layout_properties: {width: 15}
-      event_bindings: {click: prev_button_click}
-    - name: year_label
+    - data_bindings:
+      - {code: self.current_year, property: text, writeback: false}
+      layout_properties: {width: 45}
+      name: year_label
       properties: {align: center, bold: true}
       type: Label
-      data_bindings:
-      - {property: text, code: self.current_year, writeback: false}
-      layout_properties: {width: 45}
-    - name: next_button
+    - event_bindings: {click: next_button_click}
+      name: next_button
       properties: {text: '>>'}
       type: Link
-      event_bindings: {click: next_button_click}
-  - name: brand_image
+    layout_properties: {}
+    name: flow_panel_3
+    properties: {align: center, spacing: none}
+    type: FlowPanel
+  - data_bindings:
+    - {code: '"_/theme/{0}.png".format(self.brand)', property: source, writeback: false}
+    event_bindings: {mouse_down: brand_image_mouse_down}
+    layout_properties: {}
+    name: brand_image
     properties: {height: 37.0859375}
     type: Image
-    layout_properties: {}
-    data_bindings:
-    - {property: source, code: '"_/theme/{0}.png".format(self.brand)', writeback: false}
-    event_bindings: {mouse_down: brand_image_mouse_down}
-  - name: brand_dropdown
-    properties: {visible: false, bold: true}
-    type: DropDown
-    data_bindings:
-    - {property: items, code: self.brands, writeback: false}
-    - {property: selected_value, code: self.brand, writeback: false}
-    layout_properties: {}
+  - data_bindings:
+    - {code: self.brands, property: items, writeback: false}
+    - {code: self.brand, property: selected_value, writeback: false}
     event_bindings: {change: brand_dropdown_change}
-- name: label_1
+    layout_properties: {}
+    name: brand_dropdown
+    properties: {bold: true, visible: false}
+    type: DropDown
+  layout_properties: {slot: sidebar-items}
+  name: linear_panel_1
+  properties: {}
+  type: LinearPanel
+- data_bindings:
+  - {code: '"Current: FY" + str(self.current_year)', property: text, writeback: false}
+  layout_properties: {slot: search-box}
+  name: label_1
   properties: {}
   type: Label
-  layout_properties: {slot: search-box}
-  data_bindings:
-  - {property: text, code: '"Current: FY" + str(self.current_year)', writeback: false}
+container:
+  event_bindings: {show: form_show}
+  properties: {background: '', border: '', foreground: '', html: '@theme:homepage.html', role: null, tooltip: '', visible: true}
+  type: HtmlTemplate
 is_package: true

@@ -1,0 +1,53 @@
+components:
+- components:
+  - layout_properties: {}
+    name: label_1
+    properties: {text: 'Reference dimension:'}
+    type: Label
+  - data_bindings:
+    - {code: self.attribute_names, property: items, writeback: false}
+    - {code: self.attribute_name, property: selected_value, writeback: false}
+    event_bindings: {change: attribute_dropdown_change}
+    layout_properties: {width: 214.171875}
+    name: attribute_dropdown
+    properties: {include_placeholder: true, placeholder: Select attribute}
+    type: DropDown
+  layout_properties: {full_width_row: true, grid_position: 'CJOIZA,BHAPOE'}
+  name: flow_panel_1
+  properties: {}
+  type: FlowPanel
+- components:
+  - name: attribute_table
+    properties: {}
+    type: form:TGQCF3WT6FVL2EM2:Tabulator
+  data_bindings:
+  - {code: self.attribute is not None, property: visible, writeback: false}
+  layout_properties: {full_width_row: true, grid_position: 'SAIVXG,QSWILE'}
+  name: table_panel
+  properties: {}
+  type: FlowPanel
+- components:
+  - layout_properties: {}
+    name: label_2
+    properties: {text: 'Add new:'}
+    type: Label
+  - event_bindings: {change: attribute_value_change}
+    layout_properties: {width: 223.55078125}
+    name: attribute_value
+    properties: {placeholder: Enter new value}
+    type: TextBox
+  - data_bindings:
+    - {code: len(self.attribute_value.text)>0, property: enabled, writeback: false}
+    event_bindings: {click: add_button_click}
+    layout_properties: {}
+    name: add_button
+    properties: {role: primary-button, text: Add}
+    type: Button
+  data_bindings:
+  - {code: self.attribute is not None, property: visible, writeback: false}
+  layout_properties: {full_width_row: true, grid_position: 'TNXVSO,LQUUZC'}
+  name: new_panel
+  properties: {}
+  type: FlowPanel
+container: {type: ColumnPanel}
+is_package: true

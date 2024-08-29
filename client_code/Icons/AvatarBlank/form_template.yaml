@@ -1,17 +1,17 @@
 components:
-- type: form:Icons.UserSVG
-  properties: {}
+- layout_properties: {slot: avatar-logo}
   name: custom_1
-  layout_properties: {slot: avatar-logo}
+  properties: {}
+  type: form:Icons.UserSVG
 container:
-  type: HtmlTemplate
   properties:
-    tooltip: ''
     background: ''
-    foreground: ''
     border: ''
-    visible: true
-    role: null
+    foreground: ''
     html: "<div class=\"avatar blank\">\n   <div class=\"avatar-logo\" anvil-slot=\"avatar-logo\">\n        <div class=\"placeholder anvil-designer-only\" anvil-if-slot-empty=\"avatar-logo\" anvil-drop-here>Drop avatar logo here</div>\n    </div>\n</div>\n\n<style>\n.avatar.blank {\n  display: flex;\n  flex-direction: column;\n  align-items: flex-start;\n  background-color: #2f2853;\n  margin-bottom: 0 !important;\n }\n  \n.avatar.blank svg {\n  fill: white;\n  width:7vh;\n  }\n \n</style>"
+    role: null
+    tooltip: ''
+    visible: true
+  type: HtmlTemplate
 custom_component: false
 is_package: true

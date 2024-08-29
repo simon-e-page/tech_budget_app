@@ -1,94 +1,94 @@
-container:
-  type: HtmlTemplate
-  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true, role: null, html: '@theme:three_slots.html'}
-  event_bindings: {show: form_show}
 components:
-- type: form:Dashboard.Content
-  properties: {}
+- layout_properties: {slot: slot-1}
   name: dash_content
-  layout_properties: {slot: slot-1}
-- name: column_panel_1
   properties: {}
-  type: ColumnPanel
-  layout_properties: {slot: slot-2}
-  components:
-  - name: flow_panel_3
-    properties: {}
-    type: FlowPanel
-    layout_properties: {grid_position: 'OQHPIG,WQPGJM'}
-    components:
-    - name: label_3
-      properties: {text: 'Actions:', role: header-text, bold: true}
+  type: form:Dashboard.Content
+- components:
+  - components:
+    - layout_properties: {}
+      name: label_3
+      properties: {bold: true, role: header-text, text: 'Actions:'}
       type: Label
-      layout_properties: {}
-  - name: flow_panel_5
+    layout_properties: {grid_position: 'OQHPIG,WQPGJM'}
+    name: flow_panel_3
     properties: {}
     type: FlowPanel
-    layout_properties: {grid_position: 'LSNSHG,UUTJWF'}
-    components:
-    - name: label_5
+  - components:
+    - layout_properties: {}
+      name: label_5
       properties: {text: 'Refresh and reload:'}
       type: Label
+    - event_bindings: {click: refresh_button_click}
       layout_properties: {}
-    - name: refresh_button
-      properties: {text: Refresh, role: primary-button, bold: true, icon: 'fa:refresh'}
+      name: refresh_button
+      properties: {bold: true, icon: 'fa:refresh', role: primary-button, text: Refresh}
       type: Button
-      layout_properties: {}
-      event_bindings: {click: refresh_button_click}
-  - name: flow_panel_1
+    layout_properties: {grid_position: 'LSNSHG,UUTJWF'}
+    name: flow_panel_5
     properties: {}
     type: FlowPanel
-    layout_properties: {grid_position: 'FDOVAT,OPFOJB'}
-    components:
-    - name: label_1
+  - components:
+    - layout_properties: {}
+      name: label_1
       properties: {text: 'Export to Excel:'}
       type: Label
+    - event_bindings: {click: export_button_click}
       layout_properties: {}
-    - name: export_button
-      properties: {text: Export, role: primary-button, icon: 'fa:file-excel-o', bold: true}
+      name: export_button
+      properties: {bold: true, icon: 'fa:file-excel-o', role: primary-button, text: Export}
       type: Button
-      layout_properties: {}
-      event_bindings: {click: export_button_click}
-  - name: flow_panel_2
+    layout_properties: {grid_position: 'FDOVAT,OPFOJB'}
+    name: flow_panel_1
     properties: {}
     type: FlowPanel
-    layout_properties: {grid_position: 'OQZLEN,UGKWTE'}
-    components:
-    - name: label_2
+  - components:
+    - layout_properties: {}
+      name: label_2
       properties: {text: 'Match Vendors:'}
       type: Label
+    - event_bindings: {click: match_button_click}
       layout_properties: {}
-    - name: match_button
-      properties: {text: Match, role: primary-button, icon: 'fa:arrows-h', bold: true}
+      name: match_button
+      properties: {bold: true, icon: 'fa:arrows-h', role: primary-button, text: Match}
       type: Button
-      layout_properties: {}
-      event_bindings: {click: match_button_click}
-  - name: flow_panel_4
+    layout_properties: {grid_position: 'OQZLEN,UGKWTE'}
+    name: flow_panel_2
     properties: {}
     type: FlowPanel
-    layout_properties: {grid_position: 'ENFZNO,CLSYAE'}
-    components:
-    - name: label_4
+  - components:
+    - layout_properties: {}
+      name: label_4
       properties: {text: 'Unused Vendors:'}
       type: Label
+    - event_bindings: {click: unused_vendors_button_click}
       layout_properties: {}
-    - name: unused_vendors_button
-      properties: {text: Find, role: primary-button, icon: 'fa:search', bold: true}
+      name: unused_vendors_button
+      properties: {bold: true, icon: 'fa:search', role: primary-button, text: Find}
       type: Button
-      layout_properties: {}
-      event_bindings: {click: unused_vendors_button_click}
-  - name: flow_panel_6
+    layout_properties: {grid_position: 'ENFZNO,CLSYAE'}
+    name: flow_panel_4
     properties: {}
     type: FlowPanel
-    layout_properties: {grid_position: 'UUWODU,YIBWVG'}
-    components:
-    - name: label_6
+  - components:
+    - layout_properties: {}
+      name: label_6
       properties: {text: 'Import Actuals: '}
       type: Label
+    - event_bindings: {click: import_button_click}
       layout_properties: {}
-    - name: import_button
-      properties: {text: Import, role: primary-button, icon: 'fa:cloud-upload'}
+      name: import_button
+      properties: {icon: 'fa:cloud-upload', role: primary-button, text: Import}
       type: Button
-      layout_properties: {}
-      event_bindings: {click: import_button_click}
+    layout_properties: {grid_position: 'UUWODU,YIBWVG'}
+    name: flow_panel_6
+    properties: {}
+    type: FlowPanel
+  layout_properties: {slot: slot-2}
+  name: column_panel_1
+  properties: {}
+  type: ColumnPanel
+container:
+  event_bindings: {show: form_show}
+  properties: {background: '', border: '', foreground: '', html: '@theme:three_slots.html', role: null, tooltip: '', visible: true}
+  type: HtmlTemplate
 is_package: true

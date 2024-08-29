@@ -1,65 +1,65 @@
-container: {type: ColumnPanel}
 components:
-- name: column_panel_1
-  properties: {}
-  type: ColumnPanel
-  layout_properties: {grid_position: 'ANPHYY,VNUZGS', full_width_row: true}
-  components:
-  - name: flow_panel_1
+- components:
+  - components:
+    - data_bindings:
+      - {code: self.title, property: text, writeback: false}
+      name: label_1
+      properties: {align: left, bold: true, text: 'Actual and Forecast Lines for '}
+      type: Label
+    layout_properties: {full_width_row: true, grid_position: 'EJOPLY,IRXUCC'}
+    name: flow_panel_1
     properties: {}
     type: FlowPanel
-    layout_properties: {grid_position: 'EJOPLY,IRXUCC', full_width_row: true}
-    components:
-    - name: label_1
-      properties: {text: 'Actual and Forecast Lines for ', bold: true, align: left}
-      type: Label
-      data_bindings:
-      - {property: text, code: self.title, writeback: false}
-  - name: flow_panel_2
+  - components:
+    - event_bindings: {click: open_vendor_button_click}
+      layout_properties: {}
+      name: open_vendor_button
+      properties: {bold: true, icon: 'fa:external-link', role: primary-button, text: Details}
+      type: Button
+    layout_properties: {grid_position: 'EJOPLY,ZMSNNC'}
+    name: flow_panel_2
     properties: {align: right}
     type: FlowPanel
-    layout_properties: {grid_position: 'EJOPLY,ZMSNNC'}
-    components:
-    - name: open_vendor_button
-      properties: {text: Details, role: primary-button, icon: 'fa:external-link', bold: true}
-      type: Button
-      layout_properties: {}
-      event_bindings: {click: open_vendor_button_click}
-- name: actual_panel
+  layout_properties: {full_width_row: true, grid_position: 'ANPHYY,VNUZGS'}
+  name: column_panel_1
   properties: {}
-  type: LinearPanel
-  layout_properties: {grid_position: 'CCFPEM,GWJHSB', full_width_row: true}
-  components:
+  type: ColumnPanel
+- components:
   - name: label_3
     properties: {text: Actual lines vs Last year, underline: true}
     type: Label
-  - name: actual_details_table
+  - event_bindings: {table_built: actual_details_table_table_built}
+    name: actual_details_table
     properties: {}
     type: form:TGQCF3WT6FVL2EM2:Tabulator
-    event_bindings: {table_built: actual_details_table_table_built}
-- name: forecast_panel
+  layout_properties: {full_width_row: true, grid_position: 'CCFPEM,GWJHSB'}
+  name: actual_panel
   properties: {}
   type: LinearPanel
-  layout_properties: {grid_position: 'VCAVMW,EPYFNU', full_width_row: true}
-  components:
+- components:
   - name: label_2
     properties: {text: Forecast lines vs Budget, underline: true}
     type: Label
-  - name: forecast_details_table
+  - event_bindings: {cell_click: forecast_details_table_cell_click, table_built: forecast_details_table_table_built}
+    name: forecast_details_table
     properties: {}
     type: form:TGQCF3WT6FVL2EM2:Tabulator
-    event_bindings: {table_built: forecast_details_table_table_built, cell_click: forecast_details_table_cell_click}
-- name: budget_panel
+  layout_properties: {full_width_row: true, grid_position: 'VCAVMW,EPYFNU'}
+  name: forecast_panel
   properties: {}
   type: LinearPanel
-  layout_properties: {grid_position: 'XAKAZF,XMDMMU', full_width_row: true}
-  components:
-  - name: label_4
+- components:
+  - layout_properties: {}
+    name: label_4
     properties: {text: Budget Lines vs Last year, underline: true}
     type: Label
-    layout_properties: {}
-  - name: budget_details_table
+  - event_bindings: {table_built: budget_details_table_table_built}
+    name: budget_details_table
     properties: {}
     type: form:TGQCF3WT6FVL2EM2:Tabulator
-    event_bindings: {table_built: budget_details_table_table_built}
+  layout_properties: {full_width_row: true, grid_position: 'XAKAZF,XMDMMU'}
+  name: budget_panel
+  properties: {}
+  type: LinearPanel
+container: {type: ColumnPanel}
 is_package: true

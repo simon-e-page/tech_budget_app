@@ -1,40 +1,40 @@
-container:
-  type: HtmlTemplate
-  properties:
-    tooltip: ''
-    background: ''
-    foreground: ''
-    border: ''
-    visible: true
-    role: dash-down
-    html: "<div class=\"dash-card\">\n  <div class=\"dash-stat\" anvil-slot=\"dash-stat\">\n      <div class=\"placeholder anvil-designer-only\" anvil-if-slot-empty=\"dash-stat\" anvil-drop-here>To add a headline stat, drop a Label here</div>\n  </div>\n  <div class=\"dash-stat-info\">\n    <div class=\"dash-label\" anvil-slot=\"dash-label\">\n        <div class=\"placeholder anvil-designer-only\" anvil-if-slot-empty=\"dash-label\" anvil-drop-here>Drop a label here</div>\n    </div>\n    <div class=\"dash-comparison\" anvil-slot=\"dash-comparison\">\n        <div class=\"placeholder anvil-designer-only\" anvil-if-slot-empty=\"dash-comparison\" anvil-drop-here>Drop a FlowPanel here</div>\n    </div>\n  </div>\n\n</div>\n\n<style>\n\n  .dash-card {\n    width: 35vh;\n    height: 13vh;\n    padding: 5px 2vh;\n    flex: 0 0 0;\n    border-radius: 30px;\n    box-shadow: \n             0 0  10px 1px #F2F2F2,\n             0.3em 0.3em 1em #F2F2F2;\n    margin: 20px 0.5vw;\n    display: flex;\n    align-items: center;\n\tjustify-content: space-around;\n  }\n  \n .anvil-role-dash-up .dash-card {\n    background-image: url(\"_/theme/up-arrow.png\");\n    background-position: bottom right;\n    background-repeat: no-repeat;\n  }\n  \n .anvil-role-dash-down .dash-card {\n    background-image: url(\"_/theme/down-arrow.png\");\n    background-position: top right;\n    background-repeat: no-repeat;\n  }\n  \n  .anvil-role-dash-up.anvil-label, .anvil-role-dash-up.anvil-label > .label-text {\n    color: #FE6061;\n  }\n\n  .anvil-role-dash-down.anvil-label, .anvil-role-dash-down.anvil-label > .label-text {\n    color: #2CD99F;\n  }\n  \n  .dash-stat .label-text {\n    font-size: 5vh;\n    color: #3A3366;\n  }\n  .dash-label .label-text {\n    color: #656565;\n  }\n  .dash-comparison .label-text {\n    color: #A0A0A0;\n  }\n  .dash-comparison i {\n    margin-right: 0.2em !important;\n  }\n\n</style>"
 components:
-- type: Label
-  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+- layout_properties: {slot: dash-stat}
   name: value_label
-  layout_properties: {slot: dash-stat}
-- type: Link
-  properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Gray 600', visible: true, text: '', font_size: null, wrap_on: mobile, font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '', spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
-  name: title_link
+  properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', underline: false, visible: true}
+  type: Label
+- event_bindings: {click: title_link_click}
   layout_properties: {slot: dash-label}
-  event_bindings: {click: title_link_click}
-- type: FlowPanel
-  properties: {role: null, spacing: none, align: left, tooltip: '', border: '', foreground: '', visible: true, spacing_above: none, spacing_below: small, background: ''}
-  name: flow_panel_1
-  layout_properties: {slot: dash-comparison}
-  components:
-  - type: Label
-    properties: {role: muted-text, align: left, tooltip: '', border: '', foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+  name: title_link
+  properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: 'theme:Gray 600', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+  type: Link
+- components:
+  - layout_properties: {}
     name: delta_label
-    layout_properties: {}
-  - type: Label
-    properties: {role: muted-text, align: left, tooltip: '', border: '', foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: muted-text, spacing_above: small, spacing_below: small, text: '', tooltip: '', underline: false, visible: true}
+    type: Label
+  - layout_properties: {}
     name: time_period_label
-    layout_properties: {}
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: muted-text, spacing_above: small, spacing_below: small, text: '', tooltip: '', underline: false, visible: true}
+    type: Label
+  layout_properties: {slot: dash-comparison}
+  name: flow_panel_1
+  properties: {align: left, background: '', border: '', foreground: '', role: null, spacing: none, spacing_above: none, spacing_below: small, tooltip: '', visible: true}
+  type: FlowPanel
+container:
+  properties:
+    background: ''
+    border: ''
+    foreground: ''
+    html: "<div class=\"dash-card\">\n  <div class=\"dash-stat\" anvil-slot=\"dash-stat\">\n      <div class=\"placeholder anvil-designer-only\" anvil-if-slot-empty=\"dash-stat\" anvil-drop-here>To add a headline stat, drop a Label here</div>\n  </div>\n  <div class=\"dash-stat-info\">\n    <div class=\"dash-label\" anvil-slot=\"dash-label\">\n        <div class=\"placeholder anvil-designer-only\" anvil-if-slot-empty=\"dash-label\" anvil-drop-here>Drop a label here</div>\n    </div>\n    <div class=\"dash-comparison\" anvil-slot=\"dash-comparison\">\n        <div class=\"placeholder anvil-designer-only\" anvil-if-slot-empty=\"dash-comparison\" anvil-drop-here>Drop a FlowPanel here</div>\n    </div>\n  </div>\n\n</div>\n\n<style>\n\n  .dash-card {\n    width: 35vh;\n    height: 13vh;\n    padding: 5px 2vh;\n    flex: 0 0 0;\n    border-radius: 30px;\n    box-shadow: \n             0 0  10px 1px #F2F2F2,\n             0.3em 0.3em 1em #F2F2F2;\n    margin: 20px 0.5vw;\n    display: flex;\n    align-items: center;\n\tjustify-content: space-around;\n  }\n  \n .anvil-role-dash-up .dash-card {\n    background-image: url(\"_/theme/up-arrow.png\");\n    background-position: bottom right;\n    background-repeat: no-repeat;\n  }\n  \n .anvil-role-dash-down .dash-card {\n    background-image: url(\"_/theme/down-arrow.png\");\n    background-position: top right;\n    background-repeat: no-repeat;\n  }\n  \n  .anvil-role-dash-up.anvil-label, .anvil-role-dash-up.anvil-label > .label-text {\n    color: #FE6061;\n  }\n\n  .anvil-role-dash-down.anvil-label, .anvil-role-dash-down.anvil-label > .label-text {\n    color: #2CD99F;\n  }\n  \n  .dash-stat .label-text {\n    font-size: 5vh;\n    color: #3A3366;\n  }\n  .dash-label .label-text {\n    color: #656565;\n  }\n  .dash-comparison .label-text {\n    color: #A0A0A0;\n  }\n  .dash-comparison i {\n    margin-right: 0.2em !important;\n  }\n\n</style>"
+    role: dash-down
+    tooltip: ''
+    visible: true
+  type: HtmlTemplate
 custom_component: true
-properties:
-- {name: title, type: string, default_value: default}
-- {name: delta, type: number, default_value: null}
-- {name: value, type: number, default_value: null}
-- {name: time_period, type: string, default_value: month}
 is_package: true
+properties:
+- {default_value: default, name: title, type: string}
+- {default_value: null, name: delta, type: number}
+- {default_value: null, name: value, type: number}
+- {default_value: month, name: time_period, type: string}

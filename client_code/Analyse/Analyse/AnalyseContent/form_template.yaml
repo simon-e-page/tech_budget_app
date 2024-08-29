@@ -1,23 +1,23 @@
-container:
-  type: HtmlTemplate
-  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true, role: full-height-padding, html: '@theme:flex_col_three_slots_wide.html'}
 components:
-- type: FlowPanel
-  properties: {}
-  name: flow_panel_2
-  layout_properties: {grid_position: 'DJDQZR,YKTNKD', slot: slot-header}
-  components:
-  - type: Button
-    properties: {role: secondary-button, align: center, tooltip: '', border: '', enabled: true, foreground: '', visible: true, text: Clear, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
-    name: clear_button
+- components:
+  - event_bindings: {click: clear_button_click}
     layout_properties: {grid_position: 'DJDQZR,DOLBUN'}
-    event_bindings: {click: clear_button_click}
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: 'Output:', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+    name: clear_button
+    properties: {align: center, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: secondary-button, spacing_above: small, spacing_below: small, text: Clear, tooltip: '', underline: false, visible: true}
+    type: Button
+  - layout_properties: {}
     name: label_2
-    layout_properties: {}
-- type: LinearPanel
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: 'Output:', tooltip: '', underline: false, visible: true}
+    type: Label
+  layout_properties: {grid_position: 'DJDQZR,YKTNKD', slot: slot-header}
+  name: flow_panel_2
   properties: {}
+  type: FlowPanel
+- layout_properties: {slot: slot-content}
   name: panel_main
-  layout_properties: {slot: slot-content}
+  properties: {}
+  type: LinearPanel
+container:
+  properties: {background: '', border: '', foreground: '', html: '@theme:flex_col_three_slots_wide.html', role: full-height-padding, tooltip: '', visible: true}
+  type: HtmlTemplate
 is_package: true

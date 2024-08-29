@@ -1,204 +1,204 @@
-correct_dependency_ids: {USDM5ACADPPZ3V63: USDM5ACADPPZ3V63, TGQCF3WT6FVL2EM2: TGQCF3WT6FVL2EM2}
+allow_embedding: false
+correct_dependency_ids: {TGQCF3WT6FVL2EM2: TGQCF3WT6FVL2EM2, USDM5ACADPPZ3V63: USDM5ACADPPZ3V63}
+db_schema:
+  accounts:
+    client: search
+    columns:
+    - admin_ui: {width: 200}
+      name: name
+      type: string
+    - admin_ui: {width: 200}
+      name: type
+      target: types
+      type: link_single
+    - admin_ui: {width: 200}
+      name: description
+      type: string
+    - admin_ui: {width: 200}
+      name: institution
+      type: string
+    - admin_ui: {width: 200}
+      name: account_number
+      type: string
+    - admin_ui: {width: 200}
+      name: report
+      type: bool
+    - admin_ui: {width: 200}
+      name: budget
+      type: bool
+    - admin_ui: {width: 200}
+      name: discretionary
+      type: bool
+    - admin_ui: {width: 200}
+      name: notes
+      type: string
+    - admin_ui: {width: 200}
+      name: filename_pattern
+      type: string
+    - admin_ui: {width: 200}
+      name: inactive
+      type: bool
+    - admin_ui: {width: 200}
+      name: avatar
+      type: media
+    - admin_ui: {width: 200}
+      name: reconcile
+      type: bool
+    - admin_ui: {width: 200}
+      name: order
+      type: number
+    - admin_ui: {width: 200}
+      name: default_budget
+      type: number
+    server: full
+    title: Accounts
+  budgets:
+    client: none
+    columns:
+    - admin_ui: {width: 200}
+      name: account
+      target: accounts
+      type: link_single
+    - admin_ui: {width: 200}
+      name: fin_year
+      type: string
+    - admin_ui: {width: 200}
+      name: amount
+      type: number
+    server: full
+    title: Budgets
+  currentticketno:
+    client: search
+    columns:
+    - admin_ui: {width: 200}
+      name: number
+      type: number
+    server: full
+    title: CurrentTicketNo
+  transaction_count:
+    client: search
+    columns:
+    - admin_ui: {width: 200}
+      name: count
+      type: number
+    server: full
+    title: Transaction_count
+  transactions:
+    client: none
+    columns:
+    - admin_ui: {width: 200}
+      name: description
+      type: string
+    - admin_ui: {width: 200}
+      name: credit_account
+      target: accounts
+      type: link_single
+    - admin_ui: {width: 200}
+      name: debit_account
+      target: accounts
+      type: link_single
+    - admin_ui: {width: 200}
+      name: timestamp
+      type: datetime
+    - admin_ui: {width: 200}
+      name: amount
+      type: number
+    - admin_ui: {width: 200}
+      name: organisation
+      type: string
+    - admin_ui: {width: 200}
+      name: notes
+      type: string
+    - admin_ui: {width: 200}
+      name: updated_by
+      target: users
+      type: link_single
+    - admin_ui: {width: 200}
+      name: updated
+      type: datetime
+    - admin_ui: {width: 200}
+      name: tags
+      type: simpleObject
+    - admin_ui: {width: 200}
+      name: duplicate
+      type: bool
+    - admin_ui: {width: 200}
+      name: source
+      type: string
+    - admin_ui: {width: 200}
+      name: transaction_id
+      type: number
+    - admin_ui: {width: 200}
+      name: reconciled
+      type: bool
+    server: full
+    title: Transactions
+  types:
+    client: search
+    columns:
+    - admin_ui: {width: 200}
+      name: name
+      type: string
+    server: full
+    title: Types
+  users:
+    client: none
+    columns:
+    - admin_ui: {width: 200}
+      name: email
+      type: string
+    - admin_ui: {width: 100}
+      name: enabled
+      type: bool
+    - admin_ui: {width: 200}
+      name: signed_up
+      type: datetime
+    - admin_ui: {width: 200}
+      name: last_login
+      type: datetime
+    - admin_ui: {width: 200}
+      name: remembered_logins
+      type: simpleObject
+    - admin_ui: {width: 200}
+      name: name
+      type: string
+    - admin_ui: {width: 200}
+      name: password_hash
+      type: string
+    - admin_ui: {width: 200}
+      name: n_password_failures
+      type: number
+    server: full
+    title: Users
 dependencies:
 - app_id: USDM5ACADPPZ3V63
   version: {dev: false}
 - app_id: TGQCF3WT6FVL2EM2
   version: {dev: false}
 - dep_id: dep_3ged044szjzy7
-  version: {dev: false}
   resolution_hints: {app_id: M3RD6ZOKPZUGJKTL, name: Clone of Toggle Switch, package_name: ToggleSwitch}
-services:
-- source: /runtime/services/tables.yml
-  client_config: {}
-  server_config: {}
-- source: /runtime/services/anvil/users.yml
-  client_config: {allow_signup: true, enable_automatically: false, use_email: true, confirm_email: false, use_google: false, allow_remember_me: true, remember_me_days: 30, use_facebook: false}
-  server_config: {user_table: 750970}
-- source: /runtime/services/anvil/email.yml
-  client_config: {}
-  server_config: {}
-- source: /runtime/services/anvil/secrets.yml
-  client_config: {}
-  server_config: {}
-package_name: FinanceApp
-allow_embedding: false
+  version: {dev: false}
+metadata: {description: 'Track IT Budgets, Forecasts and Actuals', logo_img: 'asset:digital-money-technology-logo-vector_new.jpg', title: Tech Finance}
 name: Tech_Finance
-runtime_options: {version: 2, server_version: python3-sandbox, client_version: '3', server_spec: null}
-metadata: {title: Tech Finance, description: 'Track IT Budgets, Forecasts and Actuals', logo_img: 'asset:digital-money-technology-logo-vector_new.jpg'}
-startup_form: Login
 native_deps:
   head_html: |-
     <script src="//d3js.org/d3.v4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-db_schema:
-  currentticketno:
-    title: CurrentTicketNo
-    client: search
-    server: full
-    columns:
-    - name: number
-      admin_ui: {width: 200}
-      type: number
-  accounts:
-    title: Accounts
-    client: search
-    server: full
-    columns:
-    - name: name
-      admin_ui: {width: 200}
-      type: string
-    - name: type
-      admin_ui: {width: 200}
-      type: link_single
-      target: types
-    - name: description
-      admin_ui: {width: 200}
-      type: string
-    - name: institution
-      admin_ui: {width: 200}
-      type: string
-    - name: account_number
-      admin_ui: {width: 200}
-      type: string
-    - name: report
-      admin_ui: {width: 200}
-      type: bool
-    - name: budget
-      admin_ui: {width: 200}
-      type: bool
-    - name: discretionary
-      admin_ui: {width: 200}
-      type: bool
-    - name: notes
-      admin_ui: {width: 200}
-      type: string
-    - name: filename_pattern
-      admin_ui: {width: 200}
-      type: string
-    - name: inactive
-      admin_ui: {width: 200}
-      type: bool
-    - name: avatar
-      admin_ui: {width: 200}
-      type: media
-    - name: reconcile
-      admin_ui: {width: 200}
-      type: bool
-    - name: order
-      admin_ui: {width: 200}
-      type: number
-    - name: default_budget
-      admin_ui: {width: 200}
-      type: number
-  users:
-    title: Users
-    client: none
-    server: full
-    columns:
-    - name: email
-      admin_ui: {width: 200}
-      type: string
-    - name: enabled
-      admin_ui: {width: 100}
-      type: bool
-    - name: signed_up
-      admin_ui: {width: 200}
-      type: datetime
-    - name: last_login
-      admin_ui: {width: 200}
-      type: datetime
-    - name: remembered_logins
-      admin_ui: {width: 200}
-      type: simpleObject
-    - name: name
-      admin_ui: {width: 200}
-      type: string
-    - name: password_hash
-      admin_ui: {width: 200}
-      type: string
-    - name: n_password_failures
-      admin_ui: {width: 200}
-      type: number
-  types:
-    title: Types
-    client: search
-    server: full
-    columns:
-    - name: name
-      admin_ui: {width: 200}
-      type: string
-  transactions:
-    title: Transactions
-    client: none
-    server: full
-    columns:
-    - name: description
-      admin_ui: {width: 200}
-      type: string
-    - name: credit_account
-      admin_ui: {width: 200}
-      type: link_single
-      target: accounts
-    - name: debit_account
-      admin_ui: {width: 200}
-      type: link_single
-      target: accounts
-    - name: timestamp
-      admin_ui: {width: 200}
-      type: datetime
-    - name: amount
-      admin_ui: {width: 200}
-      type: number
-    - name: organisation
-      admin_ui: {width: 200}
-      type: string
-    - name: notes
-      admin_ui: {width: 200}
-      type: string
-    - name: updated_by
-      admin_ui: {width: 200}
-      type: link_single
-      target: users
-    - name: updated
-      admin_ui: {width: 200}
-      type: datetime
-    - name: tags
-      admin_ui: {width: 200}
-      type: simpleObject
-    - name: duplicate
-      admin_ui: {width: 200}
-      type: bool
-    - name: source
-      admin_ui: {width: 200}
-      type: string
-    - name: transaction_id
-      admin_ui: {width: 200}
-      type: number
-    - name: reconciled
-      admin_ui: {width: 200}
-      type: bool
-  transaction_count:
-    title: Transaction_count
-    client: search
-    server: full
-    columns:
-    - name: count
-      admin_ui: {width: 200}
-      type: number
-  budgets:
-    title: Budgets
-    client: none
-    server: full
-    columns:
-    - name: account
-      admin_ui: {width: 200}
-      type: link_single
-      target: accounts
-    - name: fin_year
-      admin_ui: {width: 200}
-      type: string
-    - name: amount
-      admin_ui: {width: 200}
-      type: number
-uplink_visible: true
+package_name: FinanceApp
 renamed: true
+runtime_options: {client_version: '3', server_spec: null, server_version: python3-sandbox, version: 2}
+services:
+- client_config: {}
+  server_config: {}
+  source: /runtime/services/tables.yml
+- client_config: {allow_remember_me: true, allow_signup: true, confirm_email: false, enable_automatically: false, remember_me_days: 30, use_email: true, use_facebook: false, use_google: false}
+  server_config: {user_table: 750970}
+  source: /runtime/services/anvil/users.yml
+- client_config: {}
+  server_config: {}
+  source: /runtime/services/anvil/email.yml
+- client_config: {}
+  server_config: {}
+  source: /runtime/services/anvil/secrets.yml
+startup_form: Login
+uplink_visible: true

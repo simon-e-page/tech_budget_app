@@ -1,14 +1,14 @@
-container:
-  type: HtmlTemplate
-  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true, role: null, html: '@theme:scroll_pane.html'}
-  event_bindings: {show: form_show}
 components:
-- type: form:Analyse.Analyse.AnalyseHeader
-  properties: {}
+- layout_properties: {slot: slot-header}
   name: analyse_header
-  layout_properties: {slot: slot-header}
-- type: form:Analyse.Analyse.AnalyseContent
   properties: {}
+  type: form:Analyse.Analyse.AnalyseHeader
+- layout_properties: {slot: slot-content}
   name: analyse_content
-  layout_properties: {slot: slot-content}
+  properties: {}
+  type: form:Analyse.Analyse.AnalyseContent
+container:
+  event_bindings: {show: form_show}
+  properties: {background: '', border: '', foreground: '', html: '@theme:scroll_pane.html', role: null, tooltip: '', visible: true}
+  type: HtmlTemplate
 is_package: true

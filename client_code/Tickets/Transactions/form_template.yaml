@@ -1,167 +1,167 @@
-container:
-  type: HtmlTemplate
-  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true, role: null, html: '@theme:three_slots.html'}
-  event_bindings: {}
 components:
-- type: form:Tickets.Transactions.TransactionList
-  properties: {}
-  name: transaction_list
+- data_bindings: []
   layout_properties: {slot: slot-1}
-  data_bindings: []
-- type: ColumnPanel
-  properties: {role: filter-form-shadow, tooltip: '', border: '', foreground: '', visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}', spacing_below: small, background: ''}
-  name: column_panel_1
-  layout_properties: {slot: slot-2}
-  components:
-  - type: ColumnPanel
-    properties: {role: null, tooltip: '', border: '', foreground: '', visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{"ZTPEUH":2,"MUSPMU":58}', spacing_below: small, background: ''}
-    name: column_panel_1_copy
+  name: transaction_list
+  properties: {}
+  type: form:Tickets.Transactions.TransactionList
+- components:
+  - components:
+    - layout_properties: {grid_position: 'JFBEHH,ZTPEUH'}
+      name: spacer_1
+      properties: {height: 32}
+      type: Spacer
+    - layout_properties: {grid_position: 'JFBEHH,MUSPMU'}
+      name: label_1
+      properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-text, spacing_above: small, spacing_below: medium, text: Filters, tooltip: '', underline: false, visible: true}
+      type: Label
     layout_properties:
       col_widths: {}
       grid_position: ILXINR,GNLIMQ
-    components:
-    - type: Spacer
-      properties: {height: 32}
-      name: spacer_1
-      layout_properties: {grid_position: 'JFBEHH,ZTPEUH'}
-    - type: Label
-      properties: {role: header-text, align: left, tooltip: '', border: '', foreground: '', visible: true, text: Filters, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: medium, italic: false, background: '', bold: false, underline: false, icon: ''}
-      name: label_1
-      layout_properties: {grid_position: 'JFBEHH,MUSPMU'}
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: 'Vendor:', font_size: null, font: '', spacing_above: none, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
-    name: label_2_copy
-    layout_properties:
+    name: column_panel_1_copy
+    properties: {background: '', border: '', col_spacing: medium, col_widths: '{"ZTPEUH":2,"MUSPMU":58}', foreground: '', role: null, spacing_above: small, spacing_below: small, tooltip: '', visible: true, wrap_on: mobile}
+    type: ColumnPanel
+  - layout_properties:
       col_widths: {}
       grid_position: IWUXOP,FAZYTG
-  - type: DropDown
-    properties:
-      role: dropdown-border
-      align: full
-      tooltip: ''
-      placeholder: Any Vendor
-      border: ''
-      enabled: true
-      foreground: ''
-      items: [self.vendors]
-      visible: true
-      font_size: null
-      font: ''
-      spacing_above: small
-      spacing_below: small
-      italic: false
-      background: ''
-      bold: false
-      underline: false
-      include_placeholder: true
-    name: vendor_dropdown
+    name: label_2_copy
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: none, spacing_below: small, text: 'Vendor:', tooltip: '', underline: false, visible: true}
+    type: Label
+  - data_bindings:
+    - {code: 'self.filters[''vendor'']', property: selected_value, writeback: true}
+    - {code: self.vendor_list, property: items, writeback: false}
+    event_bindings: {}
     layout_properties:
       col_widths: {}
       grid_position: QVAFAJ,CVNQLJ
-    data_bindings:
-    - {property: selected_value, code: 'self.filters[''vendor'']', writeback: true}
-    - {property: items, code: self.vendor_list, writeback: false}
-    event_bindings: {}
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: 'Description:', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
-    name: label_2
-    layout_properties: {grid_position: 'TMENQC,LXOWUW'}
-  - type: TextBox
-    properties: {role: textbox-input, align: left, hide_text: false, tooltip: '', placeholder: Enter description, border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: text, spacing_below: small, italic: false, background: '', bold: false, underline: false}
-    name: description_text
-    layout_properties: {grid_position: 'FPJVHR,GZBDSO'}
-    event_bindings: {}
-    data_bindings:
-    - {property: text, code: 'self.filters[''description'']', writeback: true}
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: 'Owner:', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
-    name: label_3
-    layout_properties: {grid_position: 'OOGWBE,TTWWMS'}
-  - type: DropDown
+    name: vendor_dropdown
     properties:
-      role: null
       align: full
-      tooltip: ''
-      placeholder: All Owners
-      border: ''
-      enabled: true
-      foreground: ''
-      items: []
-      visible: true
-      font_size: null
-      font: ''
-      spacing_above: small
-      spacing_below: small
-      italic: false
       background: ''
       bold: false
-      underline: false
+      border: ''
+      enabled: true
+      font: ''
+      font_size: null
+      foreground: ''
       include_placeholder: true
-    name: owner_dropdown
+      italic: false
+      items: [self.vendors]
+      placeholder: Any Vendor
+      role: dropdown-border
+      spacing_above: small
+      spacing_below: small
+      tooltip: ''
+      underline: false
+      visible: true
+    type: DropDown
+  - layout_properties: {grid_position: 'TMENQC,LXOWUW'}
+    name: label_2
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: 'Description:', tooltip: '', underline: false, visible: true}
+    type: Label
+  - data_bindings:
+    - {code: 'self.filters[''description'']', property: text, writeback: true}
+    event_bindings: {}
+    layout_properties: {grid_position: 'FPJVHR,GZBDSO'}
+    name: description_text
+    properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: Enter description, role: textbox-input, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: text, underline: false, visible: true}
+    type: TextBox
+  - layout_properties: {grid_position: 'OOGWBE,TTWWMS'}
+    name: label_3
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: 'Owner:', tooltip: '', underline: false, visible: true}
+    type: Label
+  - data_bindings:
+    - {code: self.owners, property: items, writeback: false}
+    - {code: 'self.filters[''owner'']', property: selected_value, writeback: true}
     layout_properties: {grid_position: 'GYSRKL,BZDZEI'}
-    data_bindings:
-    - {property: items, code: self.owners, writeback: false}
-    - {property: selected_value, code: 'self.filters[''owner'']', writeback: true}
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: 'Category:', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
-    name: label_2_copy_5
-    layout_properties:
+    name: owner_dropdown
+    properties:
+      align: full
+      background: ''
+      bold: false
+      border: ''
+      enabled: true
+      font: ''
+      font_size: null
+      foreground: ''
+      include_placeholder: true
+      italic: false
+      items: []
+      placeholder: All Owners
+      role: null
+      spacing_above: small
+      spacing_below: small
+      tooltip: ''
+      underline: false
+      visible: true
+    type: DropDown
+  - layout_properties:
       col_widths: {}
       grid_position: WGHQNY,RQCHQK
-  - type: FlowPanel
-    properties: {}
-    name: flow_panel_1
+    name: label_2_copy_5
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: 'Category:', tooltip: '', underline: false, visible: true}
+    type: Label
+  - components:
+    - data_bindings:
+      - {code: self.categories, property: items, writeback: false}
+      - {code: 'self.filters[''category'']', property: selected_value, writeback: true}
+      layout_properties: {width: 254.32421875}
+      name: category_dropdown
+      properties: {include_placeholder: true, placeholder: Any Category}
+      type: DropDown
     layout_properties:
       col_widths: {}
       grid_position: IZEDOQ,EJGVIS
-    components:
-    - name: category_dropdown
-      properties: {include_placeholder: true, placeholder: Any Category}
-      type: DropDown
-      layout_properties: {width: 254.32421875}
-      data_bindings:
-      - {property: items, code: self.categories, writeback: false}
-      - {property: selected_value, code: 'self.filters[''category'']', writeback: true}
-  - name: label_5
+    name: flow_panel_1
+    properties: {}
+    type: FlowPanel
+  - layout_properties: {grid_position: 'MYNHUN,CIYECC'}
+    name: label_5
     properties: {text: 'Lifecycle:'}
     type: Label
-    layout_properties: {grid_position: 'MYNHUN,CIYECC'}
-  - name: lifecycle_dropdown
+  - data_bindings:
+    - {code: self.lifecycles, property: items, writeback: false}
+    - {code: 'self.filters[''lifecycle'']', property: selected_value, writeback: true}
+    layout_properties: {grid_position: 'RPYPQH,HEMNXJ'}
+    name: lifecycle_dropdown
     properties: {include_placeholder: true, placeholder: Any Lifecycle}
     type: DropDown
-    layout_properties: {grid_position: 'RPYPQH,HEMNXJ'}
-    data_bindings:
-    - {property: items, code: self.lifecycles, writeback: false}
-    - {property: selected_value, code: 'self.filters[''lifecycle'']', writeback: true}
-  - name: label_4
+  - layout_properties: {grid_position: 'WONBIA,YAMHNR'}
+    name: label_4
     properties: {text: Entry Type}
     type: Label
-    layout_properties: {grid_position: 'WONBIA,YAMHNR'}
-  - name: drop_down_1
+  - data_bindings:
+    - {code: self.transaction_types, property: items, writeback: false}
+    - {code: 'self.filters[''transaction_type'']', property: selected_value, writeback: true}
+    layout_properties: {grid_position: 'EYCSDS,QZAEYE'}
+    name: drop_down_1
     properties: {include_placeholder: true, placeholder: All Transaction Types}
     type: DropDown
-    layout_properties: {grid_position: 'EYCSDS,QZAEYE'}
-    data_bindings:
-    - {property: items, code: self.transaction_types, writeback: false}
-    - {property: selected_value, code: 'self.filters[''transaction_type'']', writeback: true}
-  - type: FlowPanel
-    properties: {role: null, spacing: medium, align: right, tooltip: '', border: '', foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
-    name: flow_panel_1_copy
-    layout_properties:
-      col_widths: {}
-      grid_position: GHIXDU,NLZRJP
-    components:
-    - type: Link
-      properties: {role: grey-link, url: '', align: right, tooltip: '', border: '', foreground: 'theme:Gray 600', visible: true, text: Clear filters, font_size: null, wrap_on: mobile, font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '', spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
-      name: clear_filters_link
+  - components:
+    - event_bindings: {click: clear_filters_link_click}
       layout_properties:
         col_widths: {}
         grid_position: RPXTYJ,PFILVK
-      event_bindings: {click: clear_filters_link_click}
-    - type: Button
-      properties: {role: large-primary-button, align: center, tooltip: '', border: '', enabled: true, foreground: '', visible: true, text: Apply, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
-      name: apply_button
+      name: clear_filters_link
+      properties: {align: right, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: 'theme:Gray 600', icon: '', icon_align: left, italic: false, role: grey-link, spacing_above: small, spacing_below: small, text: Clear filters, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+      type: Link
+    - event_bindings: {click: apply_button_click}
       layout_properties: {}
-      event_bindings: {click: apply_button_click}
-is_package: true
+      name: apply_button
+      properties: {align: center, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: large-primary-button, spacing_above: small, spacing_below: small, text: Apply, tooltip: '', underline: false, visible: true}
+      type: Button
+    layout_properties:
+      col_widths: {}
+      grid_position: GHIXDU,NLZRJP
+    name: flow_panel_1_copy
+    properties: {align: right, background: '', border: '', foreground: '', role: null, spacing: medium, spacing_above: small, spacing_below: small, tooltip: '', visible: true}
+    type: FlowPanel
+  layout_properties: {slot: slot-2}
+  name: column_panel_1
+  properties: {background: '', border: '', col_spacing: medium, col_widths: '{}', foreground: '', role: filter-form-shadow, spacing_above: small, spacing_below: small, tooltip: '', visible: true, wrap_on: mobile}
+  type: ColumnPanel
+container:
+  event_bindings: {}
+  properties: {background: '', border: '', foreground: '', html: '@theme:three_slots.html', role: null, tooltip: '', visible: true}
+  type: HtmlTemplate
 custom_component: false
+is_package: true

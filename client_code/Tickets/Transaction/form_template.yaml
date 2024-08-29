@@ -1,309 +1,309 @@
-container:
-  type: HtmlTemplate
-  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true, role: null, html: '@theme:budget_lines.html'}
-  event_bindings: {refreshing_data_bindings: form_refreshing_data_bindings}
 components:
-- type: ColumnPanel
-  properties: {role: filter-form-shadow, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
-  name: transaction_details
-  layout_properties: {slot: slot-1}
-  components:
-  - type: ColumnPanel
-    properties: {role: null, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
-    name: column_panel_1_copy
+- components:
+  - components:
+    - components:
+      - data_bindings:
+        - {code: 'self.budget_labels[self.item[''transaction_type'']==''Budget'']', property: text, writeback: false}
+        name: label_1
+        properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-text, spacing_above: small, spacing_below: medium, text: Budget Line Detail, tooltip: '', underline: false, visible: true}
+        type: Label
+      - data_bindings:
+        - {code: 'self.actual_button_labels[self.item.transaction_type==''Budget'']', property: text, writeback: false}
+        - {code: self.item.transaction_id is None, property: visible, writeback: false}
+        event_bindings: {click: actual_button_click}
+        layout_properties: {}
+        name: actual_button
+        properties: {role: secondary-button, text: ''}
+        type: Button
+      layout_properties: {grid_position: 'YFTLZN,DZTYIV'}
+      name: flow_panel_11
+      properties: {}
+      type: FlowPanel
     layout_properties:
       col_widths: {}
       grid_position: JMIBRO,LGBGLH
-    components:
-    - name: flow_panel_11
-      properties: {}
-      type: FlowPanel
-      layout_properties: {grid_position: 'YFTLZN,DZTYIV'}
-      components:
-      - type: Label
-        properties: {role: header-text, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: medium, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Budget Line Detail}
-        name: label_1
-        data_bindings:
-        - {property: text, code: 'self.budget_labels[self.item[''transaction_type'']==''Budget'']', writeback: false}
-      - name: actual_button
-        properties: {text: '', role: secondary-button}
-        type: Button
-        layout_properties: {}
-        data_bindings:
-        - {property: text, code: 'self.actual_button_labels[self.item.transaction_type==''Budget'']', writeback: false}
-        - {property: visible, code: self.item.transaction_id is None, writeback: false}
-        event_bindings: {click: actual_button_click}
-  - name: flow_panel_2
-    properties: {}
-    type: FlowPanel
-    layout_properties: {grid_position: 'WJRQUG,CEDYMV'}
-    components:
-    - type: Label
-      properties: {role: null, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:Muted purple', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: 'Owner: '}
-      name: label_2_copy
+    name: column_panel_1_copy
+    properties: {background: '', border: '', col_spacing: medium, col_widths: '{}', foreground: '', role: null, spacing_above: small, spacing_below: small, tooltip: '', visible: true, wrap_on: mobile}
+    type: ColumnPanel
+  - components:
+    - data_bindings: []
       layout_properties: {}
-      data_bindings: []
-    - name: owner_textbox
+      name: label_2_copy
+      properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: 'theme:Muted purple', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: 'Owner: ', tooltip: '', underline: false, visible: true}
+      type: Label
+    - data_bindings:
+      - {code: 'self.item[''owner'']', property: text, writeback: false}
+      layout_properties: {}
+      name: owner_textbox
       properties: {placeholder: Enter Owner}
       type: TextBox
-      data_bindings:
-      - {property: text, code: 'self.item[''owner'']', writeback: false}
-      layout_properties: {}
-    - name: label_15
+    - layout_properties: {}
+      name: label_15
       properties: {text: 'Team:'}
       type: Label
-      layout_properties: {}
-    - name: team_dropdown
+    - data_bindings:
+      - {code: 'self.teams[self.item[''owner'']]', property: items, writeback: false}
+      - {code: 'self.item[''team'']', property: selected_value, writeback: true}
+      layout_properties: {width: 174.03515625}
+      name: team_dropdown
       properties: {include_placeholder: true, placeholder: Select Team}
       type: DropDown
-      layout_properties: {width: 174.03515625}
-      data_bindings:
-      - {property: items, code: 'self.teams[self.item[''owner'']]', writeback: false}
-      - {property: selected_value, code: 'self.item[''team'']', writeback: true}
-  - name: flow_panel_4
+    layout_properties: {grid_position: 'WJRQUG,CEDYMV'}
+    name: flow_panel_2
     properties: {}
     type: FlowPanel
-    layout_properties: {grid_position: 'VXOWLP,BURIPO'}
-    components:
-    - name: label_4
+  - components:
+    - layout_properties: {}
+      name: label_4
       properties: {text: 'Vendor:'}
       type: Label
+    - data_bindings:
+      - {code: self.vendor_list, property: items, writeback: false}
+      - {code: 'self.item[''vendor''][''vendor_id'']', property: selected_value, writeback: true}
       layout_properties: {}
-    - name: vendor_dropdown
+      name: vendor_dropdown
       properties: {include_placeholder: true, placeholder: Select Vendor}
       type: DropDown
-      data_bindings:
-      - {property: items, code: self.vendor_list, writeback: false}
-      - {property: selected_value, code: 'self.item[''vendor''][''vendor_id'']', writeback: true}
-      layout_properties: {}
-    - name: new_vendor_button
-      properties: {text: New Vendor, role: primary-button, icon: 'fa:external-link'}
-      type: Button
-      layout_properties: {}
-      data_bindings:
-      - {property: visible, code: self.item.transaction_id is None, writeback: false}
+    - data_bindings:
+      - {code: self.item.transaction_id is None, property: visible, writeback: false}
       event_bindings: {click: new_vendor_button_click}
-  - type: Label
-    properties: {role: null, bold: false, align: left, spacing_above: medium, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:Muted purple', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: 'Description:'}
-    name: label_2_copy_3
-    layout_properties:
+      layout_properties: {}
+      name: new_vendor_button
+      properties: {icon: 'fa:external-link', role: primary-button, text: New Vendor}
+      type: Button
+    layout_properties: {grid_position: 'VXOWLP,BURIPO'}
+    name: flow_panel_4
+    properties: {}
+    type: FlowPanel
+  - layout_properties:
       col_widths: {}
       grid_position: MSYHQS,IHHAVP
-  - type: TextBox
-    properties: {role: textbox-input, bold: false, align: left, placeholder: Enter Description, spacing_above: small, background: '', type: text, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
-    name: description_box
+    name: label_2_copy_3
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: 'theme:Muted purple', icon: '', icon_align: left, italic: false, role: null, spacing_above: medium, spacing_below: small, text: 'Description:', tooltip: '', underline: false, visible: true}
+    type: Label
+  - data_bindings:
+    - {code: 'self.item[''description'']', property: text, writeback: true}
+    event_bindings: {change: transaction_description_edit, lost_focus: transaction_description_edit, pressed_enter: transaction_description_edit}
     layout_properties:
       col_widths: {}
       grid_position: UGYKFB,GXVNJM
-    data_bindings:
-    - {property: text, code: 'self.item[''description'']', writeback: true}
-    event_bindings: {pressed_enter: transaction_description_edit, lost_focus: transaction_description_edit, change: transaction_description_edit}
-  - name: flow_panel_10
-    properties: {}
-    type: FlowPanel
-    layout_properties: {grid_position: 'RCVFDJ,FCVMTE'}
-    components:
-    - type: Label
-      properties: {role: null, bold: false, align: left, spacing_above: medium, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:Muted purple', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: 'Business Contact:'}
-      name: label_2_copy_4
-    - type: TextBox
-      properties: {role: null, bold: false, align: left, placeholder: Enter Business Contact, spacing_above: small, background: '', type: text, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
-      name: amount_box
-      layout_properties: {}
-      data_bindings:
-      - {property: text, code: 'self.item[''business_contact'']', writeback: true}
+    name: description_box
+    properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: Enter Description, role: textbox-input, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: text, underline: false, visible: true}
+    type: TextBox
+  - components:
+    - name: label_2_copy_4
+      properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: 'theme:Muted purple', icon: '', icon_align: left, italic: false, role: null, spacing_above: medium, spacing_below: small, text: 'Business Contact:', tooltip: '', underline: false, visible: true}
+      type: Label
+    - data_bindings:
+      - {code: 'self.item[''business_contact'']', property: text, writeback: true}
       event_bindings: {change: amount_box_change}
-    - name: label_14
+      layout_properties: {}
+      name: amount_box
+      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: Enter Business Contact, role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: text, underline: false, visible: true}
+      type: TextBox
+    - layout_properties: {}
+      name: label_14
       properties: {text: 'Project:'}
       type: Label
+    - data_bindings:
+      - {code: 'self.item[''project'']', property: text, writeback: true}
       layout_properties: {}
-    - name: project_textbox
+      name: project_textbox
       properties: {placeholder: Enter Project}
       type: TextBox
-      layout_properties: {}
-      data_bindings:
-      - {property: text, code: 'self.item[''project'']', writeback: true}
-  - name: flow_panel_8
+    layout_properties: {grid_position: 'RCVFDJ,FCVMTE'}
+    name: flow_panel_10
     properties: {}
     type: FlowPanel
-    layout_properties: {grid_position: 'KPHEYA,SDPFNY'}
-    components:
-    - name: label_5
+  - components:
+    - layout_properties: {}
+      name: label_5
       properties: {text: 'Contract:'}
       type: Label
-      layout_properties: {}
-    - name: contract_start_picker
+    - data_bindings:
+      - {code: 'self.item[''contract_start_date'']', property: date, writeback: true}
+      layout_properties: {width: 146.9140625}
+      name: contract_start_picker
       properties: {placeholder: Start Date}
       type: DatePicker
-      layout_properties: {width: 146.9140625}
-      data_bindings:
-      - {property: date, code: 'self.item[''contract_start_date'']', writeback: true}
-    - name: label_10
+    - layout_properties: {}
+      name: label_10
       properties: {text: to}
       type: Label
-      layout_properties: {}
-    - name: contract_end_picker
+    - data_bindings:
+      - {code: 'self.item[''contract_end_date'']', property: date, writeback: true}
+      layout_properties: {width: 150.59765625}
+      name: contract_end_picker
       properties: {placeholder: End Date}
       type: DatePicker
-      layout_properties: {width: 150.59765625}
-      data_bindings:
-      - {property: date, code: 'self.item[''contract_end_date'']', writeback: true}
-    - name: label_11
+    - layout_properties: {}
+      name: label_11
       properties: {text: 'Monthly:'}
       type: Label
+    - data_bindings:
+      - {code: 'self.item[''expected_monthly_amount'']', property: text, writeback: true}
       layout_properties: {}
-    - name: monhtly_amount_box
+      name: monhtly_amount_box
       properties: {placeholder: Expected Amount, type: number}
       type: TextBox
-      layout_properties: {}
-      data_bindings:
-      - {property: text, code: 'self.item[''expected_monthly_amount'']', writeback: true}
-  - type: FlowPanel
-    properties: {role: null, align: left, spacing_above: small, background: '', foreground: '', spacing_below: small, visible: true, border: '', tooltip: '', spacing: medium}
-    name: flow_panel_3
-    layout_properties: {grid_position: 'PEEBXT,MXBJFQ'}
-    components:
-    - type: Label
-      properties: {role: null, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Account Code}
+    layout_properties: {grid_position: 'KPHEYA,SDPFNY'}
+    name: flow_panel_8
+    properties: {}
+    type: FlowPanel
+  - components:
+    - layout_properties: {}
       name: label_2
-      layout_properties: {}
-    - type: DropDown
-      properties:
-        role: null
-        include_placeholder: true
-        bold: false
-        align: full
-        placeholder: Select Account Code
-        spacing_above: small
-        background: ''
-        underline: false
-        font: ''
-        foreground: ''
-        items: []
-        spacing_below: small
-        visible: true
-        border: ''
-        italic: false
-        enabled: true
-        font_size: null
-        tooltip: ''
-      name: organisation_dropdown
-      layout_properties: {}
-      data_bindings:
-      - {property: items, code: self.account_codes, writeback: false}
-      - {property: selected_value, code: 'self.item[''account_code'']', writeback: true}
+      properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Account Code, tooltip: '', underline: false, visible: true}
+      type: Label
+    - data_bindings:
+      - {code: self.account_codes, property: items, writeback: false}
+      - {code: 'self.item[''account_code'']', property: selected_value, writeback: true}
       event_bindings: {}
-    - name: label_6
+      layout_properties: {}
+      name: organisation_dropdown
+      properties:
+        align: full
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        include_placeholder: true
+        italic: false
+        items: []
+        placeholder: Select Account Code
+        role: null
+        spacing_above: small
+        spacing_below: small
+        tooltip: ''
+        underline: false
+        visible: true
+      type: DropDown
+    - layout_properties: {}
+      name: label_6
       properties: {text: 'Cost Centre:'}
       type: Label
+    - data_bindings:
+      - {code: self.cost_centres, property: items, writeback: false}
+      - {code: 'self.item[''cost_centre'']', property: selected_value, writeback: true}
       layout_properties: {}
-    - name: cost_centre_dropdown
-      properties: {include_placeholder: true, placeholder: Select Cost Centre, align: left}
+      name: cost_centre_dropdown
+      properties: {align: left, include_placeholder: true, placeholder: Select Cost Centre}
       type: DropDown
-      data_bindings:
-      - {property: items, code: self.cost_centres, writeback: false}
-      - {property: selected_value, code: 'self.item[''cost_centre'']', writeback: true}
-      layout_properties: {}
-  - name: flow_panel_5
-    properties: {}
+    layout_properties: {grid_position: 'PEEBXT,MXBJFQ'}
+    name: flow_panel_3
+    properties: {align: left, background: '', border: '', foreground: '', role: null, spacing: medium, spacing_above: small, spacing_below: small, tooltip: '', visible: true}
     type: FlowPanel
-    layout_properties: {grid_position: 'HKVRMT,FVIOHG'}
-    components:
-    - name: label_7
+  - components:
+    - layout_properties: {}
+      name: label_7
       properties: {text: 'Lifecycle:'}
       type: Label
+    - data_bindings:
+      - {code: self.lifecycles, property: items, writeback: false}
+      - {code: 'self.item[''lifecycle'']', property: selected_value, writeback: true}
       layout_properties: {}
-    - name: lifecycle_dropdown
+      name: lifecycle_dropdown
       properties: {include_placeholder: true, placeholder: Select Lifecycle}
       type: DropDown
-      data_bindings:
-      - {property: items, code: self.lifecycles, writeback: false}
-      - {property: selected_value, code: 'self.item[''lifecycle'']', writeback: true}
+    - data_bindings: []
       layout_properties: {}
-    - name: label_9
+      name: label_9
       properties: {text: 'Category:'}
       type: Label
-      data_bindings: []
+    - data_bindings:
+      - {code: self.categories, property: items, writeback: false}
+      - {code: 'self.item[''category'']', property: selected_value, writeback: true}
       layout_properties: {}
-    - name: drop_down_1
+      name: drop_down_1
       properties: {include_placeholder: true, placeholder: Select Category}
       type: DropDown
-      data_bindings:
-      - {property: items, code: self.categories, writeback: false}
-      - {property: selected_value, code: 'self.item[''category'']', writeback: true}
-      layout_properties: {}
-  - name: flow_panel_9
+    layout_properties: {grid_position: 'HKVRMT,FVIOHG'}
+    name: flow_panel_5
     properties: {}
     type: FlowPanel
-    layout_properties: {grid_position: 'LOTAZZ,VDIAWY'}
-    components:
-    - name: label_12
+  - components:
+    - layout_properties: {}
+      name: label_12
       properties: {text: 'Service Change: '}
       type: Label
+    - data_bindings:
+      - {code: self.service_changes, property: items, writeback: false}
+      - {code: 'self.item[''service_change'']', property: selected_value, writeback: true}
       layout_properties: {}
-    - name: service_change_dropdown
+      name: service_change_dropdown
       properties: {include_placeholder: true, placeholder: Select Service Change}
       type: DropDown
-      data_bindings:
-      - {property: items, code: self.service_changes, writeback: false}
-      - {property: selected_value, code: 'self.item[''service_change'']', writeback: true}
-      layout_properties: {}
-    - name: label_13
+    - layout_properties: {}
+      name: label_13
       properties: {text: 'Billing Type:'}
       type: Label
+    - data_bindings:
+      - {code: self.billing_types, property: items, writeback: false}
+      - {code: 'self.item[''billing_type'']', property: selected_value, writeback: true}
       layout_properties: {}
-    - name: billing_type_dropdown
+      name: billing_type_dropdown
       properties: {include_placeholder: true, placeholder: Select Billing Type}
       type: DropDown
-      data_bindings:
-      - {property: items, code: self.billing_types, writeback: false}
-      - {property: selected_value, code: 'self.item[''billing_type'']', writeback: true}
-      layout_properties: {}
-  - type: Label
-    properties: {role: null, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:Muted purple', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Notes}
-    name: label_3
-    layout_properties: {grid_position: 'IGHJWB,RWXSIA'}
-  - type: TextArea
-    properties: {role: null, bold: false, align: left, placeholder: Enter notes here.., spacing_above: small, background: '', underline: false, font: '', foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, auto_expand: false, font_size: null, tooltip: '', height: 93.7031, text: ''}
-    name: notes_area
-    layout_properties: {grid_position: 'WSDITZ,KIBOHT'}
-    data_bindings:
-    - {property: text, code: 'self.item[''notes'']', writeback: true}
-    event_bindings: {change: notes_area_change}
-  - name: flow_panel_6
+    layout_properties: {grid_position: 'LOTAZZ,VDIAWY'}
+    name: flow_panel_9
     properties: {}
     type: FlowPanel
-    layout_properties: {grid_position: 'ZLQYRO,ATLWNV'}
-    components:
-    - name: to_review_checkbox
+  - layout_properties: {grid_position: 'IGHJWB,RWXSIA'}
+    name: label_3
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: 'theme:Muted purple', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Notes, tooltip: '', underline: false, visible: true}
+    type: Label
+  - data_bindings:
+    - {code: 'self.item[''notes'']', property: text, writeback: true}
+    event_bindings: {change: notes_area_change}
+    layout_properties: {grid_position: 'WSDITZ,KIBOHT'}
+    name: notes_area
+    properties: {align: left, auto_expand: false, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', height: 93.7031, italic: false, placeholder: Enter notes here.., role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', underline: false, visible: true}
+    type: TextArea
+  - components:
+    - data_bindings:
+      - {code: 'self.item[''to_review'']', property: checked, writeback: true}
+      - {code: 'self.item[''transaction_type''] == ''Actual''', property: visible, writeback: false}
+      layout_properties: {}
+      name: to_review_checkbox
       properties: {text: 'To Review?'}
       type: CheckBox
-      data_bindings:
-      - {property: checked, code: 'self.item[''to_review'']', writeback: true}
-      - {property: visible, code: 'self.item[''transaction_type''] == ''Actual''', writeback: false}
+    - data_bindings:
+      - {code: 'self.item[''status'']==''inactive''', property: checked, writeback: false}
+      event_bindings: {change: disable_checkbox_change}
       layout_properties: {}
-    - name: disable_checkbox
+      name: disable_checkbox
       properties: {text: Disabled}
       type: CheckBox
-      data_bindings:
-      - {property: checked, code: 'self.item[''status'']==''inactive''', writeback: false}
-      layout_properties: {}
-      event_bindings: {change: disable_checkbox_change}
-  - name: flow_panel_7
+    layout_properties: {grid_position: 'ZLQYRO,ATLWNV'}
+    name: flow_panel_6
     properties: {}
     type: FlowPanel
-    layout_properties: {grid_position: 'LVUDAS,GHGCOZ'}
-    components:
-    - name: updated_by_label
+  - components:
+    - data_bindings:
+      - {code: '"Updated by: " + self.item[''updated_by'']', property: text, writeback: false}
+      layout_properties: {}
+      name: updated_by_label
       properties: {font_size: 14, italic: true}
       type: Label
-      data_bindings:
-      - {property: text, code: '"Updated by: " + self.item[''updated_by'']', writeback: false}
-      layout_properties: {}
-    - type: Label
-      properties: {role: null, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: true, font_size: 14, tooltip: '', text: ''}
+    - data_bindings:
+      - {code: '"Source: {0}".format(self.item[''source''])', property: text, writeback: false}
       name: source_label
-      data_bindings:
-      - {property: text, code: '"Source: {0}".format(self.item[''source''])', writeback: false}
-is_package: true
+      properties: {align: left, background: '', bold: false, border: '', font: '', font_size: 14, foreground: '', icon: '', icon_align: left, italic: true, role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', underline: false, visible: true}
+      type: Label
+    layout_properties: {grid_position: 'LVUDAS,GHGCOZ'}
+    name: flow_panel_7
+    properties: {}
+    type: FlowPanel
+  layout_properties: {slot: slot-1}
+  name: transaction_details
+  properties: {background: '', border: '', col_spacing: medium, col_widths: '{}', foreground: '', role: filter-form-shadow, spacing_above: small, spacing_below: small, tooltip: '', visible: true, wrap_on: mobile}
+  type: ColumnPanel
+container:
+  event_bindings: {refreshing_data_bindings: form_refreshing_data_bindings}
+  properties: {background: '', border: '', foreground: '', html: '@theme:budget_lines.html', role: null, tooltip: '', visible: true}
+  type: HtmlTemplate
 custom_component: false
+is_package: true

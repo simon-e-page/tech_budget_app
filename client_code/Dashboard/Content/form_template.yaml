@@ -1,108 +1,108 @@
-container:
-  type: HtmlTemplate
-  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true, role: dashboard-form, html: '@theme:scroll_pane.html'}
 components:
-- type: ColumnPanel
-  properties: {role: null, col_widths: '{"FYAKIX":68}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
-  name: header_column_panel
-  layout_properties: {slot: slot-header}
-  components:
-  - type: Label
-    properties: {role: semi-bold-text, bold: true, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: 32, tooltip: '', text: Summary - July 2022 to June 2023}
+- components:
+  - data_bindings:
+    - {code: 'f"Summary - {self.fin_year}"', property: text, writeback: false}
+    layout_properties: {full_width_row: true, grid_position: 'YRUPLP,FYAKIX', slot: slot-header}
     name: ticket_overview_label
-    layout_properties: {slot: slot-header, grid_position: 'YRUPLP,FYAKIX', full_width_row: true}
-    data_bindings:
-    - {property: text, code: 'f"Summary - {self.fin_year}"', writeback: false}
-  - type: FlowPanel
-    properties: {role: null, align: center, spacing_above: small, background: '', foreground: '', spacing_below: small, visible: true, border: '', tooltip: '', spacing: medium}
+    properties: {align: center, background: '', bold: true, border: '', font: '', font_size: 32, foreground: '', icon: '', icon_align: left, italic: false, role: semi-bold-text, spacing_above: small, spacing_below: small, text: Summary - July 2022 to June 2023, tooltip: '', underline: false, visible: true}
+    type: Label
+  - components: []
+    layout_properties: {full_width_row: true, grid_position: 'OJRUWX,SOWTYQ'}
     name: flow_panel_headline_stats
-    layout_properties: {grid_position: 'OJRUWX,SOWTYQ', full_width_row: true}
-    components: []
-- type: ColumnPanel
-  properties: {role: null, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
-  name: content_column_panel
-  layout_properties: {slot: slot-content}
-  components:
-  - type: FlowPanel
-    properties: {role: null, align: left, spacing_above: small, background: '', foreground: '', spacing_below: small, visible: true, border: '', tooltip: '', spacing: medium}
-    name: flow_panel_3
-    layout_properties: {grid_position: 'URGAYV,OZIJUC', full_width_row: true}
-    components:
-    - type: Link
-      properties: {role: null, bold: false, align: left, col_widths: '', spacing_above: small, background: '', icon: 'fa:angle-right', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: ''}
-      name: details_link
-      layout_properties: {}
+    properties: {align: center, background: '', border: '', foreground: '', role: null, spacing: medium, spacing_above: small, spacing_below: small, tooltip: '', visible: true}
+    type: FlowPanel
+  layout_properties: {slot: slot-header}
+  name: header_column_panel
+  properties: {background: '', border: '', col_spacing: medium, col_widths: '{"FYAKIX":68}', foreground: '', role: null, spacing_above: small, spacing_below: small, tooltip: '', visible: true, wrap_on: mobile}
+  type: ColumnPanel
+- components:
+  - components:
+    - data_bindings:
+      - {code: '''fa:angle-down'' if self.details_visible else ''fa:angle-right''', property: icon}
       event_bindings: {click: details_link_click}
-      data_bindings:
-      - {property: icon, code: '''fa:angle-down'' if self.details_visible else ''fa:angle-right'''}
-    - type: Label
+      layout_properties: {}
+      name: details_link
+      properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: 'fa:angle-right', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+      type: Link
+    - layout_properties: {}
+      name: label_7
       properties:
-        role: null
-        bold: true
         align: left
-        spacing_above: small
         background: ''
-        icon: ''
-        underline: false
-        font: ''
-        icon_align: left
-        foreground: ''
-        spacing_below: small
-        visible: true
+        bold: true
         border: ''
-        italic: false
+        font: ''
         font_size: 18
-        tooltip: ''
+        foreground: ''
+        icon: ''
+        icon_align: left
+        italic: false
+        role: null
+        spacing_above: small
+        spacing_below: small
         text: |
           Actuals / Forecast Table
-      name: label_7
-      layout_properties: {}
-  - type: FlowPanel
-    properties: {role: null, align: left, spacing_above: small, background: '', foreground: '', spacing_below: small, visible: true, border: '', tooltip: '', spacing: medium}
-    name: details_panel
-    layout_properties: {grid_position: 'RMAOWE,KSYQVA', full_width_row: true}
-    components:
-    - type: LinearPanel
-      properties: {spacing_above: small, spacing_below: small, background: '', foreground: '', border: '', visible: true, role: null, tooltip: ''}
-      name: linear_panel_1
-      layout_properties: {width: 1500, expand: false}
-      components:
+        tooltip: ''
+        underline: false
+        visible: true
+      type: Label
+    layout_properties: {full_width_row: true, grid_position: 'URGAYV,OZIJUC'}
+    name: flow_panel_3
+    properties: {align: left, background: '', border: '', foreground: '', role: null, spacing: medium, spacing_above: small, spacing_below: small, tooltip: '', visible: true}
+    type: FlowPanel
+  - components:
+    - components:
       - name: tracking_table_1
         properties: {}
         type: form:Dashboard.Content.TrackingTable
+      layout_properties: {expand: false, width: 1500}
+      name: linear_panel_1
+      properties: {background: '', border: '', foreground: '', role: null, spacing_above: small, spacing_below: small, tooltip: '', visible: true}
+      type: LinearPanel
     data_bindings:
-    - {property: visible, code: self.details_visible}
-  - type: FlowPanel
-    properties: {role: null, align: left, spacing_above: small, background: '', foreground: '', spacing_below: small, visible: true, border: '', tooltip: '', spacing: medium}
-    name: flow_panel_6
-    layout_properties: {grid_position: 'DKJNLZ,UJWTSI', full_width_row: true}
-    components:
-    - type: Link
-      properties: {role: null, bold: false, align: left, col_widths: '', spacing_above: small, background: '', icon: 'fa:angle-right', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: ''}
-      name: budget_link
-      layout_properties: {}
+    - {code: self.details_visible, property: visible}
+    layout_properties: {full_width_row: true, grid_position: 'RMAOWE,KSYQVA'}
+    name: details_panel
+    properties: {align: left, background: '', border: '', foreground: '', role: null, spacing: medium, spacing_above: small, spacing_below: small, tooltip: '', visible: true}
+    type: FlowPanel
+  - components:
+    - data_bindings:
+      - {code: '''fa:angle-down'' if self.budget_visible else ''fa:angle-right''', property: icon, writeback: false}
       event_bindings: {click: budget_link_click}
-      data_bindings:
-      - {property: icon, code: '''fa:angle-down'' if self.budget_visible else ''fa:angle-right''', writeback: false}
-    - type: Label
-      properties: {role: null, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: 18, tooltip: '', text: Budget Table}
-      name: label_8
       layout_properties: {}
-  - type: LinearPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '', border: '', visible: true, role: null, tooltip: ''}
-    name: budget_panel
-    layout_properties: {grid_position: 'ULGGKJ,VGLFYT', full_width_row: true}
-    data_bindings:
-    - {property: visible, code: self.budget_visible, writeback: false}
-    components:
+      name: budget_link
+      properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: 'fa:angle-right', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+      type: Link
+    - layout_properties: {}
+      name: label_8
+      properties: {align: left, background: '', bold: true, border: '', font: '', font_size: 18, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Budget Table, tooltip: '', underline: false, visible: true}
+      type: Label
+    layout_properties: {full_width_row: true, grid_position: 'DKJNLZ,UJWTSI'}
+    name: flow_panel_6
+    properties: {align: left, background: '', border: '', foreground: '', role: null, spacing: medium, spacing_above: small, spacing_below: small, tooltip: '', visible: true}
+    type: FlowPanel
+  - components:
     - name: budget_table_1
       properties: {}
       type: form:Dashboard.Content.BudgetTable
-  - type: LinearPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '', border: '', visible: true, role: null, tooltip: ''}
-    name: org_panel
-    layout_properties: {grid_position: 'QNUHHQ,XMEROW', full_width_row: false}
-    components: []
     data_bindings:
-    - {property: visible, code: self.org_visible}
+    - {code: self.budget_visible, property: visible, writeback: false}
+    layout_properties: {full_width_row: true, grid_position: 'ULGGKJ,VGLFYT'}
+    name: budget_panel
+    properties: {background: '', border: '', foreground: '', role: null, spacing_above: small, spacing_below: small, tooltip: '', visible: true}
+    type: LinearPanel
+  - components: []
+    data_bindings:
+    - {code: self.org_visible, property: visible}
+    layout_properties: {full_width_row: false, grid_position: 'QNUHHQ,XMEROW'}
+    name: org_panel
+    properties: {background: '', border: '', foreground: '', role: null, spacing_above: small, spacing_below: small, tooltip: '', visible: true}
+    type: LinearPanel
+  layout_properties: {slot: slot-content}
+  name: content_column_panel
+  properties: {background: '', border: '', col_spacing: medium, col_widths: '{}', foreground: '', role: null, spacing_above: small, spacing_below: small, tooltip: '', visible: true, wrap_on: mobile}
+  type: ColumnPanel
+container:
+  properties: {background: '', border: '', foreground: '', html: '@theme:scroll_pane.html', role: dashboard-form, tooltip: '', visible: true}
+  type: HtmlTemplate
 is_package: true

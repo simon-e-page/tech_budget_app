@@ -1,213 +1,213 @@
-container:
-  type: HtmlTemplate
-  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true, role: null, html: '@theme:scroll_pane.html'}
 components:
-- type: FlowPanel
-  properties: {}
-  name: flow_panel_1
-  layout_properties: {slot: slot-header}
-  components:
-  - type: Label
-    properties: {role: header-text, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: ''}
-    name: vendor_label
+- components:
+  - data_bindings:
+    - {code: 'self.item.get(''vendor_name'',"Add New Vendor")', property: text, writeback: false}
     layout_properties: {}
-    data_bindings:
-    - {property: text, code: 'self.item.get(''vendor_name'',"Add New Vendor")', writeback: false}
-- type: ColumnPanel
-  properties: {col_widths: '{"HUJRYE":35,"WSIPHF":25,"BCKOQO":35,"BXPKPS":25}'}
-  name: column_panel_1
-  layout_properties: {slot: slot-content}
-  components:
-  - type: ColumnPanel
-    properties: {col_widths: '{}'}
-    name: column_panel_2
-    layout_properties: {grid_position: 'DPKUVC,HUJRYE KEWGPR,TOJPOQ'}
-    components:
-    - type: LinearPanel
-      properties: {}
-      name: linear_panel_1
-      layout_properties: {grid_position: 'NYIHKT,PTVCIM'}
-      components:
-      - type: Image
-        properties: {role: null, vertical_align: center, spacing_above: small, background: '', horizontal_align: center, source: '', foreground: '', display_mode: shrink_to_fit, spacing_below: small, visible: true, border: thin dotted black, tooltip: '', height: 113}
+    name: vendor_label
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-text, spacing_above: small, spacing_below: small, text: '', tooltip: '', underline: false, visible: true}
+    type: Label
+  layout_properties: {slot: slot-header}
+  name: flow_panel_1
+  properties: {}
+  type: FlowPanel
+- components:
+  - components:
+    - components:
+      - data_bindings:
+        - {code: 'self.get_icon(self.item[''icon_id''])', property: source}
         name: icon_image
-        data_bindings:
-        - {property: source, code: 'self.get_icon(self.item[''icon_id''])'}
-    - type: FileLoader
-      properties: {align: left, enabled: false}
-      name: icon_loader
-      layout_properties: {grid_position: 'NYIHKT,TZKTCA DWOCRL,GAGSVW'}
-      event_bindings: {change: icon_loader_change}
-      data_bindings:
-      - {property: enabled, code: 'self.item[''vendor_name'']', writeback: false}
-    - name: flow_panel_3
+        properties: {background: '', border: thin dotted black, display_mode: shrink_to_fit, foreground: '', height: 113, horizontal_align: center, role: null, source: '', spacing_above: small, spacing_below: small, tooltip: '', vertical_align: center, visible: true}
+        type: Image
+      layout_properties: {grid_position: 'NYIHKT,PTVCIM'}
+      name: linear_panel_1
       properties: {}
-      type: FlowPanel
-      layout_properties: {grid_position: 'NYIHKT,TZKTCA LYTUIT,DLRNFA'}
-      components:
-      - name: vendor_url_link
+      type: LinearPanel
+    - data_bindings:
+      - {code: 'self.item[''vendor_name'']', property: enabled, writeback: false}
+      event_bindings: {change: icon_loader_change}
+      layout_properties: {grid_position: 'NYIHKT,TZKTCA DWOCRL,GAGSVW'}
+      name: icon_loader
+      properties: {align: left, enabled: false}
+      type: FileLoader
+    - components:
+      - data_bindings:
+        - {code: 'self.item[''vendor_url'']', property: url, writeback: false}
+        event_bindings: {}
+        layout_properties: {}
+        name: vendor_url_link
         properties: {icon: 'fa:globe', text: 'Website  '}
         type: Link
+      - event_bindings: {click: vendor_url_edit_button_click}
         layout_properties: {}
-        data_bindings:
-        - {property: url, code: 'self.item[''vendor_url'']', writeback: false}
-        event_bindings: {}
-      - name: vendor_url_edit_button
-        properties: {text: '', icon: 'fa:edit', role: secondary-button}
+        name: vendor_url_edit_button
+        properties: {icon: 'fa:edit', role: secondary-button, text: ''}
         type: Button
-        layout_properties: {}
-        event_bindings: {click: vendor_url_edit_button_click}
-    - name: spacer_4
+      layout_properties: {grid_position: 'NYIHKT,TZKTCA LYTUIT,DLRNFA'}
+      name: flow_panel_3
+      properties: {}
+      type: FlowPanel
+    - layout_properties: {grid_position: 'NYIHKT,TZKTCA YDTMOI,TVKDHH'}
+      name: spacer_4
       properties: {height: 14.8828125}
       type: Spacer
-      layout_properties: {grid_position: 'NYIHKT,TZKTCA YDTMOI,TVKDHH'}
-  - type: Label
-    properties: {role: null, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: 'Name:'}
-    name: label_6
+    layout_properties: {grid_position: 'DPKUVC,HUJRYE KEWGPR,TOJPOQ'}
+    name: column_panel_2
+    properties: {col_widths: '{}'}
+    type: ColumnPanel
+  - data_bindings:
+    - {code: '"Name in Finance System" and self.item[''from_finance_system''] or "IT Vendor Name"', property: text, writeback: false}
     layout_properties: {grid_position: 'DPKUVC,HUJRYE NAFPDE,ZLDVBF'}
-    data_bindings:
-    - {property: text, code: '"Name in Finance System" and self.item[''from_finance_system''] or "IT Vendor Name"', writeback: false}
-  - type: TextBox
-    properties: {role: null, bold: false, align: left, placeholder: Enter Vendor Name, spacing_above: small, background: '', type: text, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
-    name: name_textbox
-    layout_properties: {grid_position: 'DPKUVC,HUJRYE UFYXTD,LPHDDZ'}
-    data_bindings:
-    - {property: text, code: 'self.item[''vendor_name'']', writeback: true}
-    - {property: enabled, code: 'self.item.get(''from_finance_system'', False)==False', writeback: false}
+    name: label_6
+    properties: {align: left, background: '', bold: true, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: 'Name:', tooltip: '', underline: false, visible: true}
+    type: Label
+  - data_bindings:
+    - {code: 'self.item[''vendor_name'']', property: text, writeback: true}
+    - {code: 'self.item.get(''from_finance_system'', False)==False', property: enabled, writeback: false}
     event_bindings: {}
-  - type: Label
-    properties: {role: null, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: 'Description: '}
+    layout_properties: {grid_position: 'DPKUVC,HUJRYE UFYXTD,LPHDDZ'}
+    name: name_textbox
+    properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: Enter Vendor Name, role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: text, underline: false, visible: true}
+    type: TextBox
+  - layout_properties: {grid_position: 'DPKUVC,HUJRYE HCUNLS,CMTVCV'}
     name: label_1
-    layout_properties: {grid_position: 'DPKUVC,HUJRYE HCUNLS,CMTVCV'}
-  - name: description_textbox
+    properties: {align: left, background: '', bold: true, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: 'Description: ', tooltip: '', underline: false, visible: true}
+    type: Label
+  - data_bindings:
+    - {code: 'self.item[''description'']', property: text, writeback: true}
+    layout_properties: {grid_position: 'DPKUVC,HUJRYE PCPTGB,VYVWRZ'}
+    name: description_textbox
     properties: {height: 81.30859375, placeholder: Enter vendor description}
     type: TextArea
-    layout_properties: {grid_position: 'DPKUVC,HUJRYE PCPTGB,VYVWRZ'}
-    data_bindings:
-    - {property: text, code: 'self.item[''description'']', writeback: true}
-  - type: FlowPanel
-    properties: {}
-    name: flow_panel_2
-    layout_properties: {grid_position: 'DPKUVC,HUJRYE BOAHFL,YZLNSI'}
-    components:
-    - name: active_checkbox
+  - components:
+    - data_bindings:
+      - {code: 'self.item[''active'']', property: checked, writeback: true}
+      layout_properties: {}
+      name: active_checkbox
       properties: {text: 'Active?'}
       type: CheckBox
-      layout_properties: {}
-      data_bindings:
-      - {property: checked, code: 'self.item[''active'']', writeback: true}
-  - name: label_2
-    properties: {text: 'Also known as (in prior years):', bold: true}
-    type: Label
-    layout_properties: {grid_position: 'DPKUVC,HUJRYE DWKEBE,LGYRWR'}
-  - type: LinearPanel
+    layout_properties: {grid_position: 'DPKUVC,HUJRYE BOAHFL,YZLNSI'}
+    name: flow_panel_2
     properties: {}
-    name: linear_panel_4
+    type: FlowPanel
+  - layout_properties: {grid_position: 'DPKUVC,HUJRYE DWKEBE,LGYRWR'}
+    name: label_2
+    properties: {bold: true, text: 'Also known as (in prior years):'}
+    type: Label
+  - components: []
     layout_properties: {grid_position: 'DPKUVC,WSIPHF'}
-    components: []
-  - type: ColumnPanel
-    properties: {col_widths: '{}', border: dotted, foreground: ''}
-    name: column_panel_3
-    layout_properties: {grid_position: 'DOGXEZ,BCKOQO YVZJGF,WBKJDX'}
-    components:
-    - type: LinearPanel
-      properties: {}
-      name: linear_panel_2
-      layout_properties: {grid_position: 'PGEKLM,JTYFIO'}
-      components:
-      - name: prior_year_table
-        properties: {index: prior_year_tags, pagination_size: 5, header_visible: false}
-        type: form:TGQCF3WT6FVL2EM2:Tabulator
-        data_bindings:
-        - {property: data, code: self.generate_tags('prior_year_tags'), writeback: false}
-        - {property: columns, code: self.prior_year_columns, writeback: false}
+    name: linear_panel_4
+    properties: {}
+    type: LinearPanel
+  - components:
+    - components:
+      - data_bindings:
+        - {code: self.generate_tags('prior_year_tags'), property: data, writeback: false}
+        - {code: self.prior_year_columns, property: columns, writeback: false}
         layout_properties: {}
-      - name: flow_panel_6
-        properties: {}
-        type: FlowPanel
-        components:
-        - name: prior_year_tag_dropdown
+        name: prior_year_table
+        properties: {header_visible: false, index: prior_year_tags, pagination_size: 5}
+        type: form:TGQCF3WT6FVL2EM2:Tabulator
+      - components:
+        - data_bindings:
+          - {code: self.vendor_list, property: items, writeback: false}
+          layout_properties: {width: 348.9144375}
+          name: prior_year_tag_dropdown
           properties:
-            items: [self.vendor_list]
             include_placeholder: true
+            items: [self.vendor_list]
             placeholder: Select new synonym
           type: DropDown
-          layout_properties: {width: 348.9144375}
-          data_bindings:
-          - {property: items, code: self.vendor_list, writeback: false}
-        - name: add_prior_year_tag_button
-          properties: {text: '', icon: 'fa:arrow-circle-up', role: secondary-button}
-          type: Button
+        - event_bindings: {click: add_prior_year_tag_button_click}
           layout_properties: {}
-          event_bindings: {click: add_prior_year_tag_button_click}
-  - type: Label
-    properties: {role: null, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: 'Map to Finance vendor code (in Dynamics):'}
-    name: label_14
-    layout_properties: {grid_position: 'DOGXEZ,BCKOQO XBBMDY,IOSSKF'}
-  - name: column_panel_5
-    properties: {border: ''}
+          name: add_prior_year_tag_button
+          properties: {icon: 'fa:arrow-circle-up', role: secondary-button, text: ''}
+          type: Button
+        name: flow_panel_6
+        properties: {}
+        type: FlowPanel
+      layout_properties: {grid_position: 'PGEKLM,JTYFIO'}
+      name: linear_panel_2
+      properties: {}
+      type: LinearPanel
+    layout_properties: {grid_position: 'DOGXEZ,BCKOQO YVZJGF,WBKJDX'}
+    name: column_panel_3
+    properties: {border: dotted, col_widths: '{}', foreground: ''}
     type: ColumnPanel
-    layout_properties: {grid_position: 'DOGXEZ,BCKOQO YKLIYT,AJXFYE'}
-    components:
-    - name: flow_panel_5
-      properties: {spacing_above: none}
-      type: FlowPanel
-      layout_properties: {grid_position: 'LEXWRM,EGQNLC'}
-      components:
-      - name: finance_tag_dropdown
+  - layout_properties: {grid_position: 'DOGXEZ,BCKOQO XBBMDY,IOSSKF'}
+    name: label_14
+    properties: {align: left, background: '', bold: true, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: 'Map to Finance vendor code (in Dynamics):', tooltip: '', underline: false, visible: true}
+    type: Label
+  - components:
+    - components:
+      - data_bindings:
+        - {code: self.finance_vendor_list, property: items, writeback: false}
+        - {code: 'self.item[''finance_vendor''] and self.item[''finance_vendor''].vendor_id or None', property: selected_value, writeback: false}
+        event_bindings: {change: finance_tag_dropdown_change}
+        layout_properties: {width: 350.7268125}
+        name: finance_tag_dropdown
         properties:
-          items: [self.vendors]
           include_placeholder: true
+          items: [self.vendors]
           placeholder: Select finance vendor name
           spacing_above: none
         type: DropDown
-        layout_properties: {width: 350.7268125}
-        data_bindings:
-        - {property: items, code: self.finance_vendor_list, writeback: false}
-        - {property: selected_value, code: 'self.item[''finance_vendor''] and self.item[''finance_vendor''].vendor_id or None', writeback: false}
-        event_bindings: {change: finance_tag_dropdown_change}
-  - type: Label
-    properties: {role: null, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: 'Notes:'}
+      layout_properties: {grid_position: 'LEXWRM,EGQNLC'}
+      name: flow_panel_5
+      properties: {spacing_above: none}
+      type: FlowPanel
+    layout_properties: {grid_position: 'DOGXEZ,BCKOQO YKLIYT,AJXFYE'}
+    name: column_panel_5
+    properties: {border: ''}
+    type: ColumnPanel
+  - layout_properties: {grid_position: 'DOGXEZ,BCKOQO BBQFRK,ZVKYPW'}
     name: label_13
-    layout_properties: {grid_position: 'DOGXEZ,BCKOQO BBQFRK,ZVKYPW'}
-  - type: TextArea
-    properties: {role: null, bold: false, align: left, placeholder: Enter any notes, spacing_above: small, background: '', underline: false, font: '', foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, auto_expand: false, font_size: null, tooltip: '', height: 83.7031, text: ''}
-    name: notes_areabox
+    properties: {align: left, background: '', bold: true, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: 'Notes:', tooltip: '', underline: false, visible: true}
+    type: Label
+  - data_bindings:
+    - {code: 'self.item[''notes'']', property: text, writeback: true}
     layout_properties: {grid_position: 'DOGXEZ,BCKOQO FTWQKC,ZMTJNF'}
-    data_bindings:
-    - {property: text, code: 'self.item[''notes'']', writeback: true}
-  - type: LinearPanel
-    properties: {}
-    name: linear_panel_3
+    name: notes_areabox
+    properties: {align: left, auto_expand: false, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', height: 83.7031, italic: false, placeholder: Enter any notes, role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', underline: false, visible: true}
+    type: TextArea
+  - components: []
     layout_properties: {grid_position: 'DOGXEZ,BXPKPS JOFNVY,AOXALQ'}
-    components: []
-  - type: FlowPanel
-    properties: {role: null, align: left, spacing_above: small, background: '', foreground: '', spacing_below: small, visible: true, border: '', tooltip: '', spacing: medium}
-    name: flow_panel_8
-    layout_properties: {grid_position: 'DOGXEZ,BXPKPS MCQMXE,SJTWHF'}
-    components: []
+    name: linear_panel_3
+    properties: {}
+    type: LinearPanel
+  - components: []
     data_bindings:
-    - {property: visible, code: 'self.item[''type''] in [''ASSET'', ''LIABILITY'']'}
-  - type: ColumnPanel
-    properties: {col_widths: '{}'}
-    name: column_panel_4
-    layout_properties: {grid_position: 'MNDAXO,WQBSBK'}
-    components:
-    - name: flow_panel_4
+    - {code: 'self.item[''type''] in [''ASSET'', ''LIABILITY'']', property: visible}
+    layout_properties: {grid_position: 'DOGXEZ,BXPKPS MCQMXE,SJTWHF'}
+    name: flow_panel_8
+    properties: {align: left, background: '', border: '', foreground: '', role: null, spacing: medium, spacing_above: small, spacing_below: small, tooltip: '', visible: true}
+    type: FlowPanel
+  - components:
+    - components:
+      - data_bindings:
+        - {code: self.show_save, property: visible, writeback: false}
+        event_bindings: {click: save_button_click}
+        layout_properties: {}
+        name: save_button
+        properties: {align: center, background: '', bold: true, border: '', enabled: true, font: '', font_size: null, foreground: '', icon: 'fa:check-circle', icon_align: left, italic: false, role: primary-button, spacing_above: small, spacing_below: small, text: Save, tooltip: '', underline: false, visible: true}
+        type: Button
+      - event_bindings: {click: actuals_button_click}
+        layout_properties: {}
+        name: actuals_button
+        properties: {icon: 'fa:external-link', role: secondary-button, text: Actuals}
+        type: Button
+      layout_properties: {grid_position: 'YPIRKR,EEVNIA'}
+      name: flow_panel_4
       properties: {}
       type: FlowPanel
-      layout_properties: {grid_position: 'YPIRKR,EEVNIA'}
-      components:
-      - type: Button
-        properties: {role: primary-button, bold: true, align: center, spacing_above: small, background: '', icon: 'fa:check-circle', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: Save}
-        name: save_button
-        layout_properties: {}
-        event_bindings: {click: save_button_click}
-        data_bindings:
-        - {property: visible, code: self.show_save, writeback: false}
-      - name: actuals_button
-        properties: {text: Actuals, icon: 'fa:external-link', role: secondary-button}
-        type: Button
-        layout_properties: {}
-        event_bindings: {click: actuals_button_click}
+    layout_properties: {grid_position: 'MNDAXO,WQBSBK'}
+    name: column_panel_4
+    properties: {col_widths: '{}'}
+    type: ColumnPanel
+  layout_properties: {slot: slot-content}
+  name: column_panel_1
+  properties: {col_widths: '{"HUJRYE":35,"WSIPHF":25,"BCKOQO":35,"BXPKPS":25}'}
+  type: ColumnPanel
+container:
+  properties: {background: '', border: '', foreground: '', html: '@theme:scroll_pane.html', role: null, tooltip: '', visible: true}
+  type: HtmlTemplate
 is_package: true

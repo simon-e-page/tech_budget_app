@@ -1,47 +1,47 @@
-container:
-  type: HtmlTemplate
-  properties: {tooltip: '', background: '', foreground: '', border: '', visible: true, role: null, html: '@theme:budget_lines.html'}
-  event_bindings: {}
 components:
-- type: ColumnPanel
-  properties: {role: filter-form-shadow, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
-  name: transaction_details
-  layout_properties: {slot: slot-1}
-  components:
-  - type: ColumnPanel
-    properties: {role: null, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
-    name: column_panel_1_copy
-    layout_properties:
-      col_widths: {}
-      grid_position: JMIBRO,LGBGLH
-      full_width_row: true
-    components:
-    - name: flow_panel_11
+- components:
+  - components:
+    - components:
+      - event_bindings: {click: new_button_click}
+        layout_properties: {}
+        name: new_button
+        properties: {icon: 'fa:plus', role: primary-button, text: Add New}
+        type: Button
+      layout_properties: {full_width_row: true, grid_position: 'YFTLZN,DZTYIV'}
+      name: flow_panel_11
       properties: {}
       type: FlowPanel
-      layout_properties: {grid_position: 'YFTLZN,DZTYIV', full_width_row: true}
-      components:
-      - name: new_button
-        properties: {text: Add New, role: primary-button, icon: 'fa:plus'}
-        type: Button
-        layout_properties: {}
-        event_bindings: {click: new_button_click}
-    - name: vendors_table
+    - event_bindings: {cell_edited: vendors_table_cell_edited, row_selection_changed: vendors_table_row_selection_changed, table_built: vendors_table_table_built}
+      layout_properties: {full_width_row: true, grid_position: 'CLCFZG,JSOUJL'}
+      name: vendors_table
       properties: {index: vendor_id, pagination_size: 10}
       type: form:TGQCF3WT6FVL2EM2:Tabulator
-      layout_properties: {grid_position: 'CLCFZG,JSOUJL', full_width_row: true}
-      event_bindings: {table_built: vendors_table_table_built, cell_edited: vendors_table_cell_edited, row_selection_changed: vendors_table_row_selection_changed}
-    - name: flow_panel_1
+    - components:
+      - data_bindings:
+        - {code: len(self.selected_vendors)>0, property: enabled, writeback: false}
+        event_bindings: {click: delete_vendor_button_click}
+        layout_properties: {}
+        name: delete_vendor_button
+        properties: {enabled: false, icon: 'fa:trash', role: secondary-button, text: Delete}
+        type: Button
+      layout_properties: {full_width_row: true, grid_position: 'AISRFA,BCCNIM'}
+      name: flow_panel_1
       properties: {}
       type: FlowPanel
-      layout_properties: {grid_position: 'AISRFA,BCCNIM', full_width_row: true}
-      components:
-      - name: delete_vendor_button
-        properties: {text: Delete, role: secondary-button, icon: 'fa:trash', enabled: false}
-        type: Button
-        layout_properties: {}
-        event_bindings: {click: delete_vendor_button_click}
-        data_bindings:
-        - {property: enabled, code: len(self.selected_vendors)>0, writeback: false}
-is_package: true
+    layout_properties:
+      col_widths: {}
+      full_width_row: true
+      grid_position: JMIBRO,LGBGLH
+    name: column_panel_1_copy
+    properties: {background: '', border: '', col_spacing: medium, col_widths: '{}', foreground: '', role: null, spacing_above: small, spacing_below: small, tooltip: '', visible: true, wrap_on: mobile}
+    type: ColumnPanel
+  layout_properties: {slot: slot-1}
+  name: transaction_details
+  properties: {background: '', border: '', col_spacing: medium, col_widths: '{}', foreground: '', role: filter-form-shadow, spacing_above: small, spacing_below: small, tooltip: '', visible: true, wrap_on: mobile}
+  type: ColumnPanel
+container:
+  event_bindings: {}
+  properties: {background: '', border: '', foreground: '', html: '@theme:budget_lines.html', role: null, tooltip: '', visible: true}
+  type: HtmlTemplate
 custom_component: false
+is_package: true

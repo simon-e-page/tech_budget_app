@@ -23,8 +23,10 @@ class FinancialNumber:
 BRANDS = [ 'JB_AU', 'JB_NZ', 'TGG']
 BRANDS_DD = [ (x,x) for x in BRANDS ]
 
+ATTRIBUTE_NAMES = ['account_code', 'cost_centre', 'lifecycle', 'category', 'service_change', 'billing_type']
+  
 #ACCOUNT_CODES = [  'Software Maintenance', 'Hardware Maintenance', 'Consulting', 'Salary', 'Communications' ]
-REFS = anvil.server.call('Reference', 'get_attributes', attribute_names=['account_code', 'cost_centre', 'lifecycle', 'category', 'service_change', 'billing_type'])
+REFS = anvil.server.call('Reference', 'get_attributes', attribute_names=ATTRIBUTE_NAMES)
 ACCOUNT_CODES = REFS['account_code']
 ACCOUNT_CODES_DD = [ (x, x) for x in ACCOUNT_CODES ]
 
@@ -201,6 +203,15 @@ def gpt_set_account_data(account_name):
 def gpt_run(prompt):
   return None #anvil.server.call('gpt_run', prompt=prompt)
 
+def get_attribute_names():
+  return ATTRIBUTE_NAMES
+
+def get_attributes(attribute_names, with_count=True):
+  ret = anvil.server.call('Reference', 'get_attributes', attribute_names=attribute_names)
+  if with_count:
+    # TODO: replace with server-side call
+    ret = [ { 'value': x, 'count': 0 } for x in ret[attribute_names] ]
+  return ret
 
 ## Create import config for JB_AU
 def create_import_config():
