@@ -60,9 +60,10 @@ class Reference(ReferenceTemplate):
         #"headerFilterFunc": "starts",
       },      
       {
-        "title": "Transaction number",
-        "field": "count",
-        'width': 100,
+        "title": "Currently Used?",
+        "field": "used",
+        "formatter": "tickCross",
+        'width': 50,
       }
         ]
 

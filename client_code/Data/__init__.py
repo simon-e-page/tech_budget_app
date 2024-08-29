@@ -210,7 +210,7 @@ def get_attributes(attribute_names, with_count=True):
   ret = anvil.server.call('Reference', 'get_attributes', attribute_names=attribute_names)
   if with_count:
     # TODO: replace with server-side call
-    ret = [ { 'value': x, 'count': 0 } for x in ret[attribute_names] ]
+    ret = [ { 'value': x, 'used': True } for x in ret[attribute_names] ]
   return ret
 
 ## Create import config for JB_AU
