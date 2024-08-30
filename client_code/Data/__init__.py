@@ -218,6 +218,7 @@ def remove_attribute(attribute_name, attribute_value):
   
 ## Create import config for JB_AU
 def create_import_config():
+  # TODO: do we need this anymore?
   COST_CENTRE_MAP: dict = {
           'SUPPORT - IT': 'IT',
           'ONLINE': 'Online',

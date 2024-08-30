@@ -11,6 +11,7 @@ from ..Analyse.Analyse import Analyse
 from ..Users.Users import Users
 from ..Vendors.Vendors import Vendors
 from ..Tickets.BudgetLines import BudgetLines
+from ..Settings.Reference import Reference
 from .. import Data
 
 
@@ -168,10 +169,14 @@ class Homepage(HomepageTemplate):
     if anvil.users.get_user() is None:
       open_form('Login')
 
-  def link_2_click(self, **event_args):
+  def reference_link_click(self, **event_args):
     """This method is called when the link is clicked"""
     self.open_settings()
 
+  def open_settings(self):
+    ref = Reference()
+    alert(ref, title="Manage Reference Attributes")
+    
   def gpt_link_click(self, **event_args):
     """This method is called when the link is clicked"""
     self.open_analyse()

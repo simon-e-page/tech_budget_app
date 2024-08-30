@@ -79,10 +79,10 @@ components:
       name: custom_5
       properties: {}
       type: form:Icons.SettingsSVG
-    - event_bindings: {click: link_2_click}
+    - event_bindings: {click: reference_link_click}
       layout_properties: {}
-      name: link_2
-      properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Rules, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+      name: reference_link
+      properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Reference, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
       type: Link
     layout_properties: {}
     name: settings_panel
