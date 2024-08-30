@@ -6,7 +6,7 @@ components:
     type: Label
   - data_bindings:
     - {code: self.attribute_names, property: items, writeback: false}
-    - {code: self.attribute_name, property: selected_value, writeback: false}
+    - {code: self.attribute_name, property: selected_value, writeback: true}
     event_bindings: {change: attribute_dropdown_change}
     layout_properties: {width: 214.171875}
     name: attribute_dropdown
@@ -21,7 +21,7 @@ components:
     properties: {}
     type: form:TGQCF3WT6FVL2EM2:Tabulator
   data_bindings:
-  - {code: self.attribute is not None, property: visible, writeback: false}
+  - {code: self.attribute_name is not None, property: visible, writeback: false}
   layout_properties: {full_width_row: true, grid_position: 'SAIVXG,QSWILE'}
   name: table_panel
   properties: {}
@@ -44,7 +44,7 @@ components:
     properties: {role: primary-button, text: Add}
     type: Button
   data_bindings:
-  - {code: self.attribute is not None, property: visible, writeback: false}
+  - {code: self.attribute_name is not None, property: visible, writeback: false}
   layout_properties: {full_width_row: true, grid_position: 'TNXVSO,LQUUZC'}
   name: new_panel
   properties: {}

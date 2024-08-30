@@ -207,10 +207,10 @@ def get_attribute_names():
   return ATTRIBUTE_NAMES
 
 def get_attributes(attribute_names, with_count=True):
-  ret = anvil.server.call('Reference', 'get_attributes', attribute_names=attribute_names)
-  if with_count:
-    # TODO: replace with server-side call
-    ret = [ { 'value': x, 'used': True } for x in ret[attribute_names] ]
+  ret = anvil.server.call('Reference', 'get_attributes', attribute_names=attribute_names, with_count=with_count)
+  #if with_count:
+  #  # TODO: replace with server-side call
+  #  ret = [ { 'value': x, 'used': True } for x in ret[attribute_names] ]
   return ret
 
 def remove_attribute(attribute_name, attribute_value):

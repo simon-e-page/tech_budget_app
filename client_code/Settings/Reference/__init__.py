@@ -20,7 +20,7 @@ class Reference(ReferenceTemplate):
 
   def attribute_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
-    if self.attribute is not None:
+    if self.attribute_name is not None:
       self.build_table()
     self.refresh_data_bindings()
 
@@ -28,7 +28,7 @@ class Reference(ReferenceTemplate):
   def build_table(self):
     
     def delete_formatter(cell, **params):
-      tag = cell.getData()[self.attribute_name]
+      tag = cell.getData()['value']
       count = cell.getData()['used']
       
       def delete_tag(sender, **event_args):
@@ -67,7 +67,7 @@ class Reference(ReferenceTemplate):
       }
         ]
 
-    self.attribute_data = Data.get_attributes(self.attribute_name, with_count=True)
+    self.attribute_data = Data.get_attributes(self.attribute_name, with_count=True)[self.attribute_name]
     self.attribute_table.columns = columns
     self.attribute_table.data = self.attribute_data
 

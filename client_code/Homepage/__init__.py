@@ -175,7 +175,7 @@ class Homepage(HomepageTemplate):
 
   def open_settings(self):
     ref = Reference()
-    alert(ref, title="Manage Reference Attributes")
+    alert(ref, title="Manage Reference Attributes", large=True)
     
   def gpt_link_click(self, **event_args):
     """This method is called when the link is clicked"""
