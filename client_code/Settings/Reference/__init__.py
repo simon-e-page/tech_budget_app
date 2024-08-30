@@ -29,7 +29,7 @@ class Reference(ReferenceTemplate):
     
     def delete_formatter(cell, **params):
       tag = cell.getData()[self.attribute_name]
-      count = cell.getData()['count']
+      count = cell.getData()['used']
       
       def delete_tag(sender, **event_args):
         id_value = sender.tag
@@ -38,7 +38,7 @@ class Reference(ReferenceTemplate):
           Data.remove_attribute(self.attribute_name, id_value)
           #TODO: rebuild table          
 
-      if count == 0:
+      if not count:
         link = Link(icon='fa:trash', tag=tag)
         link.set_event_handler('click', delete_tag)
       else:

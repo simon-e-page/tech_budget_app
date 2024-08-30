@@ -213,6 +213,9 @@ def get_attributes(attribute_names, with_count=True):
     ret = [ { 'value': x, 'used': True } for x in ret[attribute_names] ]
   return ret
 
+def remove_attribute(attribute_name, attribute_value):
+  return anvil.server.call('Reference', 'remove_attribute', attribute_name, attribute_value)
+  
 ## Create import config for JB_AU
 def create_import_config():
   COST_CENTRE_MAP: dict = {
