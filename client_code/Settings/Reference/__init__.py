@@ -73,7 +73,7 @@ class Reference(ReferenceTemplate):
       if not count:
         link = Label(text='')
       else:
-        link = Link(text="Replace", tag=tag)
+        link = Link(text="Replace", tag=tag, underline=True, foreground="blue")
         link.set_event_handler('click', replace_value)
       return link
 
