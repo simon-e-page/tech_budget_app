@@ -93,9 +93,9 @@ class Reference(ReferenceTemplate):
         #"headerFilterFunc": "starts",
       },      
       {
-        "title": "Currently Used?",
+        "title": "# of Lines",
         "field": "used",
-        "formatter": "tickCross",
+        "formatter": "number",
         'width': 150,
       },
       {
