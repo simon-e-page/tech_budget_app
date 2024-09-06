@@ -112,20 +112,8 @@ class BudgetLines(BudgetLinesTemplate):
       def open_transaction(sender, **event_args):
         transaction = self.transactions.get(sender.tag)
         print("Opening transaction: {0}".format(transaction.description))
-        
-        ret = alert(
-          Transaction(item=transaction, show_save=False),
-          large=True,
-          title="Transaction Details",
-          buttons=[("Save Changes", True), ("Cancel", False)],
-        )
-        if ret:
-          try:
-            transaction.update()
-          except Exception as e:
-            print(e)
-            print("Failed to update Transaction!")
-        return
+        trans_form = Transaction(item=transaction, show_save=False)
+        trans_form.show(title='Transaction Details')
   
       link = Link(text=cell.getValue(), tag=tag)
       link.set_event_handler("click", open_transaction)

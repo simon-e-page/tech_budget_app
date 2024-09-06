@@ -56,6 +56,20 @@ class Transaction(TransactionTemplate):
     #self.transaction_entries_1.build_table(self.item)
     print("Complete Transaction.__init__")
     
+  def show(self, title="", new=False):
+    save_button = "Add New" if new else "Save Changes"
+    ret = alert(self, title=title, buttons=((save_button, True), ("Cancel", False)))
+    if ret:
+      if new:
+        pass
+      else:
+        try:
+          self.item.update()
+        except Exception as e:
+          alert("Error saving changes!")
+          print(e)
+          ret = False
+    return ret
     
   def form_refreshing_data_bindings(self, **event_args):
     print("In: form_refreshing_data_bindings()")
