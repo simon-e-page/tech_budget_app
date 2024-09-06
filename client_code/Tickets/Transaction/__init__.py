@@ -58,7 +58,7 @@ class Transaction(TransactionTemplate):
     
   def show(self, title="", new=False):
     save_button = "Add New" if new else "Save Changes"
-    ret = alert(self, title=title, buttons=((save_button, True), ("Cancel", False)))
+    ret = alert(self, title=title, large=True, buttons=((save_button, True), ("Cancel", False)))
     if ret:
       if new:
         pass

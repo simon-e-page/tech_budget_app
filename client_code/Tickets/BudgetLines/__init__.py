@@ -159,10 +159,17 @@ class BudgetLines(BudgetLinesTemplate):
     
     def format_entry(cell, **params):
       val = cell.getValue()
-      if params.get('backgroundColor', None):
-        cell.getElement().style.backgroundColor = params['backgroundColor']
-      if params.get('color', None):
-        cell.getElement().style.color = params['color']
+      month = params['month']
+      if self.mode == 'Actual':
+        background_color = self.params[self.transaction_types[month]]['background']
+        color = self.params[self.transaction_types[month]]['color']
+      else:
+        background_color = params.get('backgroundColor', "white")
+        color = params.get('color', "black")
+
+      cell.getElement().style.backgroundColor = background_color
+      cell.getElement().style.color = color
+          
       try:
         val = "{:,.0f}".format(val)
       except Exception:
