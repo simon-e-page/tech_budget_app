@@ -159,7 +159,7 @@ class BudgetLines(BudgetLinesTemplate):
     
     def format_entry(cell, **params):
       val = cell.getValue()
-      month = params['month']
+      month = cell.getField()
       if self.mode == 'Actual':
         background_color = self.params[self.transaction_types[month]]['background']
         color = self.params[self.transaction_types[month]]['color']
@@ -283,7 +283,7 @@ class BudgetLines(BudgetLinesTemplate):
         "field": c, 
         "formatter": format_entry, 
         "hozAlign": "right",
-        "formatterParams": { 'backgroundColor': self.params[self.mode]['background'], 'color': self.params[self.mode]['color']},
+        "formatterParams": { 'backgroundColor': self.params[self.mode]['background'], 'color': self.params[self.mode]['color'] },
         "width": 130,
         "headerFilter": "number",
         'editor': self.params[self.mode]['editor']
