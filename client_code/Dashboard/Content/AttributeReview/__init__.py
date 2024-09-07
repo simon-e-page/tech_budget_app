@@ -36,7 +36,7 @@ class AttributeReview(AttributeReviewTemplate):
   def vendor_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
     if self.selected_vendor is not None:
-      self.attribute_list = list(self.review_set[self.selected_vendor].keys())
+      self.attribute_list = sorted(list(self.review_set[self.selected_vendor].keys()))
       self.attribute_label_text = f"Attributes for {self.selected_vendor}"
       self.refresh_data_bindings()
     else:
@@ -72,9 +72,10 @@ class AttributeReview(AttributeReviewTemplate):
       self.value_label_text = f"Values for {self.selected_attribute}"
       value_list = self.review_set[self.selected_vendor][self.selected_attribute]
       if len(value_list) == 0:
-        value_list = Data.get_attributes(self.selected_attribute)
-        self.value_label_text = f"Forecast has no value for {self.selected_attribute}:"
-        
+        value_list = Data.REFS[self.selected_attribute]
+        self.value_label_text = f"Forecast has no value for {self.selected_attribute}. Please select one:"
+
+      self.value_list = value_list
       self.refresh_data_bindings()
     else:
       self.value_list = []
