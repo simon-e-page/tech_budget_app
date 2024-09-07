@@ -14,6 +14,8 @@ class AttributeReview(AttributeReviewTemplate):
     self.vendor_list = []
     self.attribute_list = []
     self.value_list = []
+    self.value_label_text = "Values:"
+    self.attribute_label_text = "Attributes:"
 
     self.selected_vendor = None
     self.selected_attribute = None
@@ -35,17 +37,28 @@ class AttributeReview(AttributeReviewTemplate):
     """This method is called when an item is selected"""
     if self.selected_vendor is not None:
       self.attribute_list = list(self.review_set[self.selected_vendor].keys())
+      self.attribute_label_text = f"Attributes for {self.selected_vendor}"
       self.refresh_data_bindings()
     else:
-      self.value_list = None
-      self.attribute_list = None
+      self.value_list = []
+      self.attribute_list = []
+      self.attribute_label_text = "Attribtues:"
+      self.value_label_text = "Values:"
       self.refresh_data_bindings()
 
   
   def apply_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     if self.selected_value is not None:
-      alert(f"Setting {self.selected_attribute} for {self.selected_vendor} to {self.selected_value} for all Actuals!")
+      value_list = self.review_set[self.selected_vendor][self.selected_attribute]
+      if len(value_list) == 0:
+        title = f"Setting {self.selected_attribute} for {self.selected_vendor} to {self.selected_value} for all Actual and Forecast Lines!"
+        set_forecast = True
+      else:
+        title = f"Setting {self.selected_attribute} for {self.selected_vendor} to {self.selected_value} for all Actual Lines!"
+        set_forecast = False
+        
+      alert(title)
 
   
   def value_dropdown_change(self, **event_args):
@@ -56,9 +69,15 @@ class AttributeReview(AttributeReviewTemplate):
   def attribute_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
     if self.selected_attribute is not None:
-      self.value_list = self.review_set[self.selected_vendor][self.selected_attribute]
+      self.value_label_text = f"Values for {self.selected_attribute}"
+      value_list = self.review_set[self.selected_vendor][self.selected_attribute]
+      if len(value_list) == 0:
+        value_list = Data.get_attributes(self.selected_attribute)
+        self.value_label_text = f"Forecast has no value for {self.selected_attribute}:"
+        
       self.refresh_data_bindings()
     else:
-      self.value_list = None
+      self.value_list = []
+      self.value_label_text = "Values"
       self.refresh_data_bindings()
     

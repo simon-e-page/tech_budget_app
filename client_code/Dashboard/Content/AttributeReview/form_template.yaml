@@ -7,7 +7,7 @@ components:
       type: Label
     - data_bindings:
       - {code: self.vendor_list, property: items, writeback: false}
-      - {code: self.selected_vendor, property: selected_value, writeback: false}
+      - {code: self.selected_vendor, property: selected_value, writeback: true}
       event_bindings: {change: vendor_dropdown_change}
       layout_properties: {width: 304.96484375}
       name: vendor_dropdown
@@ -18,13 +18,15 @@ components:
     properties: {}
     type: FlowPanel
   - components:
-    - layout_properties: {}
-      name: label_2
+    - data_bindings:
+      - {code: self.attribute_label_text, property: text, writeback: false}
+      layout_properties: {}
+      name: attribute_label
       properties: {text: 'Attributes with multiple values for X:'}
       type: Label
     - data_bindings:
       - {code: self.attribute_list, property: items, writeback: false}
-      - {code: self.selected_attribute, property: selected_value, writeback: false}
+      - {code: self.selected_attribute, property: selected_value, writeback: true}
       event_bindings: {change: attribute_dropdown_change}
       layout_properties: {width: 318.15625}
       name: attribute_dropdown
@@ -35,13 +37,15 @@ components:
     properties: {}
     type: FlowPanel
   - components:
-    - layout_properties: {}
-      name: label_3
+    - data_bindings:
+      - {code: self.value_label_text, property: text, writeback: false}
+      layout_properties: {}
+      name: value_label
       properties: {text: 'Values for Y:'}
       type: Label
     - data_bindings:
       - {code: self.value_list, property: items, writeback: false}
-      - {code: self.selected_value, property: selected_value, writeback: false}
+      - {code: self.selected_value, property: selected_value, writeback: true}
       event_bindings: {change: value_dropdown_change}
       layout_properties: {width: 305.90625}
       name: value_dropdown
