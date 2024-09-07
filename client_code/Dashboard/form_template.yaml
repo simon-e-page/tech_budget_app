@@ -83,6 +83,20 @@ components:
     name: flow_panel_6
     properties: {}
     type: FlowPanel
+  - components:
+    - layout_properties: {}
+      name: label_7
+      properties: {text: 'Align dimensions:'}
+      type: Label
+    - event_bindings: {click: align_button_click}
+      layout_properties: {}
+      name: align_button
+      properties: {bold: true, role: primary-button, text: Align}
+      type: Button
+    layout_properties: {grid_position: 'XTLFCW,LBAPHR'}
+    name: flow_panel_7
+    properties: {}
+    type: FlowPanel
   layout_properties: {slot: slot-2}
   name: column_panel_1
   properties: {}

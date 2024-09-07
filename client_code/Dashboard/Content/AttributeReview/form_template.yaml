@@ -1,0 +1,64 @@
+components:
+- components:
+  - components:
+    - layout_properties: {}
+      name: label_1
+      properties: {text: 'Vendors with multiple dimensions in Forecast:'}
+      type: Label
+    - data_bindings:
+      - {code: self.vendor_list, property: items, writeback: false}
+      - {code: self.selected_vendor, property: selected_value, writeback: false}
+      event_bindings: {change: vendor_dropdown_change}
+      layout_properties: {width: 304.96484375}
+      name: vendor_dropdown
+      properties: {include_placeholder: true, placeholder: Select Vendor}
+      type: DropDown
+    layout_properties: {full_width_row: true, grid_position: 'QDLLEI,AARIMO'}
+    name: flow_panel_1
+    properties: {}
+    type: FlowPanel
+  - components:
+    - layout_properties: {}
+      name: label_2
+      properties: {text: 'Attributes with multiple values for X:'}
+      type: Label
+    - data_bindings:
+      - {code: self.attribute_list, property: items, writeback: false}
+      - {code: self.selected_attribute, property: selected_value, writeback: false}
+      event_bindings: {change: attribute_dropdown_change}
+      layout_properties: {width: 318.15625}
+      name: attribute_dropdown
+      properties: {include_placeholder: true, placeholder: Select attribute}
+      type: DropDown
+    layout_properties: {full_width_row: true, grid_position: 'DDXGXV,POWXGN'}
+    name: flow_panel_2
+    properties: {}
+    type: FlowPanel
+  - components:
+    - layout_properties: {}
+      name: label_3
+      properties: {text: 'Values for Y:'}
+      type: Label
+    - data_bindings:
+      - {code: self.value_list, property: items, writeback: false}
+      - {code: self.selected_value, property: selected_value, writeback: false}
+      event_bindings: {change: value_dropdown_change}
+      layout_properties: {width: 305.90625}
+      name: value_dropdown
+      properties: {include_placeholder: true, placeholder: Select Value}
+      type: DropDown
+    - event_bindings: {click: apply_button_click}
+      layout_properties: {}
+      name: apply_button
+      properties: {role: primary-button, text: Apply to Actuals}
+      type: Button
+    layout_properties: {full_width_row: true, grid_position: 'JRNGPP,BGCHJF'}
+    name: flow_panel_3
+    properties: {}
+    type: FlowPanel
+  layout_properties: {full_width_row: true, grid_position: 'BGYIQX,SXRJFS'}
+  name: column_panel_1
+  properties: {}
+  type: ColumnPanel
+container: {type: ColumnPanel}
+is_package: true

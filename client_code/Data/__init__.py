@@ -213,8 +213,18 @@ def get_attributes(attribute_names, with_count=True):
   #  ret = [ { 'value': x, 'used': True } for x in ret[attribute_names] ]
   return ret
 
+
 def remove_attribute(attribute_name, attribute_value):
   return anvil.server.call('Reference', 'remove_attribute', attribute_name, attribute_value)
+
+
+def assign_actual_dimensions(brand = None, year = None):
+  if brand is None:
+    brand = CURRENT_BRAND
+  if year is None:
+    year = CURRENT_YEAR
+
+  return anvil.server.call('Calendar', 'assign_actual_dimensions', brand, year)
   
 ## Create import config for JB_AU
 def create_import_config():
@@ -241,5 +251,6 @@ def create_import_config():
   if not ret:
     print("Failed to make initial import config!")
 
+    
 create_import_config()
 refresh()

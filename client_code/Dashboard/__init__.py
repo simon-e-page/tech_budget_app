@@ -12,6 +12,7 @@ from .. import Data
 
 from ..Data import VendorsModel
 from ..Tickets.BudgetLines.ImportActuals import ImportActuals
+from .Content.AttributeReview import AttributeReview
 
 class Dashboard(DashboardTemplate):
   """This Form fetches the information required to populate the Dashboard from the server.
@@ -168,4 +169,9 @@ class Dashboard(DashboardTemplate):
     (success, num_vendor_ids, num_renamed, num_actual_line_ids, num_entries) = import_form.run_import()
     if success:
       alert(f"Successful import! {num_vendor_ids} new vendors, {num_renamed} existing vendors remapped, {num_actual_line_ids} Actual Lines and {num_entries} new entries created")
+
+  def align_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    attribute_review_form = AttributeReview()
+    attribute_review_form.show()
   
