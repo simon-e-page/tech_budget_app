@@ -11,9 +11,9 @@ from .... import Data
 class AttributeReview(AttributeReviewTemplate):
   def __init__(self, **properties):
     self.review_set = {}
-    self.vendor_list = None
-    self.attribute_list = None
-    self.value_list = None
+    self.vendor_list = []
+    self.attribute_list = []
+    self.value_list = []
 
     self.selected_vendor = None
     self.selected_attribute = None
