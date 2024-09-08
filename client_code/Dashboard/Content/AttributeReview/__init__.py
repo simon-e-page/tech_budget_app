@@ -28,7 +28,7 @@ class AttributeReview(AttributeReviewTemplate):
 
   def show(self):
     self.review_set = Data.assign_actual_dimensions()
-    self.vendor_list = list(self.review_set.keys())
+    self.vendor_list = sorted(list(self.review_set.keys()))
     self.refresh_data_bindings()
     ret = alert(self, large=True, title="Review: Multiple Attributes per Vendor:")
 
