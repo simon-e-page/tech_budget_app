@@ -10,7 +10,9 @@ from .... import Data
 
 class AttributeReview(AttributeReviewTemplate):
   def __init__(self, **properties):
+    self.orig_set = {}
     self.review_set = {}
+    
     self.vendor_list = []
     self.attribute_list = []
     self.value_list = []
@@ -23,6 +25,8 @@ class AttributeReview(AttributeReviewTemplate):
     self.selected_attribute = None
     self.selected_value = None
 
+    self.enable_changes = False
+    
     self.value_table.options = {
       "index": "value",  # or set the index property here
       "selectable": "highlight",
@@ -44,7 +48,7 @@ class AttributeReview(AttributeReviewTemplate):
     # Any code you write here will run before the form opens.
 
   def show(self):
-    self.review_set = Data.assign_actual_dimensions()
+    self.orig_set = Data.assign_actual_dimensions()
     self.vendor_list = sorted(list(self.review_set.keys()))
     self.refresh_data_bindings()
     ret = alert(self, large=True, title="Review: Attribute discrepancies between Forecast and Actuals by Vendor")
@@ -56,8 +60,10 @@ class AttributeReview(AttributeReviewTemplate):
     self.value_table.visible = False
     
     if self.selected_vendor is not None:
-      cost_centre = self.review_set[self.selected_vendor]['cost_centre']
-      self.attribute_list = sorted(x for x in self.review_set[self.selected_vendor].keys() if x not in ['cost_centre', 'forecast_ids', 'actual_ids'])
+      cost_centre = self.orig_set[self.selected_vendor]['cost_centre']
+      self.attribute_list = sorted(x for x in self.orig_set[self.selected_vendor].keys() if x not in ['cost_centre', 'forecast_ids', 'actual_ids'])
+      self.review_set[self.selected_vendor] = self.review_set.get(self.selected_vendor, {}) 
+
       self.render_value_table(self.cost_centre_table, cost_centre, edit=False)
       self.attribute_label_text = f"Attributes for {self.selected_vendor}"
       self.refresh_data_bindings()
@@ -77,8 +83,10 @@ class AttributeReview(AttributeReviewTemplate):
   def attribute_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
     if self.selected_attribute is not None:
-      value_splits = self.review_set[self.selected_vendor][self.selected_attribute]
+      value_splits = self.orig_set[self.selected_vendor][self.selected_attribute]
       value_list = { x: value_splits.get(x, [0.0, 0.0]) for x in Data.REFS[self.selected_attribute] }
+      self.review_set[self.selected_vendor][self.selected_attribute] = value_list
+      
       if len(value_splits) > 0:
         self.value_label_text = f"Forecast has {len(value_splits)} values for {self.selected_attribute}. Confirm or change splits:"
       else:
@@ -141,7 +149,7 @@ class AttributeReview(AttributeReviewTemplate):
     forecast_percent_total = sum(x['forecast_percent'] for x in data)
     actual_percent_total = sum(x['actual_percent'] for x in data)
     self.error_label.visible = (forecast_percent_total != 1) or (actual_percent_total != 1)
-    
+      
     def table_cell_edited(cell, **event_args):
       """This method is called when a cell is edited"""
       new_data = cell.get_data()
@@ -162,7 +170,15 @@ class AttributeReview(AttributeReviewTemplate):
     table.visible = True
     self.refresh_data_bindings()
 
-
+  def review_changes(self, new_data):
+    totals_ok = False
+    altered = False
+    
+    for attribute, old_data in self.review_set[self.selected_vendor].items():
+      for row in old_data:
+        pass
+        
+      
   
   def get_splits(self, field):
     splits = { x['value']: x[field] for x in self.value_table.data if x[field] != 0 }

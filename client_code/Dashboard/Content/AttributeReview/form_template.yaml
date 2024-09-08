@@ -62,17 +62,11 @@ components:
   type: ColumnPanel
 - components:
   - data_bindings:
-    - {code: not self.error_label.visible, property: enabled, writeback: false}
-    event_bindings: {click: apply_forecast_button_click}
-    layout_properties: {}
-    name: apply_forecast_button
-    properties: {enabled: false, role: primary-button, text: Apply to Forecast}
-    type: Button
-  - data_bindings:
-    - {code: not self.error_label.visible, property: enabled, writeback: false}
+    - {code: self.enable_changes, property: enabled, writeback: false}
     event_bindings: {click: apply_actuals_button_click}
+    layout_properties: {}
     name: apply_actuals_button
-    properties: {enabled: false, role: primary-button, text: Apply to Actuals}
+    properties: {enabled: false, role: primary-button, text: Apply Changes}
     type: Button
   - data_bindings: []
     layout_properties: {}
