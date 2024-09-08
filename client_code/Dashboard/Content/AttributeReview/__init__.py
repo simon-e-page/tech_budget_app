@@ -20,7 +20,15 @@ class AttributeReview(AttributeReviewTemplate):
     self.selected_vendor = None
     self.selected_attribute = None
     self.selected_value = None
-    
+
+    self.value_table.options = {
+      "index": "value",  # or set the index property here
+      "selectable": "highlight",
+      "css_class": ["table-striped", "table-bordered", "table-condensed"],
+      'pagination': False,
+    }
+
+    self.value_table.visible = False
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
@@ -69,16 +77,48 @@ class AttributeReview(AttributeReviewTemplate):
   def attribute_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
     if self.selected_attribute is not None:
-      self.value_label_text = f"Values for {self.selected_attribute}"
-      value_list = list(self.review_set[self.selected_vendor][self.selected_attribute].keys())
-      if len(value_list) == 0:
-        value_list = Data.REFS[self.selected_attribute]
-        self.value_label_text = f"Forecast has no value for {self.selected_attribute}. Please select one:"
-
-      self.value_list = value_list
+      value_splits = self.review_set[self.selected_vendor][self.selected_attribute]
+      value_list = { x: value_splits.get(x, 0.0) for x in Data.REFS[self.selected_attribute] }
+      if len(value_splits) > 0:
+        self.value_label_text = f"Forecast has {len(value_splits)} values for {self.selected_attribute}. Confirm or change splits:"
+      else:
+        self.value_label_text = f"Forecast has no values for {self.selected_attribute}. Select one or more splits:"
+        
+      self.render_value_table(value_list)
       self.refresh_data_bindings()
     else:
-      self.value_list = []
-      self.value_label_text = "Values"
+      self.value_table.visible = False
       self.refresh_data_bindings()
     
+
+  def render_value_table(self, values):
+    def percent_formatter(self, cell, **params):
+      val = cell.get_value()
+      val = "{:.1%}".format(val)
+      return val
+      
+    columns = [
+      {
+        'title': "Value",
+        'field': 'value',
+        'width': 250
+      },
+      {
+        'title': "Percentage",
+        'field': "percent",
+        'width': 150,
+        'formatter': percent_formatter,
+        'editor': 'number'
+      }
+    ]
+
+    total = sum(values.values())
+    data = [ { 
+      'value': x,
+      'amount': y,
+      'percent': y / total if total != 0 else 0
+    } for x,y in values.items() ]
+
+    self.value_table.columns = columns
+    self.value_table.data = data
+    self.value_table.visible = True

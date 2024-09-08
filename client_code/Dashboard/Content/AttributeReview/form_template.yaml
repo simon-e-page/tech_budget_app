@@ -43,26 +43,26 @@ components:
       name: value_label
       properties: {text: 'Values for Y:'}
       type: Label
-    - data_bindings:
-      - {code: self.value_list, property: items, writeback: false}
-      - {code: self.selected_value, property: selected_value, writeback: true}
-      event_bindings: {change: value_dropdown_change}
-      layout_properties: {width: 305.90625}
-      name: value_dropdown
-      properties: {include_placeholder: true, placeholder: Select Value}
-      type: DropDown
-    - event_bindings: {click: apply_button_click}
-      layout_properties: {}
-      name: apply_button
-      properties: {role: primary-button, text: Apply to Actuals}
-      type: Button
     layout_properties: {full_width_row: true, grid_position: 'JRNGPP,BGCHJF'}
     name: flow_panel_3
     properties: {}
     type: FlowPanel
+  - layout_properties: {full_width_row: true, grid_position: 'KJIJYN,HOHIIS'}
+    name: value_table
+    properties: {}
+    type: form:TGQCF3WT6FVL2EM2:Tabulator
   layout_properties: {full_width_row: true, grid_position: 'BGYIQX,SXRJFS'}
   name: column_panel_1
   properties: {}
   type: ColumnPanel
+- components:
+  - event_bindings: {click: apply_button_click}
+    name: apply_button
+    properties: {role: primary-button, text: Apply to Actuals}
+    type: Button
+  layout_properties: {full_width_row: true, grid_position: 'MAMRCE,HANPSY'}
+  name: flow_panel_4
+  properties: {}
+  type: FlowPanel
 container: {type: ColumnPanel}
 is_package: true
