@@ -104,40 +104,48 @@ class AttributeReview(AttributeReviewTemplate):
         'width': 250
       },
       {
-        'title': "Percentage",
-        'field': "percent",
+        'title': "Forecast Split",
+        'field': "forecast_percent",
+        'width': 150,
+        'formatter': percent_formatter,
+      },
+      {
+        'title': "Actual Split",
+        'field': "actual_percent",
         'width': 150,
         'formatter': percent_formatter,
         'editor': 'number'
       }
     ]
 
-    total = sum(values.values())
+    forecast_total = sum(x[0] for x in values.values())
+    actual_total = sum(x[1] for x in values.values())
+    
     self.data = [ { 
       'value': x,
-      'amount': y,
-      'percent': y / total if total != 0 else 0
+      'forecast_amount': y[0],
+      'actual_amount': y[1],
+      'forecast_percent': round(y[0] / forecast_total, 2) if forecast_total != 0 else 0,
+      'actual_percent': round(y[1] / actual_total, 2) if actual_total != 0 else 0
     } for x,y in values.items() ]
 
     self.value_table.columns = columns
     self.value_table.data = self.data
     self.value_table.visible = True
 
+  
   def value_table_cell_edited(self, cell, **event_args):
     """This method is called when a cell is edited"""
-    data = cell.get_data()
-    value = data['value']
-    old_percent = None
+    new_data = cell.get_data()
+    value = new_data['value']
     total = 0.0
     for row in self.data:
-      total += row['percent']
       if row['value'] == value:
-        percent = row['percent']
-      
+        row['actual_percent'] = round(cell.get_value(), 2)
+      total += row['actual_percent']
 
-    percentage = cell.get_value()    
-    print(f"Internal percent = {percent}. New value = {percentage}")
-
+    self.error_label.visible = (total != 1.00) 
+    self.refresh_data_bindings()
     
     
    

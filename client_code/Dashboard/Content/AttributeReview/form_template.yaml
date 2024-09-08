@@ -57,10 +57,18 @@ components:
   properties: {}
   type: ColumnPanel
 - components:
-  - event_bindings: {click: apply_button_click}
+  - data_bindings:
+    - {code: not self.error_label.visible, property: enabled, writeback: false}
+    event_bindings: {click: apply_button_click}
+    layout_properties: {}
     name: apply_button
-    properties: {role: primary-button, text: Apply to Actuals}
+    properties: {enabled: false, role: primary-button, text: Apply to Actuals}
     type: Button
+  - data_bindings: []
+    layout_properties: {}
+    name: error_label
+    properties: {bold: true, foreground: '#d20f0f', icon: 'fa:exclamation', text: Total percentage needs to equal 100%!, visible: false}
+    type: Label
   layout_properties: {full_width_row: true, grid_position: 'MAMRCE,HANPSY'}
   name: flow_panel_4
   properties: {}
