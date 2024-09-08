@@ -75,7 +75,7 @@ class AttributeReview(AttributeReviewTemplate):
     """This method is called when an item is selected"""
     if self.selected_attribute is not None:
       value_splits = self.review_set[self.selected_vendor][self.selected_attribute]
-      value_list = { x: value_splits.get(x, 0.0) for x in Data.REFS[self.selected_attribute] }
+      value_list = { x: value_splits.get(x, (0.0, 0.0)) for x in Data.REFS[self.selected_attribute] }
       if len(value_splits) > 0:
         self.value_label_text = f"Forecast has {len(value_splits)} values for {self.selected_attribute}. Confirm or change splits:"
       else:
@@ -118,6 +118,7 @@ class AttributeReview(AttributeReviewTemplate):
       }
     ]
 
+    print(values)
     forecast_total = sum(x[0] for x in values.values())
     actual_total = sum(x[1] for x in values.values())
     
