@@ -15,6 +15,7 @@ class AttributeReview(AttributeReviewTemplate):
     self.attribute_list = []
     self.value_list = []
     self.value_label_text = "Values:"
+    self.value_label.visible = False
     self.attribute_label_text = "Attributes:"
 
     self.selected_vendor = None
@@ -69,10 +70,6 @@ class AttributeReview(AttributeReviewTemplate):
       alert(title)
 
   
-  def value_dropdown_change(self, **event_args):
-    """This method is called when an item is selected"""
-    pass
-
   
   def attribute_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
@@ -83,16 +80,19 @@ class AttributeReview(AttributeReviewTemplate):
         self.value_label_text = f"Forecast has {len(value_splits)} values for {self.selected_attribute}. Confirm or change splits:"
       else:
         self.value_label_text = f"Forecast has no values for {self.selected_attribute}. Select one or more splits:"
-        
+
+      self.value_label.visible = True
       self.render_value_table(value_list)
       self.refresh_data_bindings()
     else:
       self.value_table.visible = False
+      self.value_label.visible = False
       self.refresh_data_bindings()
     
 
   def render_value_table(self, values):
-    def percent_formatter(self, cell, **params):
+    
+    def percent_formatter(cell, **params):
       val = cell.get_value()
       val = "{:.1%}".format(val)
       return val
@@ -113,12 +113,31 @@ class AttributeReview(AttributeReviewTemplate):
     ]
 
     total = sum(values.values())
-    data = [ { 
+    self.data = [ { 
       'value': x,
       'amount': y,
       'percent': y / total if total != 0 else 0
     } for x,y in values.items() ]
 
     self.value_table.columns = columns
-    self.value_table.data = data
+    self.value_table.data = self.data
     self.value_table.visible = True
+
+  def value_table_cell_edited(self, cell, **event_args):
+    """This method is called when a cell is edited"""
+    data = cell.get_data()
+    value = data['value']
+    old_percent = None
+    total = 0.0
+    for row in self.data:
+      total += row['percent']
+      if row['value'] == value:
+        percent = row['percent']
+      
+
+    percentage = cell.get_value()    
+    print(f"Internal percent = {percent}. New value = {percentage}")
+
+    
+    
+   

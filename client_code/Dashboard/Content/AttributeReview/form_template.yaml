@@ -47,7 +47,8 @@ components:
     name: flow_panel_3
     properties: {}
     type: FlowPanel
-  - layout_properties: {full_width_row: true, grid_position: 'KJIJYN,HOHIIS'}
+  - event_bindings: {cell_edited: value_table_cell_edited}
+    layout_properties: {full_width_row: true, grid_position: 'KJIJYN,HOHIIS'}
     name: value_table
     properties: {}
     type: form:TGQCF3WT6FVL2EM2:Tabulator
