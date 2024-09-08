@@ -70,7 +70,7 @@ class AttributeReview(AttributeReviewTemplate):
     """This method is called when an item is selected"""
     if self.selected_attribute is not None:
       self.value_label_text = f"Values for {self.selected_attribute}"
-      value_list = self.review_set[self.selected_vendor][self.selected_attribute]
+      value_list = list(self.review_set[self.selected_vendor][self.selected_attribute].keys())
       if len(value_list) == 0:
         value_list = Data.REFS[self.selected_attribute]
         self.value_label_text = f"Forecast has no value for {self.selected_attribute}. Please select one:"
