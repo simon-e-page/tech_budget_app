@@ -17,6 +17,10 @@ components:
     name: flow_panel_1
     properties: {}
     type: FlowPanel
+  - layout_properties: {full_width_row: true, grid_position: 'YWOTRC,QTHSOJ'}
+    name: cost_centre_table
+    properties: {}
+    type: form:TGQCF3WT6FVL2EM2:Tabulator
   - components:
     - data_bindings:
       - {code: self.attribute_label_text, property: text, writeback: false}
@@ -47,7 +51,7 @@ components:
     name: flow_panel_3
     properties: {}
     type: FlowPanel
-  - event_bindings: {cell_edited: value_table_cell_edited}
+  - event_bindings: {}
     layout_properties: {full_width_row: true, grid_position: 'KJIJYN,HOHIIS'}
     name: value_table
     properties: {}
