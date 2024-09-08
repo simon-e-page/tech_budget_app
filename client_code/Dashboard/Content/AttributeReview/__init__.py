@@ -47,7 +47,7 @@ class AttributeReview(AttributeReviewTemplate):
     self.review_set = Data.assign_actual_dimensions()
     self.vendor_list = sorted(list(self.review_set.keys()))
     self.refresh_data_bindings()
-    ret = alert(self, large=True, title="Review: Multiple Attributes per Vendor:")
+    ret = alert(self, large=True, title="Review: Attribute discrepancies between Forecast and Actuals by Vendor")
 
   
   def vendor_dropdown_change(self, **event_args):
@@ -57,7 +57,7 @@ class AttributeReview(AttributeReviewTemplate):
     
     if self.selected_vendor is not None:
       cost_centre = self.review_set[self.selected_vendor]['cost_centre']
-      self.attribute_list = sorted(x for x in self.review_set[self.selected_vendor].keys() if x != 'cost_centre')
+      self.attribute_list = sorted(x for x in self.review_set[self.selected_vendor].keys() if x not in ['cost_centre', 'forecast_ids', 'actual_ids'])
       self.render_value_table(self.cost_centre_table, cost_centre, edit=False)
       self.attribute_label_text = f"Attributes for {self.selected_vendor}"
       self.refresh_data_bindings()
@@ -71,18 +71,6 @@ class AttributeReview(AttributeReviewTemplate):
 
 
   
-  def apply_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    if self.selected_value is not None:
-      value_list = self.review_set[self.selected_vendor][self.selected_attribute]
-      if len(value_list) == 0:
-        title = f"Setting {self.selected_attribute} for {self.selected_vendor} to {self.selected_value} for all Actual and Forecast Lines!"
-        set_forecast = True
-      else:
-        title = f"Setting {self.selected_attribute} for {self.selected_vendor} to {self.selected_value} for all Actual Lines!"
-        set_forecast = False
-        
-      alert(title)
 
   
   
@@ -125,13 +113,16 @@ class AttributeReview(AttributeReviewTemplate):
         'field': "forecast_percent",
         'width': 150,
         'formatter': percent_formatter,
+        'editor': 'range' if edit else None,
+        'editorParams': { 'min': 0, 'max': 1, 'step': 1 }
       },
       {
         'title': "Actual Split",
         'field': "actual_percent",
         'width': 150,
         'formatter': percent_formatter,
-        'editor': 'number' if edit else None
+        'editor': 'range' if edit else None,
+        'editorParams': { 'min': 0, 'max': 1, 'step': 1 }
       }
     ]
 
@@ -147,15 +138,20 @@ class AttributeReview(AttributeReviewTemplate):
       'actual_percent': round(y[1] / actual_total, 2) if actual_total != 0 else 0
     } for x,y in values.items() ]
 
+    forecast_percent_total = sum(x['forecast_percent'] for x in data)
+    actual_percent_total = sum(x['actual_percent'] for x in data)
+    self.error_label.visible = (forecast_percent_total != 1) or (actual_percent_total != 1)
+    
     def table_cell_edited(cell, **event_args):
       """This method is called when a cell is edited"""
       new_data = cell.get_data()
+      field = cell.getField()
       value = new_data['value']
       total = 0.0
       for row in data:
         if row['value'] == value:
-          row['actual_percent'] = round(cell.get_value(), 2)
-        total += row['actual_percent']
+          row[field] = round(cell.get_value(), 2)
+        total += row[field]
   
       self.error_label.visible = (total != 1.00) 
       self.refresh_data_bindings()
@@ -164,8 +160,38 @@ class AttributeReview(AttributeReviewTemplate):
     table.data = data
     table.add_event_handler("cell_edited", table_cell_edited)
     table.visible = True
+    self.refresh_data_bindings()
 
+
+  
+  def get_splits(self, field):
+    splits = { x['value']: x[field] for x in self.value_table.data if x[field] != 0 }
+    return splits
     
+  def apply_forecast_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    splits = self.get_splits('forecast_percent')
+    transaction_ids = self.review_set[self.selected_vendor]['forecast_ids']
+    message = f"Setting {self.selected_attribute} for {self.selected_vendor} to {splits} for all Forecast Lines!"
+    if self.update(transaction_ids, self.selected_attribute, splits, apply_to='Forecast'):
+      Notification(message=message, title="Update successful!").show()
+    else:
+      alert("Update failed - check logs!")
+      
+
+  def apply_actuals_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    splits = self.get_splits('actual_percent')
+    transaction_ids = self.review_set[self.selected_vendor]['actual_ids']
+    message = f"Set {self.selected_attribute} for {self.selected_vendor} to {splits} for all Actual Lines!"    
+    if self.update(transaction_ids, self.selected_attribute, splits, apply_to='Actuals'):
+      Notification(message=message, title="Update successful!").show()
+    else:
+      alert("Update failed - check logs!")
+      
+
+  def update(self, transaction_ids, field, splits, apply_to):
+    return Data.apply_attribute_splits(transaction_ids, field, splits, apply_to)
   
     
     
