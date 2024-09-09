@@ -184,11 +184,11 @@ class AttributeReview(AttributeReviewTemplate):
       this_row = cell.get_data()
       field = cell.getField()
       value = this_row['value']
-      new_percents = [float(this_row['forecast_percent']), float(this_row['actual_percent'])]      
+      new_percents = [ float(this_row['forecast_percent']), float(this_row['actual_percent']) ]      
       self.new_set[self.selected_vendor][self.selected_attribute][value] = new_percents
 
       index = 0 if field == 'forecast_percent' else 1
-      total = sum(x[index] for x in self.new_set[self.selected_vendor][self.selected_attribute])
+      total = sum(x[index] for x in self.new_set[self.selected_vendor][self.selected_attribute].values())
       self.error_label.visible = (total != 1.00)
       self.review_changed()
       self.refresh_data_bindings()
@@ -219,8 +219,8 @@ class AttributeReview(AttributeReviewTemplate):
   def apply_actuals_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     splits = self.new_set[self.selected_vendor]
-    forecast_ids = self.review_set[self.selected_vendor]['forecast_ids']
-    actual_ids = self.review_set[self.selected_vendor]['actual_ids']
+    forecast_ids = self.orig_set[self.selected_vendor]['forecast_ids']
+    actual_ids = self.orig_set[self.selected_vendor]['actual_ids']
     
     message = f"Update {self.selected_vendor} to {splits} for all Forecast and Actual Lines!"    
     
