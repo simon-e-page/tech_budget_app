@@ -194,10 +194,6 @@ class AttributeReview(AttributeReviewTemplate):
     self.refresh_data_bindings()
 
               
-  def get_splits(self, field):
-    splits = { x['value']: x[field] for x in self.value_table.data if x[field] != 0 }
-    return splits
-
   
   def review_changed(self):
     review_list = self.review_set[self.selected_vendor]
