@@ -26,7 +26,7 @@ class AttributeReview(AttributeReviewTemplate):
     self.selected_attribute = None
     self.selected_value = None
 
-    self.enable_changes = False
+    self.vendor_changed = False
     
     self.value_table.options = {
       "index": "value",  # or set the index property here
@@ -50,7 +50,7 @@ class AttributeReview(AttributeReviewTemplate):
 
   def show(self):
     self.orig_set = Data.assign_actual_dimensions()
-    self.vendor_list = sorted(list(self.review_set.keys()))
+    self.vendor_list = sorted(list(self.orig_set.keys()))
     self.refresh_data_bindings()
     ret = alert(self, large=True, title="Review: Attribute discrepancies between Forecast and Actuals by Vendor")
 
@@ -63,12 +63,20 @@ class AttributeReview(AttributeReviewTemplate):
       self.vendor_changed = False
       
       if self.selected_vendor is not None:
-        cost_centre = self.orig_set[self.selected_vendor]['cost_centre']
+        cc = self.orig_set[self.selected_vendor]['cost_centre']
+        forecast_total = sum(x[0] for x in cc.values())
+        actual_total = sum(x[1] for x in cc.values())
+
+        cost_centre_list = { x: [ 
+          round(y[0] / forecast_total, 2) if forecast_total != 0 else 0,
+          round(y[1] / actual_total, 2) if actual_total != 0 else 0,
+        ] for x,y in  cc.items() }
+         
         self.attribute_list = sorted(x for x in self.orig_set[self.selected_vendor].keys() if x not in ['cost_centre', 'forecast_ids', 'actual_ids'])
         self.review_set[self.selected_vendor] = self.review_set.get(self.selected_vendor, {}) 
         self.new_set[self.selected_vendor] = self.new_set.get(self.selected_vendor, {}) 
   
-        self.render_value_table(self.cost_centre_table, cost_centre, edit=False)
+        self.render_value_table(self.cost_centre_table, cost_centre_list, edit=False)
         self.attribute_label_text = f"Attributes for {self.selected_vendor}"
         self.refresh_data_bindings()
         
@@ -99,7 +107,7 @@ class AttributeReview(AttributeReviewTemplate):
         value_list = { x: [
           round(y[0] / forecast_total, 2) if forecast_total != 0 else 0,
           round(y[1] / actual_total, 2) if actual_total != 0 else 0,
-        ] for x,y in temp_list.keys() }
+        ] for x,y in temp_list.items() }
 
         review_list = value_list.copy()
         
