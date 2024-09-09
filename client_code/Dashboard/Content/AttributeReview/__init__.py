@@ -89,8 +89,8 @@ class AttributeReview(AttributeReviewTemplate):
   
           review_list = value_list.copy()
           
-          self.review_set[self.selected_vendor][self.selected_attribute] = review_list
-          self.new_set[self.selected_vendor][self.selected_attribute] = value_list
+          self.review_set[self.selected_vendor][attribute] = review_list
+          self.new_set[self.selected_vendor][attribute] = value_list
         
         self.render_value_table(self.cost_centre_table, cost_centre_list, edit=False)
         self.attribute_label_text = f"Attributes for {self.selected_vendor}"
@@ -122,6 +122,7 @@ class AttributeReview(AttributeReviewTemplate):
 
       self.value_label.visible = True
       self.render_value_table(self.value_table, value_list, old_values=review_list)
+      self.review_changed()
       self.refresh_data_bindings()
     else:
       self.value_table.visible = False
@@ -208,12 +209,16 @@ class AttributeReview(AttributeReviewTemplate):
     review_list = self.review_set[self.selected_vendor]
     new_list = self.new_set[self.selected_vendor]
     changed = False
+    wrong_totals = False
+    
     for attribute, values in new_list.items():
       diffs = any(y[i] - review_list[attribute][x][i] for x, y in values.items() for i in [0,1])
-      #diff1 = any(y[1] - review_list[attribute][x][1] for x, y in values.items())
       changed = changed or diffs
+      total = sum(y[i] for x,y in values.items() for i in [0,1])
+      wrong_totals = wrong_totals or (total != 2.0)
 
     self.vendor_changed = changed
+    self.error_label.visible = wrong_totals
 
         
 
@@ -233,8 +238,8 @@ class AttributeReview(AttributeReviewTemplate):
       
 
   def update(self, forecast_ids, actual_ids, splits):
-    return True
-    #return Data.apply_attribute_splits(forecast_ids, actual_ids, splits)
+    #return True
+    return Data.apply_attribute_splits(forecast_ids, actual_ids, splits)
   
     
     
