@@ -226,10 +226,10 @@ def assign_actual_dimensions(brand = None, year = None):
 
   return anvil.server.call('Calendar', 'assign_actual_dimensions', brand, year)
 
-def apply_attribute_splits(forecast_ids, actual_ids, splits, year=None):
+def apply_attribute_splits(vendor_name, forecast_ids, actual_ids, splits, year=None):
   if year is None:
     year = CURRENT_YEAR
-  return anvil.server.call('Calendar', 'apply_attribute_splits', year, forecast_ids, actual_ids, splits)
+  return anvil.server.call('Calendar', 'apply_attribute_splits', year, vendor_name, forecast_ids, actual_ids, splits)
   
 ## Create import config for JB_AU
 def create_import_config():

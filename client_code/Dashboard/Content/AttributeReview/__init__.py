@@ -230,16 +230,16 @@ class AttributeReview(AttributeReviewTemplate):
     
     message = f"Update {self.selected_vendor} to {splits} for all Forecast and Actual Lines!"    
     
-    if self.update(forecast_ids, actual_ids, splits):
+    if self.update(self.selected_vendor, forecast_ids, actual_ids, splits):
       Notification(message=message, title="Update successful!").show()
       self.vendor_changed = False
     else:
       alert("Update failed - check logs!")
       
 
-  def update(self, forecast_ids, actual_ids, splits):
+  def update(self, vendor_name, forecast_ids, actual_ids, splits):
     #return True
-    return Data.apply_attribute_splits(forecast_ids, actual_ids, splits)
+    return Data.apply_attribute_splits(vendor_name, forecast_ids, actual_ids, splits)
   
     
     
