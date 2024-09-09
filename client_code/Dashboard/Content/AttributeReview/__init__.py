@@ -184,7 +184,7 @@ class AttributeReview(AttributeReviewTemplate):
       this_row = cell.get_data()
       field = cell.getField()
       value = this_row['value']
-      new_percents = [this_row['forecast_percent'], this_row['actual_percent']]      
+      new_percents = [float(this_row['forecast_percent']), float(this_row['actual_percent'])]      
       self.new_set[self.selected_vendor][self.selected_attribute][value] = new_percents
 
       index = 0 if field == 'forecast_percent' else 1
