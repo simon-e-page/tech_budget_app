@@ -75,7 +75,23 @@ class AttributeReview(AttributeReviewTemplate):
         self.attribute_list = sorted(x for x in self.orig_set[self.selected_vendor].keys() if x not in ['cost_centre', 'forecast_ids', 'actual_ids'])
         self.review_set[self.selected_vendor] = self.review_set.get(self.selected_vendor, {}) 
         self.new_set[self.selected_vendor] = self.new_set.get(self.selected_vendor, {}) 
+
+        for attribute in self.attribute_list:
+          value_splits = self.orig_set[self.selected_vendor][attribute]        
+          temp_list = { x: value_splits.get(x, [0.0, 0.0]) for x in Data.REFS[attribute] }
+          forecast_total = sum(x[0] for x in temp_list.values())
+          actual_total = sum(x[1] for x in temp_list.values())
   
+          value_list = { x: [
+            round(y[0] / forecast_total, 2) if forecast_total != 0 else 0,
+            round(y[1] / actual_total, 2) if actual_total != 0 else 0,
+          ] for x,y in temp_list.items() }
+  
+          review_list = value_list.copy()
+          
+          self.review_set[self.selected_vendor][self.selected_attribute] = review_list
+          self.new_set[self.selected_vendor][self.selected_attribute] = value_list
+        
         self.render_value_table(self.cost_centre_table, cost_centre_list, edit=False)
         self.attribute_label_text = f"Attributes for {self.selected_vendor}"
         self.refresh_data_bindings()
@@ -95,24 +111,9 @@ class AttributeReview(AttributeReviewTemplate):
   def attribute_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
     if self.selected_attribute is not None:
-      if self.selected_attribute in self.new_set[self.selected_vendor]:
-        review_list = self.review_set[self.selected_vendor][self.selected_attribute]
-        value_list = self.new_set[self.selected_vendor][self.selected_attribute]
-      else:
-        value_splits = self.orig_set[self.selected_vendor][self.selected_attribute]
-        temp_list = { x: value_splits.get(x, [0.0, 0.0]) for x in Data.REFS[self.selected_attribute] }
-        forecast_total = sum(x[0] for x in temp_list.values())
-        actual_total = sum(x[1] for x in temp_list.values())
-
-        value_list = { x: [
-          round(y[0] / forecast_total, 2) if forecast_total != 0 else 0,
-          round(y[1] / actual_total, 2) if actual_total != 0 else 0,
-        ] for x,y in temp_list.items() }
-
-        review_list = value_list.copy()
-        
-        self.review_set[self.selected_vendor][self.selected_attribute] = review_list
-        self.new_set[self.selected_vendor][self.selected_attribute] = value_list
+      review_list = self.review_set[self.selected_vendor][self.selected_attribute]
+      value_list = self.new_set[self.selected_vendor][self.selected_attribute]
+      value_splits = self.orig_set[self.selected_vendor][self.selected_attribute]
       
       if len(value_splits) > 0:
         self.value_label_text = f"Forecast has {len(value_splits)} values for {self.selected_attribute}. Confirm or change splits:"

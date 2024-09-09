@@ -71,7 +71,7 @@ components:
   - data_bindings: []
     layout_properties: {}
     name: error_label
-    properties: {bold: true, foreground: '#d20f0f', icon: 'fa:exclamation', text: Total percentage needs to equal 100%!, visible: false}
+    properties: {bold: true, foreground: '#d20f0f', icon: 'fa:exclamation', text: One or more attributes don't total to 100%!, visible: false}
     type: Label
   layout_properties: {full_width_row: true, grid_position: 'MAMRCE,HANPSY'}
   name: flow_panel_4
