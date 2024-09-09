@@ -208,9 +208,9 @@ class AttributeReview(AttributeReviewTemplate):
     new_list = self.new_set[self.selected_vendor]
     changed = False
     for attribute, values in new_list.items():
-      diff0 = any(y[0] - review_list[attribute][x][0] for x, y in values.items())
-      diff1 = any(y[1] - review_list[attribute][x][1] for x, y in values.items())
-      changed = changed or diff0 or diff1
+      diffs = any(y[i] - review_list[attribute][x][i] for x, y in values.items() for i in [0,1])
+      #diff1 = any(y[1] - review_list[attribute][x][1] for x, y in values.items())
+      changed = changed or diffs
 
     self.vendor_changed = changed
 
