@@ -207,7 +207,7 @@ class AttributeReview(AttributeReviewTemplate):
     review_list = self.review_set[self.selected_vendor]
     new_list = self.new_set[self.selected_vendor]
     changed = False
-    for attribute, values in new_list.keys():
+    for attribute, values in new_list.items():
       diff = sum(y - review_list[attribute][x] for x, y in values.items())
       changed = changed or (diff != 0)
 
