@@ -239,6 +239,8 @@ class AttributeReview(AttributeReviewTemplate):
 
   def update(self, vendor_name, forecast_ids, actual_ids, splits):
     #return True
+    print(splits)
+    return True
     return Data.apply_attribute_splits(vendor_name, forecast_ids, actual_ids, splits)
   
     
