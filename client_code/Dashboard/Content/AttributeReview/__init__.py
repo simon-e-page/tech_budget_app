@@ -232,14 +232,18 @@ class AttributeReview(AttributeReviewTemplate):
     
     if self.update(self.selected_vendor, forecast_ids, actual_ids, splits):
       Notification(message=message, title="Update successful!").show()
+      update_set = Data.assign_actual_dimensions(selected_vendor=self.selected_vendor)
+      if self.selected_vendor in update_set:
+        self.orig_set[self.selected_vendor] = update_set[self.selected_vendor]
+      self.vendor_list = sorted(list(self.orig_set.keys()))
       self.vendor_changed = False
+      self.vendor_dropdown.selected_value = None
+      self.refresh_data_bindings()
     else:
       alert("Update failed - check logs!")
       
 
   def update(self, vendor_name, forecast_ids, actual_ids, splits):
-    #print(splits)
-    #return True
     return Data.apply_attribute_splits(vendor_name, forecast_ids, actual_ids, splits)
   
     
