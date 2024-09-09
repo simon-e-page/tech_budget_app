@@ -62,7 +62,7 @@ components:
   type: ColumnPanel
 - components:
   - data_bindings:
-    - {code: self.enable_changes, property: enabled, writeback: false}
+    - {code: self.vendor_changed and not self.error_label.visible, property: enabled, writeback: false}
     event_bindings: {click: apply_actuals_button_click}
     layout_properties: {}
     name: apply_actuals_button
