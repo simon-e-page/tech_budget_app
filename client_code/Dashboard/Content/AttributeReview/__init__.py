@@ -136,9 +136,6 @@ class AttributeReview(AttributeReviewTemplate):
     def percent_formatter(cell, **params):
       val = cell.get_value()
       field = cell.get_field()
-      old_value = cell.get_data.get(f"old_{field}", None)
-      if old_value is not None and old_value != val:
-        cell.getElement().style.backgroundColor = "yellow"
       formatted_value = "{:.1%}".format(val)
       return formatted_value
 
@@ -172,8 +169,8 @@ class AttributeReview(AttributeReviewTemplate):
       'value': x,
       'forecast_percent': y[0],
       'actual_percent': y[1],
-      'old_forecast_pecent': old_values.get(x, [None, None])[0],
-      'old_actual_pecent': old_values.get(x, [None, None])[1],
+      'old_forecast_percent': old_values.get(x, [None, None])[0],
+      'old_actual_percent': old_values.get(x, [None, None])[1],
     } for x,y in values.items() ]
 
     forecast_percent_total = sum(x['forecast_percent'] for x in data)
@@ -186,8 +183,14 @@ class AttributeReview(AttributeReviewTemplate):
       this_row = cell.get_data()
       field = cell.getField()
       value = this_row['value']
+      percent = cell.get_value()
       new_percents = [ float(this_row['forecast_percent']), float(this_row['actual_percent']) ]      
       self.new_set[self.selected_vendor][self.selected_attribute][value] = new_percents
+      
+      old_percent = this_row[f"old_{field}"]
+      print(f"{percent} compared to {old_percent}")
+      if (old_percent is not None) and (old_percent != percent):
+        cell.getElement().style.backgroundColor = "yellow"
 
       index = 0 if field == 'forecast_percent' else 1
       total = sum(x[index] for x in self.new_set[self.selected_vendor][self.selected_attribute].values())
@@ -228,7 +231,7 @@ class AttributeReview(AttributeReviewTemplate):
     forecast_ids = self.orig_set[self.selected_vendor]['forecast_ids']
     actual_ids = self.orig_set[self.selected_vendor]['actual_ids']
     
-    message = f"Updated attributes ({'. '.join(splits.keys())}) for {self.selected_vendor} for all Forecast and Actual Lines"    
+    message = f"Updated attributes ({', '.join(splits.keys())}) for {self.selected_vendor} for all Forecast and Actual Lines"    
     
     if self.update(self.selected_vendor, forecast_ids, actual_ids, splits):
       Notification(message=message, title="Update successful!").show()
