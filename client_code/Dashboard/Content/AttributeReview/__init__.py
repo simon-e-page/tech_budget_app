@@ -188,7 +188,7 @@ class AttributeReview(AttributeReviewTemplate):
       self.new_set[self.selected_vendor][self.selected_attribute][value] = new_percents
       
       old_percent = this_row[f"old_{field}"]
-      print(f"{percent} compared to {old_percent}")
+      #print(f"{percent} compared to {old_percent}")
       if (old_percent is not None) and (old_percent != percent):
         cell.getElement().style.backgroundColor = "yellow"
 
