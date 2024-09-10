@@ -60,9 +60,13 @@ class Transaction(AttributeToKey):
       if default is not None:
         self[field] = item.get(field, default)
       elif field=='vendor_id':
-        self['vendor'] = VendorsModel.VENDORS.get(item['vendor_id'])
+        vendor_id = item.get('vendor_id', None)
+        if vendor_id is not None:
+          self['vendor'] = VendorsModel.VENDORS.get(vendor_id)
+        else:
+          self['vendor'] = None
       else:
-        self[field] = item.get(field)
+        self[field] = item.get(field, None)
 
   def delete(self):
     try:
