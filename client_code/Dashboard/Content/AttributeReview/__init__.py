@@ -228,7 +228,7 @@ class AttributeReview(AttributeReviewTemplate):
     forecast_ids = self.orig_set[self.selected_vendor]['forecast_ids']
     actual_ids = self.orig_set[self.selected_vendor]['actual_ids']
     
-    message = f"Update {self.selected_vendor} to {splits} for all Forecast and Actual Lines!"    
+    message = f"Updated attributes ({'. '.join(splits.keys())}) for {self.selected_vendor} for all Forecast and Actual Lines"    
     
     if self.update(self.selected_vendor, forecast_ids, actual_ids, splits):
       Notification(message=message, title="Update successful!").show()
