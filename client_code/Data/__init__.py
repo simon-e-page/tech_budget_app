@@ -218,13 +218,13 @@ def remove_attribute(attribute_name, attribute_value):
   return anvil.server.call('Reference', 'remove_attribute', attribute_name, attribute_value)
 
 
-def assign_actual_dimensions(brand = None, year = None):
+def assign_actual_dimensions(brand = None, year = None, selected_vendor_name=None):
   if brand is None:
     brand = CURRENT_BRAND
   if year is None:
     year = CURRENT_YEAR
 
-  return anvil.server.call('Calendar', 'assign_actual_dimensions', brand, year)
+  return anvil.server.call('Calendar', 'assign_actual_dimensions', brand, year, selected_vendor_name=selected_vendor_name)
 
 def apply_attribute_splits(vendor_name, forecast_ids, actual_ids, splits, year=None):
   if year is None:
