@@ -70,6 +70,17 @@ class Transaction(TransactionTemplate):
           print(e)
           ret = False
     return ret
+
+  @property
+  def vendor_id(self):
+    if self.item['vendor'] is not None:
+      return self.item['vendor']['vendor_id']
+    else:
+      return None
+
+  @vendor_id.setter
+  def vendor_id(self, vendor_id):
+    self.item['vendor'] = self.vendors.get(vendor_id, default=None)
     
   def form_refreshing_data_bindings(self, **event_args):
     print("In: form_refreshing_data_bindings()")

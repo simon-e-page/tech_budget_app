@@ -87,9 +87,11 @@ class Vendors(AttributeToDict):
     self.__d__[vendor_id] = vendor
     self.name_index[vendor.vendor_name] = vendor_id
     
-  def get(self, vendor_id):
+  def get(self, vendor_id, **kwargs):
     if vendor_id in self.__d__:
       return self.__d__[vendor_id]
+    elif 'default' in kwargs:
+      return kwargs['default']
     else:
       raise KeyError(f"Cant find vendor with ID: {vendor_id}")
 

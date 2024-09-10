@@ -469,7 +469,7 @@ class BudgetLines(BudgetLinesTemplate):
   def add_new_forecast_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     new_trans = self.transactions.blank()
-    trans_form = Transaction(new_trans)
+    trans_form = Transaction(new_trans, transaction_type='Forecast')
     if trans_form.show(new=True):
       alert(f"Create new Forecast entry: {new_trans} ")
     

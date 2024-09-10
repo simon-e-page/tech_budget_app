@@ -59,7 +59,7 @@ components:
       type: Label
     - data_bindings:
       - {code: self.vendor_list, property: items, writeback: false}
-      - {code: 'self.get_vendor_id(self.item[''vendor''])', property: selected_value, writeback: false}
+      - {code: self.vendor_id, property: selected_value, writeback: true}
       layout_properties: {}
       name: vendor_dropdown
       properties: {include_placeholder: true, placeholder: Select Vendor}
