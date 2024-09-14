@@ -34,35 +34,35 @@ class TransactionEntries(TransactionEntriesTemplate):
     # Any code you write here will run before the form opens.
 
 
-  def show(self, transaction, title="Add / edit line entries:"):
+  def show(self, transaction, transaction_type, title="Add / edit line entries:"):
     save_button = "Save Changes"
+    self.build_table(transaction, transaction_type)
     ret = alert(self, title=title, large=True, buttons=((save_button, True), ("Cancel", False)))
-    self.build_table(transaction)
     if ret:
       return self.updated_entries
     else: 
       return []
 
   
-  def build_table(self, item):
-    if item.transaction_id:
-      self.t_data = item.get_all_entries()
-    else:
-      self.t_data = None
+  def build_table(self, item, transaction_type):
+    #if item.transaction_id:
+    self.t_data = item.get_all_entries(transaction_type)
+    #else:
+    #  self.t_data = None
       
     self.t_data_copy = deepcopy(self.t_data)
     self.transaction = item
     self.entry_label = 'Budget / Forecast Entries' if item.transaction_type == 'Budget' else 'Actual Entries'
     self.refresh_data_bindings()
-    if self.entries.initialized:
-      self.entries.clear()
+    if self.entries_table.initialized:
+      self.entries_table.clear()
       self.render_table()
 
   def render_table(self):
     if not self.t_data:
       return
       
-    t = self.entries
+    t = self.entries_table
     
     def calc_totals(data):
       totals = { k: sum([ r[k] for r in data if r[k] != 'NA']) for k in data[0].keys() if k != 'Month' }
@@ -99,13 +99,16 @@ class TransactionEntries(TransactionEntriesTemplate):
     for x in self.t_data['columns'][1:]:
       if 'Actual' in x:
         params = {'backgroundColor': '##ccffff'}
-        editor = 'number' if self.transaction.transaction_id is not None else None
+        #editor = 'number' if self.transaction.transaction_id is not None else None
+        editor = 'number'
       elif 'Forecast' in x:
         params = {'backgroundColor': '#ccffcc'}
-        editor = 'number' if self.transaction.transaction_id is not None else None        
+        editor = 'number'
+        #editor = 'number' if self.transaction.transaction_id is not None else None        
       elif 'Budget' in x:
         params = {'backgroundColor': '#ffffcc'}
-        editor = 'number' if self.transaction.transaction_id is not None else None
+        editor = 'number'
+        #editor = 'number' if self.transaction.transaction_id is not None else None
       elif 'Snapshot' in x:
         params = {'backgroundColor': '#ffff99'}
         editor = None
@@ -140,10 +143,15 @@ class TransactionEntries(TransactionEntriesTemplate):
     month_label = cell.getData()['Month']
     month_index = self.month_map[month_label]
 
-    month_num = (month_index + 7) % 12
+    month_num = (month_index + 6) % 12 + 1
+    print(f"{month_label} => {month_num}")
     timestamp = dt.date(fin_year - int(month_num>6), month_num, 1)
     year_month = (fin_year - int(month_num>6)) * 100 + month_num
-    value = float(cell.getValue())
+    value = cell.get_value()
+    try:
+      value = float(value)
+    except Exception as e:
+      value = 0.0
 
     # Keep an log of changes
     self.updated_entries.append({

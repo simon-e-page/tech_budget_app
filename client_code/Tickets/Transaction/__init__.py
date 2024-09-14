@@ -131,7 +131,7 @@ class Transaction(TransactionTemplate):
   def edit_entries_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     entry_form = TransactionEntries()
-    self.updated_entries = entry_form.show(self.item)
+    self.updated_entries = entry_form.show(self.item, self.item.transaction_type)
 
   def update_entries(self, **event_args):
     """This method is called when the button is clicked"""

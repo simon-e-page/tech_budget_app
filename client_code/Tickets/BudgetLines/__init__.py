@@ -474,7 +474,7 @@ class BudgetLines(BudgetLinesTemplate):
     new_trans = self.transactions.blank()
     trans_form = Transaction(new_trans, transaction_type=transaction_type)
     if trans_form.show(new=True):
-      alert(f"Create new {transaction_type} entry: {new_trans} ")
+      Notification(f"Created new {transaction_type} Line!").show()
 
   def add_actual_button_click(self, **event_args):
     """This method is called when the button is clicked"""
