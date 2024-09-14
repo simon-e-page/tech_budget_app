@@ -10,9 +10,6 @@ from copy import deepcopy
 from .... import Data
 
 from tabulator.Tabulator import Tabulator
-#Tabulator.modules.add('ColumnCalcsModule')
-#Tabulator.modules.add('calculations')
-#Tabulator.modules.add('columnCalcs')
 
 
 class TransactionEntries(TransactionEntriesTemplate):
