@@ -24,11 +24,28 @@ class TransactionEntries(TransactionEntriesTemplate):
     self.updated_entries = []
     self.entry_label = "Budget / Forecast Entries"
     self.transaction = {}
-    
+
+    self.entries_table.options = {
+      "index": "transaction_id",  # or set the index property here
+      "selectable": "highlight",
+      "css_class": ["table-striped", "table-bordered", "table-condensed"],
+      'pagination': True,
+      'paginationSize': None,
+    } 
     self.init_components(**properties)
     # Any code you write here will run before the form opens.
 
 
+  def show(self, transaction, title="Add / edit line entries:"):
+    save_button = "Save Changes"
+    ret = alert(self, title=title, large=True, buttons=((save_button, True), ("Cancel", False)))
+    self.build_table(transaction)
+    if ret:
+      return self.updated_entries
+    else: 
+      return []
+
+  
   def build_table(self, item):
     if item.transaction_id:
       self.t_data = item.get_all_entries()
@@ -48,12 +65,6 @@ class TransactionEntries(TransactionEntriesTemplate):
       return
       
     t = self.entries
-    t.options.update(
-      selectable="highlight",
-      pagination=False,
-      pagination_size=15,
-      css_class=["table-striped", "table-bordered", "table-condensed"]
-    )
     
     def calc_totals(data):
       totals = { k: sum([ r[k] for r in data if r[k] != 'NA']) for k in data[0].keys() if k != 'Month' }
@@ -121,20 +132,9 @@ class TransactionEntries(TransactionEntriesTemplate):
     t.add_data(totals)
 
 
-  def update_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    print(self.updated_entries)
-    if len(self.updated_entries) > 0:
-      count = self.transaction.add_entries(self.updated_entries)
-      if not count:
-        alert("Error updating entries! Check logs")
-      else:
-        Notification(f"{count} entries updated successfully").show()
-        self.updated_entries = []
-        self.build_table(self.transaction)
 
 
-  def entries_cell_edited(self, cell, **event_args):
+  def entries_table_cell_edited(self, cell, **event_args):
     """This method is called when a cell is edited"""
     field = cell.getField()
     fin_year, transaction_type = field.split(' ')
@@ -167,7 +167,7 @@ class TransactionEntries(TransactionEntriesTemplate):
     self.t_data = deepcopy(self.t_data_copy)
     self.render_table()
 
-  def entries_table_built(self, **event_args):
+  def entries_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
     self.render_table()
 

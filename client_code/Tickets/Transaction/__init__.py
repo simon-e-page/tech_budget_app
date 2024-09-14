@@ -14,6 +14,7 @@ from ... import Validation
 from ...Data import VendorsModel
 from ...Data import TransactionsModel, UsersModel
 from ...Vendors.Vendors.Vendor import Vendor
+from .TransactionEntries import TransactionEntries
 
 class Transaction(TransactionTemplate):
   """This Form displays transaction and account information for a single transaction. It also allows you to edit the transaction being displayed.
@@ -41,6 +42,7 @@ class Transaction(TransactionTemplate):
     properties['item'] = item
     
     self.transaction_copy = {}
+    self.updated_entries = []
     
     self.initialised = False
 
@@ -65,6 +67,7 @@ class Transaction(TransactionTemplate):
       else:
         try:
           self.item.update()
+          self.update_entries()
         except Exception as e:
           alert("Error saving changes!")
           print(e)
@@ -93,59 +96,14 @@ class Transaction(TransactionTemplate):
   
   # Change transaction details
   def update_transaction(self, **event_args):
-    #trans_validation_errors = Validation.get_transaction_settings_errors(self.transaction_copy)
-    #if trans_validation_errors:
-    #  alert("The following fields are missing for your transaction: \n{}".format(
-    #    ' \n'.join(word for word in trans_validation_errors)
-    #  ))
-    #else:
     self.item.update()
     self.refresh_data_bindings()
 
-  #def revert_button_click(self, **event_args):
-  #  """This method is called when the link is clicked"""
-  #  self.item = self.transaction_copy.copy()
-  #  self.reset_controls()
-
-  #def save_button_click(self, **event_args):
-  #  """This method is called when the button is clicked"""
-  #  if self.item.transaction_id is not None:
-  #    self.update_transaction()
-  #    Notification('Transaction details updated successfully').show()
-  #  else:
-  #    try:
-  #      self.item = self.transactions.new(self.item)
-  #      Notification('Transaction details updated successfully').show()
-  #    except Exception as e:
-  #      Notification("Error adding new Transaction! Check logs!").show()
-  #      
-  #  #alert("Updates saved!")
-  #  self.reset_controls()
-  #  self.refresh_data_bindings()
-      
-  #def back_button_click(self, **event_args):
-  # """This method is called when the button is clicked"""
-  #  back = self.back
-  #  if back is not None:
-  #    open_func = back.pop('open_func')
-  #    print(back)
-  #    open_func(**back)
-  #  else:
-  #    homepage = get_open_form()
-  #    homepage.open_transactions()
 
   def reset_controls(self):
     print("In reset_controls")
-    #self.credit_account_dropdown.enabled = True
-    #self.revert_button.enabled = False
 
-
-  #def delete_button_click(self, **event_args):
-  #  """This method is called when the button is clicked"""
-  #  if confirm("Are you sure you want to delete this transaction?", large=True):
-  #    self.item.delete()
-  #    self.back_button_click()
-
+  
   def disable_checkbox_change(self, **event_args):
     """This method is called when this checkbox is checked or unchecked"""
     if not self.disable_checkbox.checked or confirm("This will prevent this entry being used in future budgets. Are you sure?", large=True):
@@ -169,5 +127,23 @@ class Transaction(TransactionTemplate):
     self.item.transaction_type = 'Actual' if self.item.transaction_type == 'Budget' else 'Budget'
     #self.transaction_entries_1.build_table(self.item)
     self.refresh_data_bindings()
+
+  def edit_entries_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    entry_form = TransactionEntries()
+    self.updated_entries = entry_form.show(self.item)
+
+  def update_entries(self, **event_args):
+    """This method is called when the button is clicked"""
+    print(self.updated_entries)
+    if len(self.updated_entries) > 0:
+      count = self.item.add_entries(self.updated_entries)
+      if not count:
+        alert("Error updating entries! Check logs")
+      else:
+        Notification(f"{count} entries updated successfully").show()
+        self.updated_entries = []
+        self.build_table(self.transaction)
+
     
   

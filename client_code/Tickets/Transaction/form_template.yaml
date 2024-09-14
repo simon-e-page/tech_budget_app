@@ -263,6 +263,11 @@ components:
     properties: {align: left, auto_expand: false, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', height: 93.7031, italic: false, placeholder: Enter notes here.., role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', underline: false, visible: true}
     type: TextArea
   - components:
+    - event_bindings: {click: edit_entries_button_click}
+      layout_properties: {}
+      name: edit_entries_button
+      properties: {icon: 'fa:edit', role: primary-button, text: Edit Entries}
+      type: Button
     - data_bindings:
       - {code: 'self.item[''to_review'']', property: checked, writeback: true}
       - {code: 'self.item[''transaction_type''] == ''Actual''', property: visible, writeback: false}

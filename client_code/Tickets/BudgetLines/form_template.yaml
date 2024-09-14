@@ -35,6 +35,11 @@ components:
     properties: {align: left, spacing: tiny}
     type: FlowPanel
   - components:
+    - event_bindings: {click: add_actual_button_click}
+      layout_properties: {}
+      name: add_actual_button
+      properties: {icon: 'fa:plus', role: primary-button, text: Add New Line}
+      type: Button
     - event_bindings: {click: import_button_click}
       layout_properties: {}
       name: import_button
