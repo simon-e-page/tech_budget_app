@@ -42,6 +42,7 @@ class Transaction(TransactionTemplate):
     properties['item'] = item
     
     self.transaction_copy = {}
+    self.entry_data = None
     self.updated_entries = []
     
     self.initialised = False
@@ -50,20 +51,27 @@ class Transaction(TransactionTemplate):
     self.actual_button_labels = { True: 'Enter Actual', False: 'Enter Budget'}
     
     # Set Form properties and Data Bindings.
-    print("In Transaction.__init__")
     self.init_components(**properties)
-    print("In Transaction.__init__")
     # Any code you write here will run when the form opens.
     self.reset_controls()
     #self.transaction_entries_1.build_table(self.item)
-    print("Complete Transaction.__init__")
-    
+
+  
+  
   def show(self, title="", new=False):
     save_button = "Add New" if new else "Save Changes"
     ret = alert(self, title=title, large=True, buttons=((save_button, True), ("Cancel", False)))
     if ret:
       if new:
-        pass
+        try:
+          self.transactions.new(transaction=self.item)
+          print(f"New Transaction ID = {self.item.transaction_id}")
+          self.update_entries()
+        except Exception as e:
+          alert("Error creating new transaction!")
+          print(e)
+          ret = False
+          
       else:
         try:
           self.item.update()
@@ -72,8 +80,10 @@ class Transaction(TransactionTemplate):
           alert("Error saving changes!")
           print(e)
           ret = False
+          
     return ret
 
+  
   @property
   def vendor_id(self):
     if self.item['vendor'] is not None:
@@ -81,17 +91,19 @@ class Transaction(TransactionTemplate):
     else:
       return None
 
+  
   @vendor_id.setter
   def vendor_id(self, vendor_id):
     self.item['vendor'] = self.vendors.get(vendor_id, default=None)
-    
+
+
+  
   def form_refreshing_data_bindings(self, **event_args):
     print("In: form_refreshing_data_bindings()")
     # If self.item exists and ticket_copy not yet initialised, initialise it. 
     if (not self.initialised and self.item is not None) or (self.transaction_copy == {}):
       self.initialised = True
       self.transaction_copy = self.item.copy()
-      print("made item copy")
 
   
   # Change transaction details
@@ -111,6 +123,8 @@ class Transaction(TransactionTemplate):
         self.update_transaction()
     self.refresh_data_bindings()
 
+
+  
   def new_vendor_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     new_vendor = self.vendors.blank()
@@ -122,20 +136,18 @@ class Transaction(TransactionTemplate):
       except Exception as e:
         print("Failed to create new Vendor!")
 
-  def actual_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    self.item.transaction_type = 'Actual' if self.item.transaction_type == 'Budget' else 'Budget'
-    #self.transaction_entries_1.build_table(self.item)
-    self.refresh_data_bindings()
+
+  
 
   def edit_entries_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    entry_form = TransactionEntries()
-    self.updated_entries = entry_form.show(self.item, self.item.transaction_type)
+    entry_form = TransactionEntries(t_data=self.entry_data, updated_entries=self.updated_entries)
+    self.entry_data, new_updated_entries = entry_form.show(self.item, self.item.transaction_type)
+    self.updated_entries += new_updated_entries
 
-  def update_entries(self, **event_args):
-    """This method is called when the button is clicked"""
-    print(self.updated_entries)
+
+  
+  def update_entries(self):
     if len(self.updated_entries) > 0:
       count = self.item.add_entries(self.updated_entries)
       if not count:
@@ -143,7 +155,6 @@ class Transaction(TransactionTemplate):
       else:
         Notification(f"{count} entries updated successfully").show()
         self.updated_entries = []
-        self.build_table(self.transaction)
 
     
   

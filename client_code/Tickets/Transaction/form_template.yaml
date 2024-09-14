@@ -7,14 +7,6 @@ components:
         name: label_1
         properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-text, spacing_above: small, spacing_below: medium, text: Budget Line Detail, tooltip: '', underline: false, visible: true}
         type: Label
-      - data_bindings:
-        - {code: 'self.actual_button_labels[self.item.transaction_type==''Budget'']', property: text, writeback: false}
-        - {code: self.item.transaction_id is None, property: visible, writeback: false}
-        event_bindings: {click: actual_button_click}
-        layout_properties: {}
-        name: actual_button
-        properties: {role: secondary-button, text: ''}
-        type: Button
       layout_properties: {grid_position: 'YFTLZN,DZTYIV'}
       name: flow_panel_11
       properties: {}

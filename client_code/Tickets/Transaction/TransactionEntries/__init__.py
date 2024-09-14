@@ -13,15 +13,16 @@ from tabulator.Tabulator import Tabulator
 
 
 class TransactionEntries(TransactionEntriesTemplate):
-  def __init__(self, **properties):
+  def __init__(self, t_data=None, updated_entries=[], **properties):
     # Set Form properties and Data Bindings.
     self.current_year = Data.CURRENT_YEAR
     self.budget_year = Data.BUDGET_YEAR
     self.month_map = {'Jul': 0,'Aug': 1,'Sep': 2,'Oct': 3,'Nov': 4,'Dec': 5,'Jan': 6,'Feb': 7,'Mar': 8,'Apr': 9,'May': 10,'Jun': 11 }
-    self.updated_entries = []
+    self.t_data = t_data
+    self.updated_entries = updated_entries
+    
     self.entry_label = "Budget / Forecast Entries"
     self.transaction = {}
-    self.t_data = None
 
     self.entries_table.options = {
       "index": "transaction_id",  # or set the index property here
@@ -38,17 +39,15 @@ class TransactionEntries(TransactionEntriesTemplate):
     save_button = "Save Changes"
     self.build_table(transaction, transaction_type)
     ret = alert(self, title=title, large=True, buttons=((save_button, True), ("Cancel", False)))
-    if ret:
-      return self.updated_entries
-    else: 
-      return []
+    if not ret:
+      self.updated_entries = []
+      self.t_data = deepcopy(self.t_data_copy)
+    return self.t_data, self.updated_entries
 
   
   def build_table(self, item, transaction_type):
-    #if item.transaction_id:
-    self.t_data = item.get_all_entries(transaction_type)
-    #else:
-    #  self.t_data = None
+    if self.t_data is None:
+      self.t_data = item.get_all_entries(transaction_type)
       
     self.t_data_copy = deepcopy(self.t_data)
     self.transaction = item
@@ -96,19 +95,18 @@ class TransactionEntries(TransactionEntriesTemplate):
                   for x in self.t_data['columns'][0:1] ]
 
     fy_columns = []
-    for x in self.t_data['columns'][1:]:
+    data_columns = self.t_data['columns'][1:]
+    for x in data_columns:
       if 'Actual' in x:
         params = {'backgroundColor': '##ccffff'}
-        #editor = 'number' if self.transaction.transaction_id is not None else None
         editor = 'number'
       elif 'Forecast' in x:
         params = {'backgroundColor': '#ccffcc'}
         editor = 'number'
-        #editor = 'number' if self.transaction.transaction_id is not None else None        
       elif 'Budget' in x:
         params = {'backgroundColor': '#ffffcc'}
-        editor = 'number'
-        #editor = 'number' if self.transaction.transaction_id is not None else None
+        #Can only edit a Budget if there is no Forecast column
+        editor = None if any('Forecast' in c for c in data_columns) else 'number'
       elif 'Snapshot' in x:
         params = {'backgroundColor': '#ffff99'}
         editor = None
@@ -144,7 +142,7 @@ class TransactionEntries(TransactionEntriesTemplate):
     month_index = self.month_map[month_label]
 
     month_num = (month_index + 6) % 12 + 1
-    print(f"{month_label} => {month_num}")
+    
     timestamp = dt.date(fin_year - int(month_num>6), month_num, 1)
     year_month = (fin_year - int(month_num>6)) * 100 + month_num
     value = cell.get_value()
@@ -167,7 +165,7 @@ class TransactionEntries(TransactionEntriesTemplate):
     self.render_table()
   
 
-  def revert_button_click(self, **event_args):
+  def revert_data(self, **event_args):
     """This method is called when the button is clicked"""
     self.updated_entries = []
     self.t_data = deepcopy(self.t_data_copy)
