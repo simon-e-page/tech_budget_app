@@ -21,6 +21,7 @@ class TransactionEntries(TransactionEntriesTemplate):
     self.updated_entries = []
     self.entry_label = "Budget / Forecast Entries"
     self.transaction = {}
+    self.t_data = None
 
     self.entries_table.options = {
       "index": "transaction_id",  # or set the index property here
@@ -164,6 +165,8 @@ class TransactionEntries(TransactionEntriesTemplate):
     self.t_data = deepcopy(self.t_data_copy)
     self.render_table()
 
+
+  
   def entries_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
     self.render_table()
