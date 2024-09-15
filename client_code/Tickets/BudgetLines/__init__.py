@@ -468,10 +468,10 @@ class BudgetLines(BudgetLinesTemplate):
 
   def add_new_forecast_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    self.add_new()
+    self.add_new(transaction_type='Forecast')
 
   def add_new(self, transaction_type="Forecast"):
-    new_trans = self.transactions.blank()
+    new_trans = self.transactions.blank({'transaction_type': transaction_type})
     trans_form = Transaction(new_trans, transaction_type=transaction_type)
     if trans_form.show(new=True):
       Notification(f"Created new {transaction_type} Line!").show()
@@ -479,6 +479,10 @@ class BudgetLines(BudgetLinesTemplate):
   def add_actual_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     self.add_new(transaction_type='Actual')
+
+  def add_budget_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.add_new(transaction_type='Budget')
     
 
       

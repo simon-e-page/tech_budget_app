@@ -126,12 +126,19 @@ CURRENT_YEAR = None
 BUDGET_YEAR = None
 CURRENT_BRAND = 'JB_AU'
 
-def get_tracking_table(year):
-  return anvil.server.call('Calendar', 'get_tracking_table', brand=CURRENT_BRAND, agg_column='vendor_name', year=year, keep_columns=['vendor_name', 'vendor_id'])
+#def get_tracking_table(year):
+#  return anvil.server.call('Calendar', 'get_tracking_table', brand=CURRENT_BRAND, agg_column='vendor_name', year=year, keep_columns=['vendor_name', 'vendor_id'])
 
 def get_tracking_table_background(year):
   # This signature kicks off a background process
-  task = anvil.server.call('Calendar_launcher', '_background_get_tracking_table', brand=CURRENT_BRAND, agg_column='vendor_name', year=year, keep_columns=['vendor_name', 'vendor_id'])
+  task = anvil.server.call('Calendar_launcher', 
+                           '_background_get_tracking_table', 
+                           brand=CURRENT_BRAND, 
+                           agg_column='vendor_name', 
+                           year=year, 
+                           keep_columns=['vendor_name', 'vendor_id'],
+                           account_codes=['Consulting', 'Hardware Maintenance', 'Software Maintenance']
+                          )
   #print(task)
   return task
 
