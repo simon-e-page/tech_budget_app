@@ -112,6 +112,7 @@ class BudgetLines(BudgetLinesTemplate):
       def open_transaction(sender, **event_args):
         transaction = self.transactions.get(sender.tag)
         print("Opening transaction: {0}".format(transaction.description))
+        print(transaction.to_dict(with_vendor=True))
         trans_form = Transaction(item=transaction, show_save=False)
         trans_form.show(title='Transaction Details')
   

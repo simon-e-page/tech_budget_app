@@ -26,7 +26,7 @@ class Transaction(TransactionTemplate):
   A copy of this row from the 'Transaction' table is initialised as self.transaction_copy in form_refreshing_data_bindings()
   """
   
-  def __init__(self, item, back=None, **properties):
+  def __init__(self, item=None, back=None, **properties):
     self.vendors = VendorsModel.VENDORS
     self.transactions = TransactionsModel.get_transactions()
     self.vendor_list = self.vendors.get_dropdown()
@@ -37,19 +37,22 @@ class Transaction(TransactionTemplate):
     self.service_changes = Data.SERVICE_CHANGES_DD
     self.billing_types = Data.BILLING_TYPES_DD
     self.teams = UsersModel.TEAMS_DD
-    
+    self.initialised = False
+    self.entry_data = None
+    self.updated_entries = []
+    self.budget_labels = { True: "Budget Line Detail", False: "Actual Line Detail" }
+    self.actual_button_labels = { True: 'Enter Actual', False: 'Enter Budget'}
+
+    if item is not None:
+      self.transaction_copy = self.item.copy()
+    else:
+      self.transaction_copy = {}
+
     self.back=back
     properties['item'] = item
     
-    self.transaction_copy = {}
-    self.entry_data = None
-    self.updated_entries = []
-    
-    self.initialised = False
-
-    self.budget_labels = { True: "Budget Line Detail", False: "Actual Line Detail" }
-    self.actual_button_labels = { True: 'Enter Actual', False: 'Enter Budget'}
-    
+    self.item = item
+        
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     # Any code you write here will run when the form opens.
@@ -99,12 +102,12 @@ class Transaction(TransactionTemplate):
 
   
   def form_refreshing_data_bindings(self, **event_args):
-    print("In: form_refreshing_data_bindings()")
+    #print("In: form_refreshing_data_bindings()")
     # If self.item exists and ticket_copy not yet initialised, initialise it. 
-    if (not self.initialised and self.item is not None) or (self.transaction_copy == {}):
-      self.initialised = True
-      self.transaction_copy = self.item.copy()
-
+    #if (not self.initialised and self.item is not None) or (self.transaction_copy == {}):
+    #  self.initialised = True
+    #  self.transaction_copy = self.item.copy()
+    pass
   
   # Change transaction details
   def update_transaction(self, **event_args):

@@ -137,7 +137,7 @@ def get_tracking_table_background(year):
                            agg_column='vendor_name', 
                            year=year, 
                            keep_columns=['vendor_name', 'vendor_id'],
-                           account_codes=['Consulting', 'Hardware Maintenance', 'Software Maintenance']
+                           account_code=['Consulting', 'Hardware Maintenance', 'Software Maintenance']
                           )
   #print(task)
   return task
