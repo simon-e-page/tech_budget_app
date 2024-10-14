@@ -130,6 +130,10 @@ class ImportActuals(ImportActualsTemplate):
             'transaction_type': 'Actual',
             'cost_centre': c,
             'source': 'finance import',
+            'account_code': 'Software Maintenance',
+            'service_change': 'Organic growth',
+            'lifecycle': 'New - Discretionary',
+            'category': 'Operations',
             'import_id': str(self.new_year_month)
           })
           
