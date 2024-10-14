@@ -85,6 +85,12 @@ components:
       name: active_checkbox
       properties: {text: 'Active?'}
       type: CheckBox
+    - data_bindings:
+      - {code: 'self.item[''import_ignore'']', property: checked, writeback: true}
+      layout_properties: {}
+      name: import_ignore_check
+      properties: {text: 'Ignore vendor during Import?'}
+      type: CheckBox
     layout_properties: {grid_position: 'DPKUVC,HUJRYE BOAHFL,YZLNSI'}
     name: flow_panel_2
     properties: {}
