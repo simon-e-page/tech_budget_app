@@ -58,9 +58,13 @@ class Content(ContentTemplate):
     #anvil.js.get_dom_node(self.next_button).style.cursor = 'pointer'
     #anvil.js.get_dom_node(self.prev_button).style.cursor = 'pointer'
     self.load_data(self.fin_year)
+    d = self.load_quarterly_data()
+    self.quarterly_table.prepare_data(d)
 
-
-  
+  def load_quarterly_data(self):
+    data = Data.get_quarterly_table()
+    return data
+      
   def reset(self):
     self.loaded = False
     self.load_data(self.fin_year)
@@ -196,7 +200,8 @@ class Content(ContentTemplate):
 
   def button_1_click(self, **event_args):
     """This method is called when the button is clicked"""
-    data = Data.get_quarterly_table()
-    self.text_area_1.text = data
+    pass
+    #data = Data.get_quarterly_table()
+    #self.text_area_1.text = data
 
   
