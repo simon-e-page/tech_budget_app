@@ -3,7 +3,8 @@ import anvil.users
 
 import datetime as dt
 
-from ..Data import AttributeToDict, AttributeToKey, CURRENT_BRAND, VendorsModel, CURRENT_YEAR, BUDGET_YEAR
+from .. import Data
+from ..Data import AttributeToDict, AttributeToKey, VendorsModel
 
 #####################################################################
 # TRANSACTION
@@ -110,9 +111,11 @@ class Transaction(AttributeToKey):
     except Exception as e:
       print("Error updating transaction: {0}".format(self.transaction_id))
 
-  def get_all_entries(self, default_transaction_type):
+  def get_all_entries(self, default_transaction_type, year = None):
+    if year is None:
+      year = Data.CURRENT_YEAR
     return anvil.server.call('Transactions', 'get_all_entries_by_transaction_id', 
-                           transaction_id=self.transaction_id, default_transaction_type=default_transaction_type
+                           transaction_id=self.transaction_id, default_transaction_type=default_transaction_type, year=year
                           )
 
   def add_entries(self, new_entries, overwrite=False):
@@ -129,7 +132,7 @@ class LazyTransactionList(AttributeToDict):
     self.sort = sort
     self.direction = direction
     self.filters = filters
-    self.filters['brand'] = CURRENT_BRAND
+    self.filters['brand'] = Data.CURRENT_BRAND
     self.__d__ = {}
      
   def _load(self, start=None, end=None, **kwargs):
@@ -212,7 +215,7 @@ class LazyTransactionList(AttributeToDict):
     return list(trans.values())
     
   def get_entry_lines(self, transaction_type, data):
-    year = BUDGET_YEAR if transaction_type=='Budget' else CURRENT_YEAR
+    year = Data.BUDGET_YEAR if transaction_type=='Budget' else Data.CURRENT_YEAR
     print(year)
     transaction_ids = [ x['transaction_id'] for x in data ]
     entries = anvil.server.call('Transactions', 'get_entries_by_transaction', fin_year=year, transaction_type=transaction_type, transaction_ids=transaction_ids)
@@ -226,7 +229,7 @@ class LazyTransactionList(AttributeToDict):
 
   def search_and_add_entries(self, entries, overwrite=False):
     try:
-      ret = anvil.server.call('Transactions', 'search_and_add_entries', brand=CURRENT_BRAND, entries=entries, overwrite=overwrite)
+      ret = anvil.server.call('Transactions', 'search_and_add_entries', brand=Data.CURRENT_BRAND, entries=entries, overwrite=overwrite)
     except Exception as e:
       print('Error updating entries!')
       ret = None
@@ -234,7 +237,7 @@ class LazyTransactionList(AttributeToDict):
     return ret
 
   def delete_entries(self, year_month, transaction_type='Actual'):
-    return anvil.server.call('Transactions', 'delete_entries', brand=CURRENT_BRAND, year_month=year_month, transaction_type='Actual')
+    return anvil.server.call('Transactions', 'delete_entries', brand=Data.CURRENT_BRAND, year_month=year_month, transaction_type='Actual')
 
   
 #############

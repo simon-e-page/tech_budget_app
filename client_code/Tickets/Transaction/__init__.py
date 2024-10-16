@@ -152,7 +152,7 @@ class Transaction(TransactionTemplate):
   
   def update_entries(self):
     if len(self.updated_entries) > 0:
-      count = self.item.add_entries(self.updated_entries)
+      count = self.item.add_entries(self.updated_entries, overwrite=True)
       if not count:
         alert("Error updating entries! Check logs")
       else:

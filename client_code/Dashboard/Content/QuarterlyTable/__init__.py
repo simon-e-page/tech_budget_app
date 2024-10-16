@@ -30,26 +30,66 @@ class QuarterlyTable(QuarterlyTableTemplate):
 
     def cell_format(cell, **params):
       val = cell.get_value()
-      name = cell.get_data()['name']
-      if name.contains('Percent'):
+      name = cell.get_field()
+      if '%' in name:
         perc = int(val * 1000) / 10
-        new_val = f"{perc:.1f}"
-      elif name.contains('Delta') or name.contains('Q'):
-        new_val = f"{val:.2f}"
+        new_val = f"{perc:.1f}%"
+      elif 'Delta' in name or 'Q' in name:
+        new_val = f"{val:,.0f}"
       else:
         new_val = val
+
+      bold = cell.get_data()['account_code'] == 'TOTALS'
+      new_val = Label(text=new_val, bold=bold)
       return new_val        
 
-    column_labels = list(self.data[0].keys())
-    columns = []
-    for c in column_labels:
+    column_labels = set(list(self.data[0].keys())) - set(['account_code'])
+    
+    def extract(label):
+      key1 = label[1]
+      key2 = 1 if "FY" in label else 2
+      key3 = label[5:] if "FY" in label else label[2:]
+      if '%' in label:
+        width = 50
+      elif 'Delta' in label:
+        width = 70
+      else:
+        width = 80
+      return (key1, key2, key3, width, label)
+      
+    decorated = [ extract(c) for c in list(column_labels) ]
+    s = sorted(decorated, key = lambda x: x[2] )
+    s = sorted(s, key = lambda x : x[1] )
+    s = sorted(s, key = lambda x : x[0] )
+    
+    columns = [{
+      'title': '',
+      'field': 'account_code',
+      'width': 150,
+      'headerSort': False
+    }]
+    
+    for k1,k2,k3,width,c in s:
+      
       columns.append({
         'title': c,
-        'name': c,
-        'formatter': cell_format
+        'field': c,
+        'formatter': cell_format,
+        'hozAlign': 'right',
+        'width': width,
+        'headerSort': False
       })
 
     self.q_table.columns = columns
+    row_index = { 
+      'Software Maintenance': 0, 
+      'Hardware Maintenance': 1,
+      'Consulting': 2,
+      'Communications': 3,
+      'Salary': 4
+      }
+        
+    self.data = sorted(self.data, key = lambda x: row_index.get(x['account_code'], 5))
     self.q_table.data = self.data
 
   def prepare_data(self, d):
