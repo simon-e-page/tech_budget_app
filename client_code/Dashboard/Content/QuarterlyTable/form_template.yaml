@@ -1,0 +1,7 @@
+components:
+- layout_properties: {full_width_row: true, grid_position: 'APXSYA,LSVOBG'}
+  name: q_table
+  properties: {index: account_code}
+  type: form:TGQCF3WT6FVL2EM2:Tabulator
+container: {type: ColumnPanel}
+is_package: true
