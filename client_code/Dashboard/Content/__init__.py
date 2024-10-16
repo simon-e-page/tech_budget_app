@@ -194,4 +194,9 @@ class Content(ContentTemplate):
       self.budget_table_1.prepare_data(self.raw_data)
     self.refresh_data_bindings()
 
+  def button_1_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    data = Data.get_quarterly_table()
+    self.text_area_1.text = data
+
   

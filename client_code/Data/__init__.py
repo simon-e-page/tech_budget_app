@@ -128,6 +128,11 @@ CURRENT_BRAND = 'JB_AU'
 
 #def get_tracking_table(year):
 #  return anvil.server.call('Calendar', 'get_tracking_table', brand=CURRENT_BRAND, agg_column='vendor_name', year=year, keep_columns=['vendor_name', 'vendor_id'])
+def get_quarterly_table(year=None, quarter = 0):
+  brand = CURRENT_BRAND
+  if year is None:
+    year = CURRENT_YEAR
+  return anvil.server.call('Calendar', 'get_quarterly_table', brand, year, quarter)
 
 def get_tracking_table_background(year):
   # This signature kicks off a background process

@@ -85,6 +85,23 @@ components:
     - name: budget_table_1
       properties: {}
       type: form:Dashboard.Content.BudgetTable
+    - components:
+      - layout_properties: {}
+        name: label_1
+        properties: {bold: true, font_size: 18, text: Quarterly Summary vs Last Year}
+        type: Label
+      - event_bindings: {click: button_1_click}
+        layout_properties: {}
+        name: button_1
+        properties: {role: secondary-button, text: get}
+        type: Button
+      name: flow_panel_1
+      properties: {}
+      type: FlowPanel
+    - layout_properties: {}
+      name: text_area_1
+      properties: {height: 140.6875}
+      type: TextArea
     data_bindings:
     - {code: self.budget_visible, property: visible, writeback: false}
     layout_properties: {full_width_row: true, grid_position: 'ULGGKJ,VGLFYT'}
