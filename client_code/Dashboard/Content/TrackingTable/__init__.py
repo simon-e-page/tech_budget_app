@@ -10,7 +10,8 @@ from anvil.tables import app_tables
 from .... import Data
 from ....Data import VendorsModel, TransactionsModel, CURRENT_YEAR, FinancialNumber
 #from ....Vendors.Vendors.Vendor import Vendor
-from ..VendorDetailTable import VendorDetailTable
+from ....Tickets.Transaction.VendorDetailTable import VendorDetailTable
+#from ..VendorDetailTable import VendorDetailTable
 
 COL_WIDTH = 90
 

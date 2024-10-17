@@ -15,7 +15,7 @@ from ...Data import VendorsModel
 from ...Data import TransactionsModel, UsersModel
 from ...Vendors.Vendors.Vendor import Vendor
 from .TransactionEntries import TransactionEntries
-from ...Dashboard.Content.VendorDetailTable import VendorDetailTable
+from .VendorDetailTable import VendorDetailTable
 
 class Transaction(TransactionTemplate):
   """This Form displays transaction and account information for a single transaction. It also allows you to edit the transaction being displayed.

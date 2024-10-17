@@ -42,7 +42,6 @@ unique_ids:
     Dashboard.Content.ResolutionGraph: QVXXXCK3FDUSRPTRTAPREU2FSKHG5XCU
     Dashboard.Content.RowTemplate5: '1686043400383166726421809.0958'
     Dashboard.Content.TrackingTable: '1718597460926450257465971.4644'
-    Dashboard.Content.VendorDetailTable: '1718943280217413675657219.53217'
     Homepage: 2A5ZUAWFZ76KHXWMLI4UL5X5JRKVIE64
     Icons.Avatar: 4DCDFMYDMTKN5WJJZ2N332F62ALVUVN3
     Icons.AvatarBlank: UDWDECOYX5HF6CJQHL4EKPHHG6RD4E6E
@@ -62,6 +61,7 @@ unique_ids:
     Tickets.BudgetLines.ImportActuals: '1717820048970750783981212.4346'
     Tickets.Transaction: DVHICGP2CGK5DCPO3VCFWL5N3JRUEKIC
     Tickets.Transaction.TransactionEntries: '1716351811695359118225362.86285'
+    Tickets.Transaction.VendorDetailTable: '1718943280217413675657219.53217'
     Tickets.Transactions: OMTOI2RTLP4EYI543MFTDRRQ6UAEF4XL
     Tickets.Transactions.TransactionList: PKKAQMZOAPITDOFK6PKTUH7PF5JHNSHV
     Tickets.Transactions.TransactionList.TransactionRow: 4J3ZNGMN6CQ6AKDQCLQQM33STW5IBQGM
