@@ -200,11 +200,19 @@ class VendorDetailTable(VendorDetailTableTemplate):
         icon = None
 
       def tb_edited(sender, **params):
-        print(sender.tag, params)
+        new_val = float(sender.text)
+        transaction_id, entry_type, ym, old_val = sender.tag
+        num_rows = len(table.data)
+        old_total = float(table.data[num_rows-1][ym])
+        new_total = old_total - old_val + new_val
+        table.data[num_rows -1][ym] = new_total
+        print(f"Updated column total to {new_total}")
+        #print(sender.tag, sender.text)
         
       if trans_type == 'Total':
         tb = Label(
-          text = "{:,.0f}".format(FinancialNumber(val)),
+          #text = "{:,.0f}".format(FinancialNumber(val)),
+          text = float(val),
           align='right',
           tooltip=tooltip,
           icon_align='right',
@@ -221,10 +229,11 @@ class VendorDetailTable(VendorDetailTableTemplate):
           #icon_align="left",
           tooltip = tooltip,
           #icon=icon,
+          border=None,
           foreground=color,
           background=backgroundColor,
           bold=bold,
-          tag=(transaction_id, table_type, ym)
+          tag=(transaction_id, table_type, ym, float(val))
         )
         tb.add_event_handler('change', tb_edited)
       return tb
