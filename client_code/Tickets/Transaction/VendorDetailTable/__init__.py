@@ -125,6 +125,9 @@ class VendorDetailTable(VendorDetailTableTemplate):
     if not self.prepared:
       self.prepare_data()
     locked = Data.is_locked(Data.CURRENT_YEAR)
+    
+    print(f"Budget year {Data.CURRENT_YEAR} is locked? {locked}")
+    
     self.prepare_columns(self.budget_details_table, table_type='Budget', locked=locked)
     self.budget_details_table.data = self.budget_data
 
@@ -163,10 +166,15 @@ class VendorDetailTable(VendorDetailTableTemplate):
       row_number = data.get('row_number', -1)
       transaction_id = data.get('transaction_id', 0)
       ym = params.get("year_month")
-      column_type = self.transaction_types[ym]
+      locked = params.get("locked")
+      column_type = params.get("column_type")
+      table_type = params.get("table_type")
       b_ym = f"{ym}B"
       ly_ym = f"{ym}LY"
 
+      if column_type == 'Actual' and table_type == 'Forecast':
+        locked = True
+        
       if trans_type == 'Actual':
         if params.get("backgroundColor", None):
           backgroundColor = params["backgroundColor"]
@@ -330,8 +338,11 @@ class VendorDetailTable(VendorDetailTableTemplate):
           "hozAlign": "right",
           "formatterParams": {
             "year_month": c,
+            "table_type": table_type,
+            "column_type": transaction_type,
             "backgroundColor": self.colors[transaction_type]["backgroundColor"],
             "color": self.colors[transaction_type]["color"],
+            "locked": locked
           },
           "width": 85,
           #"headerFilter": "number",
