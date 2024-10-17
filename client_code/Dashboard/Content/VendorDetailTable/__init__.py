@@ -17,6 +17,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.transactions = TransactionsModel.get_transactions()
     self.vendor = properties['vendor']
     self.year = properties.get('year', CURRENT_YEAR)
+    self.transaction_ids_to_show = properties.get('transaction_ids', [])
     
     if mode == 'Actual':
       mode_str = ' Actual and Forecast lines for '
@@ -72,7 +73,10 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.year_months = d["year_months"]
     self.transaction_types = d["transaction_types"]
     print(self.transaction_types)
-    self.data = d["data"]
+    if len(self.transaction_ids_to_show)>0:
+      self.data = [ x for x in d["data"] if x['transaction_id'] in self.transaction_ids_to_show ]
+    else:
+      self.data = d['data']
     #print(self.data)
     # self.ly_data = d['ly_data']
     # self.b_data =  d['b_data']

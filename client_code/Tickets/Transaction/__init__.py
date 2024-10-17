@@ -15,6 +15,7 @@ from ...Data import VendorsModel
 from ...Data import TransactionsModel, UsersModel
 from ...Vendors.Vendors.Vendor import Vendor
 from .TransactionEntries import TransactionEntries
+from ...Dashboard.Content.VendorDetailTable import VendorDetailTable
 
 class Transaction(TransactionTemplate):
   """This Form displays transaction and account information for a single transaction. It also allows you to edit the transaction being displayed.
@@ -159,5 +160,21 @@ class Transaction(TransactionTemplate):
         Notification(f"{count} entries updated successfully").show()
         self.updated_entries = []
 
+  def current_entries_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    vendor = self.item['vendor']
+    vendor_form = VendorDetailTable(vendor=vendor, year=self.year, transaction_id=self.item['transaction_id'])
+    ret = alert(vendor_form, large=True, title=f"Entries for {self.year}", buttons=[ ('Save Changes', True), ('Cancel', False) ])
+    if ret:
+      entries = vendor_form.get_forecast_entries()
+      self.update_current_entries(vendor, entries)
+
     
+  def update_current_entries(self, vendor, entries):
+    #self.transactions.load(vendor_name=vendor.vendor_name)
+    for transaction_id, trans_entries in entries.items():
+      if transaction_id==self.item['transaction_id']:
+        self.item.add_entries(trans_entries, overwrite=True)
+      else:
+        alert(f"Transaction ID does not match! {transaction_id}!={self.item['transaction_id']}")
   
