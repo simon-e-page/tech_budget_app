@@ -150,8 +150,8 @@ def get_tracking_table_background(year):
 def get_vendor_detail(year, vendor_id, mode='Actual'):
   return anvil.server.call('Calendar', 'get_tracking_table', brand=CURRENT_BRAND, agg_column=None, year=year, keep_columns=['transaction_id'], vendor_id=vendor_id)
 
-def get_budget_detail(year, mode='Actual'):
-  return anvil.server.call('Calendar', 'get_tracking_table', brand=CURRENT_BRAND, agg_column=None, year=year, keep_columns=None)
+def get_budget_detail(year, transaction_type=None, mode=None):
+  return anvil.server.call('Calendar', 'get_tracking_table', brand=CURRENT_BRAND, agg_column=None, year=year, keep_columns=None, transaction_type=transaction_type)
 
 def get_excel_table(year):
   return anvil.server.call('Calendar', 'get_excel_table', brand=CURRENT_BRAND, agg_column=None, year=year, keep_columns=None)

@@ -38,6 +38,7 @@ class Transaction(TransactionTemplate):
     self.service_changes = Data.SERVICE_CHANGES_DD
     self.billing_types = Data.BILLING_TYPES_DD
     self.teams = UsersModel.TEAMS_DD
+    self.year = Data.CURRENT_YEAR
     self.initialised = False
     self.entry_data = None
     self.updated_entries = []
