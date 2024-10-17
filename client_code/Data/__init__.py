@@ -193,8 +193,9 @@ def create_new_budget(year=None):
   if year is None:
     year = CURRENT_YEAR + 1
   return anvil.server.call("Calendar", 'create_new_budget', lock=True, year=year)
-  
-    
+
+def is_locked(year):
+  return anvil.server.call("Calendar", 'is_locked', year=year)
       
 #####################################################################
 # MISCELLANEOUS

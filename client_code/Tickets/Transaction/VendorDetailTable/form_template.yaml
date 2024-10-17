@@ -25,8 +25,9 @@ components:
   properties: {}
   type: ColumnPanel
 - components:
-  - name: label_3
-    properties: {text: Actual lines vs Last year, underline: true}
+  - layout_properties: {}
+    name: label_3
+    properties: {text: 'Actual lines:', underline: true}
     type: Label
   - event_bindings: {table_built: actual_details_table_table_built}
     name: actual_details_table
@@ -37,8 +38,9 @@ components:
   properties: {}
   type: LinearPanel
 - components:
-  - name: label_2
-    properties: {text: Forecast lines vs Budget, underline: true}
+  - layout_properties: {}
+    name: label_2
+    properties: {text: 'Forecast lines:', underline: true}
     type: Label
   - event_bindings: {cell_click: forecast_details_table_cell_click, table_built: forecast_details_table_table_built}
     name: forecast_details_table
@@ -51,7 +53,7 @@ components:
 - components:
   - layout_properties: {}
     name: label_4
-    properties: {text: Budget Lines vs Last year, underline: true}
+    properties: {text: 'Budget Lines:', underline: true}
     type: Label
   - event_bindings: {table_built: budget_details_table_table_built}
     name: budget_details_table

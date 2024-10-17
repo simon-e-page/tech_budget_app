@@ -69,6 +69,9 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.budget_panel.visible = (mode == 'Budget')
     # Any code you write here will run before the form opens.
 
+
+
+  
   def load_data(self):
     d = Data.get_vendor_detail(year = self.year, vendor_id=self.vendor.vendor_id, mode='Actual')
     self.year_months = d["year_months"]
@@ -97,6 +100,9 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.prepare_columns(self.actual_details_table, table_type='Actual')
     self.actual_details_table.data = self.actual_data
 
+
+
+  
   def forecast_details_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
     if not self.loaded:
@@ -105,6 +111,9 @@ class VendorDetailTable(VendorDetailTableTemplate):
       self.prepare_data()
     self.prepare_columns(self.forecast_details_table, table_type='Forecast')
     self.forecast_details_table.data = self.forecast_data
+
+
+
   
   def budget_details_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
@@ -115,11 +124,15 @@ class VendorDetailTable(VendorDetailTableTemplate):
       self.load_data()
     if not self.prepared:
       self.prepare_data()
-    self.prepare_columns(self.budget_details_table, table_type='Budget')
+    locked = Data.is_locked(Data.CURRENT_YEAR)
+    self.prepare_columns(self.budget_details_table, table_type='Budget', locked=locked)
     self.budget_details_table.data = self.budget_data
 
+
+
+
   
-  def prepare_columns(self, table, table_type='Actual'):
+  def prepare_columns(self, table, table_type='Actual', locked=False):
 
     
     # Transacion Formatter
@@ -214,16 +227,22 @@ class VendorDetailTable(VendorDetailTableTemplate):
         table.data[row_number][ym] = new_val
         print(f"Updated column total to {new_total}")
         entry_index = f"{table_type}_{transaction_id}_{ym}"
+        month = int(ym[4:])
+        year = int(ym[0:4])
+        fin_year = year + int(month>6)
+        
         self.updated_entries[entry_index] = {
           'transaction_id': transaction_id,
           'transaction_type': table_type,
-          'year_month': ym,
+          'year_month': int(ym),
+          'fin_year': fin_year,
+          'timestamp': dt.date(year, month, 1),
           'amount': new_val
         }
         table.data = table.data
         #print(sender.tag, sender.text)
         
-      if trans_type == 'Total':
+      if trans_type == 'Total' or locked:
         tb = Label(
           #text = "{:,.0f}".format(FinancialNumber(val)),
           text = float(val),
@@ -335,6 +354,8 @@ class VendorDetailTable(VendorDetailTableTemplate):
 
     table.columns = columns
 
+
+  
   
   def prepare_data(self):
 
@@ -404,79 +425,25 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.prepared = True
 
 
-  def forecast_details_table_cell_click(self, cell, **event_args):
-    """This method is called when a cell is clicked"""
-    data = cell.get_data()
-    val = cell.get_value()
-    ym = cell.getField()
-    desc = data['description']
-    if ym not in self.year_months:
-      pass
-    elif data['transaction_type'] in ['Total', 'Actual']:
-      pass
-      #print("Clicked on an Actual or a Total - ignore!")
-      #print(event_args)
-    elif self.transaction_types[ym] != 'Forecast':
-      pass
-      #print("Clicked on a prior month - ignore!")
-      #print(event_args)      
-    else:
-      if self.mode == "Budget":
-        tt = "budget"
-        suf = "B"
-      else:
-        tt = "forecast"
-        suf = "F"
-      
-      textbox = TextBox(text=val, type='number')
-      ret = alert(textbox, title=f"Enter new {tt} value for {desc} in {ym}", buttons=[ ('OK', True), ('Cancel', False) ])
-      if ret:
-        cell.set_value(textbox.text)
-        for row in self.data:
-          if row['transaction_type']=='Budget' and row['transaction_id'] == data['transaction_id']:
-            row[f"{ym}{suf}"] = float(textbox.text)
-            row['edited'] = True
-            break
-        self.prepare_data()
-        self.forecast_details_table.data = self.forecast_data
-        
-  def get_forecast_entries(self, entry_type='Forecast'):
-    """ Returns all forecast entries for updating """
-    entries = {}
-    if entry_type == 'Forecast':
-      forecast_months = [ x for x, t in self.transaction_types.items() if t=='Forecast' ]
-      suf = 'F'
-    else:
-      forecast_months = [ x for x in self.year_months ]
-      suf = 'B'
-      
-    for row in self.data:
-      transaction_id = row['transaction_id']
-      if row['transaction_type']=='Budget':
-        for ym in forecast_months:
-          month = int(ym[4:])
-          year = int(ym[0:4])
-          fin_year = year + int(month>6)
-          trans_entries = entries.get(transaction_id, [])
-          trans_entries.append({ 
-                    'transaction_id': transaction_id,
-                    'transaction_type': entry_type,
-                    'year_month': int(ym),
-                    'timestamp': dt.date(year, month, 1),
-                    'fin_year': fin_year,
-                    'amount': float(row[f"{ym}{suf}"])
-                  })
-          entries[transaction_id] = trans_entries
-    return entries
 
+  
+  def get_updated_entries(self, entry_type='Forecast'):
+    """ Returns all updated entries for submission to the backend """
+    return list(self.updated_entries.values())
+
+
+  
   def revert_changes(self):
+    """ Reverts table to original state and discards any updated entries """
     self.updated_entries = {}
     if self.mode == 'Actual':
       self.actual_details_table_table_built()
     else:
       self.budget_details_table_table_built()
       self.forecast_details_table_table_built()
-        
+
+
+  
   def revert_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     self.revert_changes()
