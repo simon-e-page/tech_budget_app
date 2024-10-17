@@ -93,7 +93,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       self.load_data()
     if not self.prepared:
       self.prepare_data()
-    self.prepare_columns(self.actual_details_table)
+    self.prepare_columns(self.actual_details_table, table_type='Actual')
     self.actual_details_table.data = self.actual_data
 
   def forecast_details_table_table_built(self, **event_args):
@@ -102,7 +102,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       self.load_data()
     if not self.prepared:
       self.prepare_data()
-    self.prepare_columns(self.forecast_details_table)
+    self.prepare_columns(self.forecast_details_table, table_type='Forecast')
     self.forecast_details_table.data = self.forecast_data
   
   def budget_details_table_table_built(self, **event_args):
@@ -114,11 +114,11 @@ class VendorDetailTable(VendorDetailTableTemplate):
       self.load_data()
     if not self.prepared:
       self.prepare_data()
-    self.prepare_columns(self.budget_details_table)
+    self.prepare_columns(self.budget_details_table, table_type='Budget')
     self.budget_details_table.data = self.budget_data
 
   
-  def prepare_columns(self, table):
+  def prepare_columns(self, table, table_type='Actual'):
 
     
     # Transacion Formatter
@@ -139,27 +139,6 @@ class VendorDetailTable(VendorDetailTableTemplate):
         label = Label(text=val)
         return label
   
-        #def open_transaction(sender, **event_args):
-        #  transaction = self.transactions.get(sender.tag)
-        #  print("Opening transaction: {0}".format(transaction.description))
-          
-        #  ret = alert(
-        #    Transaction(item=transaction, show_save=False),
-        #    large=True,
-        #    title="Transaction Details",
-        #    buttons=[("Save Changes", True), ("Cancel", False)],
-        #  )
-        #  if ret:
-        #    try:
-        #      transaction.update()
-        #    except Exception as e:
-        #      print(e)
-        #      print("Failed to update Transaction!")
-        #  return
-  
-        #link = Link(text=val, tag=transaction_id)
-        #link.set_event_handler("click", open_transaction)
-        #return link
       
 
     # Entry formatter
@@ -167,7 +146,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       val = cell.getValue()
       data = cell.get_data()
       trans_type = data['transaction_type']
-      transaction_id = data['transaction_id']
+      transaction_id = data.get('transaction_id', 0)
       ym = params.get("year_month")
       column_type = self.transaction_types[ym]
       b_ym = f"{ym}B"
@@ -221,26 +200,33 @@ class VendorDetailTable(VendorDetailTableTemplate):
         icon = None
 
       def tb_edited(sender, **params):
-        print(sender.tag)
+        print(sender.tag, params)
         
-      try:
-        tb = TextBox(
-          text="{:,.0f}".format(FinancialNumber(val)),
-          type='number',
-          align="right",
-          icon_align="left",
-          tooltip = tooltip,
+      if trans_type == 'Total':
+        tb = Label(
+          text = "{:,.0f}".format(FinancialNumber(val)),
+          align='right',
+          tooltip=tooltip,
+          icon_align='right',
           icon=icon,
           foreground=color,
           background=backgroundColor,
           bold=bold,
-          tag=(transaction_id, trans_type, ym)
+        )
+      else:
+        tb = TextBox(
+          text=float(val),
+          type='number',
+          align="right",
+          #icon_align="left",
+          tooltip = tooltip,
+          #icon=icon,
+          foreground=color,
+          background=backgroundColor,
+          bold=bold,
+          tag=(transaction_id, table_type, ym)
         )
         tb.add_event_handler('change', tb_edited)
-        # val = "{:,.0f}".format(val)
-      except Exception:
-        print("Entry Exception!")
-        pass
       return tb
 
     # Text formatter
@@ -289,20 +275,6 @@ class VendorDetailTable(VendorDetailTableTemplate):
         "headerSort": False,
         'formatter': transaction_formatter
       },
-#      {
-#        "title": "Owner",
-#        "field": "owner",
-#        "width": 100,
-#        "headerSort": False,        
-#        'formatter': format_text
-#      },
-#      {
-#        "title": "Cost centre",
-#        "field": "cost_centre",
-#        "width": 150,
-#        "formatter": format_text,     
-#        "headerSort": False
-#      }
       
     ]
 
