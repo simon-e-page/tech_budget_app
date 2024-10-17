@@ -14,11 +14,12 @@ class VendorDetailTable(VendorDetailTableTemplate):
   def __init__(self, mode='Actual', **properties):
     # Set Form properties and Data Bindings.
     self.vendors = VendorsModel.VENDORS
+    self.mode = mode
     self.transactions = TransactionsModel.get_transactions()
     self.vendor = properties['vendor']
     self.year = properties.get('year', Data.CURRENT_YEAR)
     self.transaction_ids_to_show = properties.get('transaction_ids', [])
-    
+    self.updated_entries = {}
     if mode == 'Actual':
       mode_str = ' Actual and Forecast lines for '
     else:
@@ -53,8 +54,8 @@ class VendorDetailTable(VendorDetailTableTemplate):
 
     self.editors = {
       'Actual': None,
-      'Forecast': 'number',
-      'Budget': 'number'
+      'Forecast': None,
+      'Budget': None
     }
     
     self.loaded = False
@@ -146,6 +147,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       val = cell.getValue()
       data = cell.get_data()
       trans_type = data['transaction_type']
+      row_number = data.get('row_number', -1)
       transaction_id = data.get('transaction_id', 0)
       ym = params.get("year_month")
       column_type = self.transaction_types[ym]
@@ -201,12 +203,24 @@ class VendorDetailTable(VendorDetailTableTemplate):
 
       def tb_edited(sender, **params):
         new_val = float(sender.text)
-        transaction_id, entry_type, ym, old_val = sender.tag
+        row_number, transaction_id, entry_type, ym, old_val = sender.tag
         num_rows = len(table.data)
         old_total = float(table.data[num_rows-1][ym])
+        old_row_total = float(table.data[row_number]['total'])
         new_total = old_total - old_val + new_val
+        new_row_total = old_row_total - old_val + new_val
+        table.data[row_number]['total'] = new_row_total
         table.data[num_rows -1][ym] = new_total
+        table.data[row_number][ym] = new_val
         print(f"Updated column total to {new_total}")
+        entry_index = f"{table_type}_{transaction_id}_{ym}"
+        self.updated_entries[entry_index] = {
+          'transaction_id': transaction_id,
+          'transaction_type': table_type,
+          'year_month': ym,
+          'amount': new_val
+        }
+        table.data = table.data
         #print(sender.tag, sender.text)
         
       if trans_type == 'Total':
@@ -233,9 +247,9 @@ class VendorDetailTable(VendorDetailTableTemplate):
           foreground=color,
           background=backgroundColor,
           bold=bold,
-          tag=(transaction_id, table_type, ym, float(val))
+          tag=(row_number, transaction_id, table_type, ym, float(val))
         )
-        tb.add_event_handler('change', tb_edited)
+        tb.add_event_handler('pressed_enter', tb_edited)
       return tb
 
     # Text formatter
@@ -354,8 +368,9 @@ class VendorDetailTable(VendorDetailTableTemplate):
     forecast_rows = []
     budget_rows = []
     
-    for row in self.data:
+    for i,row in enumerate(self.data):
       #print(row)
+      row['row_number'] = i
       if row['transaction_type']=='Budget':
         f_row = row.copy()
         b_row = row.copy()
@@ -454,18 +469,16 @@ class VendorDetailTable(VendorDetailTableTemplate):
           entries[transaction_id] = trans_entries
     return entries
 
-#  def open_vendor_button_click(self, **event_args):
-#    """This method is called when the button is clicked"""
-#    pass
-    #vendor = self.vendor
-    #ret = alert(Vendor(item=vendor, show_save=False), large=True, title=vendor.vendor_name, buttons=[ ('OK', True), ('Cancel', False) ])
-    #if ret:
-    #  try:
-    #    vendor.save()
-    #    #new_vendor = self.vendors.add(new_vendor.vendor_id, new_vendor)
-    #    #new_vendor.save()
-    #  except Exception as e:
-    #    print(e)
-    #    print(f"Failed to update Vendor! {vendor.vendor_name}")
+  def revert_changes(self):
+    self.updated_entries = {}
+    if self.mode == 'Actual':
+      self.actual_details_table_table_built()
+    else:
+      self.budget_details_table_table_built()
+      self.forecast_details_table_table_built()
+        
+  def revert_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.revert_changes()
 
           

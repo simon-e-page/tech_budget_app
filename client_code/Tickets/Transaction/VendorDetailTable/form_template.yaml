@@ -10,7 +10,12 @@ components:
     name: flow_panel_1
     properties: {}
     type: FlowPanel
-  - components: []
+  - components:
+    - event_bindings: {click: revert_button_click}
+      layout_properties: {}
+      name: revert_button
+      properties: {icon: 'fa:undo', role: secondary-button, text: Revert Changes}
+      type: Button
     layout_properties: {grid_position: 'EJOPLY,ZMSNNC'}
     name: flow_panel_2
     properties: {align: right}
