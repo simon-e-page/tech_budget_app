@@ -7,10 +7,11 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from .... import Data
-from ....Data import VendorsModel, TransactionsModel, CURRENT_YEAR, FinancialNumber
+from ....Data import VendorsModel, TransactionsModel, FinancialNumber
 
 # from ....Vendors.Vendors.Vendor import Vendor
-from ..VendorDetailTable import VendorDetailTable
+#from ....Ti import VendorDetailTable
+from ....Tickets.Transaction.VendorDetailTable import VendorDetailTable
 
 COL_WIDTH = 90
 
@@ -20,7 +21,7 @@ class BudgetTable(BudgetTableTemplate):
     # Set Form properties and Data Bindings.
     self.vendors = VendorsModel.VENDORS
     self.transactions = TransactionsModel.get_transactions()
-    self.year = properties.get("year", CURRENT_YEAR)
+    self.year = properties.get("year", Data.CURRENT_YEAR)
 
     self.tracking_table.options = {
       "index": "vendor",  # or set the index property here
