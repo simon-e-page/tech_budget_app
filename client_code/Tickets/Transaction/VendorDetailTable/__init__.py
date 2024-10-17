@@ -167,6 +167,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       val = cell.getValue()
       data = cell.get_data()
       trans_type = data['transaction_type']
+      transaction_id = data['transaction_id']
       ym = params.get("year_month")
       column_type = self.transaction_types[ym]
       b_ym = f"{ym}B"
@@ -218,23 +219,29 @@ class VendorDetailTable(VendorDetailTableTemplate):
         icon = 'fa:arrow-down'
       else:
         icon = None
-      
+
+      def tb_edited(sender, **params):
+        print(sender.tag)
+        
       try:
-        val = Label(
+        tb = TextBox(
           text="{:,.0f}".format(FinancialNumber(val)),
+          type='number',
           align="right",
           icon_align="left",
           tooltip = tooltip,
           icon=icon,
           foreground=color,
           background=backgroundColor,
-          bold=bold
+          bold=bold,
+          tag=(transaction_id, trans_type, ym)
         )
+        tb.add_event_handler('change', tb_edited)
         # val = "{:,.0f}".format(val)
       except Exception:
         print("Entry Exception!")
         pass
-      return val
+      return tb
 
     # Text formatter
     def format_text(cell, **parans):
@@ -282,20 +289,20 @@ class VendorDetailTable(VendorDetailTableTemplate):
         "headerSort": False,
         'formatter': transaction_formatter
       },
-      {
-        "title": "Owner",
-        "field": "owner",
-        "width": 100,
-        "headerSort": False,        
-        'formatter': format_text
-      },
-      {
-        "title": "Cost centre",
-        "field": "cost_centre",
-        "width": 150,
-        "formatter": format_text,     
-        "headerSort": False
-      }
+#      {
+#        "title": "Owner",
+#        "field": "owner",
+#        "width": 100,
+#        "headerSort": False,        
+#        'formatter': format_text
+#      },
+#      {
+#        "title": "Cost centre",
+#        "field": "cost_centre",
+#        "width": 150,
+#        "formatter": format_text,     
+#        "headerSort": False
+#      }
       
     ]
 
@@ -466,9 +473,9 @@ class VendorDetailTable(VendorDetailTableTemplate):
           entries[transaction_id] = trans_entries
     return entries
 
-  def open_vendor_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    pass
+#  def open_vendor_button_click(self, **event_args):
+#    """This method is called when the button is clicked"""
+#    pass
     #vendor = self.vendor
     #ret = alert(Vendor(item=vendor, show_save=False), large=True, title=vendor.vendor_name, buttons=[ ('OK', True), ('Cancel', False) ])
     #if ret:
