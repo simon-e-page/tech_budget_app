@@ -8,7 +8,7 @@ import datetime as dt
 from .... import Data
 from ....Data import VendorsModel, TransactionsModel, FinancialNumber, CURRENT_YEAR
 from ....Vendors.Vendors.Vendor import Vendor
-from ....Tickets.Transaction import Transaction
+#from ....Tickets.Transaction import Transaction
 
 class VendorDetailTable(VendorDetailTableTemplate):
   def __init__(self, mode='Actual', **properties):
@@ -135,29 +135,32 @@ class VendorDetailTable(VendorDetailTableTemplate):
         return val   
         
       else:
-        transaction_id = data["transaction_id"]
+        #transaction_id = data["transaction_id"]
+        label = Label(text=val)
+        return label
   
-        def open_transaction(sender, **event_args):
-          transaction = self.transactions.get(sender.tag)
-          print("Opening transaction: {0}".format(transaction.description))
+        #def open_transaction(sender, **event_args):
+        #  transaction = self.transactions.get(sender.tag)
+        #  print("Opening transaction: {0}".format(transaction.description))
           
-          ret = alert(
-            Transaction(item=transaction, show_save=False),
-            large=True,
-            title="Transaction Details",
-            buttons=[("Save Changes", True), ("Cancel", False)],
-          )
-          if ret:
-            try:
-              transaction.update()
-            except Exception as e:
-              print(e)
-              print("Failed to update Transaction!")
-          return
+        #  ret = alert(
+        #    Transaction(item=transaction, show_save=False),
+        #    large=True,
+        #    title="Transaction Details",
+        #    buttons=[("Save Changes", True), ("Cancel", False)],
+        #  )
+        #  if ret:
+        #    try:
+        #      transaction.update()
+        #    except Exception as e:
+        #      print(e)
+        #      print("Failed to update Transaction!")
+        #  return
   
-        link = Link(text=val, tag=transaction_id)
-        link.set_event_handler("click", open_transaction)
-        return link
+        #link = Link(text=val, tag=transaction_id)
+        #link.set_event_handler("click", open_transaction)
+        #return link
+      
 
     # Entry formatter
     def format_entry(cell, **params):

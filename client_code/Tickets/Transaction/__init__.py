@@ -163,11 +163,13 @@ class Transaction(TransactionTemplate):
   def current_entries_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     vendor = self.item['vendor']
-    vendor_form = VendorDetailTable(vendor=vendor, year=self.year, transaction_id=self.item['transaction_id'])
-    ret = alert(vendor_form, large=True, title=f"Entries for {self.year}", buttons=[ ('Save Changes', True), ('Cancel', False) ])
+    mode = self.item['transaction_type']
+    vendor_form = VendorDetailTable(mode=mode, vendor=vendor, year=self.year, transaction_ids=[self.item['transaction_id']])
+    ret = alert(vendor_form, large=True, title=f"{mode} Entries for {self.year}", buttons=[ ('Save Changes', True), ('Cancel', False) ])
     if ret:
       entries = vendor_form.get_forecast_entries()
-      self.update_current_entries(vendor, entries)
+      if len(entries)>0:
+        self.update_current_entries(vendor, entries)
 
     
   def update_current_entries(self, vendor, entries):
