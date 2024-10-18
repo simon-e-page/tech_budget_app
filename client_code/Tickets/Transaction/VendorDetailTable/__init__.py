@@ -100,8 +100,10 @@ class VendorDetailTable(VendorDetailTableTemplate):
       #print(self.actual_data)
       self.prepare_columns(self.actual_details_table, table_type='Actual')
       self.actual_details_table.data = self.actual_data
+      self.create_actual_button.visible = False
     else:
       self.actual_panel.visible = False
+      self.create_actual_button.visible = True
 
 
 
@@ -483,11 +485,25 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.revert_changes()
 
 
+  
+  def create_actual_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.create_line(entry_type='Actual')
+
 
   
   def create_forecast_button_click(self, **event_args):
     """This method is called when the button is clicked"""
+    self.create_line(entry_type='Forecast')
+
+  
+  def create_line(self, entry_type='Forecast'):
     vendor_name = self.vendor.vendor_name
+    if entry_type != 'Actual':
+      transaction_type = 'Budget'
+    else:
+      transaction_type = entry_type
+    
     tb = TextBox(placeholder='Enter Description')
     resp = alert(tb, title=f"Enter description for a new Forecast Line for {vendor_name}")
     if resp:
@@ -509,7 +525,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
         'description': description,
         'vendor': self.vendor,
         'vendor_id': self.vendor.vendor_id,
-        'transacton_type': 'Budget',
+        'transacton_type': transaction_type,
         'owner': actual['owner'],
         'account_code': actual['account_code'],
         'cost_centre': actual['cost_centre'],
@@ -522,17 +538,17 @@ class VendorDetailTable(VendorDetailTableTemplate):
       self.transactions.new(transaction=new_trans)
       transaction_id = new_trans.transaction_id
       print(f"New Transaction ID = {transaction_id}")
-      new_forecast_entries = [
+      new_entries = [
         {
           'transaction_id': transaction_id,
-          'transaction_type': 'Forecast',
+          'transaction_type': entry_type,
           'year_month': int(ym),
           'fin_year': self.year,
           'timestamp': dt.date(int(ym[0:4], int(ym[4:], 1))),
           'amount': 0.0
         } for ym in self.year_months
       ]
-      new_trans.add_entries(new_forecast_entries)
+      new_trans.add_entries(new_entries)
       self.load_data()
       self.prepare_data()
       self.revert_changes()
@@ -549,5 +565,6 @@ class VendorDetailTable(VendorDetailTableTemplate):
         transaction.add_entries(trans_entries, overwrite=True)
         count += len(trans_entries)
     Notification(f"{count} entries updated!").show()
+
     
     
