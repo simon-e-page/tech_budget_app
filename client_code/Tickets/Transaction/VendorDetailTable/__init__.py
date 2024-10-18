@@ -283,7 +283,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
           bold=bold,
           tag=(row_number, transaction_id, table_type, ym, float(val))
         )
-        tb.add_event_handler('pressed_enter', tb_edited)
+        tb.add_event_handler('lost_focus', tb_edited)
       return tb
 
     # Text formatter
@@ -479,5 +479,27 @@ class VendorDetailTable(VendorDetailTableTemplate):
   def revert_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     self.revert_changes()
+
+  def create_forecast_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    tb = TextBox(placeholder='Enter Description')
+    resp = alert(tb, title=f"Enter description for a new Forecast Line for {vendor_name}")
+    if resp:
+      description = tb.text
+      actual = self.actual_transaction
+      new_trans = {
+        'description': description,
+        'vendor': actual.vendor,
+        'transacton_type': 'Budget',
+        'owner': actual.owner,
+        'account_code': actual.account_code,
+        'cost_centre': actual.cost_centre,
+        'lifecycle': actual.lifecycle,
+        'category': actual.category,
+        'service_change': actual.service_change,
+        'billing_type': actual.billing_type,
+        'source': 'manual'
+      }
+      
 
           

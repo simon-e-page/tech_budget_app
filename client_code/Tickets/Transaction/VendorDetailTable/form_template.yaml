@@ -11,6 +11,11 @@ components:
     properties: {}
     type: FlowPanel
   - components:
+    - event_bindings: {click: create_forecast_button_click}
+      layout_properties: {}
+      name: create_forecast_button
+      properties: {icon: 'fa:plus', role: primary-button, text: Create Forecast Line, visible: false}
+      type: Button
     - event_bindings: {click: revert_button_click}
       layout_properties: {}
       name: revert_button
