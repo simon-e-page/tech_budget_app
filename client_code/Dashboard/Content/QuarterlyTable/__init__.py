@@ -75,7 +75,7 @@ class QuarterlyTable(QuarterlyTableTemplate):
         'title': c,
         'field': c,
         'formatter': cell_format,
-        'hozAlign': 'right',
+        'hoz_align': 'right',
         'width': width,
         'headerSort': False
       })
