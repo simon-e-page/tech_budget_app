@@ -59,6 +59,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.actual_data = {}
     self.forecast_data = {}
     self.budget_data = {}
+    self.actual_transaction_id = None
     self.year_months = []
     self.init_components(**properties)
 
@@ -117,8 +118,10 @@ class VendorDetailTable(VendorDetailTableTemplate):
       self.create_forecast_button.visible = False
     else:
       self.forecast_panel.visible = False
-      self.create_forecast_button.visible = True
-
+      actual_transaction_rows = [ x for x in self.data if x['transaction_type']=='Actual' ]
+      if len(actual_transaction_rows)>0:
+        self.create_forecast_button.visible = True
+        self.actual_transaction_id = actual_transaction_rows[0]['transaction_id']
 
 
   
@@ -446,9 +449,9 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.actual_data = actual_rows + [a_total_row]
     self.forecast_data = forecast_rows + [f_total_row]
     self.budget_data = budget_rows + [b_total_row]
-    self.actual_details_table.set_filter(zero_filter)
-    self.forecast_details_table.set_filter(zero_filter)
-    self.budget_details_table.set_filter(zero_filter)
+    #self.actual_details_table.set_filter(zero_filter)
+    #self.forecast_details_table.set_filter(zero_filter)
+    #self.budget_details_table.set_filter(zero_filter)
     self.prepared = True
 
 
@@ -489,10 +492,12 @@ class VendorDetailTable(VendorDetailTableTemplate):
     resp = alert(tb, title=f"Enter description for a new Forecast Line for {vendor_name}")
     if resp:
       description = tb.text
-      actual = self.actual_transaction
+      actual_id = self.actual_transaction_id
+      actual = self.transactions.get(actual_id)
       new_trans = self.transactions.blank({
         'description': description,
         'vendor': actual.vendor,
+        'vendor_id': actual.vendor.vendor_id,
         'transacton_type': 'Budget',
         'owner': actual.owner,
         'account_code': actual.account_code,
@@ -512,7 +517,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
           'transaction_type': 'Forecast',
           'year_month': int(ym),
           'fin_year': self.year,
-          'timestamp': dt.Date(int(ym[0:4], int(ym[4:], 1))),
+          'timestamp': dt.date(int(ym[0:4], int(ym[4:], 1))),
           'amount': 0.0
         } for ym in self.year_months
       ]

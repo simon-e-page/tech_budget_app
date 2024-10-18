@@ -7,7 +7,7 @@ import anvil.users
 #import anvil.tables.query as q
 #from anvil.tables import app_tables
 import anvil.server
-from datetime import datetime
+import datetime as dt
 
 from ... import Data
 from ... import Validation
@@ -176,4 +176,21 @@ class Transaction(TransactionTemplate):
           self.item.add_entries(trans_entries, overwrite=True)
           count += len(trans_entries)
         Notification(f"{count} entries added or updated").show()
+
+  def create_forecast_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    transaction_id = self.item.transaction_id
+    months = [7,8,9,10,11,12,1,2,3,4,5,6]
+    new_forecast_entries = [
+      {
+        'transaction_id': transaction_id,
+        'transaction_type': 'Forecast',
+        'year_month': (self.year-(m>6))*100+m,
+        'fin_year': self.year,
+        'timestamp': dt.date(self.year-(m>7), m, 1),
+        'amount': 0.0
+      } for m in months
+    ]
+    self.item.add_entries(new_forecast_entries, overwrite=True)
+    
   
