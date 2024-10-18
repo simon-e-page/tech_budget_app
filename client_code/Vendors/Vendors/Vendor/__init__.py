@@ -4,6 +4,7 @@ from anvil import *
 import datetime as dt
 
 from ....Data import IconsModel, VendorsModel, ACCEPTABLE_IMAGES
+from ....Tickets.Transaction.VendorDetailTable import VendorDetailTable
 
 from tabulator.Tabulator import row_selection_column
 
@@ -148,9 +149,15 @@ class Vendor(VendorTemplate):
 
   def actuals_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    homepage = get_open_form()
-    homepage.open_actuals(initial_filters={ 'vendor_name': self.item.vendor_name })
-
+    #homepage = get_open_form()
+    #homepage.open_actuals(initial_filters={ 'vendor_name': self.item.vendor_name })
+    vendor = self.item
+    vendor_form = VendorDetailTable(mode='Actual', vendor=vendor, year=self.year, transaction_ids=[self.item['transaction_id']])
+    ret = alert(vendor_form, large=True, title=f"Entries for {self.year}", buttons=[ ('Save Changes', True), ('Cancel', False) ])
+    if ret:
+      entries = vendor_form.get_updated_entries()
+      vendor_form.save_updated_entries(entries)
+  
   def finance_tag_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
     if self.finance_tag_dropdown.selected_value is not None:
