@@ -468,11 +468,9 @@ class VendorDetailTable(VendorDetailTableTemplate):
   def revert_changes(self):
     """ Reverts table to original state and discards any updated entries """
     self.updated_entries = {}
-    if self.mode == 'Actual':
-      self.actual_details_table_table_built()
-    else:
-      self.budget_details_table_table_built()
-      self.forecast_details_table_table_built()
+    self.actual_details_table_table_built()
+    self.budget_details_table_table_built()
+    self.forecast_details_table_table_built()
 
 
   
@@ -482,12 +480,13 @@ class VendorDetailTable(VendorDetailTableTemplate):
 
   def create_forecast_button_click(self, **event_args):
     """This method is called when the button is clicked"""
+    vendor_name = self.vendor.vendor_name
     tb = TextBox(placeholder='Enter Description')
     resp = alert(tb, title=f"Enter description for a new Forecast Line for {vendor_name}")
     if resp:
       description = tb.text
       actual = self.actual_transaction
-      new_trans = {
+      new_trans = self.transactions.blank({
         'description': description,
         'vendor': actual.vendor,
         'transacton_type': 'Budget',
@@ -499,7 +498,22 @@ class VendorDetailTable(VendorDetailTableTemplate):
         'service_change': actual.service_change,
         'billing_type': actual.billing_type,
         'source': 'manual'
-      }
-      
-
+      })
+      self.transactions.new(transaction=new_trans)
+      transaction_id = new_trans.transaction_id
+      print(f"New Transaction ID = {transaction_id}")
+      new_forecast_entries = [
+        {
+          'transaction_id': transaction_id,
+          'transaction_type': 'Forecast',
+          'year_month': int(ym),
+          'fin_year': self.year,
+          'timestamp': dt.Date(int(ym[0:4], int(ym[4:], 1))),
+          'amount': 0.0
+        } for ym in self.year_months
+      ]
+      new_trans.add_entries(new_forecast_entries)
+      self.load_data()
+      self.prepare_data()
+      self.revert_changes()
           
