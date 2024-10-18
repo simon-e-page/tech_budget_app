@@ -112,17 +112,6 @@ class TrackingTable(TrackingTableTemplate):
     self.raise_event('x-data-loaded', actuals=summary['actuals'], forecasts=summary['forecasts'])
 
 
-  def update_entries(self, vendor, entries):
-    self.transactions.load(vendor_name=vendor.vendor_name)
-    count = 0
-    for transaction_id, trans_entries in entries.items():
-      transaction = self.transactions.get(transaction_id)
-      if transaction is None:
-        print(f"Can't find transaction {transaction_id} associated with Vendor {vendor.name}")
-      else:
-        transaction.add_entries(trans_entries, overwrite=True)
-        count += len(trans_entries)
-    Notification(f"{count} entries updated!").show()
       
       
   def summary_table_table_built(self, **event_args):
@@ -239,7 +228,7 @@ class TrackingTable(TrackingTableTemplate):
       ret = alert(vendor_form, large=True, title=f"Vendor Entries for {self.year}", buttons=[ ('Save Changes', True), ('Cancel', False) ])
       if ret:
         entries = vendor_form.get_updated_entries()          
-        self.update_entries(sender.tag, entries)
+        vendor_form.save_updated_entries(entries)
       return
 
     link = Link(text=cell.get_value(), tag=vendor)

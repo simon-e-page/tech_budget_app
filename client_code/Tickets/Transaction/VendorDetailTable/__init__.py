@@ -525,4 +525,18 @@ class VendorDetailTable(VendorDetailTableTemplate):
       self.load_data()
       self.prepare_data()
       self.revert_changes()
-          
+
+  def save_updated_entries(self, entries):
+    vendor = self.vendor
+    self.transactions.load(vendor_name=vendor.vendor_name)
+    count = 0
+    for transaction_id, trans_entries in entries.items():
+      transaction = self.transactions.get(transaction_id)
+      if transaction is None:
+        print(f"Can't find transaction {transaction_id} associated with Vendor {vendor.name}")
+      else:
+        transaction.add_entries(trans_entries, overwrite=True)
+        count += len(trans_entries)
+    Notification(f"{count} entries updated!").show()
+    
+    

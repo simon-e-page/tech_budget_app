@@ -161,7 +161,13 @@ class Vendor(VendorTemplate):
     
 
 
+  def save_vendor(vendor_data, new=False):
 
+    if new:
+      new_vendor = self.vendors.blank(vendor_data)
+      try:
+        new_vendor.save_as_new()
+        self.vendors.add(new_vendor.vendor_id, new_vendor)
 
 
 
