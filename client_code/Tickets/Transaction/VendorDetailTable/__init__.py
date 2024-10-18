@@ -61,11 +61,11 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.budget_data = {}
     self.actual_transaction_id = None
     self.year_months = []
+    
     self.init_components(**properties)
-
-    #self.actual_panel.visible = (mode == 'Actual')
-    #self.budget_panel.visible = (mode == 'Budget')
-    # Any code you write here will run before the form opens.
+    
+    self.load_data()
+    self.prepare_data()
 
 
 
@@ -87,15 +87,14 @@ class VendorDetailTable(VendorDetailTableTemplate):
 
   
   def actual_details_table_table_built(self, **event_args):
-    """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
-    #if self.mode != 'Actual':
-    #  return
+    """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""      
+    #if not self.loaded:
+    #  self.load_data()
+    #if not self.prepared:
+    #  self.prepare_data()
+    while not self.prepared:
+      pass
       
-    if not self.loaded:
-      self.load_data()
-    if not self.prepared:
-      self.prepare_data()
-
     if len(self.actual_data) > 1:
       #print(self.actual_data)
       self.prepare_columns(self.actual_details_table, table_type='Actual')
@@ -110,10 +109,13 @@ class VendorDetailTable(VendorDetailTableTemplate):
   
   def forecast_details_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
-    if not self.loaded:
-      self.load_data()
-    if not self.prepared:
-      self.prepare_data()
+    #if not self.loaded:
+    #  self.load_data()
+    #if not self.prepared:
+    #  self.prepare_data()
+    while not self.prepared:
+      pass
+      
     if len(self.forecast_data)>1:
       self.prepare_columns(self.forecast_details_table, table_type='Forecast')
       self.forecast_details_table.data = self.forecast_data
@@ -129,13 +131,12 @@ class VendorDetailTable(VendorDetailTableTemplate):
   
   def budget_details_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
-    #if self.mode != 'Budget':
-    #  return
-      
-    if not self.loaded:
-      self.load_data()
-    if not self.prepared:
-      self.prepare_data()
+    #if not self.loaded:
+    #  self.load_data()
+    #if not self.prepared:
+    #  self.prepare_data()
+    while not self.prepared:
+      pass
 
     if len(self.budget_data) > 1:
       locked = Data.is_locked(self.year)    

@@ -11,7 +11,7 @@ components:
     properties: {}
     type: FlowPanel
   - data_bindings:
-    - {code: 'f"Filtered to {len(self.transaction_ids_to_show} lines"', property: text, writeback: false}
+    - {code: 'f"Filtered to {len(self.transaction_ids_to_show)} lines"', property: text, writeback: false}
     - {code: len(self.transaction_ids_to_show)>0, property: visible, writeback: false}
     layout_properties: {grid_position: 'EJOPLY,IRXUCC WLOZJZ,KLBTSS'}
     name: label_5
