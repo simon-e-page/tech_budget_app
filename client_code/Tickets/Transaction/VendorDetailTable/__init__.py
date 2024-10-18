@@ -112,11 +112,12 @@ class VendorDetailTable(VendorDetailTableTemplate):
     if not self.prepared:
       self.prepare_data()
     if len(self.forecast_data)>1:
-      
       self.prepare_columns(self.forecast_details_table, table_type='Forecast')
       self.forecast_details_table.data = self.forecast_data
+      self.create_forecast_button.visible = False
     else:
       self.forecast_panel.visible = False
+      self.create_forecast_button.visible = True
 
 
 
@@ -478,6 +479,9 @@ class VendorDetailTable(VendorDetailTableTemplate):
     """This method is called when the button is clicked"""
     self.revert_changes()
 
+
+
+  
   def create_forecast_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     vendor_name = self.vendor.vendor_name
