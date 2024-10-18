@@ -36,7 +36,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       "pagination": False,
       #"paginationSize": 250,
       #"frozenRows": 0,
-      "height": "30vh",
+      "height": "20vh",
       #'autoResize': False,
       # "pagination_size": 10,
     }
@@ -350,7 +350,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
             "color": self.colors[transaction_type]["color"],
             "locked": locked
           },
-          "width": 85,
+          "width": 70,
           #"headerFilter": "number",
           'headerSort': False,
           #'editor': self.editors[transaction_type]
