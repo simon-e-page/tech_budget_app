@@ -96,7 +96,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       self.prepare_data()
 
     if len(self.actual_data) > 1:
-      print(self.actual_data)
+      #print(self.actual_data)
       self.prepare_columns(self.actual_details_table, table_type='Actual')
       self.actual_details_table.data = self.actual_data
     else:
@@ -112,6 +112,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
     if not self.prepared:
       self.prepare_data()
     if len(self.forecast_data)>1:
+      
       self.prepare_columns(self.forecast_details_table, table_type='Forecast')
       self.forecast_details_table.data = self.forecast_data
     else:
@@ -405,13 +406,18 @@ class VendorDetailTable(VendorDetailTableTemplate):
     actual_rows = []
     forecast_rows = []
     budget_rows = []
+    a_row_number = 0
+    f_row_number = 0
+    b_row_number = 0
     
-    for i,row in enumerate(self.data):
-      #print(row)
-      row['row_number'] = i
+    for row in self.data:
       if row['transaction_type']=='Budget':
         f_row = row.copy()
+        f_row['row_number'] = f_row_number
+        f_row_number += 1
         b_row = row.copy()
+        b_row['row_number'] = b_row_number
+        b_row_number += 1
         for ym in self.year_months:
           f_row[ym] = row[f"{ym}F"]
           b_row[ym] = row[f"{ym}B"]
@@ -431,7 +437,10 @@ class VendorDetailTable(VendorDetailTableTemplate):
           a_total_row[f"{ym}LY"] += row[f"{ym}LY"]
         a_total_row['total'] += row['total']
         a_total_row['totalLY'] += row['totalLY']
-        actual_rows.append(row)
+        a_row = row.copy()
+        a_row['row_number'] = a_row_number
+        a_row_number += 1
+        actual_rows.append(a_row)
 
     self.actual_data = actual_rows + [a_total_row]
     self.forecast_data = forecast_rows + [f_total_row]
