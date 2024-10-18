@@ -236,6 +236,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
         icon = None
 
       def tb_edited(sender, **params):
+        self.revert_button.visible = True
         new_val = float(sender.text)
         row_number, transaction_id, entry_type, ym, old_val = sender.tag
         num_rows = len(table.data)
@@ -483,6 +484,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
   def revert_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     self.revert_changes()
+    self.revert_button.visible = False
 
 
   
@@ -553,6 +555,8 @@ class VendorDetailTable(VendorDetailTableTemplate):
       new_trans.add_entries(new_entries)
       self.load_data()
       self.prepare_data()
+      self.forecast_panel.visible = True
+      self.actual_panel.visible = True
       self.revert_changes()
 
   def save_updated_entries(self, entries):
