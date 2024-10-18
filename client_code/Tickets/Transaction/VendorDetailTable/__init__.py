@@ -88,8 +88,8 @@ class VendorDetailTable(VendorDetailTableTemplate):
   
   def actual_details_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
-    if self.mode != 'Actual':
-      return
+    #if self.mode != 'Actual':
+    #  return
       
     if not self.loaded:
       self.load_data()
@@ -118,9 +118,9 @@ class VendorDetailTable(VendorDetailTableTemplate):
       self.create_forecast_button.visible = False
     else:
       self.forecast_panel.visible = False
+      self.create_forecast_button.visible = True
       actual_transaction_rows = [ x for x in self.data if x['transaction_type']=='Actual' ]
       if len(actual_transaction_rows)>0:
-        self.create_forecast_button.visible = True
         self.actual_transaction_id = actual_transaction_rows[0]['transaction_id']
 
 
@@ -493,19 +493,30 @@ class VendorDetailTable(VendorDetailTableTemplate):
     if resp:
       description = tb.text
       actual_id = self.actual_transaction_id
-      actual = self.transactions.get(actual_id)
+      if actual_id is not None:
+        actual = self.transactions.get(actual_id)
+      else:
+        actual = {
+          'owner': None,
+          'account_code': "Software Maintenance",
+          'cost_centre': "IT",
+          'lifecycle': "Existing",
+          'category': "Operations",
+          'service_change': "Organic growth",
+          'billing_type': "Consumption",
+        }
       new_trans = self.transactions.blank({
         'description': description,
-        'vendor': actual.vendor,
-        'vendor_id': actual.vendor.vendor_id,
+        'vendor': self.vendor,
+        'vendor_id': self.vendor.vendor_id,
         'transacton_type': 'Budget',
-        'owner': actual.owner,
-        'account_code': actual.account_code,
-        'cost_centre': actual.cost_centre,
-        'lifecycle': actual.lifecycle,
-        'category': actual.category,
-        'service_change': actual.service_change,
-        'billing_type': actual.billing_type,
+        'owner': actual['owner'],
+        'account_code': actual['account_code'],
+        'cost_centre': actual['cost_centre'],
+        'lifecycle': actual['lifecycle'],
+        'category': actual['category'],
+        'service_change': actual['service_change'],
+        'billing_type': actual['billing_type'],
         'source': 'manual'
       })
       self.transactions.new(transaction=new_trans)

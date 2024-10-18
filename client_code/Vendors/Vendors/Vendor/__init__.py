@@ -3,6 +3,7 @@ from anvil import *
 
 import datetime as dt
 
+from .... import Data
 from ....Data import IconsModel, VendorsModel, ACCEPTABLE_IMAGES
 from ....Tickets.Transaction.VendorDetailTable import VendorDetailTable
 
@@ -13,6 +14,7 @@ class Vendor(VendorTemplate):
     #self.name_unique = False
     self.show_save = properties.get('show_save', True)
     self.icons = IconsModel.ICONS
+    self.year = Data.get_year()
     self.vendors = VendorsModel.VENDORS
     self.vendor_list = self.vendors.get_dropdown()
     vendor_name = properties['item'].get('vendor_name', None)
@@ -152,7 +154,7 @@ class Vendor(VendorTemplate):
     #homepage = get_open_form()
     #homepage.open_actuals(initial_filters={ 'vendor_name': self.item.vendor_name })
     vendor = self.item
-    vendor_form = VendorDetailTable(mode='Actual', vendor=vendor, year=self.year, transaction_ids=[self.item['transaction_id']])
+    vendor_form = VendorDetailTable(mode='Actual', vendor=vendor, year=self.year)
     ret = alert(vendor_form, large=True, title=f"Entries for {self.year}", buttons=[ ('Save Changes', True), ('Cancel', False) ])
     if ret:
       entries = vendor_form.get_updated_entries()

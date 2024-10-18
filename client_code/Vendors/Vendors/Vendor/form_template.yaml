@@ -199,7 +199,7 @@ components:
       - event_bindings: {click: actuals_button_click}
         layout_properties: {}
         name: actuals_button
-        properties: {icon: 'fa:external-link', role: secondary-button, text: Actuals}
+        properties: {icon: 'fa:external-link', role: primary-button, text: Entries}
         type: Button
       layout_properties: {grid_position: 'YPIRKR,EEVNIA'}
       name: flow_panel_4
