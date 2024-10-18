@@ -169,8 +169,11 @@ class Transaction(TransactionTemplate):
     ret = alert(vendor_form, large=True, title=f"{mode} Entries for {self.year}", buttons=[ ('Save Changes', True), ('Cancel', False) ])
     if ret:
       entries = vendor_form.get_updated_entries()
+      print(entries)
       if len(entries)>0:
-        print(entries)
+        count = 0
         for transaction_id, trans_entries in entries.items():
           self.item.add_entries(trans_entries, overwrite=True)
+          count += len(trans_entries)
+        Notification(f"{count} entries added or updated").show()
   

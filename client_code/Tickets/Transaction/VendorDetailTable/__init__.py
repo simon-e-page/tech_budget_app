@@ -59,6 +59,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.actual_data = {}
     self.forecast_data = {}
     self.budget_data = {}
+    self.year_months = []
     self.init_components(**properties)
 
     #self.actual_panel.visible = (mode == 'Actual')
@@ -94,7 +95,8 @@ class VendorDetailTable(VendorDetailTableTemplate):
     if not self.prepared:
       self.prepare_data()
 
-    if len(self.actual_data) > 0:
+    if len(self.actual_data) > 1:
+      print(self.actual_data)
       self.prepare_columns(self.actual_details_table, table_type='Actual')
       self.actual_details_table.data = self.actual_data
     else:
@@ -109,7 +111,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       self.load_data()
     if not self.prepared:
       self.prepare_data()
-    if len(self.forecast_data)>0:
+    if len(self.forecast_data)>1:
       self.prepare_columns(self.forecast_details_table, table_type='Forecast')
       self.forecast_details_table.data = self.forecast_data
     else:
@@ -128,7 +130,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
     if not self.prepared:
       self.prepare_data()
 
-    if len(self.budget_data) > 0:
+    if len(self.budget_data) > 1:
       locked = Data.is_locked(self.year)    
       self.prepare_columns(self.budget_details_table, table_type='Budget', locked=locked)
       self.budget_details_table.data = self.budget_data
@@ -237,7 +239,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
         table.data[row_number]['total'] = new_row_total
         table.data[num_rows -1][ym] = new_total
         table.data[row_number][ym] = new_val
-        print(f"Updated column total to {new_total}")
+        table.data[num_rows - 1]['total'] = sum(table.data[num_rows-1][ym_label] for ym_label in self.year_months)
         entry_index = f"{table_type}_{transaction_id}_{ym}"
         month = int(ym[4:])
         year = int(ym[0:4])
