@@ -30,12 +30,18 @@ class Vendors(VendorsTemplate):
     self.add_event_handler("x-refresh-tables", self.refresh_tables)
     self.init_components(**properties)
 
+
+
+  
   def refresh_tables(self, *args, **kwargs):
     current_page = self.vendors_table.get_page()
     self.vendors_table_table_built()
     self.vendors_table.set_page(current_page)
 
 
+
+
+  
   def vendors_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
       
@@ -86,6 +92,9 @@ class Vendors(VendorsTemplate):
 
     self.vendors_table.data = self.get_vendor_data()
 
+
+
+  
   def get_vendor_data(self):
     data = self.vendors.to_records()
     active_vendors = self.vendors.get_active()
@@ -122,6 +131,8 @@ class Vendors(VendorsTemplate):
     vendor.save()
 
 
+  
+
   def delete_vendor_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     num_vendors = len(self.selected_vendors)
@@ -137,6 +148,8 @@ class Vendors(VendorsTemplate):
       self.selected_vendors = []
       self.refresh_data_bindings()
 
+
+  
   def vendors_table_row_selection_changed(self, rows, data, **event_args):
     """This method is called when the row selection changes"""
     self.selected_vendors = rows
@@ -145,6 +158,9 @@ class Vendors(VendorsTemplate):
       # Set item in vendor details
     self.refresh_data_bindings()
 
+
+  
+  
   def new_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     vendor_form = Vendor(item=self.vendors.blank(), show_save=False)
