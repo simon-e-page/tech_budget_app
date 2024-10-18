@@ -538,15 +538,17 @@ class VendorDetailTable(VendorDetailTableTemplate):
       self.transactions.new(transaction=new_trans)
       transaction_id = new_trans.transaction_id
       print(f"New Transaction ID = {transaction_id}")
+      
+      months = [7,8,9,10,11,12,1,2,3,4,5,6]
       new_entries = [
         {
           'transaction_id': transaction_id,
-          'transaction_type': entry_type,
-          'year_month': int(ym),
+          'transaction_type': 'Forecast',
+          'year_month': (self.year-(m>6))*100+m,
           'fin_year': self.year,
-          'timestamp': dt.date(int(ym[0:4], int(ym[4:], 1))),
+          'timestamp': dt.date(self.year-(m>7), m, 1),
           'amount': 0.0
-        } for ym in self.year_months
+        } for m in months
       ]
       new_trans.add_entries(new_entries)
       self.load_data()
