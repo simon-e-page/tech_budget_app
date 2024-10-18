@@ -14,14 +14,16 @@ class VendorDetailTable(VendorDetailTableTemplate):
   def __init__(self, mode='Actual', **properties):
     # Set Form properties and Data Bindings.
     self.vendors = VendorsModel.VENDORS
-    self.mode = mode
     self.transactions = TransactionsModel.get_transactions()
     self.vendor = properties['vendor']
     self.year = properties.get('year', Data.CURRENT_YEAR)
     self.transaction_ids_to_show = properties.get('transaction_ids', [])
     self.updated_entries = {}
+
+    # Prepare to remove this concept
+    mode = "Actual"
     if mode == 'Actual':
-      mode_str = ' Actual and Forecast lines for '
+      mode_str = ' Actual, Forecast and Budget lines for '
     else:
       mode_str = ' Forecast and Budget lines for '
     self.mode = mode
@@ -51,12 +53,6 @@ class VendorDetailTable(VendorDetailTableTemplate):
       'Total': {"backgroundColor": '#424140', "color": "white"},
       'Editable': {"backgroundColor": "#f5e3bf", "color": "black"}
     }
-
-    self.editors = {
-      'Actual': None,
-      'Forecast': None,
-      'Budget': None
-    }
     
     self.loaded = False
     self.prepared = False
@@ -65,8 +61,8 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.budget_data = {}
     self.init_components(**properties)
 
-    self.actual_panel.visible = (mode == 'Actual')
-    self.budget_panel.visible = (mode == 'Budget')
+    #self.actual_panel.visible = (mode == 'Actual')
+    #self.budget_panel.visible = (mode == 'Budget')
     # Any code you write here will run before the form opens.
 
 
@@ -97,8 +93,12 @@ class VendorDetailTable(VendorDetailTableTemplate):
       self.load_data()
     if not self.prepared:
       self.prepare_data()
-    self.prepare_columns(self.actual_details_table, table_type='Actual')
-    self.actual_details_table.data = self.actual_data
+
+    if len(self.actual_data) > 0:
+      self.prepare_columns(self.actual_details_table, table_type='Actual')
+      self.actual_details_table.data = self.actual_data
+    else:
+      self.actual_panel.visible = False
 
 
 
@@ -109,27 +109,31 @@ class VendorDetailTable(VendorDetailTableTemplate):
       self.load_data()
     if not self.prepared:
       self.prepare_data()
-    self.prepare_columns(self.forecast_details_table, table_type='Forecast')
-    self.forecast_details_table.data = self.forecast_data
+    if len(self.forecast_data)>0:
+      self.prepare_columns(self.forecast_details_table, table_type='Forecast')
+      self.forecast_details_table.data = self.forecast_data
+    else:
+      self.forecast_panel.visible = False
 
 
 
   
   def budget_details_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
-    if self.mode != 'Budget':
-      return
+    #if self.mode != 'Budget':
+    #  return
       
     if not self.loaded:
       self.load_data()
     if not self.prepared:
       self.prepare_data()
-    locked = Data.is_locked(Data.CURRENT_YEAR)
-    
-    print(f"Budget year {Data.CURRENT_YEAR} is locked? {locked}")
-    
-    self.prepare_columns(self.budget_details_table, table_type='Budget', locked=locked)
-    self.budget_details_table.data = self.budget_data
+
+    if len(self.budget_data) > 0:
+      locked = Data.is_locked(self.year)    
+      self.prepare_columns(self.budget_details_table, table_type='Budget', locked=locked)
+      self.budget_details_table.data = self.budget_data
+    else:
+      self.budget_panel.visible = False
 
 
 
@@ -438,9 +442,15 @@ class VendorDetailTable(VendorDetailTableTemplate):
 
 
   
-  def get_updated_entries(self, entry_type='Forecast'):
+  def get_updated_entries(self):
     """ Returns all updated entries for submission to the backend """
-    return list(self.updated_entries.values())
+    # Transform updated entries into a list per transaction_id
+    new_entry_dict = {}
+    for entry in self.updated_entries.values():
+      transaction_entry_list = new_entry_dict.get(entry['transaction_id'], [])
+      transaction_entry_list.append(entry)
+      new_entry_dict[entry['transaction_id']] = transaction_entry_list
+    return new_entry_dict
 
 
   

@@ -168,16 +168,9 @@ class Transaction(TransactionTemplate):
     vendor_form = VendorDetailTable(mode=mode, vendor=vendor, year=self.year, transaction_ids=[self.item['transaction_id']])
     ret = alert(vendor_form, large=True, title=f"{mode} Entries for {self.year}", buttons=[ ('Save Changes', True), ('Cancel', False) ])
     if ret:
-      entries = vendor_form.get_forecast_entries()
+      entries = vendor_form.get_updated_entries()
       if len(entries)>0:
-        self.update_current_entries(vendor, entries)
-
-    
-  def update_current_entries(self, vendor, entries):
-    #self.transactions.load(vendor_name=vendor.vendor_name)
-    for transaction_id, trans_entries in entries.items():
-      if transaction_id==self.item['transaction_id']:
-        self.item.add_entries(trans_entries, overwrite=True)
-      else:
-        alert(f"Transaction ID does not match! {transaction_id}!={self.item['transaction_id']}")
+        print(entries)
+        for transaction_id, trans_entries in entries.items():
+          self.item.add_entries(trans_entries, overwrite=True)
   
