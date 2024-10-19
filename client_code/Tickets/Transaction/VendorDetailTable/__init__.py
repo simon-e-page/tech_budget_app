@@ -75,16 +75,15 @@ class VendorDetailTable(VendorDetailTableTemplate):
     d = Data.get_vendor_detail(year = self.year, vendor_id=self.vendor.vendor_id, mode='Actual')
     self.year_months = d["year_months"]
     self.transaction_types = d["transaction_types"]
-    print(self.transaction_types)
     if len(self.transaction_ids_to_show)>0:
-      self.data = [ x for x in d["data"] if x['transaction_id'] in self.transaction_ids_to_show ]
+      self.data = [ x for x in d['data'] if x['transaction_id'] in self.transaction_ids_to_show ]
     else:
       self.data = d['data']
-    #print(self.data)
-    # self.ly_data = d['ly_data']
-    # self.b_data =  d['b_data']
     self.loaded = True
-    #self.details_table_table_built()
+    if self.year == 2024:
+      print(self.data)
+      print(self.year_months)
+      print(self.transaction_types)
 
   
   def actual_details_table_table_built(self, **event_args):
@@ -177,7 +176,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
     def format_entry(cell, **params):
       val = cell.getValue()
       data = cell.get_data()
-      print(data)
+      #print(data)
       trans_type = data['transaction_type']
       row_number = data.get('row_number', -1)
       transaction_id = data.get('transaction_id', 0)
@@ -185,8 +184,8 @@ class VendorDetailTable(VendorDetailTableTemplate):
       locked = params.get("locked")
       column_type = params.get("column_type")
       table_type = params.get("table_type")
-      b_ym = f"{ym}B"
-      ly_ym = f"{ym}LY"
+      #b_ym = f"{ym}B"
+      #ly_ym = f"{ym}LY"
 
       if column_type == 'Actual' and table_type == 'Forecast':
         locked = True
@@ -196,38 +195,38 @@ class VendorDetailTable(VendorDetailTableTemplate):
           backgroundColor = params["backgroundColor"]
         if params.get("color", None):
           color = params["color"]
-        compare = data[ly_ym]
-        tooltip_prefix = "LY"
+        #compare = data[ly_ym]
+        #tooltip_prefix = "LY"
         bold = False
       elif trans_type == 'Total':
         backgroundColor = self.colors['Total']['backgroundColor']
         color = self.colors['Total']['color']
-        compare = val
-        tooltip_prefix = None
+        #compare = val
+        #tooltip_prefix = None
         bold = True
       elif column_type == 'Forecast':
         backgroundColor = self.colors['Editable']['backgroundColor']
         color = self.colors['Editable']['color']
-        compare = data[b_ym]          
-        tooltip_prefix = "Budget"
+        #compare = data[b_ym]          
+        #tooltip_prefix = "Budget"
         bold = False        
       else:
         backgroundColor = self.colors['Forecast']['backgroundColor']
         color = self.colors['Forecast']['color']
-        compare = data[b_ym]          
-        tooltip_prefix = "Budget"
+        #compare = data[b_ym]          
+        #tooltip_prefix = "Budget"
         bold = False
         
       cell.getElement().style.backgroundColor = backgroundColor
       cell.getElement().style.color = color
 
-      try:
-        delta = (int(val) - int(compare)) / int(compare)
-        delta = int(delta * 100)
-      except Exception:
-        delta = "INF"
+      #try:
+      #  delta = (int(val) - int(compare)) / int(compare)
+      #  delta = int(delta * 100)
+      #except Exception:
+      #  delta = "INF"
 
-      tooltip = f"{tooltip_prefix}: {FinancialNumber(compare):,.0f}" if tooltip_prefix is not None else None
+      #tooltip = f"{tooltip_prefix}: {FinancialNumber(compare):,.0f}" if tooltip_prefix is not None else None
 
       #if int(val) > int(compare):
       #  tooltip += f"\n+{delta}%"
@@ -236,7 +235,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       #  tooltip += f"\n{delta}%"
       #  icon = 'fa:arrow-down'
       #else:
-      #tooltip = ''
+      tooltip = None
       icon = None
 
       def tb_edited(sender, **params):
@@ -268,7 +267,9 @@ class VendorDetailTable(VendorDetailTableTemplate):
         table.data = table.data
         #print(sender.tag, sender.text)
         
-      if trans_type == 'Total' or locked:
+      if val is None:
+        tb = None
+      elif (trans_type == 'Total' or locked):
         tb = Label(
           #text = "{:,.0f}".format(FinancialNumber(val)),
           text = float(val),
@@ -343,7 +344,6 @@ class VendorDetailTable(VendorDetailTableTemplate):
         "headerSort": False,
         'formatter': transaction_formatter
       },
-      
     ]
 
     for c in self.year_months:
@@ -380,8 +380,9 @@ class VendorDetailTable(VendorDetailTableTemplate):
         "hozAlign": "right",
       }
     )
-
-    table.columns = columns
+    print(f"Table: {table_type}")
+    print(f"Columns: {columns}")
+    table.setColumns(columns)
 
 
   
@@ -460,7 +461,13 @@ class VendorDetailTable(VendorDetailTableTemplate):
     #self.forecast_details_table.set_filter(zero_filter)
     #self.budget_details_table.set_filter(zero_filter)
     self.prepared = True
-
+    #if self.year == 2024:
+    #  print("2024 Actual Data")
+    #  print(self.actual_data)
+    #  print("2024 Forecast Data")
+    #  print(self.forecast_data)
+    #  print("2024 Budget Data")
+    #  print(self.budget_data)
 
 
   
@@ -480,8 +487,8 @@ class VendorDetailTable(VendorDetailTableTemplate):
     """ Reverts table to original state and discards any updated entries """
     self.updated_entries = {}
     self.actual_details_table_table_built()
-    self.budget_details_table_table_built()
     self.forecast_details_table_table_built()
+    self.budget_details_table_table_built()
 
 
   
@@ -580,12 +587,10 @@ class VendorDetailTable(VendorDetailTableTemplate):
     """This method is called when an item is selected"""
     print(f"Selected year: {self.year}")
     self.load_data()
-    #print(self.data)
     self.prepare_data()
-    #print(self.actual_data)
-    print(self.forecast_data)
-    print(self.budget_data)
-    
+    self.actual_details_table.clear()    
+    self.forecast_details_table.clear()
+    self.budget_details_table.clear()
     self.forecast_panel.visible = True
     self.actual_panel.visible = True
     self.revert_changes()

@@ -33,15 +33,6 @@ components:
     properties: {align: left, background: '', border: '', foreground: '', role: dash-link, spacing: none, spacing_above: small, spacing_below: small, tooltip: '', visible: true}
     type: FlowPanel
   - components:
-    - event_bindings: {click: forecast_link_click}
-      layout_properties: {}
-      name: forecast_link
-      properties: {icon: 'fa:binoculars', text: Forecast Lines}
-      type: Link
-    name: forecast_flow
-    properties: {}
-    type: FlowPanel
-  - components:
     - event_bindings: {click: link_1_click}
       layout_properties: {}
       name: link_1
@@ -92,7 +83,7 @@ components:
     - event_bindings: {click: gpt_link_click}
       layout_properties: {}
       name: gpt_link
-      properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Analyse with GPT, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+      properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: 'fa:eye', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Analyse, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
       type: Link
     layout_properties: {}
     name: flow_panel_1

@@ -23,32 +23,10 @@ components:
     properties: {}
     type: FlowPanel
   - components:
-    - event_bindings: {click: add_new_forecast_button_click}
-      layout_properties: {}
-      name: add_new_forecast_button
-      properties: {icon: 'fa:plus', role: primary-button, text: Add New Line}
-      type: Button
-    - event_bindings: {click: create_budget_button_click}
-      layout_properties: {}
-      name: create_budget_button
-      properties: {icon: 'fa:hourglass-start', role: secondary-button, text: Create New Budget}
-      type: Button
-    data_bindings:
-    - {code: self.mode == 'Forecast', property: visible, writeback: false}
-    layout_properties: {full_width_row: true, grid_position: 'SLCJZT,BCYAGC'}
-    name: flow_panel_3
-    properties: {align: left, spacing: tiny}
-    type: FlowPanel
-  - components:
     - event_bindings: {click: add_actual_button_click}
       layout_properties: {}
       name: add_actual_button
       properties: {icon: 'fa:plus', role: primary-button, text: Add New Line}
-      type: Button
-    - event_bindings: {click: import_button_click}
-      layout_properties: {}
-      name: import_button
-      properties: {icon: 'fa:cloud-upload', role: primary-button, text: Import Actuals}
       type: Button
     data_bindings:
     - {code: self.mode=='Actual', property: visible, writeback: false}
