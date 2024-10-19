@@ -134,7 +134,7 @@ def get_quarterly_table(year=None, quarter = 0):
     year = CURRENT_YEAR
   return anvil.server.call('Calendar', 'get_quarterly_table', brand, year, quarter)
 
-def get_tracking_table_background(year):
+def get_tracking_table_background(year, refresh=False):
   # This signature kicks off a background process
   task = anvil.server.call('Calendar_launcher', 
                            '_background_get_tracking_table', 
@@ -142,7 +142,8 @@ def get_tracking_table_background(year):
                            agg_column='vendor_name', 
                            year=year, 
                            keep_columns=['vendor_name', 'vendor_id'],
-                           account_code=['Consulting', 'Hardware Maintenance', 'Software Maintenance']
+                           account_code=['Consulting', 'Hardware Maintenance', 'Software Maintenance'],
+                           refresh=refresh
                           )
   #print(task)
   return task
@@ -196,7 +197,11 @@ def create_new_budget(year=None):
 
 def is_locked(year):
   return anvil.server.call("Calendar", 'is_locked', year=year)
-      
+
+def get_fin_years():
+  fin_years, budget_year, current_year = anvil.server.call("Calendar", 'get_fin_years')
+  return fin_years
+  
 #####################################################################
 # MISCELLANEOUS
 #####################################################################

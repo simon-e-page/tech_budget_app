@@ -9,8 +9,9 @@ from anvil.tables import app_tables
 
 from .... import Data
 from ....Data import VendorsModel, TransactionsModel, CURRENT_YEAR, FinancialNumber
+from ....Vendors.Vendors import Vendor
 #from ....Vendors.Vendors.Vendor import Vendor
-from ....Tickets.Transaction.VendorDetailTable import VendorDetailTable
+#from ....Tickets.Transaction.VendorDetailTable import VendorDetailTable
 #from ..VendorDetailTable import VendorDetailTable
 
 COL_WIDTH = 90
@@ -224,11 +225,15 @@ class TrackingTable(TrackingTableTemplate):
 
     def open_vendor(sender, **event_args):
       print("Opening vendor: {0}".format(sender.tag.vendor_name))
-      vendor_form = VendorDetailTable(vendor=sender.tag, year=self.year)
-      ret = alert(vendor_form, large=True, title=f"Vendor Entries for {self.year}", buttons=[ ('Save Changes', True), ('Cancel', False) ])
+      vendor_form = Vendor(item=sender.tag, show_save=False)
+      ret = alert(vendor_form, large=True, title=sender.tag.vendor_name, buttons=[ ('Save Changes', True), ('Cancel', False) ])
       if ret:
-        entries = vendor_form.get_updated_entries()          
-        vendor_form.save_updated_entries(entries)
+        vendor_form.save()
+      #vendor_form = VendorDetailTable(vendor=sender.tag, year=self.year)
+      #ret = alert(vendor_form, large=True, title=f"Vendor Entries for {self.year}", buttons=[ ('Save Changes', True), ('Cancel', False) ])
+      #if ret:
+      #  entries = vendor_form.get_updated_entries()          
+      #  vendor_form.save_updated_entries(entries)
       return
 
     link = Link(text=cell.get_value(), tag=vendor)

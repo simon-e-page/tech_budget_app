@@ -172,10 +172,20 @@ class Vendor(VendorTemplate):
 
   def save(self, new=False):
     if new:
-      self.item.save_as_new()
-      self.vendors.add(self.item.vendor_id, self.item)
+      try:
+        self.item.save_as_new()
+        self.vendors.add(self.item.vendor_id, self.item)
+      except Exception as e:
+        print(f"Error saving vendor! {e}")
+        alert(f"Error saving vendor! {e}")
+        
     else:
-      self.item.save()
+      try:
+        self.item.save()
+      except Exception as e:
+        print(f"Error saving vendor! {e}")
+        alert(f"Error saving vendor! {e}")
+       
       
 
 

@@ -14,9 +14,21 @@ components:
     - {code: 'f"Filtered to {len(self.transaction_ids_to_show)} lines"', property: text, writeback: false}
     - {code: len(self.transaction_ids_to_show)>0, property: visible, writeback: false}
     layout_properties: {grid_position: 'EJOPLY,IRXUCC WLOZJZ,KLBTSS'}
-    name: label_5
+    name: filter_label
     properties: {}
     type: Label
+  - layout_properties: {grid_position: 'EJOPLY,IRXUCC PCYPBQ,IDEYPX'}
+    name: label_6
+    properties: {text: 'Year:'}
+    type: Label
+  - data_bindings:
+    - {code: self.fin_years, property: items, writeback: false}
+    - {code: self.year, property: selected_value, writeback: true}
+    event_bindings: {change: year_selector_change}
+    layout_properties: {grid_position: 'EJOPLY,IRXUCC PCYPBQ,TQCAYZ'}
+    name: year_selector
+    properties: {}
+    type: DropDown
   - components:
     - event_bindings: {click: create_actual_button_click}
       layout_properties: {}
@@ -39,7 +51,7 @@ components:
     type: FlowPanel
   layout_properties: {full_width_row: true, grid_position: 'ANPHYY,VNUZGS'}
   name: column_panel_1
-  properties: {}
+  properties: {col_widths: '{"IDEYPX":5,"TQCAYZ":55}'}
   type: ColumnPanel
 - components:
   - layout_properties: {}

@@ -17,6 +17,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.transactions = TransactionsModel.get_transactions()
     self.vendor = properties['vendor']
     self.year = properties.get('year', Data.CURRENT_YEAR)
+    self.fin_years = [ (str(x), x) for x in Data.get_fin_years() ]
     self.transaction_ids_to_show = properties.get('transaction_ids', [])
     self.updated_entries = {}
 
@@ -572,6 +573,10 @@ class VendorDetailTable(VendorDetailTableTemplate):
         transaction.add_entries(trans_entries, overwrite=True)
         count += len(trans_entries)
     Notification(f"{count} entries updated!").show()
+
+  def year_selector_change(self, **event_args):
+    """This method is called when an item is selected"""
+    print(f"Selected year: {self.year}")
 
     
     

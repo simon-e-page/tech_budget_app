@@ -67,7 +67,7 @@ class Content(ContentTemplate):
       
   def reset(self):
     self.loaded = False
-    self.load_data(self.fin_year)
+    self.load_data(self.fin_year, refresh=True)
 
   
   def get_data(self):
@@ -75,12 +75,12 @@ class Content(ContentTemplate):
 
 
   
-  def load_data(self, year):
+  def load_data(self, year, refresh=False):
     if self.task is not None or self.loaded:
       return
       
     with anvil.server.no_loading_indicator:
-      task = Data.get_tracking_table_background(year)
+      task = Data.get_tracking_table_background(year, refresh)
       if task is None:
         print("Error launching background task!")
         return
