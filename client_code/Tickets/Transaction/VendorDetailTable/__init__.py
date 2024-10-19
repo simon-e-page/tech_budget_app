@@ -577,6 +577,12 @@ class VendorDetailTable(VendorDetailTableTemplate):
   def year_selector_change(self, **event_args):
     """This method is called when an item is selected"""
     print(f"Selected year: {self.year}")
+    self.load_data()
+    self.prepare_data()
+    self.forecast_panel.visible = True
+    self.actual_panel.visible = True
+    self.revert_changes()
+    
 
     
     
