@@ -28,7 +28,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
     else:
       mode_str = ' Forecast and Budget lines for '
     self.mode = mode
-    self.title = f"FY{self.year} {mode_str} {self.vendor.get('vendor_name')}"
+    #self.title = f"FY{self.year} {mode_str} {self.vendor.get('vendor_name')}"
     
     options = {
       "index": "transaction_id",  # or set the index property here

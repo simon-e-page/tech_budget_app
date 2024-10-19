@@ -1,15 +1,5 @@
 components:
 - components:
-  - components:
-    - data_bindings:
-      - {code: self.title, property: text, writeback: false}
-      name: label_1
-      properties: {align: left, bold: true, text: 'Actual and Forecast Lines for '}
-      type: Label
-    layout_properties: {full_width_row: true, grid_position: 'EJOPLY,IRXUCC RLDHQI,BGIVXD'}
-    name: flow_panel_1
-    properties: {}
-    type: FlowPanel
   - data_bindings:
     - {code: 'f"Filtered to {len(self.transaction_ids_to_show)} lines"', property: text, writeback: false}
     - {code: len(self.transaction_ids_to_show)>0, property: visible, writeback: false}

@@ -155,7 +155,7 @@ class Vendor(VendorTemplate):
     #homepage.open_actuals(initial_filters={ 'vendor_name': self.item.vendor_name })
     vendor = self.item
     vendor_form = VendorDetailTable(mode='Actual', vendor=vendor, year=self.year)
-    ret = alert(vendor_form, large=True, title=f"Entries for {self.year}", buttons=[ ('Save Changes', True), ('Cancel', False) ])
+    ret = alert(vendor_form, large=True, title=f"Entries for {vendor.vendor_name}", buttons=[ ('Save Changes', True), ('Cancel', False) ])
     if ret:
       entries = vendor_form.get_updated_entries()
       vendor_form.save_updated_entries(entries)
