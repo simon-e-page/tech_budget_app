@@ -151,7 +151,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
 
   
   def prepare_columns(self, table, table_type='Actual', locked=False):
-
+    print(f"Preparing {table_type}")
     
     # Transacion Formatter
     def transaction_formatter(cell, **params):
@@ -177,6 +177,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
     def format_entry(cell, **params):
       val = cell.getValue()
       data = cell.get_data()
+      print(data)
       trans_type = data['transaction_type']
       row_number = data.get('row_number', -1)
       transaction_id = data.get('transaction_id', 0)
@@ -228,14 +229,15 @@ class VendorDetailTable(VendorDetailTableTemplate):
 
       tooltip = f"{tooltip_prefix}: {FinancialNumber(compare):,.0f}" if tooltip_prefix is not None else None
 
-      if int(val) > int(compare):
-        tooltip += f"\n+{delta}%"
-        icon = 'fa:arrow-up'
-      elif int(val) < int(compare):              
-        tooltip += f"\n{delta}%"
-        icon = 'fa:arrow-down'
-      else:
-        icon = None
+      #if int(val) > int(compare):
+      #  tooltip += f"\n+{delta}%"
+      #  icon = 'fa:arrow-up'
+      #elif int(val) < int(compare):              
+      #  tooltip += f"\n{delta}%"
+      #  icon = 'fa:arrow-down'
+      #else:
+      #tooltip = ''
+      icon = None
 
       def tb_edited(sender, **params):
         self.revert_button.visible = True
@@ -578,7 +580,12 @@ class VendorDetailTable(VendorDetailTableTemplate):
     """This method is called when an item is selected"""
     print(f"Selected year: {self.year}")
     self.load_data()
+    #print(self.data)
     self.prepare_data()
+    #print(self.actual_data)
+    print(self.forecast_data)
+    print(self.budget_data)
+    
     self.forecast_panel.visible = True
     self.actual_panel.visible = True
     self.revert_changes()
