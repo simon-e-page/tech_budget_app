@@ -35,11 +35,12 @@ class QuarterlyTable(QuarterlyTableTemplate):
         perc = int(val * 1000) / 10
         new_val = f"{perc:.1f}%"
       elif 'Delta' in name or 'Q' in name:
-        new_val = f"{val:,.0f}"
+        val = val / 1000000
+        new_val = f"{val:,.2f}"
       else:
         new_val = val
 
-      bold = cell.get_data()['account_code'] == 'TOTALS'
+      bold = 'TOTAL' in cell.get_data()['account_code']  
       new_val = Label(text=new_val, bold=bold)
       return new_val        
 
