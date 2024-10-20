@@ -125,6 +125,7 @@ FIN_YEARS = None
 CURRENT_YEAR = None
 BUDGET_YEAR = None
 CURRENT_BRAND = 'JB_AU'
+REFRESH_UI = False
 
 #def get_tracking_table(year):
 #  return anvil.server.call('Calendar', 'get_tracking_table', brand=CURRENT_BRAND, agg_column='vendor_name', year=year, keep_columns=['vendor_name', 'vendor_id'])
@@ -165,7 +166,9 @@ def get_excel_table(year):
 
 def refresh_cache():
   """Trigger the backend to reload everything from the database """
+  global REFRESH_UI
   anvil.server.call('Calendar', 'refresh_cache')
+  REFRESH_UI = True
   
 def refresh():
   global FIN_YEARS, CURRENT_YEAR, BUDGET_YEAR

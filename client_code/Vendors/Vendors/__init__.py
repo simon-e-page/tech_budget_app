@@ -129,6 +129,7 @@ class Vendors(VendorsTemplate):
     vendor = self.vendors.get(data["vendor_id"])
     vendor.update(data)
     vendor.save()
+    self.refresh_tables()
 
 
   
@@ -143,9 +144,8 @@ class Vendors(VendorsTemplate):
           vendor.delete()
         except Exception as e:
           alert(f"Could not delete - perhaps there are still existing Entries for {vendor['vendor_name']}")
-      self.vendors.load()
-      self.vendors_table_table_built()
       self.selected_vendors = []
+      self.refresh_tables()
       self.refresh_data_bindings()
 
 
