@@ -55,6 +55,7 @@ class Vendor(AttributeToKey):
     # Saves to backend as new or updated object
     try:
       ret = anvil.server.call('Vendors', 'add_vendors', [self.to_dict(with_finance_vendor=False)])
+      Data.refresh_cache()
     except Exception as e:
       ret = None
       print("Error saving Vendor!")
@@ -164,6 +165,7 @@ class Vendors(AttributeToDict):
     vendor_ids = [ self.get_by_name(v).vendor_id for v in vendor_names ]
     try:
       num = anvil.server.call('Vendors', 'delete_vendor', vendor_ids)
+      Data.refresh_cache()
     except Exception as e:
       print(e)
       print("Error deleting vendors!")

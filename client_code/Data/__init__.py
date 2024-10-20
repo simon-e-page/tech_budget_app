@@ -162,6 +162,10 @@ def get_budget_detail(year, transaction_type=None, mode=None):
 
 def get_excel_table(year):
   return anvil.server.call('Calendar', 'get_excel_table', brand=CURRENT_BRAND, agg_column=None, year=year, keep_columns=None)
+
+def refresh_cache():
+  """Trigger the backend to reload everything from the database """
+  anvil.server.call('Calendar', 'refresh_cache')
   
 def refresh():
   global FIN_YEARS, CURRENT_YEAR, BUDGET_YEAR
