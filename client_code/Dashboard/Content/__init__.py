@@ -68,6 +68,8 @@ class Content(ContentTemplate):
   def reset(self):
     self.loaded = False
     self.load_data(self.fin_year, refresh=True)
+    d = self.load_quarterly_data()
+    self.quarterly_table.prepare_data(d)
 
   
   def get_data(self):
