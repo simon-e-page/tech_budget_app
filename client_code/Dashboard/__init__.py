@@ -130,7 +130,7 @@ class Dashboard(DashboardTemplate):
   #  #self.dash_content.initialise_account_grid()
   #  self.refresh_data_bindings()
 
-  def unused_vendors_button_click(self, **event_args):
+  def unused_vendors_link_click(self, **event_args):
     """This method is called when the button is clicked"""
     unused_vendors = self.vendors.get_unused()
     if len(unused_vendors)>0:
@@ -150,35 +150,31 @@ class Dashboard(DashboardTemplate):
       Notification(message="There are no vendors that are unused!").show()
       
 
-  def match_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    pass
-
-  def export_button_click(self, **event_args):
+  def export_all_link_click(self, **event_args):
     """This method is called when the button is clicked"""
     obj = Data.get_excel_table(self.dash_content.fin_year)
     anvil.media.download(obj)
 
-  def refresh_button_click(self, **event_args):
+  def refresh_link_click(self, **event_args):
     """This method is called when the button is clicked"""
     self.dash_content.reset()
 
-  def import_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
+  def import_link_click(self, **event_args):
     import_form = ImportActuals()
     (success, num_vendor_ids, num_renamed, num_actual_line_ids, num_entries) = import_form.run_import()
     if success:
       alert(f"Successful import! {num_vendor_ids} new vendors, {num_renamed} existing vendors remapped, {num_actual_line_ids} Actual Lines and {num_entries} new entries created")
 
-  def align_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    attribute_review_form = AttributeReview()
-    attribute_review_form.show()
-
   def quarterly_download_link_click(self, **event_args):
     """This method is called when the link is clicked"""
     obj = Data.get_quarterly_table_excel(self.dash_content.fin_year)
     anvil.media.download(obj)
+
+  def align_references_link_click(self, **event_args):
+    """This method is called when the link is clicked"""
+    attribute_review_form = AttributeReview()
+    attribute_review_form.show()
+
 
 
  

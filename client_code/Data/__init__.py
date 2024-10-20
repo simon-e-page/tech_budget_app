@@ -150,7 +150,6 @@ def get_tracking_table_background(year, refresh=False):
                            year=year, 
                            keep_columns=['vendor_name', 'vendor_id'],
                            account_code=['Consulting', 'Hardware Maintenance', 'Software Maintenance'],
-                           refresh=refresh
                           )
   #print(task)
   return task

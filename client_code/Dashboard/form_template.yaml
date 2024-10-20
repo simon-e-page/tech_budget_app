@@ -24,85 +24,51 @@ components:
     properties: {}
     type: FlowPanel
   - components:
-    - layout_properties: {}
-      name: label_5
-      properties: {text: 'Refresh and reload:'}
-      type: Label
-    - event_bindings: {click: refresh_button_click}
+    - event_bindings: {click: refresh_link_click}
       layout_properties: {}
-      name: refresh_button
-      properties: {bold: true, icon: 'fa:refresh', role: primary-button, text: Refresh}
-      type: Button
+      name: refresh_link
+      properties: {icon: 'fa:refresh', text: Refresh and reload}
+      type: Link
     layout_properties: {grid_position: 'LSNSHG,UUTJWF'}
     name: flow_panel_5
     properties: {}
     type: FlowPanel
   - components:
-    - layout_properties: {}
-      name: label_1
-      properties: {text: 'Export to Excel:'}
-      type: Label
-    - event_bindings: {click: export_button_click}
+    - event_bindings: {click: export_all_link_click}
       layout_properties: {}
-      name: export_button
-      properties: {bold: true, icon: 'fa:file-excel-o', role: primary-button, text: Export}
-      type: Button
+      name: export_all_link
+      properties: {icon: 'fa:file-excel-o', text: Export all to Excel}
+      type: Link
     layout_properties: {grid_position: 'FDOVAT,OPFOJB'}
     name: flow_panel_1
     properties: {}
     type: FlowPanel
   - components:
-    - layout_properties: {}
-      name: label_2
-      properties: {text: 'Match Vendors:'}
-      type: Label
-    - event_bindings: {click: match_button_click}
+    - event_bindings: {click: unused_vendors_link_click}
       layout_properties: {}
-      name: match_button
-      properties: {bold: true, icon: 'fa:arrows-h', role: primary-button, text: Match}
-      type: Button
-    layout_properties: {grid_position: 'OQZLEN,UGKWTE'}
-    name: flow_panel_2
-    properties: {}
-    type: FlowPanel
-  - components:
-    - layout_properties: {}
-      name: label_4
-      properties: {text: 'Unused Vendors:'}
-      type: Label
-    - event_bindings: {click: unused_vendors_button_click}
-      layout_properties: {}
-      name: unused_vendors_button
-      properties: {bold: true, icon: 'fa:search', role: primary-button, text: Find}
-      type: Button
+      name: unused_vendors_link
+      properties: {icon: 'fa:search', text: Find unused vendors}
+      type: Link
     layout_properties: {grid_position: 'ENFZNO,CLSYAE'}
     name: flow_panel_4
     properties: {}
     type: FlowPanel
   - components:
-    - layout_properties: {}
-      name: label_6
-      properties: {text: 'Import Actuals: '}
-      type: Label
-    - event_bindings: {click: import_button_click}
+    - event_bindings: {click: import_link_click}
       layout_properties: {}
-      name: import_button
-      properties: {icon: 'fa:cloud-upload', role: primary-button, text: Import}
-      type: Button
+      name: import_link
+      properties: {icon: 'fa:cloud-upload', text: Import Actuals}
+      type: Link
     layout_properties: {grid_position: 'UUWODU,YIBWVG'}
     name: flow_panel_6
     properties: {}
     type: FlowPanel
   - components:
-    - layout_properties: {}
-      name: label_7
-      properties: {text: 'Align dimensions:'}
-      type: Label
-    - event_bindings: {click: align_button_click}
+    - event_bindings: {click: align_references_link_click}
       layout_properties: {}
-      name: align_button
-      properties: {bold: true, role: primary-button, text: Align}
-      type: Button
+      name: align_references_link
+      properties: {icon: 'fa:align-center', text: Align references}
+      type: Link
     layout_properties: {grid_position: 'XTLFCW,LBAPHR'}
     name: flow_panel_7
     properties: {}
