@@ -216,7 +216,10 @@ class AttributeReview(AttributeReviewTemplate):
     
     for attribute, values in new_list.items():
       diffs = any(y[i] - review_list[attribute][x][i] for x, y in values.items() for i in [0,1])
-      changed = changed or diffs
+      try:
+        changed = changed or diffs
+      except Exception as e:
+        changed = True
       total = sum(y[i] for x,y in values.items() for i in [0,1])
       wrong_totals = wrong_totals or (total != 2.0)
 
