@@ -174,4 +174,12 @@ class Dashboard(DashboardTemplate):
     """This method is called when the button is clicked"""
     attribute_review_form = AttributeReview()
     attribute_review_form.show()
+
+  def quarterly_download_link_click(self, **event_args):
+    """This method is called when the link is clicked"""
+    obj = Data.get_quarterly_table_excel(self.dash_content.fin_year)
+    anvil.media.download(obj)
+
+
+ 
   

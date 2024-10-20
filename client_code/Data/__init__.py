@@ -134,6 +134,12 @@ def get_quarterly_table(year=None, quarter = 0):
     year = CURRENT_YEAR
   return anvil.server.call('Calendar', 'get_quarterly_table', brand, year, quarter)
 
+def get_quarterly_table_excel(year=None, quarter=0):
+  brand = CURRENT_BRAND
+  if year is None:
+    year = CURRENT_YEAR
+  return anvil.server.call('Calendar', 'get_quarterly_table_excel', brand, year, quarter)
+  
 def get_tracking_table_background(year, refresh=False):
   # This signature kicks off a background process
   task = anvil.server.call('Calendar_launcher', 
