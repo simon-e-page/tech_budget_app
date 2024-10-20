@@ -200,12 +200,24 @@ def move_year(diff=1):
 def create_forecast(year=None):
   if year is None:
     year = CURRENT_YEAR
-  return anvil.server.call("Calendar", 'create_forecast', lock_budget=True, year=year)
+  try:
+    ret = anvil.server.call("Calendar", 'create_forecast', lock_budget=True, year=year)
+    refresh_cache()
+  except Exception as e:
+    print(f"Error! {e}")
+    ret = None
+  return ret
 
 def create_new_budget(year=None):
   if year is None:
     year = CURRENT_YEAR + 1
-  return anvil.server.call("Calendar", 'create_new_budget', lock=True, year=year)
+  try:
+    ret = anvil.server.call("Calendar", 'create_new_budget', lock=True, year=year)
+    refresh_cache()
+  except Exception as e:
+    print(f"Error! {e}")
+    ret = None
+  return ret
 
 def is_locked(year):
   return anvil.server.call("Calendar", 'is_locked', year=year)
@@ -238,14 +250,13 @@ def get_attribute_names():
 
 def get_attributes(attribute_names, with_count=True):
   ret = anvil.server.call('Reference', 'get_attributes', attribute_names=attribute_names, with_count=with_count)
-  #if with_count:
-  #  # TODO: replace with server-side call
-  #  ret = [ { 'value': x, 'used': True } for x in ret[attribute_names] ]
   return ret
 
 
 def remove_attribute(attribute_name, attribute_value):
-  return anvil.server.call('Reference', 'remove_attribute', attribute_name, attribute_value)
+  ret = anvil.server.call('Reference', 'remove_attribute', attribute_name, attribute_value)
+  refresh_cache()
+  return ret
 
 
 def assign_actual_dimensions(brand = None, year = None, selected_vendor_name=None):
@@ -254,13 +265,22 @@ def assign_actual_dimensions(brand = None, year = None, selected_vendor_name=Non
   if year is None:
     year = CURRENT_YEAR
 
-  return anvil.server.call('Calendar', 'assign_actual_dimensions', brand, year, selected_vendor_name=selected_vendor_name)
+  ret = anvil.server.call('Calendar', 'assign_actual_dimensions', brand, year, selected_vendor_name=selected_vendor_name)
+  refresh_cache()
+  return ret
 
 def apply_attribute_splits(vendor_name, forecast_ids, actual_ids, splits, year=None):
   if year is None:
     year = CURRENT_YEAR
-  return anvil.server.call('Calendar', 'apply_attribute_splits', year, vendor_name, forecast_ids, actual_ids, splits)
-  
+  try:
+    ret = anvil.server.call('Calendar', 'apply_attribute_splits', year, vendor_name, forecast_ids, actual_ids, splits)
+    refresh_cache()
+  except Exception as e:
+    print(f"Error: {e}")
+    ret = False
+  return ret
+
+
 ## Create import config for JB_AU
 def create_import_config():
   # TODO: do we need this anymore?
