@@ -167,4 +167,5 @@ class Vendors(VendorsTemplate):
     ret = alert(vendor_form, large=True, title="New Vendor", buttons=[ ('OK', True), ('Cancel', False) ])
     if ret:
       vendor_form.save(new=True)
+      self.refresh_tables()
 

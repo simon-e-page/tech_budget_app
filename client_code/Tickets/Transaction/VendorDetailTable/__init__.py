@@ -518,7 +518,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       transaction_type = entry_type
     
     tb = TextBox(placeholder='Enter Description')
-    resp = alert(tb, title=f"Enter description for a new Forecast Line for {vendor_name}")
+    resp = alert(tb, title=f"Enter description for a new {entry_type} Line for {vendor_name}")
     if resp:
       description = tb.text
       actual_id = self.actual_transaction_id
@@ -538,7 +538,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
         'description': description,
         'vendor': self.vendor,
         'vendor_id': self.vendor.vendor_id,
-        'transacton_type': transaction_type,
+        'transaction_type': transaction_type,
         'owner': actual['owner'],
         'account_code': actual['account_code'],
         'cost_centre': actual['cost_centre'],
@@ -556,7 +556,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       new_entries = [
         {
           'transaction_id': transaction_id,
-          'transaction_type': 'Forecast',
+          'transaction_type': entry_type,
           'year_month': (self.year-(m>6))*100+m,
           'fin_year': self.year,
           'timestamp': dt.date(self.year-(m>7), m, 1),
