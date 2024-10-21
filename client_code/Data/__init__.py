@@ -171,15 +171,15 @@ def refresh_cache():
   
 def refresh():
   global FIN_YEARS, CURRENT_YEAR, BUDGET_YEAR
-  FIN_YEARS, BUDGET_YEAR, CURRENT_YEAR = anvil.server.call('Calendar', 'get_fin_years')
+  FIN_YEARS, BUDGET_YEAR, CURRENT_YEAR = anvil.server.call('Calendar', 'get_fin_years', CURRENT_BRAND)
   print(f"Fin Years: {FIN_YEARS}, Budget Year: {BUDGET_YEAR}, Current Year: {CURRENT_YEAR}")
   #actuals_updated(202406, 2025)
 
 def get_actuals_updated(year):
-  return anvil.server.call('Calendar', 'get_actuals_updated', year=year)
+  return anvil.server.call('Calendar', 'get_actuals_updated', CURRENT_BRAND, year=year)
 
 def actuals_updated(year_month, year):
-  return anvil.server.call('Calendar', 'actuals_updated', year_month=year_month, year=year)
+  return anvil.server.call('Calendar', 'actuals_updated', CURRENT_BRAND, year_month=year_month, year=year)
 
 def get_year():
   return CURRENT_YEAR
@@ -201,7 +201,7 @@ def create_forecast(year=None):
   if year is None:
     year = CURRENT_YEAR
   try:
-    ret = anvil.server.call("Calendar", 'create_forecast', lock_budget=True, year=year)
+    ret = anvil.server.call("Calendar", 'create_forecast', CURRENT_BRAND, lock_budget=True, year=year)
     refresh_cache()
   except Exception as e:
     print(f"Error! {e}")
@@ -212,7 +212,7 @@ def create_new_budget(year=None):
   if year is None:
     year = CURRENT_YEAR + 1
   try:
-    ret = anvil.server.call("Calendar", 'create_new_budget', lock=True, year=year)
+    ret = anvil.server.call("Calendar", 'create_new_budget', CURRENT_BRAND, lock=True, year=year)
     refresh_cache()
   except Exception as e:
     print(f"Error! {e}")
@@ -220,10 +220,10 @@ def create_new_budget(year=None):
   return ret
 
 def is_locked(year):
-  return anvil.server.call("Calendar", 'is_locked', year=year)
+  return anvil.server.call("Calendar", 'is_locked', CURRENT_BRAND, year=year)
 
 def get_fin_years():
-  fin_years, budget_year, current_year = anvil.server.call("Calendar", 'get_fin_years')
+  fin_years, budget_year, current_year = anvil.server.call("Calendar", 'get_fin_years', CURRENT_BRAND)
   return fin_years
   
 #####################################################################
