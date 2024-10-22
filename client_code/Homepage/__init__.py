@@ -36,8 +36,8 @@ class Homepage(HomepageTemplate):
     
     Data.record_login()
     
-    self.brands = Data.BRANDS_DD
-    Data.CURRENT_BRAND = 'JB_AU'
+    self.brands = Data.BRANDS_DD + [('Add New..', 'ADD')]
+    #Data.CURRENT_BRAND = 'JB_AU'
     self.brand = Data.CURRENT_BRAND
     self.current_year = Data.CURRENT_YEAR
     self.budget_year = Data.BUDGET_YEAR
@@ -187,10 +187,16 @@ class Homepage(HomepageTemplate):
 
   def brand_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
-    Data.CURRENT_BRAND = self.brand_dropdown.selected_value
-    self.brand = Data.CURRENT_BRAND
-    self.brand_dropdown.visible = False
-    self.refresh_data_bindings()
+    if self.brand_dropdown.selected_value == "ADD":
+      alert("Kick off window to add a new Brand!")
+      self.brand_dropdown.selected_value = "JB_AU"
+      self.brand_dropdown.visible = False
+      self.refresh_data_bindings()
+    else:
+      Data.CURRENT_BRAND = self.brand_dropdown.selected_value
+      self.brand = Data.CURRENT_BRAND
+      self.brand_dropdown.visible = False
+      self.refresh_data_bindings()
 
   def users_link_click(self, **event_args):
     """Open the 'Users' Form, by adding it to the "default" slot."""

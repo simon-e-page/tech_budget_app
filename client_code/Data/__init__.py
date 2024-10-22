@@ -20,8 +20,9 @@ class FinancialNumber:
 
 
 # TODO: Move into app_tables?
-BRANDS = [ 'JB_AU', 'JB_NZ', 'TGG']
-BRANDS_DD = [ (x,x) for x in BRANDS ]
+#BRANDS = [ 'JB_AU', 'JB_NZ', 'TGG']
+BRANDS = anvil.server.call('Brands', 'get_brands')
+BRANDS_DD = [ (x['code'], x['code']) for x in BRANDS ]
 
 ATTRIBUTE_NAMES = ['account_code', 'cost_centre', 'lifecycle', 'category', 'service_change', 'billing_type']
   
@@ -124,7 +125,7 @@ class AttributeToDict:
 FIN_YEARS = None
 CURRENT_YEAR = None
 BUDGET_YEAR = None
-CURRENT_BRAND = 'JB_AU'
+CURRENT_BRAND = None
 REFRESH_UI = False
 
 #def get_tracking_table(year):
@@ -154,26 +155,38 @@ def get_tracking_table_background(year, refresh=False):
   #print(task)
   return task
 
+
 def get_vendor_detail(year, vendor_id, mode='Actual'):
   return anvil.server.call('Calendar', 'get_tracking_table', brand=CURRENT_BRAND, agg_column=None, year=year, keep_columns=['transaction_id'], vendor_id=vendor_id)
+
 
 def get_budget_detail(year, transaction_type=None, mode=None):
   return anvil.server.call('Calendar', 'get_tracking_table', brand=CURRENT_BRAND, agg_column=None, year=year, keep_columns=None, transaction_type=transaction_type)
 
+
 def get_excel_table(year):
   return anvil.server.call('Calendar', 'get_excel_table', brand=CURRENT_BRAND, agg_column=None, year=year, keep_columns=None)
+
 
 def refresh_cache():
   """Trigger the backend to reload everything from the database """
   global REFRESH_UI
   anvil.server.call('Calendar', 'refresh_cache')
   REFRESH_UI = True
-  
+
+
 def refresh():
-  global FIN_YEARS, CURRENT_YEAR, BUDGET_YEAR
+  global FIN_YEARS, CURRENT_YEAR, BUDGET_YEAR, CURRENT_BRAND
+  if len(BRANDS)>0:
+    CURRENT_BRAND = BRANDS[0]['code']
+  else:
+    CURRENT_BRAND = None
+    print("No Brands are configured!")
+    return
+    
   FIN_YEARS, BUDGET_YEAR, CURRENT_YEAR = anvil.server.call('Calendar', 'get_fin_years', CURRENT_BRAND)
   print(f"Fin Years: {FIN_YEARS}, Budget Year: {BUDGET_YEAR}, Current Year: {CURRENT_YEAR}")
-  #actuals_updated(202406, 2025)
+
 
 def get_actuals_updated(year):
   return anvil.server.call('Calendar', 'get_actuals_updated', CURRENT_BRAND, year=year)
