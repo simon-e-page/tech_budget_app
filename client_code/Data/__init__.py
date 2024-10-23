@@ -199,7 +199,14 @@ def get_year():
 
 def get_brand():
   return CURRENT_BRAND
-  
+
+def create_brand(code, name):
+  return anvil.server.call('Brand', 'add_brand', code=code, name=name)
+
+def add_brand_icon(code, content):
+  return anvil.server.call('Brand', 'add_icon', code=code, content=content)
+
+
 def move_year(diff=1):
   global CURRENT_YEAR
   next_year = CURRENT_YEAR + diff

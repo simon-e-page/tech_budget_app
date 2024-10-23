@@ -88,5 +88,24 @@ class Importer:
       file_obj = None
       raise
     return file_obj
+
+  def brand_import_data(self, year, excel_file):
+    #return anvil.server.call('Importer', 'brand_import_data', year=year, excel_file=excel_file)
+    return [ 
+            {
+              'description': 'December Capex write-off',
+              'vendor_name': 'Finance',
+              'total': 1400000.0
+             },
+            {
+              'description': 'Azure - WMS Group APIs',
+              'vendor_name': 'Microsoft',
+              'total': 156000.0
+             },
+           ]
+
+  def import_first_budget(self, import_data):
+    #return anvil.server.call('Importer', 'load_first_budget', import_data=import_data)
+    return True
     
 IMPORTER = Importer()

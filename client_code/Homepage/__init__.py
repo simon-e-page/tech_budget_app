@@ -12,6 +12,7 @@ from ..Users.Users import Users
 from ..Vendors.Vendors import Vendors
 from ..Tickets.BudgetLines import BudgetLines
 from ..Settings.Reference import Reference
+from .NewBrand import NewBrand
 from .. import Data
 
 
@@ -188,15 +189,21 @@ class Homepage(HomepageTemplate):
   def brand_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
     if self.brand_dropdown.selected_value == "ADD":
-      alert("Kick off window to add a new Brand!")
-      self.brand_dropdown.selected_value = "JB_AU"
-      self.brand_dropdown.visible = False
-      self.refresh_data_bindings()
+      new_brand_form = NewBrand(item={'code': None, 'name': None, 'icon_file': None })
+      action = alert(new_brand_form, title="Create new Brand:", large=True, buttons=[ ('Create', True), ('Cancel', False) ])
+      if action:
+        result = new_brand_form.create_brand()
+        if result:
+          Data.refresh()
+          self.brand_dropdown.selected_value = result
+        else:
+          self.brand_dropdown.selected_value = self.brand
+          
     else:
       Data.CURRENT_BRAND = self.brand_dropdown.selected_value
       self.brand = Data.CURRENT_BRAND
-      self.brand_dropdown.visible = False
-      self.refresh_data_bindings()
+    self.brand_dropdown.visible = False
+    self.refresh_data_bindings()
 
   def users_link_click(self, **event_args):
     """Open the 'Users' Form, by adding it to the "default" slot."""
@@ -227,6 +234,7 @@ class Homepage(HomepageTemplate):
     self.current_year = Data.CURRENT_YEAR
     self.refresh_data_bindings()    
     self.open_dashboard()
+
 
 
       
