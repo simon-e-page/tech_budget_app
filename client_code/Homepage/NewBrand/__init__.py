@@ -6,6 +6,8 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
+from tabulator.Tabulator import row_selection_column
+
 from ...import Data
 from ...Data.ImporterModel import IMPORTER
 
@@ -17,11 +19,18 @@ class NewBrand(NewBrandTemplate):
     self.import_year = None
     self.import_lines = 0
     self.import_total = 0.0
-    self.import_years = [ str(x) for x in range(2023, 2030)]
+    self.import_years = [ (str(x), x) for x in range(2023, 2030)]
     self.import_panel.visible = False
     # Set Form properties and Data Bindings.
 
     self.import_table.options = {
+      'selectable': "highlight",
+      'pagination': True,
+      'pagination_size': 10,
+      'css_class': ["table-striped", "table-bordered", "table-condensed"]
+    }
+
+    self.vendor_table.options = {
       'selectable': "highlight",
       'pagination': True,
       'pagination_size': 10,
@@ -42,11 +51,48 @@ class NewBrand(NewBrandTemplate):
   
   def import_loader_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""    
-    self.item['import_data'] = self.importer.brand_import_data(year=self.import_year, excel_file=self.icon_loader.file)
+    self.item['new_vendors'], self.item['import_data'] = self.importer.brand_import_data(
+      self.item['code'], 
+      self.import_year, 
+      excel_file=self.icon_loader.file
+    )
+    self.build_vendor_table()
     self.import_total, self.import_lines = self.build_import_table()
     self.import_panel.visible = True
     self.refresh_data_bindings()
 
+
+  
+  def build_vendor_table(self):
+    columns = [
+      {
+        'title': 'New Vendor Name',
+        'field': 'vendor_name',
+        'width': 200,
+        'headerSort': False
+      }, 
+      {
+        'title': 'Suggested Match',
+        'field': 'suggested',
+        'headerSort': False,
+        'width': 200,
+      }, 
+      {
+        "title": "Use Match Instead?",
+        "formatter": "rowSelection",
+        "title_formatter": "rowSelection",
+        "title_formatter_params": {"rowRange": "visible"},
+        "width": 40,
+        "hoz_align": "center",
+        "header_hoz_align": "center",
+        "header_sort": False,
+        "cell_click": lambda e, cell: cell.getRow().toggleSelect(),
+      }            
+    ]
+
+    self.vendor_table.columns = columns
+    self.vendor_table.data = self.item['new_vendors']
+    
   
   def build_import_table(self):
 
@@ -116,8 +162,18 @@ class NewBrand(NewBrandTemplate):
       return False
 
     next_step = False
-
-    result = self.importer.load_first_budget(import_data=self.item['import_data'])
+    matched_vendors = self.vendor_table.get_selected_data()
+    matched_vendor_names = [ x['vendor_name'] for x in matched_vendors ]
+    new_vendor_names = [ x['vendor_name'] for x in self.item['new_vendors'] if x['vendor_name'] not in matched_vendor_names ]
+    print(new_vendor_names)
+    print(matched_vendors)
+    
+    result = self.importer.import_first_budget(
+                                               fin_year=self.import_year,
+                                               new_vendor_names=new_vendor_names, 
+                                               matched_vendors=matched_vendors, 
+                                               transactions_with_entries=self.item['import_data']
+                                              )
     if not result:
         alert(f"Failed to create first Budget for Brand: {self.item['code']}")          
         return False

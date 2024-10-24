@@ -97,6 +97,13 @@ components:
     properties: {}
     type: FlowPanel
   - components:
+    - name: vendor_table
+      properties: {}
+      type: form:TGQCF3WT6FVL2EM2:Tabulator
+    name: flow_panel_7
+    properties: {}
+    type: FlowPanel
+  - components:
     - name: import_table
       properties: {}
       type: form:TGQCF3WT6FVL2EM2:Tabulator
