@@ -51,11 +51,18 @@ class NewBrand(NewBrandTemplate):
   
   def import_loader_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""    
-    self.item['new_vendors'], self.item['import_data'] = self.importer.brand_import_data(
+    
+    result = self.importer.brand_import_data(
       self.item['code'], 
       self.import_year, 
-      excel_file=self.icon_loader.file
+      excel_file=self.import_loader.file
     )
+    
+    if result is not None:
+      self.item['new_vendors'], self.item['import_data'] = result
+    else:
+      alert("Could not parse file!")
+      
     self.build_vendor_table()
     self.import_total, self.import_lines = self.build_import_table()
     self.import_panel.visible = True
