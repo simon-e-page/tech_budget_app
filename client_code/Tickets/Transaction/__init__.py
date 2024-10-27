@@ -191,11 +191,12 @@ class Transaction(TransactionTemplate):
     """This method is called when the link is clicked"""
     prev_vendor_name = self.vendors.get(self.prev_vendor_id)['vendor_name']
     new_vendor_name = self.item['vendor']['vendor_name']
-    if confirm(f"This will create an alias so thet lines for {prev_vendor_name} will now be assigned to {new_vendor_name}. Happy to proceed?"):
+    if confirm(f"This will create an alias so thet lines for {prev_vendor_name} will now be assigned to {new_vendor_name}. And {prev_vendor_name} will be deleted. Happy to proceed?"):
       aliases = self.item['vendor']['prior_year_tags']
       if prev_vendor_name not in aliases:
         aliases.append(prev_vendor_name)
         self.transactions.remap_vendor(prev_vendor_id=self.prev_vendor_id, to=self.item['vendor'])
+        self.vendors.delete([prev_vendor_name])
         self.item['vendor'].save()
 
   def vendor_dropdown_change(self, **event_args):

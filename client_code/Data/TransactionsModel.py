@@ -250,8 +250,9 @@ class LazyTransactionList(AttributeToDict):
 
   def remap_vendor(self, prev_vendor_id, to):
     """ Updates all transactions that reference prev_vendor_id to the new vendor"""
-    pass
-  
+    ret = anvil.server.call('Transactions', 'remap_vendor', prev_vendor_id=prev_vendor_id, new_vendor_id=to['vendor_id'])
+    return ret
+    
 #############
 # MAIN
 ###############
