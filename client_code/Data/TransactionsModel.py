@@ -248,7 +248,9 @@ class LazyTransactionList(AttributeToDict):
     Data.refresh_cache()
     return ret
 
-  def remap_vendor(self, prev_vendor_id, to)
+  def remap_vendor(self, prev_vendor_id, to):
+    """ Updates all transactions that reference prev_vendor_id to the new vendor"""
+    pass
   
 #############
 # MAIN
