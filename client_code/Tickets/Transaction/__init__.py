@@ -195,9 +195,9 @@ class Transaction(TransactionTemplate):
       aliases = self.item['vendor']['prior_year_tags']
       if prev_vendor_name not in aliases:
         aliases.append(prev_vendor_name)
+        self.item['vendor'].save()
         self.transactions.remap_vendor(prev_vendor_id=self.prev_vendor_id, to=self.item['vendor'])
         self.vendors.delete([prev_vendor_name])
-        self.item['vendor'].save()
 
   def vendor_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
