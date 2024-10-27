@@ -10,17 +10,20 @@ from tabulator.Tabulator import row_selection_column
 
 from ...import Data
 from ...Data.ImporterModel import IMPORTER
+from ...Data.VendorsModel import VENDORS
 
 class NewBrand(NewBrandTemplate):
   def __init__(self, **properties):
     #self.item = properties['item']
     self.importer = IMPORTER
+    self.vendors = VENDORS
     self.import_loader.enabled = False
     self.import_year = None
     self.import_lines = 0
     self.import_total = 0.0
     self.import_years = [ (str(x), x) for x in range(2023, 2030)]
     self.import_panel.visible = False
+    self.vendor_panel.visible = False
     # Set Form properties and Data Bindings.
 
     self.import_table.options = {
@@ -65,12 +68,30 @@ class NewBrand(NewBrandTemplate):
       
     self.build_vendor_table()
     self.import_total, self.import_lines = self.build_import_table()
-    self.import_panel.visible = True
+    self.vendor_panel.visible = True
     self.refresh_data_bindings()
 
 
   
   def build_vendor_table(self):
+    vendor_list = self.vendors.get_dropdown()
+
+    def match_selected(sender, **event_args):
+      vendor_name = sender.tag
+      existing_vendor_id = sender.selected_value
+      print(f"Manual match: {vendor_name} -> {existing_vendor_id}")
+      
+    def format_suggested(cell, **params):
+      suggested_value = cell.get_value()
+      suggested_id = None      
+      if suggested_value:
+        suggested_id = self.vendors.get_by_name(suggested_value)['vendor_id']
+        print(f"{suggested_value} => ID: {suggested_id}")
+      tag = cell.get_data()['vendor_name']
+      obj = DropDown(items=vendor_list, include_placeholder=True, placeholder="Select Existing Vendor", tag=tag, selected_value=suggested_id)
+      obj.add_event_handler('change', match_selected)
+      return obj
+      
     columns = [
       {
         'title': 'New Vendor Name',
@@ -83,9 +104,10 @@ class NewBrand(NewBrandTemplate):
         'field': 'suggested',
         'headerSort': False,
         'width': 200,
+        'formatter': format_suggested,
       }, 
       {
-        "title": "Use Match Instead?",
+        "title": "Create New Instead?",
         "formatter": "rowSelection",
         "title_formatter": "rowSelection",
         "title_formatter_params": {"rowRange": "visible"},
@@ -190,3 +212,13 @@ class NewBrand(NewBrandTemplate):
   def year_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
     self.import_loader.enabled = True
+
+  def goto_import_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    if self.check_vendor_table():
+      self.import_total, self.import_lines = self.build_import_table()
+      self.import_panel.visible = True
+      self.vendor_panel.visible = False
+      self.refresh_data_bindings()
+    else:
+      alert("Every Vendor needs to be mapped or selected to create!")

@@ -93,7 +93,7 @@ class Importer:
     return anvil.server.call('Importer', 'brand_import_data', brand=brand, fin_year=fin_year, file=excel_file)
 
   def import_first_budget(self, fin_year, new_vendor_names, matched_vendors, import_data):
-    return anvil.server.call('Importer', 'load_first_budget', fin_year=fin_year, new_vendor_names=new_vendor_names, matched_vendors=matched_vendors, import_data=import_data)
-    #return True
+    #return anvil.server.call('Importer', 'import_first_budget', fin_year=fin_year, new_vendor_names=new_vendor_names, matched_vendors=matched_vendors, import_data=import_data)
+    return True
     
 IMPORTER = Importer()

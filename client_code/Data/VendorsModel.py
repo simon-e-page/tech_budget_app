@@ -141,9 +141,10 @@ class Vendors(AttributeToDict):
       vendor_set = set(x.vendor_name for x in sorted_by_name)
     else:
       # Cannot map to a finance vendor if that vendor is already mapped!
-      all_name_set = set(x.vendor_name for x in sorted_by_name if x.from_finance_system)      
-      mapped_set = set(x.vendor_name for x in sorted_by_name if x.finance_vendor is not None)
-      vendor_set = all_name_set - mapped_set
+      vendor_set = set(x.vendor_name for x in sorted_by_name)
+      #all_name_set = set(x.vendor_name for x in sorted_by_name if x.from_finance_system)      
+      #mapped_set = set(x.vendor_name for x in sorted_by_name if x.finance_vendor is not None)
+      #vendor_set = all_name_set - mapped_set
 
     final_set = vendor_set - exclude_set
     vendor_list = [ (x, self.get_by_name(x).vendor_id) for x in final_set ]

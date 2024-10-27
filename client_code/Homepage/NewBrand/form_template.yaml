@@ -77,6 +77,35 @@ components:
   type: FlowPanel
 - components:
   - components:
+    - layout_properties: {}
+      name: label_6
+      properties: {text: 'Map New or Unknown Vendors:'}
+      type: Label
+    name: flow_panel_8
+    properties: {}
+    type: FlowPanel
+  - components:
+    - name: vendor_table
+      properties: {}
+      type: form:TGQCF3WT6FVL2EM2:Tabulator
+    name: flow_panel_7
+    properties: {}
+    type: FlowPanel
+  - components:
+    - event_bindings: {click: goto_import_button_click}
+      layout_properties: {}
+      name: goto_import_button
+      properties: {icon: 'fa:arrow-right', icon_align: right, role: primary-button, text: Next}
+      type: Button
+    name: flow_panel_9
+    properties: {}
+    type: FlowPanel
+  layout_properties: {full_width_row: true, grid_position: 'VZHNOO,BRJUHV'}
+  name: vendor_panel
+  properties: {}
+  type: LinearPanel
+- components:
+  - components:
     - data_bindings:
       - {code: '"Number of lines to import: {0}".format(self.import_lines)', property: text, writeback: false}
       layout_properties: {}
@@ -94,13 +123,6 @@ components:
       properties: {text: Total Budget}
       type: Label
     name: flow_panel_6
-    properties: {}
-    type: FlowPanel
-  - components:
-    - name: vendor_table
-      properties: {}
-      type: form:TGQCF3WT6FVL2EM2:Tabulator
-    name: flow_panel_7
     properties: {}
     type: FlowPanel
   - components:
