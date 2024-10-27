@@ -44,7 +44,7 @@ class Transaction(TransactionTemplate):
     self.updated_entries = []
     self.budget_labels = { True: "Budget Line Detail", False: "Actual Line Detail" }
     self.actual_button_labels = { True: 'Enter Actual', False: 'Enter Budget'}
-
+    self.prev_vendor_id = None
     if item is not None:
       self.transaction_copy = self.item.copy()
     else:
@@ -186,5 +186,22 @@ class Transaction(TransactionTemplate):
       } for m in months
     ]
     self.item.add_entries(new_forecast_entries, overwrite=True)
-    
-  
+
+  def alias_link_click(self, **event_args):
+    """This method is called when the link is clicked"""
+    prev_vendor_name = self.vendors.get(self.prev_vendor_id)['vendor_name']
+    new_vendor_name = self.item['vendor']['vendor_name']
+    if confirm(f"This will create an alias so thet lines for {prev_vendor_name} will now be assigned to {new_vendor_name}. Happy to proceed?"):
+      aliases = self.item['vendor']['prior_year_tags']
+      if prev_vendor_name not in aliases:
+        aliases.append(prev_vendor_name)
+        self.transactions.remap_vendor(prev_vendor_id=self.prev_vendor_id, to=self.item['vendor'])
+        self.item['vendor'].save()
+
+  def vendor_dropdown_change(self, **event_args):
+    """This method is called when an item is selected"""
+    self.prev_vendor_id = self.vendor_id
+    self.vendor_id = self.vendor_dropdown.selected_value
+    print(f"Previous Vendor ID={self.prev_vendor_id}")
+    self.refresh_data_bindings()    
+

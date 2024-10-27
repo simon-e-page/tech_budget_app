@@ -77,8 +77,11 @@ class NewBrand(NewBrandTemplate):
     vendor_list = self.vendors.get_dropdown()
 
     def match_selected(sender, **event_args):
-      vendor_name = sender.tag
+      cell = sender.tag
+      d = cell.get_data()
+      vendor_name = d['vendor_name']
       existing_vendor_id = sender.selected_value
+      d['suggested'] = existing_vendor_id
       print(f"Manual match: {vendor_name} -> {existing_vendor_id}")
       
     def format_suggested(cell, **params):
@@ -87,16 +90,27 @@ class NewBrand(NewBrandTemplate):
       if suggested_value:
         suggested_id = self.vendors.get_by_name(suggested_value)['vendor_id']
         print(f"{suggested_value} => ID: {suggested_id}")
-      tag = cell.get_data()['vendor_name']
-      obj = DropDown(items=vendor_list, include_placeholder=True, placeholder="Select Existing Vendor", tag=tag, selected_value=suggested_id)
+      obj = DropDown(items=vendor_list, include_placeholder=True, placeholder="Select Existing Vendor", tag=cell, selected_value=suggested_id)
       obj.add_event_handler('change', match_selected)
       return obj
 
-    def select_row(e, cell):
-      create_new = cell.get_data()['create_new']
-      cell.get_data()['create_new'] = not create_new
+    def select_row(sender, **event_args):
+      cell = sender.tag
+      d = cell.get_data()
+      vendor_name = d['vendor_name']
+      create_new = d['create_new']
+      d['create_new'] = not create_new
+      print(f"Flag for {vendor_name} was {create_new}. Changed to {not create_new}")
       cell.getRow().toggleSelect()
-            
+      
+
+    def new_flag_formatter(cell, **params):
+      val = cell.get_value()
+      #vendor_name = cell.get_data()['vendor_name']
+      obj = CheckBox(checked=val, tag=cell)
+      obj.add_event_handler('change', select_row)
+      return obj
+      
     columns = [
       {
         'title': 'New Vendor Name',
@@ -113,15 +127,18 @@ class NewBrand(NewBrandTemplate):
       }, 
       {
         "title": "Create New Instead?",
-        "formatter": "rowSelection",
-        "title_formatter": "rowSelection",
-        "title_formatter_params": {"rowRange": "visible"},
+        "field": "create_new",
+        #"formatter": "tickCross",
+        "formatter": new_flag_formatter,
+        #"title_formatter": "rowSelection",
+        #"title_formatter_params": {"rowRange": "visible"},
         "width": 150,
         "hoz_align": "center",
         "header_hoz_align": "center",
         "header_sort": False,
-        "cell_click": select_row
-        #"cell_click": lambda e, cell: cell.getRow().toggleSelect(),
+        #"editor": "tickCross",
+        #"cellClick": select_row,
+        #"cellClick": lambda e, cell: cell.getRow().toggleSelect(),
       }            
     ]
 
@@ -223,13 +240,24 @@ class NewBrand(NewBrandTemplate):
   
   def check_vendor_table(self):
     vendor_map = self.vendor_table.data
-    ready = { x['vendor_name']: x['suggested'] is not None or x['create_new'] for x in vendor_map }
+    ready = { x['vendor_name']: (x['suggested'] is not None) or x['create_new'] for x in vendor_map }
     if not all(ready.values()):
       not_ready = [ k for k,v in ready.items() if not v ]
       alert(f"Cannot continue until these vendors have a valid option: {not_ready}!")
       # TODO: highlight rows with errors?
       ret = False
     else:
+      self.new_vendor_names = [ x['vendor_name'] for x in vendor_map if x['create_new'] ]
+      print(f"New vendors: {self.new_vendor_names}")
+      alias_map = {}
+      for row in [ x for x in vendor_map if not x['create_new'] ]:
+        alias_list = alias_map.get(x['suggested'], [])
+        alias_list.append(row['vendor_name'])
+        alias_map[x['suggested']] = alias_list
+        
+      # Turn dict into records
+      self.vendor_aliases = [ { 'vendor_id': vendor_id, 'prior_year_tags': alias_list } for vendor_id, alias_list in alias_map.items() ]
+      print(f"Aliases: {self.vendor_aliases}")
       ret = True
     return ret
 

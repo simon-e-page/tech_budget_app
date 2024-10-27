@@ -51,8 +51,9 @@ components:
       type: Label
     - data_bindings:
       - {code: self.vendor_list, property: items, writeback: false}
-      - {code: self.vendor_id, property: selected_value, writeback: true}
-      layout_properties: {}
+      - {code: self.vendor_id, property: selected_value, writeback: false}
+      event_bindings: {change: vendor_dropdown_change}
+      layout_properties: {width: 123.2890625}
       name: vendor_dropdown
       properties: {include_placeholder: true, placeholder: Select Vendor}
       type: DropDown
@@ -63,6 +64,14 @@ components:
       name: new_vendor_button
       properties: {icon: 'fa:external-link', role: primary-button, text: New Vendor}
       type: Button
+    - data_bindings:
+      - {code: '"Save alias for {0}".format(self.vendors.get(self.prev_vendor_id)[''vendor_name''])', property: text, writeback: false}
+      - {code: self.prev_vendor_id is not None, property: visible, writeback: false}
+      event_bindings: {click: alias_link_click}
+      layout_properties: {}
+      name: alias_link
+      properties: {foreground: '#0777ed', text: ''}
+      type: Link
     layout_properties: {grid_position: 'VXOWLP,BURIPO'}
     name: flow_panel_4
     properties: {}
