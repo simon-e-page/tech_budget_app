@@ -53,7 +53,7 @@ components:
       - {code: self.vendor_list, property: items, writeback: false}
       - {code: self.vendor_id, property: selected_value, writeback: false}
       event_bindings: {change: vendor_dropdown_change}
-      layout_properties: {width: 123.2890625}
+      layout_properties: {width: 147.66796875}
       name: vendor_dropdown
       properties: {include_placeholder: true, placeholder: Select Vendor}
       type: DropDown
