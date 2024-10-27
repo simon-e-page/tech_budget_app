@@ -91,7 +91,12 @@ class NewBrand(NewBrandTemplate):
       obj = DropDown(items=vendor_list, include_placeholder=True, placeholder="Select Existing Vendor", tag=tag, selected_value=suggested_id)
       obj.add_event_handler('change', match_selected)
       return obj
-      
+
+    def select_row(e, cell):
+      create_new = cell.get_data()['create_new']
+      cell.get_data()['create_new'] = not create_new
+      cell.getRow().toggleSelect()
+            
     columns = [
       {
         'title': 'New Vendor Name',
@@ -111,11 +116,12 @@ class NewBrand(NewBrandTemplate):
         "formatter": "rowSelection",
         "title_formatter": "rowSelection",
         "title_formatter_params": {"rowRange": "visible"},
-        "width": 40,
+        "width": 150,
         "hoz_align": "center",
         "header_hoz_align": "center",
         "header_sort": False,
-        "cell_click": lambda e, cell: cell.getRow().toggleSelect(),
+        "cell_click": select_row
+        #"cell_click": lambda e, cell: cell.getRow().toggleSelect(),
       }            
     ]
 
@@ -213,6 +219,21 @@ class NewBrand(NewBrandTemplate):
     """This method is called when an item is selected"""
     self.import_loader.enabled = True
 
+
+  
+  def check_vendor_table(self):
+    vendor_map = self.vendor_table.data
+    ready = { x['vendor_name']: x['suggested'] is not None or x['create_new'] for x in vendor_map }
+    if not all(ready.values()):
+      not_ready = [ k for k,v in ready.items() if not v ]
+      alert(f"Cannot continue until these vendors have a valid option: {not_ready}!")
+      # TODO: highlight rows with errors?
+      ret = False
+    else:
+      ret = True
+    return ret
+
+  
   def goto_import_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     if self.check_vendor_table():
