@@ -194,7 +194,7 @@ class Transaction(TransactionTemplate):
     if confirm(f"This will create an alias so thet lines for {prev_vendor_name} will now be assigned to {new_vendor_name}. And {prev_vendor_name} will be deleted. Happy to proceed?"):
       aliases = self.item['vendor']['prior_year_tags']
       if prev_vendor_name not in aliases:
-        aliases.append(prev_vendor_name)
+        aliases.append(self.prev_vendor_id)
         self.item['vendor'].save()
         self.transactions.remap_vendor(prev_vendor_id=self.prev_vendor_id, to=self.item['vendor'])
         self.vendors.delete([prev_vendor_name])
