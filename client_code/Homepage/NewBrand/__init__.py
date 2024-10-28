@@ -67,7 +67,6 @@ class NewBrand(NewBrandTemplate):
       alert("Could not parse file!")
       
     self.build_vendor_table()
-    self.import_total, self.import_lines = self.build_import_table()
     self.vendor_panel.visible = True
     self.refresh_data_bindings()
 
@@ -172,9 +171,9 @@ class NewBrand(NewBrandTemplate):
     self.import_table.columns = columns
     
     def sub(row):
-      orig_vendor_name = row['vendor_name']
+      import_vendor_name = row['vendor_name']
       new_row = row.copy()
-      new_row['vendor_name'] = self.alias_map.get(orig_vendor_name, orig_vendor_name)
+      new_row['vendor_name'] = self.reverse_map.get(import_vendor_name, import_vendor_name)
       return new_row
       
     self.item['final_import_data'] = [ sub(x) for x in self.item['import_data']]
@@ -196,7 +195,8 @@ class NewBrand(NewBrandTemplate):
       
     next_step = False
     try:
-      result = Data.create_brand(code=self.item['code'], name=self.item['name'])
+      #result = Data.create_brand(code=self.item['code'], name=self.item['name'])
+      result = False
       next_step = result
     except Exception as e:
       alert(f"Failed to create Brand with code {self.item['code']}")
@@ -210,7 +210,8 @@ class NewBrand(NewBrandTemplate):
     
     if self.item.get('icon_file', None) is not None:
       try:
-        result = Data.add_brand_icon(code=self.item['code'], content=self.item['icon_file'])
+        #result = Data.add_brand_icon(code=self.item['code'], content=self.item['icon_file'])
+        result = False
         next_step = result
         if not result:
           alert(f"Failed to upload icon to Brand: {self.item['code']}")          
@@ -222,18 +223,23 @@ class NewBrand(NewBrandTemplate):
       return False
 
     next_step = False
-    matched_vendors = self.vendor_table.get_selected_data()
-    matched_vendor_names = [ x['vendor_name'] for x in matched_vendors ]
-    new_vendor_names = [ x['vendor_name'] for x in self.item['new_vendors'] if x['vendor_name'] not in matched_vendor_names ]
+    new_vendor_names = self.new_vendor_names
+    vendor_aliases = self.vendor_aliases
+    transactions_with_entries = self.item['final_import_data']
+
+    print("New vendors to create:")
     print(new_vendor_names)
-    print(matched_vendors)
-    
-    result = self.importer.import_first_budget(
-                                               fin_year=self.import_year,
-                                               new_vendor_names=new_vendor_names, 
-                                               matched_vendors=matched_vendors, 
-                                               transactions_with_entries=self.item['import_data']
-                                              )
+    print("Existing vendors to modify:")
+    print(vendor_aliases)
+    print("Transaction Lines to create:")
+    print(transactions_with_entries)
+    result = False
+    #result = self.importer.import_first_budget(
+    #                                           fin_year=self.import_year,
+    #                                           new_vendor_names=new_vendor_names, 
+    #                                           matched_vendors=vendor_aliases, 
+    #                                           transactions_with_entries=transactions_with_entries
+    #                                          )
     if not result:
         alert(f"Failed to create first Budget for Brand: {self.item['code']}")          
         return False
@@ -258,13 +264,15 @@ class NewBrand(NewBrandTemplate):
       self.new_vendor_names = [ x['vendor_name'] for x in vendor_map if x['create_new'] ]
       print(f"New vendors: {self.new_vendor_names}")
       self.alias_map = {}
+      self.reverse_map = {}
       for row in [ x for x in vendor_map if not x['create_new'] ]:
         alias_list = self.alias_map.get(row['suggested'], [])
         alias_list.append(row['vendor_name'])
         self.alias_map[row['suggested']] = alias_list
+        self.reverse_map[row['vendor_name']] = row['suggested']
         
       # Turn dict into records
-      self.vendor_aliases = [ { 'vendor_id': vendor_id, 'prior_year_tags': alias_list } for vendor_id, alias_list in self.alias_map.items() ]
+      self.vendor_aliases = [ { 'vendor_id': self.vendors.get_by_name(vendor_name)['vendor_id'], 'synonyms': alias_list } for vendor_name, alias_list in self.alias_map.items() ]
       print(f"Aliases: {self.vendor_aliases}")
       ret = True
     return ret
@@ -279,3 +287,5 @@ class NewBrand(NewBrandTemplate):
       self.refresh_data_bindings()
     else:
       alert("Every Vendor needs to be mapped or selected to create!")
+
+  
