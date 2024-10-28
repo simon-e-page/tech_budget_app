@@ -170,7 +170,15 @@ class NewBrand(NewBrandTemplate):
     num_lines = len(self.item['import_data'])
 
     self.import_table.columns = columns
-    self.import_table.data = self.item['import_data']
+    
+    def sub(row):
+      orig_vendor_name = row['vendor_name']
+      new_row = row.copy()
+      new_row['vendor_name'] = self.alias_map.get(orig_vendor_name, orig_vendor_name)
+      return new_row
+      
+    self.item['final_import_data'] = [ sub(x) for x in self.item['import_data']]
+    self.import_table.data = self.item['final_import_data']
     
     return total, num_lines
 
@@ -249,14 +257,14 @@ class NewBrand(NewBrandTemplate):
     else:
       self.new_vendor_names = [ x['vendor_name'] for x in vendor_map if x['create_new'] ]
       print(f"New vendors: {self.new_vendor_names}")
-      alias_map = {}
+      self.alias_map = {}
       for row in [ x for x in vendor_map if not x['create_new'] ]:
-        alias_list = alias_map.get(x['suggested'], [])
+        alias_list = self.alias_map.get(row['suggested'], [])
         alias_list.append(row['vendor_name'])
-        alias_map[x['suggested']] = alias_list
+        self.alias_map[row['suggested']] = alias_list
         
       # Turn dict into records
-      self.vendor_aliases = [ { 'vendor_id': vendor_id, 'prior_year_tags': alias_list } for vendor_id, alias_list in alias_map.items() ]
+      self.vendor_aliases = [ { 'vendor_id': vendor_id, 'prior_year_tags': alias_list } for vendor_id, alias_list in self.alias_map.items() ]
       print(f"Aliases: {self.vendor_aliases}")
       ret = True
     return ret
