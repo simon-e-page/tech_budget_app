@@ -22,16 +22,16 @@ class Vendor(VendorTemplate):
       vendor_name = [vendor_name]
     else:
       vendor_name = None
-    self.finance_vendor_list = self.vendors.get_dropdown(finance_field=True, exclude=vendor_name)
+    #self.finance_vendor_list = self.vendors.get_dropdown(finance_field=True, exclude=vendor_name)
 
-    self.finance_columns = [
-      {'title': 'Synonym', 'field': 'finance_tags', 'width': 400, 'formatter': self.name_formatter  },
-      {'title': 'Delete', 'field': 'delete', 'formatter': self.delete_formatter, 'formatterParams': {'key': 'finance_tags'} }
-    ]
+    #self.finance_columns = [
+    #  {'title': 'Synonym', 'field': 'finance_tags', 'width': 400, 'formatter': self.name_formatter  },
+    #  {'title': 'Delete', 'field': 'delete', 'formatter': self.delete_formatter, 'formatterParams': {'key': 'finance_tags'} }
+    #]
 
-    self.prior_year_columns = [
-      {'title': 'Synonym', 'field': 'prior_year_tags', 'width': 400, 'formatter': self.name_formatter },
-      {'title': 'Delete', 'field': 'delete', 'formatter': self.delete_formatter, 'formatterParams': {'key': 'prior_year_tags'} }
+    self.synonym_columns = [
+      {'title': 'Synonym', 'field': 'synonyms', 'width': 400, 'formatter': self.name_formatter },
+      {'title': 'Delete', 'field': 'delete', 'formatter': self.delete_formatter, 'formatterParams': {'key': 'synonyms'} }
     ]
 
     # Set Form properties and Data Bindings.
@@ -61,9 +61,9 @@ class Vendor(VendorTemplate):
     key = params['key']
     tag = cell.getData()[key]
     
-    def delete_tag(**event_args):
-      sender = event_args['sender']
-      print("Deleting tag: {0} from {1}".format(sender.tag, key))
+    def delete_tag(sender, **event_args):
+      #sender = event_args['sender']
+      print("Deleting synonym: {0} from {1}".format(sender.tag, key))
       self.item[key] = [ x for x in self.item[key] if x != sender.tag ]
       self.refresh_data_bindings()
       return
@@ -127,14 +127,17 @@ class Vendor(VendorTemplate):
       self.item['icon_id'] = ''
 
 
-  def add_prior_year_tag_button_click(self, **event_args):
+  def add_synonym_tag_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    new_synonym = self.prior_year_tag_dropdown.selected_value
+    new_synonym = self.synonym_text.text
     if new_synonym is not None:
-      current = self.item.prior_year_tags
+      if self.vendors.get_by_name(new_synonym) is not None:
+        if not confirm(f"There is already a vendor with the name {new_synonym}. Adding this as a synonym will replace all instances and delete that vendor. Are you sure?"):
+          return
+      current = self.item.synonyms
       current.append(new_synonym)
       self.item.prior_year_tags = list(set(current))
-      self.prior_year_tag_dropdown.selected_value = None
+      self.synonym_text.text = None
       self.refresh_data_bindings()
 
   def vendor_url_edit_button_click(self, **event_args):

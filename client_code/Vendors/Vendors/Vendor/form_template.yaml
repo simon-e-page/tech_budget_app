@@ -108,19 +108,19 @@ components:
     - components:
       - data_bindings:
         - {code: self.generate_tags('synonyms'), property: data, writeback: false}
-        - {code: '', property: columns, writeback: false}
+        - {code: self.synonym_columns, property: columns, writeback: false}
         layout_properties: {}
         name: prior_year_table
-        properties: {header_visible: false, index: '', pagination_size: 5}
+        properties: {header_visible: false, index: synonyms, pagination_size: 5}
         type: form:TGQCF3WT6FVL2EM2:Tabulator
       - components:
         - layout_properties: {width: 301.26953125}
           name: synonym_text
           properties: {placeholder: Enter new synonym}
           type: TextBox
-        - event_bindings: {click: add_prior_year_tag_button_click}
+        - event_bindings: {click: add_synonym_tag_button_click}
           layout_properties: {}
-          name: add_prior_year_tag_button
+          name: add_synonym_tag_button
           properties: {icon: 'fa:arrow-circle-up', role: secondary-button, text: ''}
           type: Button
         name: flow_panel_6
@@ -133,32 +133,6 @@ components:
     layout_properties: {grid_position: 'DOGXEZ,BCKOQO YVZJGF,WBKJDX'}
     name: column_panel_3
     properties: {border: dotted, col_widths: '{}', foreground: ''}
-    type: ColumnPanel
-  - layout_properties: {grid_position: 'DOGXEZ,BCKOQO XBBMDY,IOSSKF'}
-    name: label_14
-    properties: {align: left, background: '', bold: true, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: 'Map to Finance vendor code (in Dynamics):', tooltip: '', underline: false, visible: true}
-    type: Label
-  - components:
-    - components:
-      - data_bindings:
-        - {code: self.finance_vendor_list, property: items, writeback: false}
-        - {code: 'self.item[''finance_vendor''] and self.item[''finance_vendor''].vendor_id or None', property: selected_value, writeback: false}
-        event_bindings: {change: finance_tag_dropdown_change}
-        layout_properties: {width: 350.7268125}
-        name: finance_tag_dropdown
-        properties:
-          include_placeholder: true
-          items: [self.vendors]
-          placeholder: Select finance vendor name
-          spacing_above: none
-        type: DropDown
-      layout_properties: {grid_position: 'LEXWRM,EGQNLC'}
-      name: flow_panel_5
-      properties: {spacing_above: none}
-      type: FlowPanel
-    layout_properties: {grid_position: 'DOGXEZ,BCKOQO YKLIYT,AJXFYE'}
-    name: column_panel_5
-    properties: {border: ''}
     type: ColumnPanel
   - layout_properties: {grid_position: 'DOGXEZ,BCKOQO BBQFRK,ZVKYPW'}
     name: label_13
