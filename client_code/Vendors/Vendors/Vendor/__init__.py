@@ -54,8 +54,8 @@ class Vendor(VendorTemplate):
       return self.icons.get_content(icon_id)
 
   def name_formatter(self, cell, **params):
-    vendor_id = cell.get_value()
-    return self.vendors.get(vendor_id)['vendor_name']
+    vendor_name = cell.get_value()
+    return vendor_name
     
   def delete_formatter(self, cell, **params):
     key = params['key']

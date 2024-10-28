@@ -133,6 +133,8 @@ class BudgetLines(BudgetLinesTemplate):
         if ret:
           try:
             vendor.update()
+            self.reload()
+            self.refresh_tables()
           except Exception as e:
             print("Failed to update Vendor!")
         return
