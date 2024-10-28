@@ -21,7 +21,8 @@ class Vendor(AttributeToKey):
     'icon_id': '',
     'vendor_url': None,
     'from_finance_system': False,
-    'import_ignore': False
+    'import_ignore': False,
+    'synonyms': []
   }
 
   def __init__(self, vendor_json=None, **kwargs):

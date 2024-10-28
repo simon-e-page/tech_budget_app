@@ -107,22 +107,17 @@ components:
   - components:
     - components:
       - data_bindings:
-        - {code: self.generate_tags('prior_year_tags'), property: data, writeback: false}
-        - {code: self.prior_year_columns, property: columns, writeback: false}
+        - {code: self.generate_tags('synonyms'), property: data, writeback: false}
+        - {code: '', property: columns, writeback: false}
         layout_properties: {}
         name: prior_year_table
-        properties: {header_visible: false, index: prior_year_tags, pagination_size: 5}
+        properties: {header_visible: false, index: '', pagination_size: 5}
         type: form:TGQCF3WT6FVL2EM2:Tabulator
       - components:
-        - data_bindings:
-          - {code: self.vendor_list, property: items, writeback: false}
-          layout_properties: {width: 348.9144375}
-          name: prior_year_tag_dropdown
-          properties:
-            include_placeholder: true
-            items: [self.vendor_list]
-            placeholder: Select new synonym
-          type: DropDown
+        - layout_properties: {width: 301.26953125}
+          name: synonym_text
+          properties: {placeholder: Enter new synonym}
+          type: TextBox
         - event_bindings: {click: add_prior_year_tag_button_click}
           layout_properties: {}
           name: add_prior_year_tag_button
