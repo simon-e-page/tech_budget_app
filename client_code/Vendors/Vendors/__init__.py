@@ -26,6 +26,13 @@ class Vendors(VendorsTemplate):
     self.selected_vendors = []
     self.year = Data.CURRENT_YEAR
     self.active_field = f"active_{self.year}"
+    
+    self.vendors_table.options = {
+      "index": "vendor_id",  # or set the index property here
+      "selectable": "highlight",
+      'css_class': ["table-striped", "table-bordered", "table-condensed"],
+      'pagination_size': 10
+    }
 
     self.add_event_handler("x-refresh-tables", self.refresh_tables)
     self.init_components(**properties)
@@ -35,6 +42,7 @@ class Vendors(VendorsTemplate):
   
   def refresh_tables(self, *args, **kwargs):
     current_page = self.vendors_table.get_page()
+    self.vendors.load()
     self.vendors_table_table_built()
     self.vendors_table.set_page(current_page)
 
@@ -83,12 +91,6 @@ class Vendors(VendorsTemplate):
       },      
     ]
 
-    self.vendors_table.options = {
-      "index": "vendor_id",  # or set the index property here
-      "selectable": "highlight",
-      'css_class': ["table-striped", "table-bordered", "table-condensed"],
-      'pagination_size': 10
-    }
 
     self.vendors_table.data = self.get_vendor_data()
 
@@ -115,6 +117,8 @@ class Vendors(VendorsTemplate):
       ret = alert(vendor_form, large=True, title=vendor.vendor_name, buttons=[ ('OK', True), ('Cancel', False) ])
       if ret:
         vendor_form.save(new=False)
+        self.refresh_tables()
+        self.refresh_data_bindings()
       return
 
     link = Link(text=cell.get_value(), tag=vendor_id)

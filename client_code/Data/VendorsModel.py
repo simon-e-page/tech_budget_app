@@ -98,11 +98,13 @@ class Vendors(AttributeToDict):
     else:
       raise KeyError(f"Cant find vendor with ID: {vendor_id}")
 
-  def get_by_name(self, vendor_name):
+  def get_by_name(self, vendor_name, raise_exception=False):
     if vendor_name in self.name_index:
       return self.__d__[self.name_index[vendor_name]]
-    else:
+    elif raise_exception:
       raise KeyError(f"Cant find vendor by name {vendor_name}")
+    else:
+      return None
       
   def new(self, vendor_data):
     vendor_id = vendor_data['vendor_id']
