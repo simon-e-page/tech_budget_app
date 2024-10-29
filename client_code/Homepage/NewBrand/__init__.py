@@ -156,6 +156,10 @@ class NewBrand(NewBrandTemplate):
   
   def build_import_table(self):
 
+    def total_formatter(cell, **params):
+      val = cell.get_value()
+      return f"{val:,.0f}"
+      
     columns = [
       {
         'title': 'Description',
@@ -170,7 +174,9 @@ class NewBrand(NewBrandTemplate):
       {
         'title': 'Total',
         'field': 'total',
-        'width': 100
+        'width': 100,
+        'formatter': total_formatter
+        
       },
     ]
 
@@ -180,9 +186,14 @@ class NewBrand(NewBrandTemplate):
     self.import_table.columns = columns
     
     def sub(row):
+      """ Replaced the vendor_name in an import row with either the automated or manual mapping replacements """
       import_vendor_name = row['vendor_name']
+      import_vendor_id = row['vendor_id']
       new_row = row.copy()
-      new_row['vendor_name'] = self.reverse_map.get(import_vendor_name, import_vendor_name)
+      if import_vendor_id != 0:
+        new_row['vendor_name'] = self.vendors.get(import_vendor_id)['vendor_name']
+      else:
+        new_row['vendor_name'] = self.reverse_map.get(import_vendor_name, import_vendor_name)
       return new_row
       
     self.item['final_import_data'] = [ sub(x) for x in self.item['import_data']]

@@ -117,7 +117,7 @@ components:
     type: FlowPanel
   - components:
     - data_bindings:
-      - {code: '"Budget total to import: ${0:,}".format(self.import_total)', property: text, writeback: false}
+      - {code: '"Budget total to import: ${0:,.0f}".format(self.import_total)', property: text, writeback: false}
       layout_properties: {}
       name: label_5
       properties: {text: Total Budget}
