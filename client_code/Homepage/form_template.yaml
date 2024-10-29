@@ -144,7 +144,7 @@ components:
     properties: {align: center, spacing: none}
     type: FlowPanel
   - data_bindings:
-    - {code: '"_/theme/{0}.png".format(self.brand)', property: source, writeback: false}
+    - {code: self.get_icon(self.brand), property: source, writeback: false}
     event_bindings: {mouse_down: brand_image_mouse_down}
     layout_properties: {}
     name: brand_image

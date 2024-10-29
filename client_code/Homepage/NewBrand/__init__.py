@@ -208,7 +208,7 @@ class NewBrand(NewBrandTemplate):
       #result = True
       next_step = result
     except Exception as e:
-      alert(f"Failed to create Brand with code {self.item['code']}")
+      alert(f"Failed to create Brand with code {self.item['code']}: {e}")
       print(e)
 
     if not next_step:
@@ -248,7 +248,7 @@ class NewBrand(NewBrandTemplate):
     result = self.importer.import_first_budget(
                                                fin_year=self.import_year,
                                                new_vendor_names=new_vendor_names, 
-                                               matched_vendors=vendor_aliases, 
+                                               vendor_aliases=vendor_aliases, 
                                                transactions_with_entries=transactions_with_entries
                                               )
     if not result:
@@ -290,7 +290,7 @@ class NewBrand(NewBrandTemplate):
         
       # Turn dict into records
       self.vendor_aliases = [ { 'vendor_id': vendor_id, 'synonyms': alias_list } for vendor_id, alias_list in self.alias_map.items() ]
-      print(f"Aliases: {self.vendor_aliases}")
+      #print(f"Aliases: {self.vendor_aliases}")
       ret = True
     return ret
 

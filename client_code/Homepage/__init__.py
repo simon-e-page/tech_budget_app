@@ -51,7 +51,10 @@ class Homepage(HomepageTemplate):
 
   def set_dashboard_cache(self, value):
     self.use_dashboard_cache = value
-    
+
+  def get_icon(self, brand):
+    return Data.get_brand_icon(brand)
+
   def open_dashboard(self):
     """Open the 'Dashboard' Form, by adding it to the "default" slot."""
     self.dash_panel.role = 'dash-link-selected'

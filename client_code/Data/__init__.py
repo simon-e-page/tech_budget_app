@@ -201,11 +201,13 @@ def get_brand():
   return CURRENT_BRAND
 
 def create_brand(code, name):
-  return anvil.server.call('Brand', 'add_brand', code=code, name=name)
+  return anvil.server.call('Brands', 'add_brand', code=code, name=name)
 
 def add_brand_icon(code, content):
-  return anvil.server.call('Brand', 'add_icon', code=code, content=content)
+  return anvil.server.call('Brands', 'add_icon', code=code, content=content)
 
+def get_brand_icon(code):
+  return anvil.server.call('Brands', 'get_icon', code=code)
 
 def move_year(diff=1):
   global CURRENT_YEAR
@@ -329,3 +331,6 @@ def create_import_config():
     
 create_import_config()
 refresh()
+#obj = anvil.URLMedia("_/theme/{0}.png".format("JB_AU"))
+#create_brand('JB_AU', 'JB Australia')
+#add_brand_icon('JB_AU', obj)
