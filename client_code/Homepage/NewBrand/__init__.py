@@ -82,6 +82,11 @@ class NewBrand(NewBrandTemplate):
       existing_vendor_id = sender.selected_value
       manual_suggested_name = self.vendors.get(existing_vendor_id)['vendor_name']
       d['suggested'] = manual_suggested_name
+      if cell.getRow().isSelected():
+        d['create_new'] = False
+        cell.getRow().deselect()
+        create_cell = cell.getRow().getCell('create_new')
+        create_cell.set_value(False)
       print(f"Manual match: {vendor_name} -> {manual_suggested_name}")
       
     def format_suggested(cell, **params):
@@ -100,12 +105,15 @@ class NewBrand(NewBrandTemplate):
       #vendor_name = d['vendor_name']
       create_new = d['create_new']
       d['create_new'] = not create_new
+      cell.getRow().getCell('suggested').set_value(None)
       #print(f"Flag for {vendor_name} was {create_new}. Changed to {not create_new}")
       cell.getRow().toggleSelect()
       
 
     def new_flag_formatter(cell, **params):
       val = cell.get_value()
+      if val:
+        cell.getRow().select()
       #vendor_name = cell.get_data()['vendor_name']
       obj = CheckBox(checked=val, tag=cell)
       obj.add_event_handler('change', select_row)
@@ -196,8 +204,8 @@ class NewBrand(NewBrandTemplate):
       
     next_step = False
     try:
-      #result = Data.create_brand(code=self.item['code'], name=self.item['name'])
-      result = False
+      result = Data.create_brand(code=self.item['code'], name=self.item['name'])
+      #result = True
       next_step = result
     except Exception as e:
       alert(f"Failed to create Brand with code {self.item['code']}")
@@ -211,15 +219,17 @@ class NewBrand(NewBrandTemplate):
     
     if self.item.get('icon_file', None) is not None:
       try:
-        #result = Data.add_brand_icon(code=self.item['code'], content=self.item['icon_file'])
-        result = False
+        result = Data.add_brand_icon(code=self.item['code'], content=self.item['icon_file'])
+        #result = True
         next_step = result
         if not result:
           alert(f"Failed to upload icon to Brand: {self.item['code']}")          
       except Exception as e:
         print(e)
         alert(f"Failed to upload icon to Brand: {self.item['code']}")          
-
+    else:
+      next_step = True
+      
     if not next_step:
       return False
 
@@ -228,22 +238,24 @@ class NewBrand(NewBrandTemplate):
     vendor_aliases = self.vendor_aliases
     transactions_with_entries = self.item['final_import_data']
 
-    print("New vendors to create:")
-    print(new_vendor_names)
-    print("Existing vendors to modify:")
-    print(vendor_aliases)
-    print("Transaction Lines to create:")
-    print(transactions_with_entries)
-    result = False
-    #result = self.importer.import_first_budget(
-    #                                           fin_year=self.import_year,
-    #                                           new_vendor_names=new_vendor_names, 
-    #                                           matched_vendors=vendor_aliases, 
-    #                                           transactions_with_entries=transactions_with_entries
-    #                                          )
+    #print("New vendors to create:")
+    #print(new_vendor_names)
+    #print("Existing vendors to modify:")
+    #print(vendor_aliases)
+    #print("Transaction Lines to create:")
+    #print(transactions_with_entries)
+    #result = False
+    result = self.importer.import_first_budget(
+                                               fin_year=self.import_year,
+                                               new_vendor_names=new_vendor_names, 
+                                               matched_vendors=vendor_aliases, 
+                                               transactions_with_entries=transactions_with_entries
+                                              )
     if not result:
         alert(f"Failed to create first Budget for Brand: {self.item['code']}")          
         return False
+    else:
+      print(f"{result} entries created")
 
     return self.item['code']
 
