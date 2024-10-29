@@ -266,6 +266,7 @@ class NewBrand(NewBrandTemplate):
       self.alias_map = {}
       self.reverse_map = {}
       for row in [ x for x in vendor_map if not x['create_new'] ]:
+        suggested_vendor = self.
         alias_list = self.alias_map.get(row['suggested'], [])
         alias_list.append(row['vendor_name'])
         self.alias_map[row['suggested']] = alias_list
