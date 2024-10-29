@@ -266,14 +266,17 @@ class NewBrand(NewBrandTemplate):
       self.alias_map = {}
       self.reverse_map = {}
       for row in [ x for x in vendor_map if not x['create_new'] ]:
-        suggested_vendor = self.
-        alias_list = self.alias_map.get(row['suggested'], [])
-        alias_list.append(row['vendor_name'])
-        self.alias_map[row['suggested']] = alias_list
-        self.reverse_map[row['vendor_name']] = row['suggested']
+        suggested_vendor = self.vendors.get_by_name(row['suggested'])
+        if suggested_vendor is None:
+          print(f"ERROR: Cannot find vendor entry for: {row['suggested']}")
+        else:
+          alias_list = self.alias_map.get(suggested_vendor.vendor_id, [])
+          alias_list.append(row['vendor_name'])
+          self.alias_map[suggested_vendor.vendor_id] = alias_list
+          self.reverse_map[row['vendor_name']] = suggested_vendor.vendor_name
         
       # Turn dict into records
-      self.vendor_aliases = [ { 'vendor_id': self.vendors.get_by_name(vendor_name)['vendor_id'], 'synonyms': alias_list } for vendor_name, alias_list in self.alias_map.items() ]
+      self.vendor_aliases = [ { 'vendor_id': vendor_id, 'synonyms': alias_list } for vendor_id, alias_list in self.alias_map.items() ]
       print(f"Aliases: {self.vendor_aliases}")
       ret = True
     return ret
