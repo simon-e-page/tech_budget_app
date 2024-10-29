@@ -80,8 +80,9 @@ class NewBrand(NewBrandTemplate):
       d = cell.get_data()
       vendor_name = d['vendor_name']
       existing_vendor_id = sender.selected_value
-      d['suggested'] = existing_vendor_id
-      print(f"Manual match: {vendor_name} -> {existing_vendor_id}")
+      manual_suggested_name = self.vendors.get(existing_vendor_id)['vendor_name']
+      d['suggested'] = manual_suggested_name
+      print(f"Manual match: {vendor_name} -> {manual_suggested_name}")
       
     def format_suggested(cell, **params):
       suggested_value = cell.get_value()
@@ -96,10 +97,10 @@ class NewBrand(NewBrandTemplate):
     def select_row(sender, **event_args):
       cell = sender.tag
       d = cell.get_data()
-      vendor_name = d['vendor_name']
+      #vendor_name = d['vendor_name']
       create_new = d['create_new']
       d['create_new'] = not create_new
-      print(f"Flag for {vendor_name} was {create_new}. Changed to {not create_new}")
+      #print(f"Flag for {vendor_name} was {create_new}. Changed to {not create_new}")
       cell.getRow().toggleSelect()
       
 
