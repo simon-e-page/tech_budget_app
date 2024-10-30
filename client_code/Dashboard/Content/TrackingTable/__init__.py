@@ -221,7 +221,9 @@ class TrackingTable(TrackingTableTemplate):
   # Vendor Formatter
   def vendor_formatter(self, cell, **params):
     vendor_id = cell.getData()['vendor_id']
-    vendor = self.vendors.get(vendor_id)
+    vendor = self.vendors.get(vendor_id, 'Unknown Vendor')
+    if vendor == 'Unknown Vendor':
+      print(f"Error: Issue with Vnedor record: {vendor_id}")
 
     def open_vendor(sender, **event_args):
       print("Opening vendor: {0}".format(sender.tag.vendor_name))
