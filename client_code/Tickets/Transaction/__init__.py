@@ -92,7 +92,11 @@ class Transaction(TransactionTemplate):
   @property
   def vendor_id(self):
     if self.item['vendor'] is not None:
-      return self.item['vendor']['vendor_id']
+      vendor_id = self.item['vendor']['vendor_id']
+      if vendor_id in self.vendor_list:
+        return vendor_id
+      else:
+        return None
     else:
       return None
 
