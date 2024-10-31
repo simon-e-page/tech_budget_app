@@ -102,3 +102,35 @@ class VendorSelector(VendorSelectorTemplate):
 
   def get_data(self):
     return self.vendor_table.data
+
+  def check_vendor_table(self):
+    vendor_map = self.vendor_table.data
+    new_vendor_names = []
+    reverse_map = {}
+    vendor_aliases = []
+    ready = { x['vendor_name']: (x['suggested'] is not None) or x['create_new'] for x in vendor_map }
+    if not all(ready.values()):
+      not_ready = [ k for k,v in ready.items() if not v ]
+      alert(f"Cannot continue until these vendors have a valid option: {not_ready}!")
+      # TODO: highlight rows with errors?
+      ret = False
+    else:
+      new_vendor_names = [ x['vendor_name'] for x in vendor_map if x['create_new'] ]
+      
+      alias_map = {}
+      reverse_map = {}
+      for row in [ x for x in vendor_map if not x['create_new'] ]:
+        suggested_vendor = self.vendors.get_by_name(row['suggested'])
+        if suggested_vendor is None:
+          print(f"ERROR: Cannot find vendor entry for: {row['suggested']}")
+        else:
+          alias_list = alias_map.get(suggested_vendor.vendor_id, [])
+          alias_list.append(row['vendor_name'])
+          alias_map[suggested_vendor.vendor_id] = alias_list
+          reverse_map[row['vendor_name']] = suggested_vendor.vendor_name
+        
+      # Turn dict into records
+      vendor_aliases = [ { 'vendor_id': vendor_id, 'synonyms': alias_list } for vendor_id, alias_list in alias_map.items() ]
+      #print(f"Aliases: {self.vendor_aliases}")
+      ret = True
+    return (ret, new_vendor_names, reverse_map, vendor_aliases)

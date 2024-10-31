@@ -57,6 +57,11 @@ components:
     - name: vendor_selector
       properties: {}
       type: form:Tickets.BudgetLines.ImportActuals.VendorSelector
+    - event_bindings: {click: to_import_button_click}
+      layout_properties: {}
+      name: to_import_button
+      properties: {align: right, icon: 'fa:arrow-right', icon_align: right, role: primary-button, text: Next}
+      type: Button
     layout_properties: {grid_position: 'IIBISZ,SGGURO'}
     name: vendor_panel
     properties: {}
@@ -84,7 +89,7 @@ components:
       properties: {visible: false}
       type: form:TGQCF3WT6FVL2EM2:Tabulator
     layout_properties: {grid_position: 'IGRMYH,HBUTSB'}
-    name: linear_panel_1
+    name: import_panel
     properties: {}
     type: LinearPanel
   layout_properties: {full_width_row: true, grid_position: 'DJQSDV,QXCXEM'}

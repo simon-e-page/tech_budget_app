@@ -174,10 +174,19 @@ class ImportActuals(ImportActualsTemplate):
       try:
         new_data = self.importer.parse(year_month, file)
         self.new_entries = new_data['entries']
+        self.new_vendors = new_data.get('new_vendors',
+                                        [
+                                          {
+                                          'vendor_name': 'Test Vendor',
+                                          'suggested': 'Algolia',
+                                          'create_new': True
+                                          }
+                                        ]
+                                       )
         self.cost_centres = new_data['cost_centres']
         self.new_year_month = new_data['year_month']
         self.month_total = new_data['month_total']
-        self.render_table()
+        self.render_vendor_table()
       except Exception as e:
         alert("Error importing file! Check logs!")
         print(e)
@@ -186,7 +195,9 @@ class ImportActuals(ImportActualsTemplate):
     else:
       alert("Please choose another file!")
 
-  
+  def render_vendor_table(self):
+    self.vendor_selector.build_vendor_table(self.new_vendors)
+    
   def render_table(self):
 
     def vendor_formatter(cell, **params):
@@ -364,5 +375,9 @@ class ImportActuals(ImportActualsTemplate):
       except Exception:
         print(f"Error renaming vendor: {old_name} to {new_name}!")
         raise
+
+  def to_import_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    pass
 
 

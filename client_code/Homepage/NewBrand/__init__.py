@@ -66,7 +66,7 @@ class NewBrand(NewBrandTemplate):
     else:
       alert("Could not parse file!")
       
-    self.vendor_table.build_vendor_table()
+    self.vendor_table.build_vendor_table(self.item['new_vendors'])
     self.vendor_panel.visible = True
     self.refresh_data_bindings()
 
@@ -74,8 +74,9 @@ class NewBrand(NewBrandTemplate):
   
     
   
-  def build_import_table(self):
-
+  def build_import_table(self, vendor_map):
+    """ vendor_map should be a dictionary of replacement vendor_name for any vendors that are replaced on import """
+    
     def total_formatter(cell, **params):
       val = cell.get_value()
       return f"{val:,.0f}"
@@ -113,7 +114,7 @@ class NewBrand(NewBrandTemplate):
       if import_vendor_id != 0:
         new_row['vendor_name'] = self.vendors.get(import_vendor_id)['vendor_name']
       else:
-        new_row['vendor_name'] = self.reverse_map.get(import_vendor_name, import_vendor_name)
+        new_row['vendor_name'] = vendor_map.get(import_vendor_name, import_vendor_name)
       return new_row
       
     self.item['final_import_data'] = [ sub(x) for x in self.item['import_data']]
@@ -196,40 +197,18 @@ class NewBrand(NewBrandTemplate):
 
 
   
-  def check_vendor_table(self):
-    vendor_map = self.vendor_table.get_data()
-    ready = { x['vendor_name']: (x['suggested'] is not None) or x['create_new'] for x in vendor_map }
-    if not all(ready.values()):
-      not_ready = [ k for k,v in ready.items() if not v ]
-      alert(f"Cannot continue until these vendors have a valid option: {not_ready}!")
-      # TODO: highlight rows with errors?
-      ret = False
-    else:
-      self.new_vendor_names = [ x['vendor_name'] for x in vendor_map if x['create_new'] ]
-      print(f"New vendors: {self.new_vendor_names}")
-      self.alias_map = {}
-      self.reverse_map = {}
-      for row in [ x for x in vendor_map if not x['create_new'] ]:
-        suggested_vendor = self.vendors.get_by_name(row['suggested'])
-        if suggested_vendor is None:
-          print(f"ERROR: Cannot find vendor entry for: {row['suggested']}")
-        else:
-          alias_list = self.alias_map.get(suggested_vendor.vendor_id, [])
-          alias_list.append(row['vendor_name'])
-          self.alias_map[suggested_vendor.vendor_id] = alias_list
-          self.reverse_map[row['vendor_name']] = suggested_vendor.vendor_name
-        
-      # Turn dict into records
-      self.vendor_aliases = [ { 'vendor_id': vendor_id, 'synonyms': alias_list } for vendor_id, alias_list in self.alias_map.items() ]
-      #print(f"Aliases: {self.vendor_aliases}")
-      ret = True
-    return ret
 
   
   def goto_import_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    if self.check_vendor_table():
-      self.import_total, self.import_lines = self.build_import_table()
+    ret, new_vendor_names, reverse_map, vendor_aliases = self.vendor_table.check_vendor_table()
+    
+    # These objects are ready to submit to the final import
+    self.new_vendor_names = new_vendor_names
+    self.vendor_aliases = vendor_aliases
+    
+    if ret:
+      self.import_total, self.import_lines = self.build_import_table(reverse_map)
       self.import_panel.visible = True
       self.vendor_panel.visible = False
       self.refresh_data_bindings()
