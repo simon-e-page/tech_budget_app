@@ -197,16 +197,20 @@ class Homepage(HomepageTemplate):
       if action:
         result = new_brand_form.create_brand()
         if result:
-          Data.refresh()
           self.brand_dropdown.selected_value = result
+          Data.refresh(brand=result)
         else:
           self.brand_dropdown.selected_value = self.brand
-          
+          self.brand_dropdown.visible = False
+          return          
     else:
-      Data.CURRENT_BRAND = self.brand_dropdown.selected_value
+      Data.refresh(brand=self.brand_dropdown.selected_value)
       self.brand = Data.CURRENT_BRAND
+      self.current_year = Data.CURRENT_YEAR
+      
     self.brand_dropdown.visible = False
     self.refresh_data_bindings()
+    self.open_dashboard()
 
   def users_link_click(self, **event_args):
     """Open the 'Users' Form, by adding it to the "default" slot."""

@@ -175,17 +175,21 @@ def refresh_cache():
   REFRESH_UI = True
 
 
-def refresh():
+def refresh(brand=None):
   global FIN_YEARS, CURRENT_YEAR, BUDGET_YEAR, CURRENT_BRAND
-  if len(BRANDS)>0:
-    CURRENT_BRAND = BRANDS[0]['code']
+  if brand is None:
+    if len(BRANDS)>0:
+      CURRENT_BRAND = BRANDS[0]['code']
+    else:
+      CURRENT_BRAND = None
+      print("No Brands are configured!")
+      return
   else:
-    CURRENT_BRAND = None
-    print("No Brands are configured!")
-    return
+    CURRENT_BRAND = brand
     
   FIN_YEARS, BUDGET_YEAR, CURRENT_YEAR = anvil.server.call('Calendar', 'get_fin_years', CURRENT_BRAND)
   print(f"Fin Years: {FIN_YEARS}, Budget Year: {BUDGET_YEAR}, Current Year: {CURRENT_YEAR}")
+  
 
 
 def get_actuals_updated(year):
