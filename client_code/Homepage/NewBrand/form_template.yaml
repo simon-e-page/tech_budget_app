@@ -87,7 +87,7 @@ components:
   - components:
     - name: vendor_table
       properties: {}
-      type: form:TGQCF3WT6FVL2EM2:Tabulator
+      type: form:Tickets.BudgetLines.ImportActuals.VendorSelector
     name: flow_panel_7
     properties: {}
     type: FlowPanel

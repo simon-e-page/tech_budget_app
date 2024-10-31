@@ -66,92 +66,12 @@ class NewBrand(NewBrandTemplate):
     else:
       alert("Could not parse file!")
       
-    self.build_vendor_table()
+    self.vendor_table.build_vendor_table()
     self.vendor_panel.visible = True
     self.refresh_data_bindings()
 
 
   
-  def build_vendor_table(self):
-    vendor_list = self.vendors.get_dropdown()
-
-    def match_selected(sender, **event_args):
-      cell = sender.tag
-      d = cell.get_data()
-      vendor_name = d['vendor_name']
-      existing_vendor_id = sender.selected_value
-      manual_suggested_name = self.vendors.get(existing_vendor_id)['vendor_name']
-      d['suggested'] = manual_suggested_name
-      if cell.getRow().isSelected():
-        d['create_new'] = False
-        cell.getRow().deselect()
-        create_cell = cell.getRow().getCell('create_new')
-        create_cell.set_value(False)
-      print(f"Manual match: {vendor_name} -> {manual_suggested_name}")
-      
-    def format_suggested(cell, **params):
-      suggested_value = cell.get_value()
-      suggested_id = None      
-      if suggested_value:
-        suggested_id = self.vendors.get_by_name(suggested_value)['vendor_id']
-        print(f"{suggested_value} => ID: {suggested_id}")
-      obj = DropDown(items=vendor_list, include_placeholder=True, placeholder="Select Existing Vendor", tag=cell, selected_value=suggested_id)
-      obj.add_event_handler('change', match_selected)
-      return obj
-
-    def select_row(sender, **event_args):
-      cell = sender.tag
-      d = cell.get_data()
-      #vendor_name = d['vendor_name']
-      create_new = d['create_new']
-      d['create_new'] = not create_new
-      cell.getRow().getCell('suggested').set_value(None)
-      #print(f"Flag for {vendor_name} was {create_new}. Changed to {not create_new}")
-      cell.getRow().toggleSelect()
-      
-
-    def new_flag_formatter(cell, **params):
-      val = cell.get_value()
-      if val:
-        cell.getRow().select()
-      #vendor_name = cell.get_data()['vendor_name']
-      obj = CheckBox(checked=val, tag=cell)
-      obj.add_event_handler('change', select_row)
-      return obj
-      
-    columns = [
-      {
-        'title': 'New Vendor Name',
-        'field': 'vendor_name',
-        'width': 200,
-        'headerSort': False
-      }, 
-      {
-        'title': 'Suggested Match',
-        'field': 'suggested',
-        'headerSort': False,
-        'width': 200,
-        'formatter': format_suggested,
-      }, 
-      {
-        "title": "Create New Instead?",
-        "field": "create_new",
-        #"formatter": "tickCross",
-        "formatter": new_flag_formatter,
-        #"title_formatter": "rowSelection",
-        #"title_formatter_params": {"rowRange": "visible"},
-        "width": 150,
-        "hoz_align": "center",
-        "header_hoz_align": "center",
-        "header_sort": False,
-        #"editor": "tickCross",
-        #"cellClick": select_row,
-        #"cellClick": lambda e, cell: cell.getRow().toggleSelect(),
-      }            
-    ]
-
-    self.vendor_table.columns = columns
-    self.vendor_table.data = self.item['new_vendors']
     
   
   def build_import_table(self):
@@ -277,7 +197,7 @@ class NewBrand(NewBrandTemplate):
 
   
   def check_vendor_table(self):
-    vendor_map = self.vendor_table.data
+    vendor_map = self.vendor_table.get_data()
     ready = { x['vendor_name']: (x['suggested'] is not None) or x['create_new'] for x in vendor_map }
     if not all(ready.values()):
       not_ready = [ k for k,v in ready.items() if not v ]

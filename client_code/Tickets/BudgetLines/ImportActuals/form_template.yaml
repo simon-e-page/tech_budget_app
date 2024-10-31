@@ -54,6 +54,14 @@ components:
     properties: {}
     type: FlowPanel
   - components:
+    - name: vendor_selector
+      properties: {}
+      type: form:Tickets.BudgetLines.ImportActuals.VendorSelector
+    layout_properties: {grid_position: 'IIBISZ,SGGURO'}
+    name: vendor_panel
+    properties: {}
+    type: LinearPanel
+  - components:
     - data_bindings:
       - {code: 'f"Import Actuals for {self.new_year_month}: {len(self.new_entries)} rows"', property: text, writeback: false}
       layout_properties: {grid_position: 'USAPCI,BPEJDW'}

@@ -60,6 +60,7 @@ unique_ids:
     Settings.Reference: '1724904839518797258691536.122'
     Tickets.BudgetLines: '1717480909221978303826534.8241'
     Tickets.BudgetLines.ImportActuals: '1717820048970750783981212.4346'
+    Tickets.BudgetLines.ImportActuals.VendorSelector: '1730332374590329940227128.662'
     Tickets.Transaction: DVHICGP2CGK5DCPO3VCFWL5N3JRUEKIC
     Tickets.Transaction.TransactionEntries: '1716351811695359118225362.86285'
     Tickets.Transaction.VendorDetailTable: '1718943280217413675657219.53217'
