@@ -7,7 +7,7 @@ import anvil.media
 import datetime as dt
 
 from .... import Data
-from ....Data import CURRENT_YEAR, ImporterModel, VendorsModel, CURRENT_BRAND, TransactionsModel
+from ....Data import ImporterModel, VendorsModel, TransactionsModel
 
 MONTH = []
 
@@ -37,8 +37,8 @@ class ImportActuals(ImportActualsTemplate):
     self.vendors = VendorsModel.VENDORS
     self.transactions = TransactionsModel.get_transactions()
 
-    self.actuals_to_date = Data.get_actuals_updated(CURRENT_YEAR)
-    import_months = self.importer.get_import_months(CURRENT_YEAR)
+    self.actuals_to_date = Data.get_actuals_updated(Data.CURRENT_YEAR)
+    import_months = self.importer.get_import_months(Data.CURRENT_YEAR)
     self.download_months = [ (str(x), x) for x in import_months ]
 
     self.new_entries = []
@@ -46,9 +46,9 @@ class ImportActuals(ImportActualsTemplate):
     self.fin_year = None
     self.month_total = 0
     self.cost_centres = []
-    print(f"{self.actuals_to_date} vs {CURRENT_YEAR}")
+    print(f"{self.actuals_to_date} vs {Data.CURRENT_YEAR}")
     
-    if self.actuals_to_date == CURRENT_YEAR * 100 + 6:
+    if self.actuals_to_date == Data.CURRENT_YEAR * 100 + 6:
       self.next_month = 'Current year Actuals complete!'
     else:
       next_month = self.actuals_to_date + 1
@@ -124,7 +124,7 @@ class ImportActuals(ImportActualsTemplate):
           new_actual_lines.append({
             'vendor_name': vendor_name,
             'vendor_id': vendor_id,
-            'brand': CURRENT_BRAND,
+            'brand': Data.CURRENT_BRAND,
             'description': new_desc,
             'owner': owner,
             'transaction_type': 'Actual',
@@ -310,7 +310,16 @@ class ImportActuals(ImportActualsTemplate):
       entry_count = 0
       renamed = len(self.vendor_aliases)
 
-      entry_count = self.importer.import_first_budget(fin_year, self.new_vendor_names, self.vendor_aliases, transactions_with_entries)
+      ts = dt.datetime.now().strftime("%Y%m%D")
+      filename = self.file_loader.file.name
+      
+      defaults = {
+        'source': "actuals_import_{0}".format(ts),
+        'description': "New vendor for {0}".format(Data.CURRENT_BRAND),
+        'notes': "New vendor imported from {0} on {1}".format(filename, ts)
+      }
+      
+      entry_count = self.importer.import_first_budget(fin_year, self.new_vendor_names, self.vendor_aliases, transactions_with_entries, defaults)
       #if len(new_vendors)>0:
         #print(new_vendors)
       #  vendor_ids = self.add_new_vendors(new_vendors)
@@ -339,51 +348,51 @@ class ImportActuals(ImportActualsTemplate):
       return (False, 0, 0, 0, 0)
 
   
-  def add_new_vendors(self, new_vendors):
-    print(f"Adding {len(new_vendors)} vendors")
-    vendor_ids = []
-    for v_data in new_vendors:
-      new_vendor = self.vendors.blank(v_data)
-      try:
-        new_vendor.save_as_new()
-        self.vendors.add(new_vendor.vendor_id, new_vendor)
-        vendor_ids.append(new_vendor.vendor_id)
-      except ValueError as e:
-        print("Vendor already exists - ignoring!")
-        
-    return vendor_ids
+#  def add_new_vendors(self, new_vendors):
+#    print(f"Adding {len(new_vendors)} vendors")
+#    vendor_ids = []
+#    for v_data in new_vendors:
+#      new_vendor = self.vendors.blank(v_data)
+#      try:
+#        new_vendor.save_as_new()
+#        self.vendors.add(new_vendor.vendor_id, new_vendor)
+#        vendor_ids.append(new_vendor.vendor_id)
+#      except ValueError as e:
+#        print("Vendor already exists - ignoring!")
+#        
+#    return vendor_ids
 
-  def add_new_actual_lines(self, new_actual_lines):
-    print(f"Adding up to {len(new_actual_lines)} actual lines")
-    for a_data in new_actual_lines:
-      # Lookup vendor_id including if just created!
-      if a_data['vendor_id'] is None:
-        vendor = self.vendors.get_by_name(a_data['vendor_name'])
-        if vendor:
-          a_data['vendor_id'] = vendor.vendor_id
-        else:
-          print(f"Error finding vendor records for Actual! {a_data}")
-          
-      a_data.pop('vendor_name', None)
-    new_trans_ids = self.transactions.bulk_add(new_actual_lines, update=False)
-    return new_trans_ids
+#  def add_new_actual_lines(self, new_actual_lines):
+#    print(f"Adding up to {len(new_actual_lines)} actual lines")
+#    for a_data in new_actual_lines:
+#      # Lookup vendor_id including if just created!
+#      if a_data['vendor_id'] is None:
+#        vendor = self.vendors.get_by_name(a_data['vendor_name'])
+#        if vendor:
+#          a_data['vendor_id'] = vendor.vendor_id
+#        else:
+#          print(f"Error finding vendor records for Actual! {a_data}")
+#          
+#      a_data.pop('vendor_name', None)
+#    new_trans_ids = self.transactions.bulk_add(new_actual_lines, update=False)
+#    return new_trans_ids
 
   
-  def add_new_entries(self, new_entries):
-    print(f"Adding {len(new_entries)} new entries")
-    count = self.transactions.search_and_add_entries(entries=new_entries, overwrite=True)        
-    return count
+#  def add_new_entries(self, new_entries):
+#    print(f"Adding {len(new_entries)} new entries")
+#    count = self.transactions.search_and_add_entries(entries=new_entries, overwrite=True)        
+#    return count
 
-  def rename_vendors(self, renamed_vendors):
-    for old_name, new_name in renamed_vendors:
-      try:
-        v = self.vendors.get_by_name(old_name)
-        if v is not None:
-          v.vendor_name = new_name
-          v.save()
-      except Exception:
-        print(f"Error renaming vendor: {old_name} to {new_name}!")
-        raise
+#  def rename_vendors(self, renamed_vendors):
+#    for old_name, new_name in renamed_vendors:
+#      try:
+#        v = self.vendors.get_by_name(old_name)
+#        if v is not None:
+#          v.vendor_name = new_name
+#          v.save()
+#      except Exception:
+#        print(f"Error renaming vendor: {old_name} to {new_name}!")
+#        raise
 
   def to_import_button_click(self, **event_args):
     """This method is called when the button is clicked"""
