@@ -198,15 +198,21 @@ class ImportActuals(ImportActualsTemplate):
   def render_vendor_table(self):
     self.vendor_selector.build_vendor_table(self.new_vendors)
     
-  def render_table(self):
+  def render_table(self, vendor_map):
 
     def vendor_formatter(cell, **params):
       data = cell.get_data()
       vendor_id = data['vendor_id']
       vendor_name = cell.get_value()
-      if vendor_id is None:
-        vendor_name = f"<b>*{vendor_name}*</b>"
-      return vendor_name
+      new_vendor_name = vendor_map.get(vendor_name, vendor_name)
+      if vendor_name != new_vendor_name:
+        vendor_label = Label(text=new_vendor_name, foreground="orange", bold=True)
+      elif vendor_id is None:
+        #new_vendor_name = f"<b>*{new_vendor_name}*</b>"
+        vendor_label = Label(text=new_vendor_name, foreground="green", bold=True)
+      else:
+        vendor_label = Label(text=new_vendor_name)
+      return vendor_label
     
     columns = [
       { 
@@ -295,35 +301,38 @@ class ImportActuals(ImportActualsTemplate):
   def run_import(self):
     ret = alert(self, title="Import Actuals", buttons=(("Import", True), ("Cancel", False)), large=True)
     if ret:
-      new_vendors, renamed_vendors, new_actual_lines, new_entries = self.get_new_entries()
+      #new_vendors, renamed_vendors, new_actual_lines, new_entries = self.get_new_entries()
+      transactions_with_entries = self.get_import_data()
       fin_year, year_month = self.get_year_month()
 
-      vendor_ids = []
-      actual_line_ids = []
+      vendor_ids = len(self.new_vendor_names)
+      actual_line_ids = len(transactions_with_entries)
       entry_count = 0
-      
-      if len(new_vendors)>0:
+      renamed = len(self.vendor_aliases)
+
+      entry_count = self.importer.import_first_budget(fin_year, self.new_vendor_names, self.vendor_aliases, transactions_with_entries)
+      #if len(new_vendors)>0:
         #print(new_vendors)
-        vendor_ids = self.add_new_vendors(new_vendors)
+      #  vendor_ids = self.add_new_vendors(new_vendors)
 
-      if len(renamed_vendors)>0:
-        renamed = self.rename_vendors(renamed_vendors)
-      else:
-        renamed = 0
+      #if len(renamed_vendors)>0:
+      #  renamed = self.rename_vendors(renamed_vendors)
+      #else:
+      #  renamed = 0
         
-      if len(new_actual_lines)>0:
+      #if len(new_actual_lines)>0:
         #print(new_actual_lines)
-        actual_line_ids = self.add_new_actual_lines(new_actual_lines)
+      #  actual_line_ids = self.add_new_actual_lines(new_actual_lines)
         
-      if len(new_entries)>0:
-        print(new_entries)
-        self.transactions.delete_entries(year_month=year_month)
-        entry_count = self.add_new_entries(new_entries)
+      #if len(new_entries)>0:
+      ##  print(new_entries)
+      #  self.transactions.delete_entries(year_month=year_month)
+      #  entry_count = self.add_new_entries(new_entries)
 
-      if len(vendor_ids)>0 or len(actual_line_ids)>0 or entry_count>0:
-        fin_year, year_month = self.get_year_month()
-        if fin_year is not None and year_month is not None:
-          Data.actuals_updated(year=fin_year, year_month=year_month)
+      ##if len(vendor_ids)>0 or len(actual_line_ids)>0 or entry_count>0:
+      #  fin_year, year_month = self.get_year_month()
+      #  if fin_year is not None and year_month is not None:
+      #    Data.actuals_updated(year=fin_year, year_month=year_month)
 
       return (True, len(vendor_ids), renamed, len(actual_line_ids), entry_count)
     else:
@@ -378,6 +387,14 @@ class ImportActuals(ImportActualsTemplate):
 
   def to_import_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    pass
+    result, new_vendor_names, vendor_map, vendor_aliases = self.vendor_selector.check_vendor_table()
 
+    # These are ready to submit to the final import
+    self.new_vendor_names = new_vendor_names
+    self.vendor_aliases = vendor_aliases
+
+    if result:
+      self.vendor_panel.visible = False
+      self.render_table(vendor_map)
+      
 
