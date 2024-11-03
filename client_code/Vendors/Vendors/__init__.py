@@ -168,8 +168,6 @@ class Vendors(VendorsTemplate):
   def new_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     vendor_form = Vendor(item=self.vendors.blank(), show_save=False)
-    ret = alert(vendor_form, large=True, title="New Vendor", buttons=[ ('OK', True), ('Cancel', False) ])
-    if ret:
-      vendor_form.save(new=True)
+    if vendor_form.show(title="New Vendor", new=True):
       self.refresh_tables()
 

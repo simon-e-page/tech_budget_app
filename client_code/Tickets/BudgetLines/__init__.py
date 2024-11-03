@@ -123,20 +123,17 @@ class BudgetLines(BudgetLinesTemplate):
 
     
     def vendor_formatter(cell, **params):
-      #vendor = cell.getData()['vendor']
       vendor_name = cell.get_value()
       vendor = self.vendors.get_by_name(vendor_name)
   
       def open_vendor(sender, **event_args):
         print("Opening vendor: {0}".format(sender.tag.vendor_name))
-        ret = alert(Vendor(item=sender.tag, show_save=False), large=True, title="Vendor Details", buttons=[ ('Save Changes', True), ('Cancel', False) ])
-        if ret:
-          try:
-            vendor.update()
-            self.reload()
-            self.refresh_tables()
-          except Exception as e:
-            print("Failed to update Vendor!")
+        vendor_form = Vendor(item=sender.tag, show_save=False)        
+        if vendor_form.show(title=sender.tag.vendor_name):
+          #ret = alert(, large=True, title="Vendor Details", buttons=[ ('Save Changes', True), ('Cancel', False) ])
+            #vendor.update()
+          self.reload()
+          self.refresh_tables()
         return
 
       link = Link(text=vendor_name, tag=vendor)
@@ -306,6 +303,7 @@ class BudgetLines(BudgetLinesTemplate):
     
     self.budget_lines_table.columns = columns
     self.budget_lines_table.data = self.budget_data
+    self.budget_lines_table.set_sort('vendor_name', 'asc')
 
 
   def budget_lines_table_cell_edited(self, cell, **event_args):

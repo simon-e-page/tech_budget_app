@@ -190,7 +190,12 @@ class Vendor(VendorTemplate):
         alert(f"Error saving vendor! {e}")
        
       
-
+  def show(self, title=None, new=False):
+    if title is None:
+      title = "Vendor Details"
+    ret = alert(self, large=True, title=title, buttons=[ ('Save Changes', True), ('Cancel', False) ])
+    if ret:
+      self.save(new=new)
 
 
 
