@@ -6,12 +6,15 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
+from ..... import Data
 from .....Data import VendorsModel
 
 class TransactionReview(TransactionReviewTemplate):
   def __init__(self, **properties):
     self.vendors = VendorsModel.VENDORS
     self.final_import_data = None
+
+    self.lifecycles = Data.LIFECYCLES_DD
     
     self.entry_table.options = {
       'selectable': "highlight",
@@ -33,7 +36,21 @@ class TransactionReview(TransactionReviewTemplate):
     # Any code you write here will run before the form opens.
   def build_entry_table(self, vendor_map):
     """ vendor_map should be a dictionary of replacement vendor_name for any vendors that are replaced on import (deprecated) """
-    
+
+    def dropdown_formatter(cell, **params):
+      def dd_changed(sender, **event_args):
+        cell = sender.tag
+        field = cell.getField()
+        desc = cell.get_data()['description']
+        old_value = cell.get_value()
+        new_value = sender.selected_value
+        print(f"Got change in {field} for {desc}. From {old_value} to {new_value}")
+        
+      val = cell.get_value()
+      dd = DropDown(items=params['items'], placeholder=params['placeholder'], tag=cell, selected_value=val)
+      dd.add_event_handler('change', dd_changed)
+      return dd
+      
     def total_formatter(cell, **params):
       val = cell.get_value()
       return f"{val:,.0f}"
@@ -42,13 +59,46 @@ class TransactionReview(TransactionReviewTemplate):
       {
         'title': 'Description',
         'field': 'description',
-        'width': 200,
+        'width': 220,
       },
       {
         'title': 'Vendor',
         'field': 'vendor_name',
         'width': 200,
       },
+      {
+        'title': 'Cost Centre',
+        'field': 'cost_centre',
+        'width': 100,
+      },
+      {
+        'title': 'Lifecycle',
+        'field': 'lifecycle',
+        'width': 150,
+        'formatter': dropdown_formatter,
+        'formatter_params': { 'items': self.lifecycles, 'placeholder': "Select Lifecycle" }
+      },
+      {
+        'title': 'Account',
+        'field': 'account_code',
+        'width': 150,
+      },
+      {
+        'title': 'Category',
+        'field': 'category',
+        'width': 150,
+      },
+      {
+        'title': 'Service Change',
+        'field': 'service_change',
+        'width': 150,
+      },
+      {
+        'title': 'Billing',
+        'field': 'billing_type',
+        'width': 150,
+      },
+      
       {
         'title': 'Total',
         'field': 'total',
@@ -68,12 +118,14 @@ class TransactionReview(TransactionReviewTemplate):
       import_vendor_name = row['vendor_name']
       import_vendor_id = row['vendor_id']
       new_row = row.copy()
-      if import_vendor_id != 0:
+      if (import_vendor_id is not None) and (import_vendor_id != 0):
         new_row['vendor_name'] = self.vendors.get(import_vendor_id)['vendor_name']
-      elif new_row.get('mapped_vendor', None) is not None:
-        new_row['vendor_name'] = new_row['mapped_vendor']    
-      else:
+      elif vendor_map is not None:
+        # TODO: remove!
+        print(f"WARNING: Called vendor_map with {import_vendor_name}!")
         new_row['vendor_name'] = vendor_map.get(import_vendor_name, import_vendor_name)
+      else:
+        new_row['vendor_name'] = import_vendor_name 
       return new_row
       
     self.final_import_data = [ sub(x) for x in self.import_data ]

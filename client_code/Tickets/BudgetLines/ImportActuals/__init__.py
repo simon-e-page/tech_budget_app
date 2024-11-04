@@ -44,8 +44,11 @@ class ImportActuals(ImportActualsTemplate):
     self.new_entries = []
     self.new_year_month = None
     self.fin_year = None
-    self.month_total = 0
+    self.month_total = 0.0
+    self.import_total = 0.0
     self.cost_centres = []
+    self.transactions_with_entries = []
+    self.new_data = {}
     print(f"{self.actuals_to_date} vs {Data.CURRENT_YEAR}")
     
     if self.actuals_to_date == Data.CURRENT_YEAR * 100 + 6:
@@ -69,85 +72,6 @@ class ImportActuals(ImportActualsTemplate):
     else:
       return self.fin_year, self.new_year_month
       
-#  def get_new_entries(self):
-#    """ Returns new vendors, actual_lines and entries from import that need to be created """
-#    if self.new_entries is None or len(self.new_entries)==0:
-#      return [], [], []
-#
-#    start = dt.datetime.now()
-#    
-#    new_vendors = []
-#    renamed_vendors = {}
-#    new_actual_lines = []
-#    new_entries = []
-#      
-#    year = int(str(self.new_year_month)[0:4])
-#    month = int(str(self.new_year_month)[4:])
-#    fin_year = year + int(month>6)
-#    self.fin_year = fin_year
-#    owner = anvil.users.get_user()['email']
-#    timestamp = dt.date(year, month, 1)
-    
-#    for r in self.new_entries:
-#      print(f"Working on {r['vendor_name']}")
-#      
-#      if not r['existing_vendor']:
-#        if r['mapped_vendor'] is None:
-#          # Add new vendor
-#          new_vendors.append({
-#            'vendor_name': r['vendor_name'],
-#            'description': 'New Vendor from Finance System',
-#            'from_finance_system': True,
-#            'notes': f"Created by Finance Import in month: {self.new_year_month}"
-#          })
-#          vendor_id = None
-#        else:
-#          # Rename a different but existing vendor to the name provided by Finance
-#          renamed_vendors[r['mapped_vendor']] = r['vendor_name']
-#          vendor_id = self.vendors.get_by_name(r['mapped_vendor']).vendor_id
-#      else:
-#        vendor_id = r['vendor_id']
-#        
-#      vendor_name = r['vendor_name']
-#      
-#      for c in self.cost_centres:
-#        
-#        new_desc = f"Finance System Actuals - {c}"
-#        key = f"{vendor_name}_{new_desc}"
-#
-#        # Only try and add Actuals for non-zero values
-#        if r.get(c, 0.0) != 0.0:
-#          new_actual_lines.append({
-#            'vendor_name': vendor_name,
-#            'vendor_id': vendor_id,
-#            'brand': Data.CURRENT_BRAND,
-#            'description': new_desc,
-#            'owner': owner,
-#            'transaction_type': 'Actual',
-#            'cost_centre': c,
-#            'source': 'finance import',
-#            'account_code': 'Software Maintenance',
-#            'service_change': 'Organic growth',
-#            'lifecycle': 'New - Discretionary',
-#            'category': 'Operations',
-#            'import_id': str(self.new_year_month)
-#          })
-#          
-#          new_entries.append({
-#            'transaction_id': None,
-#            'transaction_type': 'Actual',
-#            'key': key,
-#            'timestamp': timestamp,
-#            'fin_year': fin_year,
-#            'year_month': self.new_year_month,
-#            'amount': r[c]
-#          })
-#
-#    end = dt.datetime.now()
-#    dur = (end-start).seconds
-#    print(f"Got entries prepared in: {dur}s")
-#    
-#    return new_vendors, renamed_vendors, new_actual_lines, new_entries
 
 
   def file_loader_change(self, file, **event_args):
@@ -185,15 +109,21 @@ class ImportActuals(ImportActualsTemplate):
     else:
       alert("Please choose another file!")
 
+
+  
   def render_vendor_table(self):
     self.vendor_selector.build_vendor_table(self.new_vendors)
     self.vendor_panel.visible = True
 
+
+  
   def render_transaction_review_table(self, vendor_map):
     fin_year, year_month = self.get_year_month()
     self.transactions_with_entries = self.importer.process(year_month, self.new_data)
-    self.transaction_review.import_data = self.new_data['entries']
-    self.transaction_review.build_entry_table(vendor_map)
+    self.transaction_review.import_data = self.transactions_with_entries
+    self.import_total, num_of_lines = self.transaction_review.build_entry_table(vendor_map)
+    self.import_panel.visible = True
+    self.refresh_data_bindings()
 
 
 
@@ -249,7 +179,7 @@ class ImportActuals(ImportActualsTemplate):
       print(transactions_with_entries)
       #entry_count = self.importer.commit(year_month, self.new_vendor_names, self.vendor_aliases, transactions_with_entries, defaults)
 
-      return (True, len(vendor_ids), renamed, len(actual_line_ids), entry_count)
+      return (True, vendor_ids, renamed, actual_line_ids, entry_count)
     else:
       return (False, 0, 0, 0, 0)
 
@@ -266,7 +196,7 @@ class ImportActuals(ImportActualsTemplate):
     if result:
       self.vendor_panel.visible = False
       self.new_data['new_vendors'] = self.new_vendors
-      self.render_transaction_review_table(vendor_map)
+      self.render_transaction_review_table(vendor_map=None)
       #self.render_table(vendor_map)
       
 

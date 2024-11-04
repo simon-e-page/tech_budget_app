@@ -69,19 +69,20 @@ components:
   - components:
     - components:
       - data_bindings:
-        - {code: 'f"Import Actuals for {self.new_year_month}: {len(self.new_entries)} rows"', property: text, writeback: false}
+        - {code: 'f"Import Actuals for {self.new_year_month}: {len(self.transactions_with_entries)} rows"', property: text, writeback: false}
         layout_properties: {grid_position: 'USAPCI,BPEJDW'}
         name: import_title
         properties: {visible: true}
         type: Label
       - data_bindings:
-        - {code: 'f"YTD Total: {self.month_total:,.0f}"', property: text, writeback: false}
+        - {code: 'f"Import total: {self.import_total:,.0f} YTD Total: {self.month_total:,.0f}"', property: text, writeback: false}
         layout_properties: {grid_position: 'USAPCI,CZLNYI'}
         name: total_label
         properties: {align: right}
         type: Label
+      layout_properties: {}
       name: label_panel
-      properties: {visible: false}
+      properties: {visible: true}
       type: ColumnPanel
     - name: transaction_review
       properties: {}

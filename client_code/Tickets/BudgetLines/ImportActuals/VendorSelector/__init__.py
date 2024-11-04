@@ -12,6 +12,7 @@ from .....Data import VendorsModel
 class VendorSelector(VendorSelectorTemplate):
   def __init__(self, **properties):
     self.vendors = VendorsModel.VENDORS
+    self.vendor_list = self.vendors.get_dropdown(import_ignore=False)
     
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -20,7 +21,7 @@ class VendorSelector(VendorSelectorTemplate):
 
   
   def build_vendor_table(self, data):
-    vendor_list = self.vendors.get_dropdown()
+    vendor_list = self.vendor_list
 
     def match_selected(sender, **event_args):
       cell = sender.tag

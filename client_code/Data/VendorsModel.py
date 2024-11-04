@@ -132,13 +132,14 @@ class Vendors(AttributeToDict):
   def blank(self, vendor_data=None):
     return Vendor(vendor_json=vendor_data)
 
-  def get_dropdown(self, finance_field=False, exclude=None):
+  def get_dropdown(self, finance_field=False, exclude=None, **filters):
     if exclude is None:
       exclude = []
 
     exclude_set = set(exclude)
 
-    sorted_by_name = sorted(self.__d__.values(), key=lambda vendor: vendor.vendor_name)
+    filtered = { k: v for k,v in self.__d__.items() if all(v.get(filter_key, None)==filter_value for filter_key, filter_value in filters.items()) }
+    sorted_by_name = sorted(filtered.values(), key=lambda vendor: vendor.vendor_name)
     
     if not finance_field:
       vendor_set = set(x.vendor_name for x in sorted_by_name)
