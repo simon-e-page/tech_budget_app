@@ -8,27 +8,6 @@ from ..Data import get_actuals_updated, actuals_updated
 #####################################################################
 # IMPORTER
 #####################################################################
-MONTH_TO_NUMBER = {
-    "Jan": 1,
-    "Feb": 2,
-    "Mar": 3,
-    "Apr": 4,
-    "May": 5,
-    "Jun": 6,
-    "Jul": 7,
-    "Aug": 8,
-    "Sep": 9,
-    "Oct": 10,
-    "Nov": 11,
-    "Dec": 12
-}
-
-# Examp
-
-FILENAME_PATTERNS = {
-  r"FY\d\d IT Spend - \b(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{4})\b.xlsx": 'JB_AU',
-  r"FY\d\d IT Spend - \b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{4})\b.xlsx": 'JB_AU',
-}
 
 class Importer:
   def parse(self, year_month, file_obj):
@@ -80,14 +59,14 @@ class Importer:
 
   def get_import_months(self, fin_year = None, brand = None):
     if brand is None:
-      brand = CURRENT_BRAND
+      brand = Data.CURRENT_BRAND
     if fin_year is None:
-      fin_year = CURRENT_YEAR
+      fin_year = Data.CURRENT_YEAR
     return anvil.server.call("Importer", 'list_import_files', brand=brand, fin_year=fin_year)
 
   def get_import_file(self, year_month, brand = None):
     if brand is None:
-      brand = CURRENT_BRAND
+      brand = Data.CURRENT_BRAND
     try:
       file_obj = anvil.server.call("Importer", 'get_import_file', brand=brand, year_month=year_month)
     except Exception:
