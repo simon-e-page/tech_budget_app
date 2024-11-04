@@ -48,27 +48,32 @@ class Importer:
     return patterns
   
   def check_brand(self, filename):
-    patterns = self.get_filename_patterns()
-    #patterns = [ pattern for pattern,brand in self.get_filename_patterns() if brand == CURRENT_BRAND ]
-    match = False
-    ret = None
-    
-    for pattern in patterns:
-      match = re.search(pattern, filename)
-      if match:
-        month = match.group(1)[0:3]  # The month is the first group in the pattern - shorten to first three characters
-        year = match.group(2)   # The year is the second group in the pattern
-        month_num = MONTH_TO_NUMBER[month]
-        year_month = (int(year) * 100) + MONTH_TO_NUMBER[month]
-        fin_year = int(year) + int(month_num>6)
-        print(f"Selected file matches Brand {Data.CURRENT_BRAND} and is for {year_month} in the {fin_year} financial year")
-        ret = year_month
-        break
-        
-    if not match:
+    year_month = anvil.server.call('Importer', 'check_filename_patterns', brand=Data.CURRENT_BRAND, filename=filename)
+    if year_month is None:
       print(f"Filename does not match expected pattern(s) for {Data.CURRENT_BRAND}!")
+    return year_month
+    
+    #patterns = self.get_filename_patterns()
+    #patterns = [ pattern for pattern,brand in self.get_filename_patterns() if brand == CURRENT_BRAND ]
+    #match = False
+    #ret = None
+    
+    #for pattern in patterns:
+    #  match = re.search(pattern, filename)
+    #  if match:
+    #    month = match.group(1)[0:3]  # The month is the first group in the pattern - shorten to first three characters
+    #    year = match.group(2)   # The year is the second group in the pattern
+    #    month_num = MONTH_TO_NUMBER[month]
+    #    year_month = (int(year) * 100) + MONTH_TO_NUMBER[month]
+    #    fin_year = int(year) + int(month_num>6)
+    #    print(f"Selected file matches Brand {Data.CURRENT_BRAND} and is for {year_month} in the {fin_year} financial year")
+    #    ret = year_month
+    #    break
+        
+    #if not match:
+      
 
-    return ret
+    #return ret
     
   def get_import_ids(self, brand):
     return [] #anvil.server.call('get_import_ids', account_name)
