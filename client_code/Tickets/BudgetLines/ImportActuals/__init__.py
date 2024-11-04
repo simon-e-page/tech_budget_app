@@ -171,8 +171,9 @@ class ImportActuals(ImportActualsTemplate):
         process = True
         
     if process:
+      #try:
+      new_data = self.importer.parse(year_month, file)
       try:
-        new_data = self.importer.parse(year_month, file)
         self.new_entries = new_data['entries']
         self.new_vendors = new_data.get('new_vendors',
                                         [
