@@ -15,6 +15,11 @@ class TransactionReview(TransactionReviewTemplate):
     self.final_import_data = None
 
     self.lifecycles = Data.LIFECYCLES_DD
+    self.account_codes = Data.ACCOUNT_CODES_DD
+    self.service_changes = Data.SERVICE_CHANGES_DD
+    self.billing_types = Data.BILLING_TYPES_DD
+    self.categories = Data.CATEGORIES_DD
+    
     
     self.entry_table.options = {
       'selectable': "highlight",
@@ -37,7 +42,7 @@ class TransactionReview(TransactionReviewTemplate):
   def build_entry_table(self, vendor_map):
     """ vendor_map should be a dictionary of replacement vendor_name for any vendors that are replaced on import (deprecated) """
 
-    def dropdown_formatter(cell, **params):
+    def dropdown_formatter(cell, items, placeholder, **params):
       def dd_changed(sender, **event_args):
         cell = sender.tag
         field = cell.getField()
@@ -47,7 +52,7 @@ class TransactionReview(TransactionReviewTemplate):
         print(f"Got change in {field} for {desc}. From {old_value} to {new_value}")
         
       val = cell.get_value()
-      dd = DropDown(items=params['items'], placeholder=params['placeholder'], tag=cell, selected_value=val)
+      dd = DropDown(items=items, placeholder=placeholder, tag=cell, selected_value=val)
       dd.add_event_handler('change', dd_changed)
       return dd
       
@@ -76,27 +81,35 @@ class TransactionReview(TransactionReviewTemplate):
         'field': 'lifecycle',
         'width': 150,
         'formatter': dropdown_formatter,
-        'formatter_params': { 'items': self.lifecycles, 'placeholder': "Select Lifecycle" }
+        'formatterParams': { 'items': self.lifecycles, 'placeholder': "Select Lifecycle" }
       },
       {
         'title': 'Account',
         'field': 'account_code',
         'width': 150,
+        'formatter': dropdown_formatter,
+        'formatterParams': { 'items': self.account_codes, 'placeholder': "Select Account Code" }
       },
       {
         'title': 'Category',
         'field': 'category',
         'width': 150,
+        'formatter': dropdown_formatter,
+        'formatterParams': { 'items': self.categories, 'placeholder': "Select Category" }
       },
       {
         'title': 'Service Change',
         'field': 'service_change',
         'width': 150,
+        'formatter': dropdown_formatter,
+        'formatterParams': { 'items': self.service_changes, 'placeholder': "Select Service Change" }
       },
       {
         'title': 'Billing',
         'field': 'billing_type',
         'width': 150,
+        'formatter': dropdown_formatter,
+        'formatterParams': { 'items': self.billing_types, 'placeholder': "Select Billing Type" }
       },
       
       {
