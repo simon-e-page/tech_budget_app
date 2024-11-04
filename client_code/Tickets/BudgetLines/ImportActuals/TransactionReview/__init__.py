@@ -115,6 +115,7 @@ class TransactionReview(TransactionReviewTemplate):
       {
         'title': 'Total',
         'field': 'total',
+        'hozAlign': 'right',
         'width': 100,
         'formatter': total_formatter
         

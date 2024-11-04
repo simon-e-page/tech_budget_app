@@ -114,6 +114,9 @@ class ImportActuals(ImportActualsTemplate):
   def render_vendor_table(self):
     self.vendor_selector.build_vendor_table(self.new_vendors)
     self.vendor_panel.visible = True
+    self.prior_panel.visible = False
+    self.select_panel.visible = False
+    self.refresh_data_bindings()
 
 
   
@@ -198,5 +201,20 @@ class ImportActuals(ImportActualsTemplate):
       self.new_data['new_vendors'] = self.new_vendors
       self.render_transaction_review_table(vendor_map=None)
       #self.render_table(vendor_map)
+
+  
+  def back_to_vendor_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.import_panel.visible = False
+    self.vendor_panel.visible = True
+
+
+  
+  def back_to_select_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.vendor_panel.visible = False
+    self.select_panel.visible = True
+    self.prior_panel.visible = True
+    self.file_loader.clear()
       
 
