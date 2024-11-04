@@ -103,6 +103,7 @@ class VendorSelector(VendorSelectorTemplate):
 
     self.vendor_table.columns = columns
     self.vendor_table.data = data
+    self.vendor_table.set_sort('vendor_name', 'asc')
 
   def get_data(self):
     return self.vendor_table.data
