@@ -37,8 +37,9 @@ components:
   - components:
     - data_bindings:
       - {code: '"Next month to import: {0}".format(self.next_month)', property: text, writeback: false}
+      layout_properties: {}
       name: label_2
-      properties: {}
+      properties: {icon: ''}
       type: Label
     - event_bindings: {change: file_loader_change}
       layout_properties: {}

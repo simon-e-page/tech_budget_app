@@ -124,7 +124,7 @@ class ImportActuals(ImportActualsTemplate):
     fin_year, year_month = self.get_year_month()
     self.transactions_with_entries = self.importer.process(year_month, self.new_data)
     self.transaction_review.import_data = self.transactions_with_entries
-    self.import_total, num_of_lines = self.transaction_review.build_entry_table(vendor_map)
+    self.import_total, num_of_lines = self.transaction_review.build_entry_table(vendor_map, year_month=year_month)
     self.import_panel.visible = True
     self.refresh_data_bindings()
 

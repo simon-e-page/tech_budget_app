@@ -13,7 +13,8 @@ class TransactionReview(TransactionReviewTemplate):
   def __init__(self, **properties):
     self.vendors = VendorsModel.VENDORS
     self.final_import_data = None
-
+    self.year_month = None
+    
     self.lifecycles = Data.LIFECYCLES_DD
     self.account_codes = Data.ACCOUNT_CODES_DD
     self.service_changes = Data.SERVICE_CHANGES_DD
@@ -39,18 +40,20 @@ class TransactionReview(TransactionReviewTemplate):
     self._import_data = import_data
     
     # Any code you write here will run before the form opens.
-  def build_entry_table(self, vendor_map):
+  def build_entry_table(self, vendor_map, year_month):
     """ vendor_map should be a dictionary of replacement vendor_name for any vendors that are replaced on import (deprecated) """
 
+    def dd_changed(sender, **event_args):
+      cell = sender.tag
+      field = cell.getField()
+      data = cell.get_data()
+      desc = data['description']
+      old_value = cell.get_value()
+      new_value = sender.selected_value
+      data[field] = new_value
+      print(f"Got change in {field} for {desc}. From {old_value} to {new_value}")
+
     def dropdown_formatter(cell, items, placeholder, **params):
-      def dd_changed(sender, **event_args):
-        cell = sender.tag
-        field = cell.getField()
-        desc = cell.get_data()['description']
-        old_value = cell.get_value()
-        new_value = sender.selected_value
-        print(f"Got change in {field} for {desc}. From {old_value} to {new_value}")
-        
       val = cell.get_value()
       dd = DropDown(items=items, placeholder=placeholder, tag=cell, selected_value=val)
       dd.add_event_handler('change', dd_changed)
@@ -59,17 +62,42 @@ class TransactionReview(TransactionReviewTemplate):
     def total_formatter(cell, **params):
       val = cell.get_value()
       return f"{val:,.0f}"
-      
+
+    def desc_formatter(cell, year_month, **params):
+      val = cell.get_value()
+      data = cell.get_data()
+      import_id = data['import_id']
+      if str(year_month) == import_id:
+        icon = "fa:star"
+      else:
+        icon = None
+      obj = Label(text=val, icon=icon)
+      return obj
+
+    def vendor_formatter(cell, **params):
+      val = cell.get_value()
+      data = cell.get_data()
+      vendor_id = data['vendor_id']
+      if vendor_id is None:
+        icon = "fa:star"
+      else:
+        icon = None
+      obj = Label(text=val, icon=icon)
+      return obj
+    
     columns = [
       {
         'title': 'Description',
         'field': 'description',
         'width': 220,
+        'formatter': desc_formatter,
+        'formatterParams': { 'year_month': year_month }
       },
       {
         'title': 'Vendor',
         'field': 'vendor_name',
         'width': 200,
+        'formatter': vendor_formatter,        
       },
       {
         'title': 'Cost Centre',

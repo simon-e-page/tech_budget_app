@@ -34,7 +34,9 @@ class VendorSelector(VendorSelectorTemplate):
         d['create_new'] = False
         cell.getRow().deselect()
         create_cell = cell.getRow().getCell('create_new')
-        create_cell.set_value(False)
+        obj = CheckBox(checked=False, tag=create_cell)
+        obj.add_event_handler('change', select_row)
+        create_cell.set_value(obj)
       print(f"Manual match: {vendor_name} -> {manual_suggested_name}")
       
     def format_suggested(cell, **params):
