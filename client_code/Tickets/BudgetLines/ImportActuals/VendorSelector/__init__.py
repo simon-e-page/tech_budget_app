@@ -32,11 +32,11 @@ class VendorSelector(VendorSelectorTemplate):
       d['suggested'] = manual_suggested_name
       if cell.getRow().isSelected():
         d['create_new'] = False
-        create_cell = cell.getRow().getCell('create_new')
-        obj = CheckBox(checked=False, tag=create_cell)
-        obj.add_event_handler('change', select_row)
-        create_cell.set_value(False)
-        create_cell.set_value(obj)
+        #create_cell = cell.getRow().getCell('create_new')
+        #obj = CheckBox(checked=False, tag=create_cell)
+        #obj.add_event_handler('change', select_row)
+        #create_cell.set_value(False)
+        #create_cell.set_value(obj)
         cell.getRow().deselect()
       print(f"Manual match: {vendor_name} -> {manual_suggested_name}")
       
@@ -54,8 +54,8 @@ class VendorSelector(VendorSelectorTemplate):
       obj.add_event_handler('change', match_selected)
       return obj
 
-    def select_row(sender, **event_args):
-      cell = sender.tag
+    def select_row(cell, **event_args):
+      #cell = sender.tag
       d = cell.get_data()
       #vendor_name = d['vendor_name']
       create_new = d['create_new']
@@ -92,15 +92,15 @@ class VendorSelector(VendorSelectorTemplate):
         "title": "Create New Instead?",
         "field": "create_new",
         #"formatter": "tickCross",
-        "formatter": new_flag_formatter,
-        #"title_formatter": "rowSelection",
-        #"title_formatter_params": {"rowRange": "visible"},
+        #"formatter": new_flag_formatter,
+        "title_formatter": "rowSelection",
+        "title_formatter_params": {"rowRange": "visible"},
         "width": 150,
         "hoz_align": "center",
         "header_hoz_align": "center",
         "header_sort": False,
         #"editor": "tickCross",
-        #"cellClick": select_row,
+        "cellClick": select_row,
         #"cellClick": lambda e, cell: cell.getRow().toggleSelect(),
       }            
     ]
