@@ -40,7 +40,11 @@ class VendorSelector(VendorSelectorTemplate):
       suggested_value = cell.get_value()
       suggested_id = None      
       if suggested_value:
-        suggested_id = self.vendors.get_by_name(suggested_value)['vendor_id']
+        suggested_vendor_obj = self.vendors.get_by_name(suggested_value)
+        if suggested_vendor_obj is not None:
+          suggested_id = suggested_vendor_obj['vendor_id']
+        else:
+          print(f"Issue looking up {suggested_value}!")
         print(f"{suggested_value} => ID: {suggested_id}")
       obj = DropDown(items=vendor_list, include_placeholder=True, placeholder="Select Existing Vendor", tag=cell, selected_value=suggested_id)
       obj.add_event_handler('change', match_selected)
