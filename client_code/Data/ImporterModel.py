@@ -2,7 +2,8 @@ import anvil.server
 import anvil.users
 import re
 
-from ..Data import CURRENT_BRAND, CURRENT_YEAR, get_actuals_updated, actuals_updated
+from .. import Data
+from ..Data import get_actuals_updated, actuals_updated
 
 #####################################################################
 # IMPORTER
@@ -32,7 +33,7 @@ FILENAME_PATTERNS = {
 class Importer:
   def parse(self, year_month, file_obj):
     try:
-      new_data = anvil.server.call('Importer', 'parse', CURRENT_BRAND, year_month, file_obj)
+      new_data = anvil.server.call('Importer', 'parse', Data.CURRENT_BRAND, year_month, file_obj)
     except Exception as e:
       print("Error importing file!")
       print(e)
@@ -41,7 +42,7 @@ class Importer:
 
   def get_filename_patterns(self, brand=None):
     if brand is None:
-      brand = CURRENT_BRAND
+      brand = Data.CURRENT_BRAND
 
     patterns = anvil.server.call('Importer', 'get_filename_patterns', brand=brand)
     return patterns
@@ -60,12 +61,12 @@ class Importer:
         month_num = MONTH_TO_NUMBER[month]
         year_month = (int(year) * 100) + MONTH_TO_NUMBER[month]
         fin_year = int(year) + int(month_num>6)
-        print(f"Selected file matches Brand {CURRENT_BRAND} and is for {year_month} in the {fin_year} financial year")
+        print(f"Selected file matches Brand {Data.CURRENT_BRAND} and is for {year_month} in the {fin_year} financial year")
         ret = year_month
         break
         
     if not match:
-      print(f"Filename does not match expected pattern(s) for {CURRENT_BRAND}!")
+      print(f"Filename does not match expected pattern(s) for {Data.CURRENT_BRAND}!")
 
     return ret
     
