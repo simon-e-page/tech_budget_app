@@ -19,8 +19,8 @@ class Importer:
       raise
     return new_data
 
-  def process(self, new_data):
-     return anvil.server.call('Importer', 'process', new_data)
+  def process(self, year_month, new_data):
+     return anvil.server.call('Importer', 'process', brand=Data.CURRENT_BRAND, year_month=year_month, new_data=new_data)
 
   def commit(self, new_data):
      return anvil.server.call('Importer', 'commit', new_data)
