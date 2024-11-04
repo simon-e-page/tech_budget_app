@@ -1,0 +1,7 @@
+components:
+- layout_properties: {full_width_row: true, grid_position: 'ZBRXIN,JYKGGX'}
+  name: entry_table
+  properties: {}
+  type: form:TGQCF3WT6FVL2EM2:Tabulator
+container: {type: ColumnPanel}
+is_package: true

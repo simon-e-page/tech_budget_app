@@ -67,34 +67,32 @@ components:
     properties: {}
     type: LinearPanel
   - components:
-    - data_bindings:
-      - {code: 'f"Import Actuals for {self.new_year_month}: {len(self.new_entries)} rows"', property: text, writeback: false}
-      layout_properties: {grid_position: 'USAPCI,BPEJDW'}
-      name: import_title
-      properties: {visible: true}
-      type: Label
-    - data_bindings:
-      - {code: 'f"YTD Total: {self.month_total:,.0f}"', property: text, writeback: false}
-      layout_properties: {grid_position: 'USAPCI,CZLNYI'}
-      name: total_label
-      properties: {align: right}
-      type: Label
-    layout_properties: {grid_position: 'TBVJBF,PKSJRJ'}
-    name: label_panel
-    properties: {visible: false}
-    type: ColumnPanel
-  - components:
-    - layout_properties: {}
-      name: imported_table
+    - components:
+      - data_bindings:
+        - {code: 'f"Import Actuals for {self.new_year_month}: {len(self.new_entries)} rows"', property: text, writeback: false}
+        layout_properties: {grid_position: 'USAPCI,BPEJDW'}
+        name: import_title
+        properties: {visible: true}
+        type: Label
+      - data_bindings:
+        - {code: 'f"YTD Total: {self.month_total:,.0f}"', property: text, writeback: false}
+        layout_properties: {grid_position: 'USAPCI,CZLNYI'}
+        name: total_label
+        properties: {align: right}
+        type: Label
+      name: label_panel
       properties: {visible: false}
-      type: form:TGQCF3WT6FVL2EM2:Tabulator
+      type: ColumnPanel
+    - name: transaction_review
+      properties: {}
+      type: form:Tickets.BudgetLines.ImportActuals.TransactionReview
     layout_properties: {grid_position: 'IGRMYH,HBUTSB'}
     name: import_panel
     properties: {}
     type: LinearPanel
   layout_properties: {full_width_row: true, grid_position: 'DJQSDV,QXCXEM'}
   name: column_panel_1
-  properties: {}
+  properties: {col_widths: '{"HBUTSB":60}'}
   type: ColumnPanel
 container: {type: ColumnPanel}
 is_package: true
