@@ -177,4 +177,7 @@ class TransactionReview(TransactionReviewTemplate):
 
   
   def get_final_import_data(self):
-    return self.entry_table.data
+    data = self.entry_table.data
+    # Make clean copy of proxylist object (from Tabulator)
+    data = [ dict(x) for x in self.entry_table.data ]
+    return data
