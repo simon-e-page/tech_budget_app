@@ -22,8 +22,8 @@ class Importer:
   def process(self, year_month, new_data):
      return anvil.server.call('Importer', 'process', brand=Data.CURRENT_BRAND, year_month=year_month, new_data=new_data)
 
-  def commit(self, new_data):
-     return anvil.server.call('Importer', 'commit', new_data)
+  def commit(self, year_month, new_vendor_names, vendor_aliases, transactions_with_entries, defaults):
+     return anvil.server.call('Importer', 'commit', Data.CURRENT_BRAND, year_month, new_vendor_names, vendor_aliases, transactions_with_entries, defaults)
 
   def get_filename_patterns(self, brand=None):
     if brand is None:
