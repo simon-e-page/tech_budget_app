@@ -184,5 +184,5 @@ class TransactionReview(TransactionReviewTemplate):
       alias_list = alias_map.get(cv['combine_with'], [])
       alias_list.append(cv['vendor_name'])
       alias_map[cv['combine_with']] = alias_list
-    vendor_aliases = [ { 'vendor_name': vendor_name, }]
-    return self.final_import_data
+    vendor_aliases = [ { 'vendor_name': vendor_name, 'synonyms': alias_list } for vendor_name, alias_list in alias_map.items() ]
+    return vendor_aliases, self.final_import_data
