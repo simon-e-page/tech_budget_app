@@ -177,4 +177,12 @@ class TransactionReview(TransactionReviewTemplate):
 
   
   def get_final_import_data(self):
+    data = self.final_import_data
+    combined_vendors = [ x for x in data if x['combine_with'] is not None ]
+    alias_map = {}
+    for cv in combined_vendors:
+      alias_list = alias_map.get(cv['combine_with'], [])
+      alias_list.append(cv['vendor_name'])
+      alias_map[cv['combine_with']] = alias_list
+    vendor_aliases = [ { 'vendor_name': vendor_name, }]
     return self.final_import_data

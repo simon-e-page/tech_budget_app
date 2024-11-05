@@ -158,17 +158,18 @@ class VendorSelector(VendorSelectorTemplate):
       alias_map = {}
       reverse_map = {}
       for row in [ x for x in vendor_map if not x['create_new'] ]:
-        suggested_vendor = self.vendors.get_by_name(row['suggested'])
+        suggested_vendor_name = row['suggested']
+        suggested_vendor = self.vendors.get_by_name(suggested_vendor_name)
         if suggested_vendor is None:
           print(f"ERROR: Cannot find vendor entry for: {row['suggested']}")
         else:
-          alias_list = alias_map.get(suggested_vendor.vendor_id, [])
+          alias_list = alias_map.get(suggested_vendor_name, [])
           alias_list.append(row['vendor_name'])
-          alias_map[suggested_vendor.vendor_id] = alias_list
-          reverse_map[row['vendor_name']] = suggested_vendor.vendor_name
+          alias_map[suggested_vendor_name] = alias_list
+          reverse_map[row['vendor_name']] = suggested_vendor_name
         
       # Turn dict into records
-      vendor_aliases = [ { 'vendor_id': vendor_id, 'synonyms': alias_list } for vendor_id, alias_list in alias_map.items() ]
+      vendor_aliases = [ { 'vendor_name': vendor_name, 'synonyms': alias_list } for vendor_name, alias_list in alias_map.items() ]
       #print(f"Aliases: {self.vendor_aliases}")
       ret = True
     return (ret, new_vendor_names, reverse_map, vendor_aliases)
