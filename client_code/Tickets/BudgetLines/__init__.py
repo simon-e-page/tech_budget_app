@@ -330,7 +330,7 @@ class BudgetLines(BudgetLinesTemplate):
     import_form = ImportActuals()
     (success, num_vendor_ids, num_renamed, num_actual_line_ids, num_entries) = import_form.run_import()
     if success:
-      alert(f"Successful import! {num_vendor_ids} new vendors, {num_renamed} existing vendors remapped, {num_actual_line_ids} Actual Lines and {num_entries} new entries created")
+      alert(f"Successful import! {num_vendor_ids} new vendors, synonyms added to {num_renamed} existing vendors, {num_actual_line_ids} Actual Lines and {num_entries} new entries created")
 
 
   def create_budget_button_click(self, **event_args):
