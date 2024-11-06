@@ -66,8 +66,7 @@ class TransactionReview(TransactionReviewTemplate):
     def desc_formatter(cell, year_month, **params):
       val = cell.get_value()
       data = cell.get_data()
-      import_id = data['import_id']
-      if str(year_month) == import_id:
+      if data['new']:
         icon = "fa:star"
       else:
         icon = None
