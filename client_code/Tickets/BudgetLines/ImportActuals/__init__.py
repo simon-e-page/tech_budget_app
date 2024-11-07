@@ -122,7 +122,17 @@ class ImportActuals(ImportActualsTemplate):
   
   def render_transaction_review_table(self, vendor_map):
     fin_year, year_month = self.get_year_month()
-    self.transactions_with_entries = self.importer.process(year_month, self.new_data)
+    
+    try:
+      self.transactions_with_entries = self.importer.process(year_month, self.new_data)
+    except ValueError as v_mesg:
+      alert(v_mesg)
+      return
+    except Exception as e:
+      alert("Import Error!")
+      print(e)
+      return
+      
     self.transaction_review.import_data = self.transactions_with_entries
     self.import_total, num_of_lines = self.transaction_review.build_entry_table(vendor_map, year_month=year_month)
     self.import_panel.visible = True
