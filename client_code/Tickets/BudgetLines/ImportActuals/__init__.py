@@ -55,9 +55,16 @@ class ImportActuals(ImportActualsTemplate):
     if self.actuals_to_date == Data.CURRENT_YEAR * 100 + 6:
       self.next_month = 'Current year Actuals complete!'
     else:
-      next_month = self.actuals_to_date + 1
-      month_label = month_number_to_name(int(str(next_month)[4:]))
-      year = str(next_month)[0:4]
+      actuals_month = self.actuals_to_date % 100
+      actuals_year = int(self.actuals_to_date / 100)
+      if actuals_month == 12:
+        month_label = month_number_to_name(1)
+        year = str(actuals_year + 1)
+      else:
+        month_label = month_number_to_name(actuals_month + 1)
+        year = str(actuals_year)
+      #month_label = month_number_to_name(int(str(next_month)[4:]))
+      #year = str(next_month)[0:4]
       self.next_month = f"{month_label} {year}"
 
     self.import_panel.visible = False
@@ -66,9 +73,6 @@ class ImportActuals(ImportActualsTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
-    progress = ProgressForm()
-    progress.initiate(1, 100, 1, 'Importer', 'test_func')
-    progress.begin()
     
     # Any code you write here will run before the form opens.
   def get_year_month(self):
@@ -197,7 +201,10 @@ class ImportActuals(ImportActualsTemplate):
       print(f"Transaction lines & Entries: {transactions_with_entries}")
 
       if confirm(f"About to create {vendor_ids} new vendors, {renamed} new synonyms, {actual_line_ids} new Actual Lines/Entries for {year_month}. Ready?"):
-        entry_count = self.importer.commit(year_month, self.new_vendor_names, self.vendor_aliases, transactions_with_entries, defaults)
+        #entry_count = self.importer.commit(year_month, self.new_vendor_names, self.vendor_aliases, transactions_with_entries, defaults)
+        progress = ProgressForm()
+        progress.initiate(1, len(transactions_with_entries), 1)
+        progress.begin(self.importer.commit_background, year_month, self.new_vendor_names, self.vendor_aliases, transactions_with_entries, defaults)
 
       return ((entry_count>0), vendor_ids, renamed, actual_line_ids, entry_count)
     else:

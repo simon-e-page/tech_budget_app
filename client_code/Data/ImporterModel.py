@@ -25,6 +25,9 @@ class Importer:
   def commit(self, year_month, new_vendor_names, vendor_aliases, transactions_with_entries, defaults):
      return anvil.server.call('Importer', 'commit', Data.CURRENT_BRAND, year_month, new_vendor_names, vendor_aliases, transactions_with_entries, defaults)
 
+  def commit_background(self, year_month, new_vendor_names, vendor_aliases, transactions_with_entries, defaults):
+    return anvil.server.call('Importer_launcher', '_background_commit', Data.CURRENT_BRAND, year_month, new_vendor_names, vendor_aliases, transactions_with_entries, defaults)
+    
   def get_filename_patterns(self, brand=None):
     if brand is None:
       brand = Data.CURRENT_BRAND

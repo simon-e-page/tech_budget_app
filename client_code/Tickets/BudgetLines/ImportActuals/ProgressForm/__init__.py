@@ -16,27 +16,44 @@ class ProgressForm(ProgressFormTemplate):
     self.init_components(**properties)
 
 
-  def initiate(self, start, end, interval, callback_obj, callback_func):
+  def initiate(self, start, end, interval):
     self.progress_bar.clear_progress()
     self.start = start
     self.current = start
     self.end = end
     self.progress_bar.value = 0
     self.interval = interval
-    self.callback_obj = callback_obj
-    self.callback_func = callback_func
     
 
-  def begin(self):
+  def begin(self, background_func, *args, **kwargs):
     def update(sender, **event_args):
-      new_val = Data.callback(self.callback_obj, self.callback_func)
-      if new_val >= self.end:
-        t.interval = 0
-        self.raise_event("x-close-alert", value=1)
-      else:
-        self.current = new_val
-        self.progress_bar.value = new_val
-        self.refresh_data_bindings()
+      try:
+        status = task.get_termination_status()
+        if status is None:
+          state_object = task.get_state()
+          if state_object is not None:
+            new_val = state_object.get('row_count')
+          else:
+            print("No state object!")
+            new_val = self.end
+
+          perc_complete = new_val / self.end * 100
+          self.current = new_val
+          self.progress_bar.value = perc_complete
+          self.refresh_data_bindings()
+          
+        elif status == "complete":
+          t.interval = 0
+          self.raise_event("x-close-alert", value=1)
+        else:
+          print("Error?")
+          t.interval = 0
+          self.raise_event("x-close-alert", value=0)
+      except Exception as e:
+        print(e)
+        self.raise_event("x-close-alert", value=0)
+
+    task = background_func(*args, **kwargs)
     
     t = Timer(interval=self.interval)
     t.add_event_handler('tick', update)
