@@ -45,8 +45,14 @@ class ProgressForm(ProgressFormTemplate):
         elif status == "complete":
           t.interval = 0
           self.raise_event("x-close-alert", value=1)
+        elif status == "failed":
+          print("Background error!")
+          task.get_error()
+          t.interval = 0
+          self.raise_event("x-close-alert", value=0)
         else:
-          print("Error?")
+          print(f"Error? {status}")
+          
           t.interval = 0
           self.raise_event("x-close-alert", value=0)
       except Exception as e:

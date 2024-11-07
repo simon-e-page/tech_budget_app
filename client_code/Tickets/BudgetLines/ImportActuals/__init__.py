@@ -60,9 +60,11 @@ class ImportActuals(ImportActualsTemplate):
       if actuals_month == 12:
         month_label = month_number_to_name(1)
         year = str(actuals_year + 1)
+        self.next_month_int = (actuals_year + 1) * 100 + 1
       else:
         month_label = month_number_to_name(actuals_month + 1)
         year = str(actuals_year)
+        self.next_month_int = (actuals_year) * 100 + actuals_month + 1
       #month_label = month_number_to_name(int(str(next_month)[4:]))
       #year = str(next_month)[0:4]
       self.next_month = f"{month_label} {year}"
@@ -89,9 +91,9 @@ class ImportActuals(ImportActualsTemplate):
     process = False
     
     if year_month is not None:
-      if year_month == self.actuals_to_date + 1:
+      if year_month == self.next_month_int:
         process = True
-      elif year_month > self.actuals_to_date + 1:
+      elif year_month > self.next_month_int:
         print(f"{year_month} > {self.actuals_to_date}??")
         alert(f"File is for for a non-consecutive future month! Please choose a file for {self.next_month}")
       elif year_month == self.actuals_to_date and confirm("Importing this file will overwrite existing records. Are you sure?"):
