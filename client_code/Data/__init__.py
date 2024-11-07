@@ -332,7 +332,14 @@ def create_import_config():
   if not ret:
     print("Failed to make initial import config!")
 
-    
+TEST_CALLBACK = 0
+
+def callback(callback_obj, callback_func):
+  #return anvil.server(callback_obj, callback_func)
+  global TEST_CALLBACK
+  TEST_CALLBACK += 1
+  return TEST_CALLBACK
+
 create_import_config()
 refresh()
 #obj = anvil.URLMedia("_/theme/{0}.png".format("JB_AU"))

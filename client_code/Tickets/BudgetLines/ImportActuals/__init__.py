@@ -8,6 +8,7 @@ import datetime as dt
 
 from .... import Data
 from ....Data import ImporterModel, VendorsModel, TransactionsModel
+from .ProgressForm import ProgressForm
 
 MONTH = []
 
@@ -65,6 +66,10 @@ class ImportActuals(ImportActualsTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
+    progress = ProgressForm()
+    progress.initiate(1, 100, 1, 'Importer', 'test_func')
+    progress.begin()
+    
     # Any code you write here will run before the form opens.
   def get_year_month(self):
     if self.new_entries is None or len(self.new_entries)==0:

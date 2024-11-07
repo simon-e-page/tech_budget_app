@@ -1,0 +1,17 @@
+components:
+- components:
+  - data_bindings:
+    - {code: 'f"{self.current} / {self.end}"', property: text, writeback: false}
+    name: progress_label
+    properties: {text: 1/100}
+    type: Label
+  layout_properties: {full_width_row: true, grid_position: 'EEACAQ,TIIZDP'}
+  name: flow_panel_1
+  properties: {}
+  type: FlowPanel
+- layout_properties: {full_width_row: true, grid_position: 'UZUZZZ,ODPXGH'}
+  name: progress_bar
+  properties: {}
+  type: form:USDM5ACADPPZ3V63:ProgressBar
+container: {type: ColumnPanel}
+is_package: true
