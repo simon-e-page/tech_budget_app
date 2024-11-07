@@ -206,8 +206,9 @@ class ImportActuals(ImportActualsTemplate):
         #entry_count = self.importer.commit(year_month, self.new_vendor_names, self.vendor_aliases, transactions_with_entries, defaults)
         progress = ProgressForm()
         progress.initiate(1, len(transactions_with_entries), 1)
-        progress.begin(self.importer.commit_background, year_month, self.new_vendor_names, self.vendor_aliases, transactions_with_entries, defaults)
-
+        result = progress.begin(self.importer.commit_background, year_month, self.new_vendor_names, self.vendor_aliases, transactions_with_entries, defaults)
+        print(f"Progress result: {result}")
+        entry_count = result
       return ((entry_count>0), vendor_ids, renamed, actual_line_ids, entry_count)
     else:
       return (False, 0, 0, 0, 0)

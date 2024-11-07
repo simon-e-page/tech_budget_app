@@ -23,6 +23,7 @@ class ProgressForm(ProgressFormTemplate):
     self.end = end
     self.progress_bar.value = 0
     self.interval = interval
+    self.refresh_data_bindings()
     
 
   def begin(self, background_func, *args, **kwargs):
@@ -42,9 +43,10 @@ class ProgressForm(ProgressFormTemplate):
           self.progress_bar.value = perc_complete
           self.refresh_data_bindings()
           
-        elif status == "complete":
+        elif status == "completed":
           t.interval = 0
-          self.raise_event("x-close-alert", value=1)
+          entry_count = task.get_return_value()
+          self.raise_event("x-close-alert", value=entry_count)
         elif status == "failed":
           print("Background error!")
           task.get_error()

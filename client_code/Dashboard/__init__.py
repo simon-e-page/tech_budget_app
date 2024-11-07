@@ -103,6 +103,8 @@ class Dashboard(DashboardTemplate):
     if success:
       alert(f"Successful import! {num_vendor_ids} new vendors, {num_renamed} existing vendors remapped, {num_actual_line_ids} Actual Lines and {num_entries} new entries created")
       self.refresh_link_click()
+    else:
+      alert("Failed import?")
 
   def quarterly_download_link_click(self, **event_args):
     """This method is called when the link is clicked"""
