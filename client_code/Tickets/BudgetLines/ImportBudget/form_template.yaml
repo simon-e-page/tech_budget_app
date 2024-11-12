@@ -1,0 +1,75 @@
+components:
+- components:
+  - components:
+    - data_bindings:
+      - {code: '"Import new Budget for {0}".format(self.year)', property: text, writeback: false}
+      layout_properties: {}
+      name: import_label
+      properties: {bold: true, text: 'Import new Budget for:'}
+      type: Label
+    name: flow_panel_1
+    properties: {}
+    type: FlowPanel
+  layout_properties: {full_width_row: true, grid_position: 'YGEVWH,JVXGZZ'}
+  name: linear_panel_1
+  properties: {}
+  type: LinearPanel
+- components:
+  - components:
+    - layout_properties: {}
+      name: label_1
+      properties: {bold: true, text: 'Vendor Review:'}
+      type: Label
+    name: flow_panel_2
+    properties: {}
+    type: FlowPanel
+  - name: vendor_selector_1
+    properties: {}
+    type: form:Tickets.BudgetLines.ImportActuals.VendorSelector
+  - components:
+    - layout_properties: {}
+      name: to_line_button
+      properties: {icon: 'fa:arrow-right', icon_align: right, role: primary-button, text: Next}
+      type: Button
+    name: flow_panel_4
+    properties: {}
+    type: FlowPanel
+  layout_properties: {full_width_row: true, grid_position: 'WCITFX,TKBXGT'}
+  name: vendor_panel
+  properties: {}
+  type: LinearPanel
+- components:
+  - components:
+    - layout_properties: {}
+      name: label_2
+      properties: {bold: true, text: 'Review Budget Lines:'}
+      type: Label
+    name: flow_panel_3
+    properties: {}
+    type: FlowPanel
+  - name: transaction_review_1
+    properties: {}
+    type: form:Tickets.BudgetLines.ImportActuals.TransactionReview
+  - components:
+    - layout_properties: {}
+      name: to_vendor_button
+      properties: {icon: 'fa:arrow-left', role: primary-button, text: Previous}
+      type: Button
+    name: flow_panel_5
+    properties: {}
+    type: FlowPanel
+  layout_properties: {full_width_row: true, grid_position: 'SCSCHE,IEBRDQ'}
+  name: budget_line_review
+  properties: {}
+  type: LinearPanel
+- components:
+  - layout_properties: {}
+    name: import_button
+    properties: {role: primary-button, text: Import}
+    type: Button
+  layout_properties: {full_width_row: true, grid_position: 'ECVRIF,GNKHKB'}
+  name: import_panel
+  properties: {align: right}
+  type: FlowPanel
+container: {type: ColumnPanel}
+is_package: true
