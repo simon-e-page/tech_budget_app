@@ -7,6 +7,10 @@ components:
       name: import_label
       properties: {bold: true, text: 'Import new Budget for:'}
       type: Label
+    - event_bindings: {change: budget_loader_change}
+      name: budget_loader
+      properties: {}
+      type: FileLoader
     name: flow_panel_1
     properties: {}
     type: FlowPanel
@@ -23,11 +27,12 @@ components:
     name: flow_panel_2
     properties: {}
     type: FlowPanel
-  - name: vendor_selector_1
+  - name: vendor_table
     properties: {}
     type: form:Tickets.BudgetLines.ImportActuals.VendorSelector
   - components:
-    - layout_properties: {}
+    - event_bindings: {click: to_line_button_click}
+      layout_properties: {}
       name: to_line_button
       properties: {icon: 'fa:arrow-right', icon_align: right, role: primary-button, text: Next}
       type: Button
@@ -47,11 +52,12 @@ components:
     name: flow_panel_3
     properties: {}
     type: FlowPanel
-  - name: transaction_review_1
+  - name: budget_line_table
     properties: {}
     type: form:Tickets.BudgetLines.ImportActuals.TransactionReview
   - components:
-    - layout_properties: {}
+    - event_bindings: {click: to_vendor_button_click}
+      layout_properties: {}
       name: to_vendor_button
       properties: {icon: 'fa:arrow-left', role: primary-button, text: Previous}
       type: Button
@@ -63,7 +69,8 @@ components:
   properties: {}
   type: LinearPanel
 - components:
-  - layout_properties: {}
+  - event_bindings: {click: import_button_click}
+    layout_properties: {}
     name: import_button
     properties: {role: primary-button, text: Import}
     type: Button

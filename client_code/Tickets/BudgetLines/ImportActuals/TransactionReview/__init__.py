@@ -40,7 +40,7 @@ class TransactionReview(TransactionReviewTemplate):
     self._import_data = import_data
     
     # Any code you write here will run before the form opens.
-  def build_entry_table(self, vendor_map, year_month):
+  def build_entry_table(self, vendor_map, year_month=None):
     """ vendor_map should be a dictionary of replacement vendor_name for any vendors that are replaced on import (deprecated) """
 
     def dd_changed(sender, **event_args):
@@ -63,10 +63,10 @@ class TransactionReview(TransactionReviewTemplate):
       val = cell.get_value()
       return f"{val:,.0f}"
 
-    def desc_formatter(cell, year_month, **params):
+    def desc_formatter(cell, **params):
       val = cell.get_value()
       data = cell.get_data()
-      if data['new']:
+      if 'new' in data and data['new']:
         icon = "fa:star"
       else:
         icon = None
@@ -90,7 +90,6 @@ class TransactionReview(TransactionReviewTemplate):
         'field': 'description',
         'width': 220,
         'formatter': desc_formatter,
-        'formatterParams': { 'year_month': year_month }
       },
       {
         'title': 'Vendor',

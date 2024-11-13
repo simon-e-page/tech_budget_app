@@ -13,6 +13,7 @@ from ..Vendors.Vendors import Vendors
 from ..Tickets.BudgetLines import BudgetLines
 from ..Settings.Reference import Reference
 from .NewBrand import NewBrand
+from ..Tickets.BudgetLines.ImportBudget import ImportBudget 
 from .. import Data
 
 
@@ -237,12 +238,18 @@ class Homepage(HomepageTemplate):
 
   def next_button_click(self, **event_args):
     """This method is called when the link is clicked"""
-    Data.move_year()
-    self.current_year = Data.CURRENT_YEAR
-    self.refresh_data_bindings()    
-    self.open_dashboard()
-
-
+    result = Data.move_year()
+    if result:
+      self.current_year = Data.CURRENT_YEAR
+      self.refresh_data_bindings()    
+      self.open_dashboard()
+    else:
+      next_year = Data.CURRENT_YEAR + 1
+      if confirm(f"No data for {next_year}. Do you want to create a Budget now?"):
+        form = ImportBudget()
+        result = form.show(next_year)
+        if result:
+          self.next_button_click()
 
       
 

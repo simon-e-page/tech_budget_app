@@ -219,8 +219,10 @@ def move_year(diff=1):
   if next_year in FIN_YEARS:
     print(f"OK to change year to {next_year}")
     CURRENT_YEAR = next_year
+    return True
   else:
     print(f"No data for {next_year}")
+    return False
 
 
 def create_forecast(year=None):
