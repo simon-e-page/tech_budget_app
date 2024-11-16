@@ -2,16 +2,41 @@ components:
 - components:
   - components:
     - data_bindings:
-      - {code: '"Import new Budget for {0}".format(self.year)', property: text, writeback: false}
+      - {code: '"Create new Budget for {0}".format(self.year)', property: text, writeback: false}
       layout_properties: {}
       name: import_label
       properties: {bold: true, text: 'Import new Budget for:'}
       type: Label
-    - event_bindings: {change: budget_loader_change}
-      name: budget_loader
-      properties: {}
-      type: FileLoader
     name: flow_panel_1
+    properties: {}
+    type: FlowPanel
+  - components:
+    - data_bindings: []
+      event_bindings: {change: generate_radio_change}
+      layout_properties: {}
+      name: generate_radio
+      properties: {text: Generate from prior year Forecast}
+      type: RadioButton
+    name: flow_panel_6
+    properties: {}
+    type: FlowPanel
+  - components:
+    - event_bindings: {change: import_radio_change}
+      layout_properties: {}
+      name: import_radio
+      properties: {text: Import from Template}
+      type: RadioButton
+    - event_bindings: {click: template_link_click}
+      layout_properties: {}
+      name: template_link
+      properties: {text: (Download blank)}
+      type: Link
+    - event_bindings: {change: budget_loader_change}
+      layout_properties: {}
+      name: budget_loader
+      properties: {visible: false}
+      type: FileLoader
+    name: flow_panel_7
     properties: {}
     type: FlowPanel
   layout_properties: {full_width_row: true, grid_position: 'YGEVWH,JVXGZZ'}
@@ -31,6 +56,11 @@ components:
     properties: {}
     type: form:Tickets.BudgetLines.ImportActuals.VendorSelector
   - components:
+    - event_bindings: {click: to_choice_button_click}
+      layout_properties: {}
+      name: to_choice_button
+      properties: {icon: 'fa:arrow-left', role: primary-button, text: Previous}
+      type: Button
     - event_bindings: {click: to_line_button_click}
       layout_properties: {}
       name: to_line_button
@@ -72,7 +102,7 @@ components:
   - event_bindings: {click: import_button_click}
     layout_properties: {}
     name: import_button
-    properties: {role: primary-button, text: Import}
+    properties: {bold: true, icon: 'fa:pencil', role: primary-button, text: Create}
     type: Button
   layout_properties: {full_width_row: true, grid_position: 'ECVRIF,GNKHKB'}
   name: import_panel
