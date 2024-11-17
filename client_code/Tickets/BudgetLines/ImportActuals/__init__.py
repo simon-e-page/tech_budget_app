@@ -71,6 +71,7 @@ class ImportActuals(ImportActualsTemplate):
 
     self.import_panel.visible = False
     self.vendor_panel.visible = False
+    self.final_panel.visible = False
       
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -178,7 +179,7 @@ class ImportActuals(ImportActualsTemplate):
 
   
   def run_import(self):
-    ret = alert(self, title="Import Actuals", buttons=(("Import", True), ("Cancel", False)), large=True)
+    ret = alert(self, title="Import Actuals", buttons=(("Cancel", False)), large=True, dismissible=False)
     if ret:
       transactions_with_entries = self.transaction_review.get_final_import_data()
       fin_year, year_month = self.get_year_month()
@@ -227,6 +228,7 @@ class ImportActuals(ImportActualsTemplate):
       self.vendor_panel.visible = False
       self.new_data['new_vendors'] = self.new_vendors
       self.render_transaction_review_table(vendor_map=None)
+      self.final_panel.visible = True
       #self.render_table(vendor_map)
 
   
@@ -234,6 +236,7 @@ class ImportActuals(ImportActualsTemplate):
     """This method is called when the button is clicked"""
     self.import_panel.visible = False
     self.vendor_panel.visible = True
+    self.final_panel.visible = False
 
 
   
@@ -243,5 +246,10 @@ class ImportActuals(ImportActualsTemplate):
     self.select_panel.visible = True
     self.prior_panel.visible = True
     self.file_loader.clear()
+
+  
+  def import_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.raise_event('x-close-alert', value=True)
       
 
