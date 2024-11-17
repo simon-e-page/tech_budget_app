@@ -249,6 +249,7 @@ class Homepage(HomepageTemplate):
         form = ImportBudget(year=next_year)
         result = form.show(next_year)
         if result:
+          Data.refresh(brand=self.brand)
           self.next_button_click()
 
       

@@ -181,7 +181,8 @@ class NewBrand(NewBrandTemplate):
                                                fin_year=self.import_year,
                                                new_vendor_names=new_vendor_names, 
                                                vendor_aliases=vendor_aliases, 
-                                               transactions_with_entries=transactions_with_entries
+                                               transactions_with_entries=transactions_with_entries,
+                                               defaults = {}
                                               )
     if not result:
         alert(f"Failed to create first Budget for Brand: {self.item['code']}")          

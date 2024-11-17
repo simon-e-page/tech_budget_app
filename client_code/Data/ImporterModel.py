@@ -67,11 +67,11 @@ class Importer:
     return anvil.server.call('Importer', 'brand_import_data', brand=brand, fin_year=fin_year, file=excel_file)
 
   def import_first_budget(self, fin_year, new_vendor_names, vendor_aliases, transactions_with_entries, defaults):
-    return anvil.server.call('Importer', 'import_first_budget', fin_year=fin_year, new_vendor_names=new_vendor_names, vendor_aliases=vendor_aliases, transactions_with_entries=transactions_with_entries, defaults=defaults)
+    return anvil.server.call('Importer', 'import_first_budget', brand=Data.CURRENT_BRAND, fin_year=fin_year, new_vendor_names=new_vendor_names, vendor_aliases=vendor_aliases, transactions_with_entries=transactions_with_entries, defaults=defaults)
     #return True
 
   def import_first_background(self, fin_year, new_vendor_names, vendor_aliases, transactions_with_entries, defaults):
     defaults['updated_by'] = anvil.users.get_user()['email']
-    return anvil.server.call('Importer_launcher', '_background_first_import', fin_year=fin_year, new_vendor_names=new_vendor_names, vendor_aliases=vendor_aliases, transactions_with_entries=transactions_with_entries, defaults=defaults)
+    return anvil.server.call('Importer_launcher', '_background_first_import', brand=Data.CURRENT_BRAND, fin_year=fin_year, new_vendor_names=new_vendor_names, vendor_aliases=vendor_aliases, transactions_with_entries=transactions_with_entries, defaults=defaults)
     
 IMPORTER = Importer()
