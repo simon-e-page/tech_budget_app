@@ -127,8 +127,13 @@ class ImportBudget(ImportBudgetTemplate):
 
   def generate_radio_change(self, **event_args):
     """This method is called when this radio button is selected (but not deselected)"""
-    pass
-
+    result = Data.create_new_budget(year=self.year)
+    if result:
+      self.raise_event('x-close-alert', value=result)
+    else:
+      alert("Operation failed! Check Logs!")
+      
+    
   def import_radio_change(self, **event_args):
     """This method is called when this radio button is selected (but not deselected)"""
     self.budget_loader.open_file_selector()
