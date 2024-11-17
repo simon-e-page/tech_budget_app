@@ -179,7 +179,7 @@ class ImportActuals(ImportActualsTemplate):
 
   
   def run_import(self):
-    ret = alert(self, title="Import Actuals", buttons=(("Cancel", False)), large=True, dismissible=False)
+    ret = alert(self, title="Import Actuals", buttons=[("Cancel", False)], large=True, dismissible=False)
     if ret:
       transactions_with_entries = self.transaction_review.get_final_import_data()
       fin_year, year_month = self.get_year_month()
