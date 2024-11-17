@@ -79,6 +79,16 @@ components:
   type: LinearPanel
 - components:
   - components:
+    - data_bindings:
+      - {code: '"Total Budget Value: {0:,.0f}".format(self.import_total)', property: text, writeback: false}
+      layout_properties: {}
+      name: total_label
+      properties: {text: 'Total Budget Value: '}
+      type: Label
+    name: flow_panel_6
+    properties: {}
+    type: FlowPanel
+  - components:
     - layout_properties: {}
       name: label_2
       properties: {bold: true, text: 'Review Budget Lines:'}

@@ -198,10 +198,10 @@ class ImportActuals(ImportActualsTemplate):
         'notes': "New vendor imported from {0} on {1}".format(filename, ts)
       }
 
-      print("Ready To Commit:")
-      print(f"New Vendors: {self.new_vendor_names}")
-      print(f"Synonyms: {self.vendor_aliases}")
-      print(f"Transaction lines & Entries: {transactions_with_entries}")
+      #print("Ready To Commit:")
+      #print(f"New Vendors: {self.new_vendor_names}")
+      #print(f"Synonyms: {self.vendor_aliases}")
+      #print(f"Transaction lines & Entries: {transactions_with_entries}")
 
       if confirm(f"About to create {vendor_ids} new vendors, {renamed} new synonyms, {actual_line_ids} new Actual Lines/Entries for {year_month}. Ready?"):
         #entry_count = self.importer.commit(year_month, self.new_vendor_names, self.vendor_aliases, transactions_with_entries, defaults)

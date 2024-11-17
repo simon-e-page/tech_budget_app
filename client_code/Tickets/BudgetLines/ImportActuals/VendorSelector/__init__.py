@@ -158,7 +158,7 @@ class VendorSelector(VendorSelectorTemplate):
       alias_map = {}
       reverse_map = {}
       for row in [ x for x in data if not x['create_new'] ]:
-        if row['combine_with'] is not None:
+        if row.get('combine_with', None) is not None:
           suggested_vendor_name = row['combine_with']
         else:
           suggested_vendor_name = row['suggested']
