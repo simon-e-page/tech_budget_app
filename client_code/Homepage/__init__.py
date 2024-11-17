@@ -246,7 +246,7 @@ class Homepage(HomepageTemplate):
     else:
       next_year = Data.CURRENT_YEAR + 1
       if confirm(f"No data for {next_year}. Do you want to create a Budget now?"):
-        form = ImportBudget()
+        form = ImportBudget(year=next_year)
         result = form.show(next_year)
         if result:
           self.next_button_click()

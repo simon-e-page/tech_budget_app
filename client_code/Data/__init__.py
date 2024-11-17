@@ -240,7 +240,7 @@ def create_new_budget(year=None):
   if year is None:
     year = CURRENT_YEAR + 1
   try:
-    ret = anvil.server.call("Calendar", 'create_new_budget', CURRENT_BRAND, lock=True, year=year)
+    ret = anvil.server.call("Calendar", 'create_new_budget', CURRENT_BRAND, year=year)
     refresh_cache()
   except Exception as e:
     print(f"Error! {e}")

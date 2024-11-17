@@ -17,8 +17,11 @@ class ImportBudget(ImportBudgetTemplate):
     self.brand = Data.CURRENT_BRAND
     self.show_forecast = True
     self.show_import = True
-    self.item = None
-    self.year = None
+    self.vendor_panel.visible = False
+    self.budget_line_review.visible = False
+    self.import_panel.visible = False
+    self.year = properties.get('year', None)
+    #self.item = None
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
@@ -29,7 +32,7 @@ class ImportBudget(ImportBudgetTemplate):
     self.show_forecast = show_forecast
     self.show_import = show_import
     self.refresh_data_bindings()
-    result = alert(self, buttons=[('Cancel', False)])
+    result = alert(self, large=True, buttons=[('Cancel', False)])
     if result:
       pass
       
