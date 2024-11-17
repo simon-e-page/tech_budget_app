@@ -146,7 +146,11 @@ class ImportBudget(ImportBudgetTemplate):
 
   def template_link_click(self, **event_args):
     """This method is called when the link is clicked"""
-    pass
+    #excel_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    template_url = Data.TEMPLATE_URL
+    template = anvil.URLMedia(template_url)
+    anvil.download(template)
+    
 
   def to_choice_button_click(self, **event_args):
     """This method is called when the button is clicked"""

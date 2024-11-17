@@ -19,6 +19,8 @@ class FinancialNumber:
             return format(self.number, format_spec)
 
 
+TEMPLATE_URL = '"_/theme/budget_template_202411.xlsx"'
+
 # TODO: Move into app_tables?
 #BRANDS = [ 'JB_AU', 'JB_NZ', 'TGG']
 BRANDS = anvil.server.call('Brands', 'get_brands')
