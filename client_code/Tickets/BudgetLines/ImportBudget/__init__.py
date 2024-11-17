@@ -139,7 +139,10 @@ class ImportBudget(ImportBudgetTemplate):
     
   def import_radio_change(self, **event_args):
     """This method is called when this radio button is selected (but not deselected)"""
+    #self.budget_loader.visible = True
     self.budget_loader.open_file_selector()
+    if self.budget_loader.file is None:
+      self.import_radio.selected = False
 
   def template_link_click(self, **event_args):
     """This method is called when the link is clicked"""

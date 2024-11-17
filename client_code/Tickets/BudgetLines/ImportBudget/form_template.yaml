@@ -31,7 +31,7 @@ components:
     - event_bindings: {click: template_link_click}
       layout_properties: {}
       name: template_link
-      properties: {text: (Download blank)}
+      properties: {text: (Download blank template), underline: true}
       type: Link
     - event_bindings: {change: budget_loader_change}
       layout_properties: {}
