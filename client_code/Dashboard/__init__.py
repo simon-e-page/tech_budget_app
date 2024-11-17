@@ -102,6 +102,8 @@ class Dashboard(DashboardTemplate):
     (success, num_vendor_ids, num_renamed, num_actual_line_ids, num_entries) = import_form.run_import()
     if success:
       alert(f"Successful import! {num_vendor_ids} new vendors, {num_renamed} existing vendors remapped, {num_actual_line_ids} Actual Lines and {num_entries} new entries created")
+      if num_vendor_ids > 0:
+        self.vendors.load()
       self.refresh_link_click()
     #else:
     #  alert("Failed import?")

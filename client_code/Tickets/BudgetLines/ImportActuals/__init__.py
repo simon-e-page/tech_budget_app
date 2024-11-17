@@ -189,7 +189,7 @@ class ImportActuals(ImportActualsTemplate):
       entry_count = 0
       renamed = len(self.vendor_aliases)
 
-      ts = dt.datetime.now().strftime("%Y%m%D")
+      ts = dt.datetime.now().strftime("%Y%m%d")
       filename = self.file_loader.file.name
       
       defaults = {
