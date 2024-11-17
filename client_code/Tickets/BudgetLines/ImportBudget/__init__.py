@@ -15,7 +15,8 @@ class ImportBudget(ImportBudgetTemplate):
   def __init__(self, **properties):
     self.importer = ImporterModel.IMPORTER
     self.brand = Data.CURRENT_BRAND
-    
+    self.show_forecast = True
+    self.show_import = True
     self.item = None
     self.year = None
     # Set Form properties and Data Bindings.
@@ -23,8 +24,10 @@ class ImportBudget(ImportBudgetTemplate):
 
     # Any code you write here will run before the form opens.
 
-  def show(self, year):
+  def show(self, year, show_forecast=True, show_import=True):
     self.year = year
+    self.show_forecast = show_forecast
+    self.show_import = show_import
     self.refresh_data_bindings()
     result = alert(self, buttons=[('Cancel', False)])
     if result:

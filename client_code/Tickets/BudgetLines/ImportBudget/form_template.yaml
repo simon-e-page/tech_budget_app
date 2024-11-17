@@ -17,7 +17,9 @@ components:
       name: generate_radio
       properties: {text: Generate from prior year Forecast}
       type: RadioButton
-    name: flow_panel_6
+    data_bindings:
+    - {code: self.show_forecast, property: visible, writeback: false}
+    name: select_forecast_panel
     properties: {}
     type: FlowPanel
   - components:
@@ -36,7 +38,9 @@ components:
       name: budget_loader
       properties: {visible: false}
       type: FileLoader
-    name: flow_panel_7
+    data_bindings:
+    - {code: self.show_import, property: visible, writeback: false}
+    name: select_import_panel
     properties: {}
     type: FlowPanel
   layout_properties: {full_width_row: true, grid_position: 'YGEVWH,JVXGZZ'}
