@@ -4,8 +4,9 @@ from anvil import *
 import datetime as dt
 
 from .... import Data
-from ....Data import IconsModel, VendorsModel, ACCEPTABLE_IMAGES
+from ....Data import IconsModel, VendorsModel, ACCEPTABLE_IMAGES, TransactionsModel
 from ....Tickets.Transaction.VendorDetailTable import VendorDetailTable
+from ....Tickets.Transaction import Transaction
 
 from tabulator.Tabulator import row_selection_column
 
@@ -16,6 +17,8 @@ class Vendor(VendorTemplate):
     self.icons = IconsModel.ICONS
     self.year = Data.get_year()
     self.vendors = VendorsModel.VENDORS
+    self.transactions = TransactionsModel.get_transactions()
+    
     self.vendor_list = self.vendors.get_dropdown()
     vendor_name = properties['item'].get('vendor_name', None)
     if vendor_name:
@@ -156,10 +159,13 @@ class Vendor(VendorTemplate):
     """This method is called when the button is clicked"""
     def open_transaction(transaction_id):
       print(f"Got open for transaction ID: {transaction_id}")
+      transaction = self.transactions.get(transaction_id)
+      trans_form = Transaction(transaction)
+      res = trans_form.show("Line Detail")
 
     vendor = self.item
-    vendor_form = VendorDetailTable(mode='Actual', vendor=vendor, year=self.year)
-    result = vendor_form.open_form()
+    vendor_form = VendorDetailTable(mode='Actual', vendor=vendor, year=self.year, open_transaction=open_transaction)
+    result = vendor_form.show()
     #ret = alert(vendor_form, large=True, title=f"Entries for {vendor.vendor_name}", buttons=[ ('Save Changes', True), ('Cancel', False) ])
     #if ret:
     #  entries = vendor_form.get_updated_entries()

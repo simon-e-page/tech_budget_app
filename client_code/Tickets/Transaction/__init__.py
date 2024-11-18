@@ -13,7 +13,7 @@ from ... import Data
 from ... import Validation
 from ...Data import VendorsModel
 from ...Data import TransactionsModel, UsersModel
-from ...Vendors.Vendors.Vendor import Vendor
+#from ...Vendors.Vendors.Vendor import Vendor
 from .TransactionEntries import TransactionEntries
 from .VendorDetailTable import VendorDetailTable
 
@@ -27,7 +27,7 @@ class Transaction(TransactionTemplate):
   A copy of this row from the 'Transaction' table is initialised as self.transaction_copy in form_refreshing_data_bindings()
   """
   
-  def __init__(self, item=None, back=None, **properties):
+  def __init__(self, item=None, back=None, create_new_vendor=None, **properties):
     self.vendors = VendorsModel.VENDORS
     self.transactions = TransactionsModel.get_transactions()
     self.vendor_list = self.vendors.get_dropdown()
@@ -51,6 +51,8 @@ class Transaction(TransactionTemplate):
       self.transaction_copy = {}
 
     self.back=back
+    self.create_new_vendor = create_new_vendor
+    
     properties['item'] = item
     
     self.item = item
@@ -136,14 +138,20 @@ class Transaction(TransactionTemplate):
   
   def new_vendor_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    new_vendor = self.vendors.blank()
-    ret = alert(Vendor(item=new_vendor, show_save=False), large=True, title="New Vendor", buttons=[ ('OK', True), ('Cancel', False) ])
-    if ret:
-      try:
-        new_vendor = self.vendors.add(new_vendor.vendor_id, new_vendor)
-        new_vendor.save()
-      except Exception as e:
-        print("Failed to create new Vendor!")
+    #new_vendor = self.vendors.blank()
+    if self.create_new_vendor is not None:
+      new_vendor_id = self.create_new_vendor()
+      if new_vendor_id is not None:
+        self.refresh_data_bindings()
+        self.vendor_dropdown.selected_value = new_vendor_id
+        
+    #ret = alert(Vendor(item=new_vendor, show_save=False), large=True, title="New Vendor", buttons=[ ('OK', True), ('Cancel', False) ])
+    #if ret:
+    #  try:
+    #    new_vendor = self.vendors.add(new_vendor.vendor_id, new_vendor)
+    #    new_vendor.save()
+    #  except Exception as e:
+    #    print("Failed to create new Vendor!")
 
 
   

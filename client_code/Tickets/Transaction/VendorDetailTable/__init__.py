@@ -70,7 +70,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.prepare_data()
 
   
-  def open_form(self):
+  def show(self):
     ret = alert(self, large=True, title=f"Entries for {self.vendor.vendor_name}", buttons=[ ('Save Changes', True), ('Cancel', False) ])
     if ret:
       entries = self.get_updated_entries()
