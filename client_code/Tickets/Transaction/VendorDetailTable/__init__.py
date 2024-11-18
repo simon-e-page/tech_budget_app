@@ -100,12 +100,16 @@ class VendorDetailTable(VendorDetailTableTemplate):
       self.prepare_columns(self.actual_details_table, table_type='Actual')
       self.actual_details_table.data = self.actual_data
       self.create_actual_button.visible = False
+      self.actual_details_table.set_filter(self.hide_zero)
     else:
       self.actual_panel.visible = False
       self.create_actual_button.visible = True
 
 
-
+  def hide_zero(self, data, **kwargs):
+    zero_row = all(data.get(ym)==0.0 for ym in self.year_months)
+    return not zero_row
+    
   
   def forecast_details_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
@@ -120,6 +124,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       self.prepare_columns(self.forecast_details_table, table_type='Forecast')
       self.forecast_details_table.data = self.forecast_data
       self.create_forecast_button.visible = False
+      self.forecast_details_table.set_filter(self.hide_zero)
     else:
       self.forecast_panel.visible = False
       self.create_forecast_button.visible = True
@@ -142,6 +147,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       locked = Data.is_locked(self.year)    
       self.prepare_columns(self.budget_details_table, table_type='Budget', locked=locked)
       self.budget_details_table.data = self.budget_data
+      self.budget_details_table.set_filter(self.hide_zero)
     else:
       self.budget_panel.visible = False
 
