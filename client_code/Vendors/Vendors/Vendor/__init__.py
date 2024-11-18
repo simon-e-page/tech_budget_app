@@ -155,7 +155,7 @@ class Vendor(VendorTemplate):
   def actuals_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     def open_transaction(transaction_id):
-      pass
+      print(f"Got open for transaction ID: {transaction_id}")
 
     vendor = self.item
     vendor_form = VendorDetailTable(mode='Actual', vendor=vendor, year=self.year)
