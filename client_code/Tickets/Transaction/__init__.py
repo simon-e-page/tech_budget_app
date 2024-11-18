@@ -60,12 +60,13 @@ class Transaction(TransactionTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     # Any code you write here will run when the form opens.
-    self.reset_controls()
+    #self.reset_controls()
     #self.transaction_entries_1.build_table(self.item)
 
   
   
   def show(self, title="", new=False):
+    self.refresh_data_bindings()
     save_button = "Add New" if new else "Save Changes"
     ret = alert(self, title=title, large=True, buttons=((save_button, True), ("Cancel", False)))
     if ret:
@@ -122,9 +123,6 @@ class Transaction(TransactionTemplate):
     self.item.update()
     self.refresh_data_bindings()
 
-
-  def reset_controls(self):
-    print("In reset_controls")
 
   
   def disable_checkbox_change(self, **event_args):

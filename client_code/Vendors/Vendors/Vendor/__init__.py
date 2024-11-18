@@ -160,8 +160,13 @@ class Vendor(VendorTemplate):
     def open_transaction(transaction_id):
       print(f"Got open for transaction ID: {transaction_id}")
       transaction = self.transactions.get(transaction_id)
+      #print(transaction)
+      #print(transaction.vendor.vendor_id)
       trans_form = Transaction(transaction)
-      res = trans_form.show("Line Detail")
+      if transaction.vendor.vendor_id != self.item.vendor_id:
+        other_vendor = self.vendors.get(transaction.vendor_id)
+        print(f"Mismatching vendors! We are {self.item.vendor_name}. Transaction belongs to {other_vendor.vendor_name}")
+      res = trans_form.show(f"Line Detail for {transaction.description}")
 
     vendor = self.item
     vendor_form = VendorDetailTable(mode='Actual', vendor=vendor, year=self.year, open_transaction=open_transaction)

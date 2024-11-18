@@ -129,7 +129,10 @@ class Transaction(AttributeToKey):
       ret = None
     return ret
 
-    
+  def __str__(self):
+    return str(self.to_dict())
+
+
 class LazyTransactionList(AttributeToDict):  
   def __init__(self, sort='owner', filters={'deleted': False}, date_filter={}, direction='descending', page_size=10, initial_page=0):
     self.sort = sort
