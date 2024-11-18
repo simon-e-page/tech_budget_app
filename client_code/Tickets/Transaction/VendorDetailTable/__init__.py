@@ -34,10 +34,10 @@ class VendorDetailTable(VendorDetailTableTemplate):
       "index": "transaction_id",  # or set the index property here
       "selectable": "highlight",
       "css_class": ["table-striped", "table-bordered", "table-condensed"],
-      "pagination": False,
-      #"paginationSize": 250,
+      "pagination": True,
+      "paginationSize": 5,
       #"frozenRows": 0,
-      "height": "20vh",
+      #"height": "30vh",
       #'autoResize': False,
       # "pagination_size": 10,
     }
@@ -190,8 +190,6 @@ class VendorDetailTable(VendorDetailTableTemplate):
       locked = params.get("locked")
       column_type = params.get("column_type")
       table_type = params.get("table_type")
-      #b_ym = f"{ym}B"
-      #ly_ym = f"{ym}LY"
 
       if column_type == 'Actual' and table_type == 'Forecast':
         locked = True
@@ -201,46 +199,22 @@ class VendorDetailTable(VendorDetailTableTemplate):
           backgroundColor = params["backgroundColor"]
         if params.get("color", None):
           color = params["color"]
-        #compare = data[ly_ym]
-        #tooltip_prefix = "LY"
         bold = False
       elif trans_type == 'Total':
         backgroundColor = self.colors['Total']['backgroundColor']
         color = self.colors['Total']['color']
-        #compare = val
-        #tooltip_prefix = None
         bold = True
       elif column_type == 'Forecast':
         backgroundColor = self.colors['Editable']['backgroundColor']
         color = self.colors['Editable']['color']
-        #compare = data[b_ym]          
-        #tooltip_prefix = "Budget"
         bold = False        
       else:
         backgroundColor = self.colors['Forecast']['backgroundColor']
         color = self.colors['Forecast']['color']
-        #compare = data[b_ym]          
-        #tooltip_prefix = "Budget"
         bold = False
         
       cell.getElement().style.backgroundColor = backgroundColor
       cell.getElement().style.color = color
-
-      #try:
-      #  delta = (int(val) - int(compare)) / int(compare)
-      #  delta = int(delta * 100)
-      #except Exception:
-      #  delta = "INF"
-
-      #tooltip = f"{tooltip_prefix}: {FinancialNumber(compare):,.0f}" if tooltip_prefix is not None else None
-
-      #if int(val) > int(compare):
-      #  tooltip += f"\n+{delta}%"
-      #  icon = 'fa:arrow-up'
-      #elif int(val) < int(compare):              
-      #  tooltip += f"\n{delta}%"
-      #  icon = 'fa:arrow-down'
-      #else:
       tooltip = None
       icon = None
 
@@ -270,7 +244,9 @@ class VendorDetailTable(VendorDetailTableTemplate):
           'timestamp': dt.date(year, month, 1),
           'amount': new_val
         }
+        page = table.get_page()
         table.data = table.data
+        table.set_page(page)
         #print(sender.tag, sender.text)
         
       if val is None:
@@ -289,12 +265,10 @@ class VendorDetailTable(VendorDetailTableTemplate):
         )
       else:
         tb = TextBox(
-          text=float(val),
+          text=int(val),
           type='number',
           align="right",
-          #icon_align="left",
           tooltip = tooltip,
-          #icon=icon,
           border=None,
           foreground=color,
           background=backgroundColor,
@@ -600,6 +574,10 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.forecast_panel.visible = True
     self.actual_panel.visible = True
     self.revert_changes()
+
+  def actual_link_click(self, **event_args):
+    """This method is called when the link is clicked"""
+    self.actual_details_table.visible = not self.actual_details_table.visible
     
 
     

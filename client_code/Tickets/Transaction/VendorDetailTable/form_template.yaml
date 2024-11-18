@@ -44,10 +44,11 @@ components:
   properties: {col_widths: '{"IDEYPX":5,"TQCAYZ":55}'}
   type: ColumnPanel
 - components:
-  - layout_properties: {}
-    name: label_3
-    properties: {text: 'Actual lines:', underline: true}
-    type: Label
+  - event_bindings: {click: actual_link_click}
+    layout_properties: {}
+    name: actual_link
+    properties: {text: 'Actual Lines:', underline: true}
+    type: Link
   - event_bindings: {table_built: actual_details_table_table_built}
     name: actual_details_table
     properties: {}
