@@ -154,14 +154,16 @@ class Vendor(VendorTemplate):
 
   def actuals_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    #homepage = get_open_form()
-    #homepage.open_actuals(initial_filters={ 'vendor_name': self.item.vendor_name })
+    def open_transaction(transaction_id):
+      pass
+
     vendor = self.item
     vendor_form = VendorDetailTable(mode='Actual', vendor=vendor, year=self.year)
-    ret = alert(vendor_form, large=True, title=f"Entries for {vendor.vendor_name}", buttons=[ ('Save Changes', True), ('Cancel', False) ])
-    if ret:
-      entries = vendor_form.get_updated_entries()
-      vendor_form.save_updated_entries(entries)
+    result = vendor_form.open_form()
+    #ret = alert(vendor_form, large=True, title=f"Entries for {vendor.vendor_name}", buttons=[ ('Save Changes', True), ('Cancel', False) ])
+    #if ret:
+    #  entries = vendor_form.get_updated_entries()
+    #  vendor_form.save_updated_entries(entries)
   
   def finance_tag_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""

@@ -20,6 +20,20 @@ components:
     properties: {}
     type: DropDown
   - components:
+    - layout_properties: {}
+      name: label_1
+      properties: {text: 'Hide empty rows:'}
+      type: Label
+    - event_bindings: {x_change: toggle_switch_1_x_change}
+      layout_properties: {width: 111.41796875}
+      name: toggle_switch_1
+      properties: {checked: true}
+      type: form:dep_3ged044szjzy7:ToggleSwitch
+    layout_properties: {grid_position: 'EJOPLY,IRXUCC KRLWYS,BQONSQ'}
+    name: flow_panel_1
+    properties: {}
+    type: FlowPanel
+  - components:
     - event_bindings: {click: create_actual_button_click}
       layout_properties: {}
       name: create_actual_button
@@ -41,7 +55,7 @@ components:
     type: FlowPanel
   layout_properties: {full_width_row: true, grid_position: 'ANPHYY,VNUZGS'}
   name: column_panel_1
-  properties: {col_widths: '{"IDEYPX":5,"TQCAYZ":55}'}
+  properties: {col_widths: '{"IDEYPX":10,"TQCAYZ":50}'}
   type: ColumnPanel
 - components:
   - event_bindings: {click: actual_link_click}
@@ -57,11 +71,12 @@ components:
   name: actual_panel
   properties: {}
   type: LinearPanel
+- event_bindings: {click: forecast_link_click}
+  layout_properties: {full_width_row: true, grid_position: 'NPCTSU,HVRFAU'}
+  name: forecast_link
+  properties: {text: 'Forecast Lines:', underline: true}
+  type: Link
 - components:
-  - layout_properties: {}
-    name: label_2
-    properties: {text: 'Forecast lines:', underline: true}
-    type: Label
   - event_bindings: {cell_click: forecast_details_table_cell_click, table_built: forecast_details_table_table_built}
     name: forecast_details_table
     properties: {}
@@ -70,11 +85,12 @@ components:
   name: forecast_panel
   properties: {}
   type: LinearPanel
+- event_bindings: {click: budget_link_click}
+  layout_properties: {full_width_row: true, grid_position: 'QPUCFH,KCMAKX'}
+  name: budget_link
+  properties: {text: 'Budget Lines:', underline: true}
+  type: Link
 - components:
-  - layout_properties: {}
-    name: label_4
-    properties: {text: 'Budget Lines:', underline: true}
-    type: Label
   - event_bindings: {table_built: budget_details_table_table_built}
     name: budget_details_table
     properties: {}

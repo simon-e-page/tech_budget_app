@@ -21,6 +21,8 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.transaction_ids_to_show = properties.get('transaction_ids', [])
     self.updated_entries = {}
 
+    self.open_transaction = properties.get('open_transaction', None)
+    
     # Prepare to remove this concept
     mode = "Actual"
     if mode == 'Actual':
@@ -64,11 +66,16 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.year_months = []
     
     self.init_components(**properties)
-    
     self.load_data()
     self.prepare_data()
 
-
+  
+  def open_form(self):
+    ret = alert(self, large=True, title=f"Entries for {self.vendor.vendor_name}", buttons=[ ('Save Changes', True), ('Cancel', False) ])
+    if ret:
+      entries = self.get_updated_entries()
+      self.save_updated_entries(entries)
+    return ret
 
   
   def load_data(self):
@@ -100,7 +107,8 @@ class VendorDetailTable(VendorDetailTableTemplate):
       self.prepare_columns(self.actual_details_table, table_type='Actual')
       self.actual_details_table.data = self.actual_data
       self.create_actual_button.visible = False
-      self.actual_details_table.set_filter(self.hide_zero)
+      if self.toggle_switch_1.checked:
+        self.actual_details_table.set_filter(self.hide_zero)
     else:
       self.actual_panel.visible = False
       self.create_actual_button.visible = True
@@ -124,7 +132,8 @@ class VendorDetailTable(VendorDetailTableTemplate):
       self.prepare_columns(self.forecast_details_table, table_type='Forecast')
       self.forecast_details_table.data = self.forecast_data
       self.create_forecast_button.visible = False
-      self.forecast_details_table.set_filter(self.hide_zero)
+      if self.toggle_switch_1.checked:
+        self.forecast_details_table.set_filter(self.hide_zero)
     else:
       self.forecast_panel.visible = False
       self.create_forecast_button.visible = True
@@ -136,10 +145,6 @@ class VendorDetailTable(VendorDetailTableTemplate):
   
   def budget_details_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
-    #if not self.loaded:
-    #  self.load_data()
-    #if not self.prepared:
-    #  self.prepare_data()
     while not self.prepared:
       pass
 
@@ -147,7 +152,8 @@ class VendorDetailTable(VendorDetailTableTemplate):
       locked = Data.is_locked(self.year)    
       self.prepare_columns(self.budget_details_table, table_type='Budget', locked=locked)
       self.budget_details_table.data = self.budget_data
-      self.budget_details_table.set_filter(self.hide_zero)
+      if self.toggle_switch_1.checked:
+        self.budget_details_table.set_filter(self.hide_zero)
     else:
       self.budget_panel.visible = False
 
@@ -157,8 +163,12 @@ class VendorDetailTable(VendorDetailTableTemplate):
   
   def prepare_columns(self, table, table_type='Actual', locked=False):
     print(f"Preparing {table_type}")
-    
-    # Transacion Formatter
+
+    def open_transaction(sender, **event_args):
+      if self.open_transaction is not None:
+        self.open_transaction(sender.tag)
+      
+    # Transaction Formatter
     def transaction_formatter(cell, **params):
       data = cell.getData()
       val = cell.get_value()
@@ -172,8 +182,10 @@ class VendorDetailTable(VendorDetailTableTemplate):
         return val   
         
       else:
-        #transaction_id = data["transaction_id"]
-        label = Label(text=val)
+        transaction_id = data["transaction_id"]
+        label = Link(url=None, text=val, tag=transaction_id)
+        label.add_event_handler('click', open_transaction)
+        
         return label
   
       
@@ -247,6 +259,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
         page = table.get_page()
         table.data = table.data
         table.set_page(page)
+        table.scrollToColumn(ym, 'middle')
         #print(sender.tag, sender.text)
         
       if val is None:
@@ -369,11 +382,11 @@ class VendorDetailTable(VendorDetailTableTemplate):
   
   def prepare_data(self):
 
-    def zero_filter(data, **params):
-      non_zero = [int(int(x)!=0) for i,x in dict(data).items() if i in self.year_months]
-      #print(f"{data['vendor_name']}: {non_zero}")
-      non_zero = sum(non_zero)
-      return non_zero != 0
+    #def zero_filter(data, **params):
+    #  non_zero = [int(int(x)!=0) for i,x in dict(data).items() if i in self.year_months]
+    #  #print(f"{data['vendor_name']}: {non_zero}")
+    #  non_zero = sum(non_zero)
+    #  return non_zero != 0
     
 
     # Insert subtotal rows
@@ -437,17 +450,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
     self.actual_data = actual_rows + [a_total_row]
     self.forecast_data = forecast_rows + [f_total_row]
     self.budget_data = budget_rows + [b_total_row]
-    #self.actual_details_table.set_filter(zero_filter)
-    #self.forecast_details_table.set_filter(zero_filter)
-    #self.budget_details_table.set_filter(zero_filter)
     self.prepared = True
-    #if self.year == 2024:
-    #  print("2024 Actual Data")
-    #  print(self.actual_data)
-    #  print("2024 Forecast Data")
-    #  print(self.forecast_data)
-    #  print("2024 Budget Data")
-    #  print(self.budget_data)
 
 
   
@@ -578,6 +581,26 @@ class VendorDetailTable(VendorDetailTableTemplate):
   def actual_link_click(self, **event_args):
     """This method is called when the link is clicked"""
     self.actual_details_table.visible = not self.actual_details_table.visible
+
+  def forecast_link_click(self, **event_args):
+    """This method is called when the link is clicked"""
+    self.forecast_details_table.visible = not self.forecast_details_table.visible
+
+  def budget_link_click(self, **event_args):
+    """This method is called when the link is clicked"""
+    self.budget_details_table.visible = not self.budget_details_table.visible
+
+  def toggle_switch_1_x_change(self, **event_args):
+    """This method is called when the switch is toggled"""
+    if self.toggle_switch_1.checked:
+      self.actual_details_table.set_filter(self.hide_zero)
+      self.forecast_details_table.set_filter(self.hide_zero)
+      self.budget_details_table.set_filter(self.hide_zero)
+    else:
+      self.actual_details_table.clear_filter()
+      self.forecast_details_table.clear_filter()
+      self.budget_details_table.clear_filter()
+    
     
 
     
