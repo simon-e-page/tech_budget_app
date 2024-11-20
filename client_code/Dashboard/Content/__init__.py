@@ -12,6 +12,9 @@ from .HeadlineStats import HeadlineStats
 from ... import Data
 from datetime import datetime
 
+from .Tickets.BudgetLines.ImportActuals import ImportActuals
+from AttributeReview import AttributeReview
+
 class Content(ContentTemplate):
   """This Form populates all the data and charts on the Dashboard.
   
@@ -41,8 +44,15 @@ class Content(ContentTemplate):
 
     self.budget = { 'total': 0, 'delta': 0 }
     self.forecast = { 'total': 0, 'delta': 0 }
-    #self.actuals = { 'total': 0, 'delta': 0 }
 
+    self.actions = [ 
+      ('Import actuals', self.import_actuals),
+      ('Refresh and reload', self.reset),
+      ('Download quarterly report', self.download_quarterly),
+      ('Analyse attributes', self.review_attributes),
+      ('Export to Excel', self.export_excel),
+    ]
+    
     self.balance_data = {} 
     
     self.end_date = self.fin_year
@@ -61,6 +71,7 @@ class Content(ContentTemplate):
     d = self.load_quarterly_data()
     self.quarterly_table.prepare_data(d)
 
+    
   def load_quarterly_data(self):
     data = Data.get_quarterly_table()
     return data
@@ -200,10 +211,27 @@ class Content(ContentTemplate):
       self.budget_table_1.prepare_data(self.raw_data)
     self.refresh_data_bindings()
 
-  def button_1_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    pass
-    #data = Data.get_quarterly_table()
-    #self.text_area_1.text = data
 
-  
+  def action_menu_change(self, **event_args):
+    """This method is called when an item is selected"""
+    self.action_menu.selected_value()
+    self.action_menu.selected_value = None
+
+  def review_attributes(self):
+    """This method is called when the link is clicked"""
+    attribute_review_form = AttributeReview()
+    attribute_review_form.show()
+
+  def download_quarterly(self):
+    """This method is called when the link is clicked"""
+    obj = Data.get_quarterly_table_excel(self.dash_content.fin_year)
+    anvil.media.download(obj)
+
+  def import_actuals(self):
+    import_form = ImportActuals()
+    (success, num_vendor_ids, num_renamed, num_actual_line_ids, num_entries) = import_form.run_import()
+    if success:
+      alert(f"Successful import! {num_vendor_ids} new vendors, {num_renamed} existing vendors remapped, {num_actual_line_ids} Actual Lines and {num_entries} new entries created")
+      if num_vendor_ids > 0:
+        self.vendors.load()
+      self.reset()

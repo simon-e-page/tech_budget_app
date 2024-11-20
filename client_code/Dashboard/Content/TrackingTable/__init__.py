@@ -7,6 +7,8 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
+from tabulator.Tabulator import row_selection_column
+
 from .... import Data
 from ....Data import VendorsModel, TransactionsModel, CURRENT_YEAR, FinancialNumber
 from ....Vendors.Vendors import Vendor
@@ -396,14 +398,17 @@ class TrackingTable(TrackingTableTemplate):
     if self.data is None:
       return
           
-    columns = [{
+    columns = [
+      row_selection_column,
+      {
         "title": "Vendor",
         "field": "vendor_name",
         'width': 250,
         "headerFilter": "input",
         "headerFilterFunc": "starts",
-        'formatter': self.vendor_formatter      
-    }]
+        'formatter': self.vendor_formatter
+      }
+    ]
 
     for c in self.year_months:
       transaction_type = self.transaction_types[c]
