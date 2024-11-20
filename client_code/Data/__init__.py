@@ -149,7 +149,7 @@ def get_quarterly_table_excel(year=None, quarter=0):
 def get_tracking_table_background(year, refresh=False):
   # This signature kicks off a background process
   task = anvil.server.call('Calendar_launcher', 
-                           '_background_get_tracking_table', 
+                           'background_get_tracking_table', 
                            brand=CURRENT_BRAND, 
                            agg_column='vendor_name', 
                            year=year, 

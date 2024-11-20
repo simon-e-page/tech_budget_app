@@ -27,7 +27,7 @@ class Importer:
 
   def commit_background(self, year_month, new_vendor_names, vendor_aliases, transactions_with_entries, defaults):
     defaults['updated_by'] = anvil.users.get_user()['email']
-    return anvil.server.call('Importer_launcher', '_background_commit', Data.CURRENT_BRAND, year_month, new_vendor_names, vendor_aliases, transactions_with_entries, defaults)
+    return anvil.server.call('Importer_launcher', 'background_commit', Data.CURRENT_BRAND, year_month, new_vendor_names, vendor_aliases, transactions_with_entries, defaults)
     
   def get_filename_patterns(self, brand=None):
     if brand is None:
@@ -72,6 +72,6 @@ class Importer:
 
   def import_first_background(self, fin_year, new_vendor_names, vendor_aliases, transactions_with_entries, defaults):
     defaults['updated_by'] = anvil.users.get_user()['email']
-    return anvil.server.call('Importer_launcher', '_background_first_import', brand=Data.CURRENT_BRAND, fin_year=fin_year, new_vendor_names=new_vendor_names, vendor_aliases=vendor_aliases, transactions_with_entries=transactions_with_entries, defaults=defaults)
+    return anvil.server.call('Importer_launcher', 'background_first_import', brand=Data.CURRENT_BRAND, fin_year=fin_year, new_vendor_names=new_vendor_names, vendor_aliases=vendor_aliases, transactions_with_entries=transactions_with_entries, defaults=defaults)
     
 IMPORTER = Importer()
