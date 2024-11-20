@@ -12,8 +12,8 @@ from .HeadlineStats import HeadlineStats
 from ... import Data
 from datetime import datetime
 
-from .Tickets.BudgetLines.ImportActuals import ImportActuals
-from AttributeReview import AttributeReview
+from ...Tickets.BudgetLines.ImportActuals import ImportActuals
+from .AttributeReview import AttributeReview
 
 class Content(ContentTemplate):
   """This Form populates all the data and charts on the Dashboard.
@@ -224,7 +224,7 @@ class Content(ContentTemplate):
 
   def download_quarterly(self):
     """This method is called when the link is clicked"""
-    obj = Data.get_quarterly_table_excel(self.dash_content.fin_year)
+    obj = Data.get_quarterly_table_excel(self.fin_year)
     anvil.media.download(obj)
 
   def import_actuals(self):
@@ -235,3 +235,8 @@ class Content(ContentTemplate):
       if num_vendor_ids > 0:
         self.vendors.load()
       self.reset()
+
+  def export_excel(self):
+    """This method is called when the link is clicked"""
+    obj = Data.get_excel_table(self.fin_year)
+    anvil.media.download(obj)
