@@ -107,7 +107,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       self.prepare_columns(self.actual_details_table, table_type='Actual')
       self.actual_details_table.data = self.actual_data
       self.create_actual_button.visible = False
-      if self.toggle_switch_1.checked:
+      if self.toggle_switch_1.checked and len(self.actual_data)>1:
         self.actual_details_table.set_filter(self.hide_zero)
     else:
       self.actual_panel.visible = False
@@ -132,7 +132,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       self.prepare_columns(self.forecast_details_table, table_type='Forecast')
       self.forecast_details_table.data = self.forecast_data
       self.create_forecast_button.visible = False
-      if self.toggle_switch_1.checked:
+      if self.toggle_switch_1.checked and len(self.forecast_data)>1:
         self.forecast_details_table.set_filter(self.hide_zero)
     else:
       self.forecast_panel.visible = False
@@ -152,7 +152,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       locked = Data.is_locked(self.year)    
       self.prepare_columns(self.budget_details_table, table_type='Budget', locked=locked)
       self.budget_details_table.data = self.budget_data
-      if self.toggle_switch_1.checked:
+      if self.toggle_switch_1.checked and len(self.budget_data)>1:
         self.budget_details_table.set_filter(self.hide_zero)
     else:
       self.budget_panel.visible = False
