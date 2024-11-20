@@ -13,6 +13,11 @@ components:
     name: label_1
     properties: {bold: true, text: Details by Vendor}
     type: Label
+  - event_bindings: {change: review_toggle_change}
+    layout_properties: {}
+    name: review_toggle
+    properties: {text: 'Review lines only?'}
+    type: CheckBox
   layout_properties: {full_width_row: true, grid_position: 'IFIMTL,XVFERD'}
   name: flow_panel_1
   properties: {}

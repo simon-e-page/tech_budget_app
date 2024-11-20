@@ -479,4 +479,16 @@ class TrackingTable(TrackingTableTemplate):
     self.tracking_table.set_filter(zero_filter)
     #print(self.data)
     return self.data
+
+  def review_filter(self, data, **params):
+    return data.get('to_review', False)
+    
+
+  def review_toggle_change(self, **event_args):
+    """This method is called when this checkbox is checked or unchecked"""
+    if self.review_toggle.checked:
+      self.tracking_table.set_filter(self.review_filter)
+    else:
+      self.no_compare(None)
+      
   

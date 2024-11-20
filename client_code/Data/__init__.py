@@ -153,7 +153,7 @@ def get_tracking_table_background(year, refresh=False):
                            brand=CURRENT_BRAND, 
                            agg_column='vendor_name', 
                            year=year, 
-                           keep_columns=['vendor_name', 'vendor_id'],
+                           keep_columns=['vendor_name', 'vendor_id', 'to_review'],
                            account_code=['Consulting', 'Hardware Maintenance', 'Software Maintenance'],
                           )
   #print(task)
