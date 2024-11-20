@@ -518,6 +518,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
           'billing_type': "Consumption",
         }
       new_trans = self.transactions.blank({
+        'brand': Data.CURRENT_BRAND,
         'description': description,
         'vendor': self.vendor,
         'vendor_id': self.vendor.vendor_id,
