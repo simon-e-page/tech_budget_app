@@ -16,8 +16,15 @@ components:
   - event_bindings: {change: review_toggle_change}
     layout_properties: {}
     name: review_toggle
-    properties: {text: 'Review lines only?'}
+    properties: {text: 'Show review lines only?'}
     type: CheckBox
+  - data_bindings:
+    - {code: self.vendor_rows_selected, property: enabled, writeback: false}
+    event_bindings: {click: set_review_button_click}
+    layout_properties: {}
+    name: set_review_button
+    properties: {role: secondary-button, text: Set Review}
+    type: Button
   layout_properties: {full_width_row: true, grid_position: 'IFIMTL,XVFERD'}
   name: flow_panel_1
   properties: {}

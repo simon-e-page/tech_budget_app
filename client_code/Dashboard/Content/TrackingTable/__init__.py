@@ -7,7 +7,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
-from tabulator.Tabulator import row_selection_column
+#from tabulator.Tabulator import row_selection_column
 
 from .... import Data
 from ....Data import VendorsModel, TransactionsModel, CURRENT_YEAR, FinancialNumber
@@ -55,6 +55,9 @@ class TrackingTable(TrackingTableTemplate):
     }
     self.mode = 'absolute'
     self.data = None
+    
+    self.vendor_rows_selected = False
+    
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
@@ -397,7 +400,25 @@ class TrackingTable(TrackingTableTemplate):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
     if self.data is None:
       return
-          
+
+    def select_row(e, cell):
+      cell.getRow().toggleSelect()
+      data = self.tracking_table.get_selected_data()
+      print(len(data))
+      self.vendor_rows_selected = len(data) > 0
+      self.refresh_data_bindings()
+      
+    row_selection_column = {
+    #"formatter": "rowSelection",
+    "title_formatter": "rowSelection",
+    "title_formatter_params": {"rowRange": "visible"},
+    "width": 40,
+    "hoz_align": "center",
+    "header_hoz_align": "center",
+    "header_sort": False,
+    "cellClick": select_row,
+    }
+    
     columns = [
       row_selection_column,
       {
@@ -495,5 +516,25 @@ class TrackingTable(TrackingTableTemplate):
       self.tracking_table.set_filter(self.review_filter)
     else:
       self.no_compare(None)
+
+  def set_review_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    data = self.tracking_table.get_selected_data()
+    vendor_ids = [ x['vendor_id'] for x in data ]
+    
+    print(f"To set Review flag on these vendors: {vendor_ids}")
+    transaction_ids = []
+    
+    # TODO: add a backend filter for "vendor_id__in" with a list to reduce the number of calls
+    for vendor_id in vendor_ids:
+      self.transactions.load(vendor_id=vendor_id, transaction_type='Actual')
+      trx = self.transactions.search()
+      transaction_ids += [ x['transaction_id'] for x in trx]
+
+    if confirm(f"About to set Review flag on {len(transaction_ids)} lines. Ok to proceed?"):
+      print(f"Updating: {transaction_ids}")
+    
+    
+    
       
   
