@@ -525,15 +525,14 @@ class TrackingTable(TrackingTableTemplate):
     print(f"To set Review flag on these vendors: {vendor_ids}")
     transaction_ids = []
     
-    # TODO: add a backend filter for "vendor_id__in" with a list to reduce the number of calls
-    for vendor_id in vendor_ids:
-      self.transactions.load(vendor_id=vendor_id, transaction_type='Actual')
-      trx = self.transactions.search()
-      transaction_ids += [ x['transaction_id'] for x in trx]
+    self.transactions.load(vendor_id__in=vendor_ids, transaction_type='Actual')
+    trx = self.transactions.search()
+    transaction_ids += [ x['transaction_id'] for x in trx]
 
     if confirm(f"About to set Review flag on {len(transaction_ids)} lines. Ok to proceed?"):
       print(f"Updating: {transaction_ids}")
       self.transactions.update(transaction_ids, {'to_review': True})
+      self.tracking_table_table_built()
     
     
     

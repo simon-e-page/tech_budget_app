@@ -144,6 +144,7 @@ class LazyTransactionList(AttributeToDict):
   def _load(self, start=None, end=None, **kwargs):
     """ Setup backend dataset using filters """
     filters = {**self.filters, **kwargs}
+    filters['brand'] = Data.CURRENT_BRAND
     length, slice = anvil.server.call('Transactions', 'get_transaction_slice', 
                                   sort=self.sort, 
                                   filters=filters, 
@@ -196,10 +197,12 @@ class LazyTransactionList(AttributeToDict):
         t.delete()
 
  
-  def update(self, transaction_ids, updates):
+  def update(self, transaction_ids, updates, columns_changed=None):
     count = 0
+    if columns_changed is None:
+      columns_changed = list(updates.keys())
     try:
-      count = anvil.server.call('Transactions', 'update_transactions_bulk', transaction_ids, updates)
+      count = anvil.server.call('Transactions', 'update_all', transaction_ids, updates, columns_changed)
       Data.refresh_cache()
     except Exception as e:
       print("Error in update_transactions_bulk")
