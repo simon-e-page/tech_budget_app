@@ -261,16 +261,16 @@ class VendorDetailTable(VendorDetailTableTemplate):
         table.set_page(page)
         table.scrollToColumn(ym, 'middle')
         sender.visible = False
-        link.text = f"{new_val:,.0f}"
+        link.text = "{0:,.0f}".format(FinancialNumber(val))
         link.tag = (tb, row_number, transaction_id, table_type, ym, float(new_val))
-        link.visible = True
-        #print(sender.tag, sender.text)
-        
+
+
+      
       if val is None:
         link = None
       elif (trans_type == 'Total' or locked):
         link = Label(
-          text = "{:,.0f}".format(FinancialNumber(val)),
+          text = "{0:,.0f}".format(val),
           #text = int(val),
           align='right',
           tooltip=tooltip,
@@ -297,16 +297,17 @@ class VendorDetailTable(VendorDetailTableTemplate):
 
         def open_tb(sender, **event_args):
           tb, row_number, transaction_id, table_type, ym, val = sender.tag
-          sender.visible = False
+          sender.text = ''
           tb.tag = (sender, row_number, transaction_id, table_type, ym, val)
           tb.visible = True
           
         link = Link(
-          text=f"{int(val):,.0f}",
+          text="{0:,.0f}".format(FinancialNumber(val)),
           align='right',
           tag=(tb, row_number, transaction_id, table_type, ym, float(val)),
         )
         link.add_event_handler('click', open_tb)
+        link.add_component(tb)
       return link
 
     # Text formatter
