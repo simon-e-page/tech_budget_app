@@ -266,8 +266,8 @@ class VendorDetailTable(VendorDetailTableTemplate):
         tb = None
       elif (trans_type == 'Total' or locked):
         tb = Label(
-          #text = "{:,.0f}".format(FinancialNumber(val)),
-          text = float(val),
+          text = "{:,.0f}".format(FinancialNumber(val)),
+          #text = int(val),
           align='right',
           tooltip=tooltip,
           icon_align='right',

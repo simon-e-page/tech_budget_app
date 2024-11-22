@@ -12,7 +12,7 @@ TODO:
 
 class FinancialNumber:
     def __init__(self, number):
-        self.number = number
+        self.number = int(number)
 
     def __format__(self, format_spec):
         if self.number < 0:
