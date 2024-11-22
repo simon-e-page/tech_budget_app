@@ -267,9 +267,9 @@ class VendorDetailTable(VendorDetailTableTemplate):
         #print(sender.tag, sender.text)
         
       if val is None:
-        tb = None
+        link = None
       elif (trans_type == 'Total' or locked):
-        tb = Label(
+        link = Label(
           text = "{:,.0f}".format(FinancialNumber(val)),
           #text = int(val),
           align='right',
@@ -307,7 +307,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
           tag=(tb, row_number, transaction_id, table_type, ym, float(val)),
         )
         link.add_event_handler('click', open_tb)
-      return tb
+      return link
 
     # Text formatter
     def format_text(cell, **parans):
