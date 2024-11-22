@@ -30,7 +30,7 @@ class TrackingTable(TrackingTableTemplate):
       "index": "vendor",  # or set the index property here
       "selectable": "highlight",
       "css_class": ["table-striped", "table-bordered", "table-condensed"],
-      'pagination': True,
+      'pagination': False,
       'paginationSize': 250,
       'frozenRows': 0,
       'height': '50vh',
