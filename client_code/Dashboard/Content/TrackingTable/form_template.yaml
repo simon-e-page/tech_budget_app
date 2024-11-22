@@ -25,6 +25,11 @@ components:
     name: set_review_button
     properties: {role: secondary-button, text: Set Review}
     type: Button
+  - event_bindings: {click: clear_review_button_click}
+    layout_properties: {}
+    name: clear_review_button
+    properties: {role: primary-button, text: Clear All}
+    type: Button
   layout_properties: {full_width_row: true, grid_position: 'IFIMTL,XVFERD'}
   name: flow_panel_1
   properties: {}

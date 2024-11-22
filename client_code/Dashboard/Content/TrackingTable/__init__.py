@@ -475,6 +475,7 @@ class TrackingTable(TrackingTableTemplate):
     self.tracking_table.columns = columns
     #self.tracking_table.data = self.data
     self.tracking_table.data = compare(c_data)
+    self.tracking_table.set_sort('vendor_name', 'asc')
 
 
 
@@ -527,15 +528,25 @@ class TrackingTable(TrackingTableTemplate):
     
     self.transactions.load(vendor_id__in=vendor_ids, transaction_type='Actual')
     trx = self.transactions.search()
-    transaction_ids += [ x['transaction_id'] for x in trx]
+    transaction_ids = [ x['transaction_id'] for x in trx]
 
     if confirm(f"About to set Review flag on {len(transaction_ids)} lines. Ok to proceed?"):
       print(f"Updating: {transaction_ids}")
       self.transactions.update(transaction_ids, {'to_review': True})
       for row in data:
         row['to_review'] = True
-      self.tracking_table_table_built()
-    
+      self.tracking_table.data = self.tracking_table.data    
+
+  def clear_review_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    if confirm("This will clear the Review flag for all lines for all vendors. Proceed?"):
+      self.transactions.load(transaction_type='Actual', to_review=True)
+      transaction_ids = [ x['transaction_id'] for x in self.transactions.search() ]
+      self.transactions.update(transaction_ids, {'to_review': False})
+      for row in self.tracking_table.data:
+        row['to_review'] = False
+      self.tracking_table.data = self.tracking_table.data    
+      
     
     
       

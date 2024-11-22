@@ -96,11 +96,13 @@ class Transaction(TransactionTemplate):
   def vendor_id(self):
     if self.item['vendor'] is not None:
       vendor_id = self.item['vendor']['vendor_id']
-      if vendor_id in self.vendor_list:
+      dropdown_ids = [ x[0] ]
         return vendor_id
       else:
+        print(f"Cant find {vendor_id} in dropdown!")
         return None
     else:
+      print("No vendor in item. Presume we are adding new?")
       return None
 
   
