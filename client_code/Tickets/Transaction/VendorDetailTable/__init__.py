@@ -233,7 +233,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
       def tb_edited(sender, **params):
         self.revert_button.visible = True
         new_val = float(sender.text)
-        row_number, transaction_id, entry_type, ym, old_val = sender.tag
+        link, row_number, transaction_id, entry_type, ym, old_val = sender.tag
         num_rows = len(table.data)
         old_total = float(table.data[num_rows-1][ym])
         old_row_total = float(table.data[row_number]['total'])
@@ -260,6 +260,10 @@ class VendorDetailTable(VendorDetailTableTemplate):
         table.data = table.data
         table.set_page(page)
         table.scrollToColumn(ym, 'middle')
+        sender.visible = False
+        link.text = f"{new_val:,.0f}"
+        link.tag = (tb, row_number, transaction_id, table_type, ym, float(new_val))
+        link.visible = True
         #print(sender.tag, sender.text)
         
       if val is None:
@@ -286,9 +290,23 @@ class VendorDetailTable(VendorDetailTableTemplate):
           foreground=color,
           background=backgroundColor,
           bold=bold,
+          visible=False,
           tag=(row_number, transaction_id, table_type, ym, float(val))
         )
         tb.add_event_handler('lost_focus', tb_edited)
+
+        def open_tb(sender, **event_args):
+          tb, row_number, transaction_id, table_type, ym, val = sender.tag
+          sender.visible = False
+          tb.tag = (sender, row_number, transaction_id, table_type, ym, val)
+          tb.visible = True
+          
+        link = Link(
+          text=f"{int(val):,.0f}",
+          align='right',
+          tag=(tb, row_number, transaction_id, table_type, ym, float(val)),
+        )
+        link.add_event_handler('click', open_tb)
       return tb
 
     # Text formatter
