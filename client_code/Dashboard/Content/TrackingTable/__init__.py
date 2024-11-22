@@ -532,6 +532,8 @@ class TrackingTable(TrackingTableTemplate):
     if confirm(f"About to set Review flag on {len(transaction_ids)} lines. Ok to proceed?"):
       print(f"Updating: {transaction_ids}")
       self.transactions.update(transaction_ids, {'to_review': True})
+      for row in data:
+        row['to_review'] = True
       self.tracking_table_table_built()
     
     
