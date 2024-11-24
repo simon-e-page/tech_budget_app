@@ -116,7 +116,7 @@ components:
   - event_bindings: {click: import_button_click}
     layout_properties: {}
     name: import_button
-    properties: {bold: true, icon: 'fa:pencil', role: primary-button, text: Create}
+    properties: {bold: true, icon: 'fa:pencil', role: primary-button, text: Import}
     type: Button
   layout_properties: {full_width_row: true, grid_position: 'ECVRIF,GNKHKB'}
   name: import_panel
