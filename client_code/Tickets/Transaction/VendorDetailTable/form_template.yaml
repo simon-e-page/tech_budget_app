@@ -95,6 +95,15 @@ components:
     name: budget_details_table
     properties: {}
     type: form:TGQCF3WT6FVL2EM2:Tabulator
+  - components:
+    - event_bindings: {click: save_button_click}
+      layout_properties: {}
+      name: save_button
+      properties: {bold: true, icon: 'fa:save', role: primary-button, text: Save Changes}
+      type: Button
+    name: flow_panel_3
+    properties: {}
+    type: FlowPanel
   layout_properties: {full_width_row: true, grid_position: 'XAKAZF,XMDMMU'}
   name: budget_panel
   properties: {}

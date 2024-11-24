@@ -68,7 +68,7 @@ class Transaction(TransactionTemplate):
   def show(self, title="", new=False):
     self.refresh_data_bindings()
     self.save_button.text = "Add New" if new else "Save Changes"
-    ret = alert(self, title=title, large=True, buttons=[("Cancel", False)])
+    ret = alert(self, title=title, large=True, buttons=[("Close", False)])
     if ret:
       if new:
         try:
@@ -167,11 +167,12 @@ class Transaction(TransactionTemplate):
     """This method is called when the button is clicked"""
     vendor = self.item['vendor']
     mode = self.item['transaction_type']
-    vendor_form = VendorDetailTable(mode=mode, vendor=vendor, year=self.year, transaction_ids=[self.item['transaction_id']])
-    ret = alert(vendor_form, large=True, title=f"{mode} Entries for {self.year}", buttons=[ ('Save Changes', True), ('Cancel', False) ])
-    if ret:
-      entries = vendor_form.get_updated_entries()
-      vendor_form.save_updated_entries(entries)
+    detail_form = VendorDetailTable(mode=mode, vendor=vendor, year=self.year, transaction_ids=[self.item['transaction_id']])
+    #ret = alert(detail_form, large=True, title=f"{mode} Entries for {self.year}", buttons=[ ('Close', False) ])
+    ret = detail_form.show()
+    #if ret:
+    #  entries = detail_form.get_updated_entries()
+    #  detail_form.save_updated_entries(entries)
 
   
   def create_forecast_button_click(self, **event_args):

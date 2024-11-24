@@ -71,7 +71,7 @@ class VendorDetailTable(VendorDetailTableTemplate):
 
   
   def show(self):
-    ret = alert(self, large=True, title=f"Entries for {self.vendor.vendor_name}", buttons=[ ('Save Changes', True), ('Cancel', False) ])
+    ret = alert(self, large=True, title=f"Entries for {self.vendor.vendor_name}", buttons=[ ('Close', False) ])
     if ret:
       entries = self.get_updated_entries()
       self.save_updated_entries(entries)
@@ -620,6 +620,10 @@ class VendorDetailTable(VendorDetailTableTemplate):
       self.actual_details_table.clear_filter()
       self.forecast_details_table.clear_filter()
       self.budget_details_table.clear_filter()
+
+  def save_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.raise_event('x-close-alert', value=True)
     
     
 

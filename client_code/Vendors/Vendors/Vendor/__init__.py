@@ -40,7 +40,7 @@ class Vendor(VendorTemplate):
     if title is None:
       title = "Vendor Details"
     self.save_button.text = "Add New" if new else "Save Changes"
-    ret = alert(self, large=True, title=title, buttons=[('Cancel', False)])
+    ret = alert(self, large=True, title=title, buttons=[('Close', False)])
     if ret:
       self.save(new=new)
 
