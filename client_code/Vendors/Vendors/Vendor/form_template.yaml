@@ -97,7 +97,7 @@ components:
     type: FlowPanel
   - layout_properties: {grid_position: 'DPKUVC,HUJRYE DWKEBE,LGYRWR'}
     name: label_2
-    properties: {bold: true, text: 'Also known as (in prior years):'}
+    properties: {bold: true, text: 'Also known as:'}
     type: Label
   - components: []
     layout_properties: {grid_position: 'DPKUVC,WSIPHF'}
@@ -144,6 +144,16 @@ components:
     name: notes_areabox
     properties: {align: left, auto_expand: false, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', height: 83.7031, italic: false, placeholder: Enter any notes, role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', underline: false, visible: true}
     type: TextArea
+  - components:
+    - event_bindings: {click: actuals_button_click}
+      layout_properties: {}
+      name: actuals_button
+      properties: {icon: 'fa:external-link', role: primary-button, text: Lines and Entries}
+      type: Button
+    layout_properties: {grid_position: 'DOGXEZ,BCKOQO UXSGOA,SGAULN'}
+    name: flow_panel_5
+    properties: {}
+    type: FlowPanel
   - components: []
     layout_properties: {grid_position: 'DOGXEZ,BXPKPS JOFNVY,AOXALQ'}
     name: linear_panel_3
@@ -163,12 +173,7 @@ components:
         event_bindings: {click: save_button_click}
         layout_properties: {}
         name: save_button
-        properties: {align: center, background: '', bold: true, border: '', enabled: true, font: '', font_size: null, foreground: '', icon: 'fa:check-circle', icon_align: left, italic: false, role: primary-button, spacing_above: small, spacing_below: small, text: Save, tooltip: '', underline: false, visible: true}
-        type: Button
-      - event_bindings: {click: actuals_button_click}
-        layout_properties: {}
-        name: actuals_button
-        properties: {icon: 'fa:external-link', role: primary-button, text: Entries}
+        properties: {align: center, background: '', bold: true, border: '', enabled: true, font: '', font_size: null, foreground: '', icon: 'fa:check-circle', icon_align: left, italic: false, role: primary-button, spacing_above: small, spacing_below: small, text: Save Changes, tooltip: '', underline: false, visible: true}
         type: Button
       layout_properties: {grid_position: 'YPIRKR,EEVNIA'}
       name: flow_panel_4

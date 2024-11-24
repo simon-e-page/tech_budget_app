@@ -67,8 +67,8 @@ class Transaction(TransactionTemplate):
   
   def show(self, title="", new=False):
     self.refresh_data_bindings()
-    save_button = "Add New" if new else "Save Changes"
-    ret = alert(self, title=title, large=True, buttons=((save_button, True), ("Cancel", False)))
+    self.save_button.text = "Add New" if new else "Save Changes"
+    ret = alert(self, title=title, large=True, buttons=[("Cancel", False)])
     if ret:
       if new:
         try:
@@ -113,13 +113,9 @@ class Transaction(TransactionTemplate):
 
 
   
-  def form_refreshing_data_bindings(self, **event_args):
-    #print("In: form_refreshing_data_bindings()")
-    # If self.item exists and ticket_copy not yet initialised, initialise it. 
-    #if (not self.initialised and self.item is not None) or (self.transaction_copy == {}):
-    #  self.initialised = True
-    #  self.transaction_copy = self.item.copy()
-    pass
+  #def form_refreshing_data_bindings(self, **event_args):
+   #  self.transaction_copy = self.item.copy()
+   # pass
   
   # Change transaction details
   def update_transaction(self, **event_args):
@@ -146,14 +142,6 @@ class Transaction(TransactionTemplate):
         self.refresh_data_bindings()
         self.vendor_dropdown.selected_value = new_vendor_id
         
-    #ret = alert(Vendor(item=new_vendor, show_save=False), large=True, title="New Vendor", buttons=[ ('OK', True), ('Cancel', False) ])
-    #if ret:
-    #  try:
-    #    new_vendor = self.vendors.add(new_vendor.vendor_id, new_vendor)
-    #    new_vendor.save()
-    #  except Exception as e:
-    #    print("Failed to create new Vendor!")
-
 
   
 
@@ -174,6 +162,7 @@ class Transaction(TransactionTemplate):
         Notification(f"{count} entries updated successfully").show()
         self.updated_entries = []
 
+  
   def current_entries_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     vendor = self.item['vendor']
@@ -184,6 +173,7 @@ class Transaction(TransactionTemplate):
       entries = vendor_form.get_updated_entries()
       vendor_form.save_updated_entries(entries)
 
+  
   def create_forecast_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     transaction_id = self.item.transaction_id
@@ -200,6 +190,7 @@ class Transaction(TransactionTemplate):
     ]
     self.item.add_entries(new_forecast_entries, overwrite=True)
 
+  
   def alias_link_click(self, **event_args):
     """This method is called when the link is clicked"""
     prev_vendor_name = self.vendors.get(self.prev_vendor_id)['vendor_name']
@@ -212,10 +203,16 @@ class Transaction(TransactionTemplate):
         self.transactions.remap_vendor(prev_vendor_id=self.prev_vendor_id, to=self.item['vendor'])
         self.vendors.delete([prev_vendor_name])
 
+  
   def vendor_dropdown_change(self, **event_args):
     """This method is called when an item is selected"""
     self.prev_vendor_id = self.vendor_id
     self.vendor_id = self.vendor_dropdown.selected_value
     print(f"Previous Vendor ID={self.prev_vendor_id}")
     self.refresh_data_bindings()    
+
+  
+  def save_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.raise_event('x-close-alert', value=True)
 
