@@ -1,7 +1,7 @@
 import anvil.server
 import anvil.users
 
-from ..Data import AttributeToDict, AttributeToKey
+from .BaseModel import AttributeToDict, AttributeToKey
 
 #####################################################################
 # USERS and OWNERS
