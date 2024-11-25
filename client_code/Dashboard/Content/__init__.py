@@ -41,6 +41,7 @@ class Content(ContentTemplate):
     self.task = None
     self.loaded = False
     self.raw_data = None
+    self.refresh = False
 
     self.budget = { 'total': 0, 'delta': 0 }
     self.forecast = { 'total': 0, 'delta': 0 }
@@ -57,6 +58,7 @@ class Content(ContentTemplate):
     
     self.end_date = self.fin_year
     self.add_event_handler('x-refresh-tables', self.refresh_tables)
+    self.add_event_handler('x-reload', self.reset)
     #self.set_overview_label_str()
     self.init_components(**properties)
 
@@ -81,12 +83,16 @@ class Content(ContentTemplate):
   def load_quarterly_data(self):
     data = Data.get_quarterly_table()
     return data
-      
+
+  
   def reset(self):
-    self.loaded = False
-    self.load_data(self.fin_year, refresh=True)
-    d = self.load_quarterly_data()
-    self.quarterly_table.prepare_data(d)
+    print("Content: Entering reset")
+    if self.refresh:
+      print("Reloading data..")
+      self.loaded = False
+      self.load_data(self.fin_year, refresh=True)
+      d = self.load_quarterly_data()
+      self.quarterly_table.prepare_data(d)
 
   
   def get_data(self):

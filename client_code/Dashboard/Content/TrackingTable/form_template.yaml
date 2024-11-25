@@ -39,5 +39,7 @@ components:
   name: tracking_table
   properties: {}
   type: form:TGQCF3WT6FVL2EM2:Tabulator
-container: {type: ColumnPanel}
+container:
+  event_bindings: {show: form_show}
+  type: ColumnPanel
 is_package: true

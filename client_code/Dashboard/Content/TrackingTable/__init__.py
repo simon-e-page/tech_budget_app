@@ -238,6 +238,7 @@ class TrackingTable(TrackingTableTemplate):
       print("Opening vendor: {0}".format(sender.tag.vendor_name))
       vendor_form = Vendor(item=sender.tag, show_save=False, caller=self)
       vendor_form.show(title=sender.tag.vendor_name)
+      self.parent.raise_event('x-reload')
       return
 
     link = Link(text=cell.get_value(), tag=vendor)
@@ -550,8 +551,11 @@ class TrackingTable(TrackingTableTemplate):
       for row in self.tracking_table.data:
         row['to_review'] = False
       self.tracking_table.data = self.tracking_table.data    
-      
-    
+
+  def form_show(self, **event_args):
+    """This method is called when the form is shown on the page"""
+    print("Tracking Table: show event")
+    self.parent.reset()
     
       
   
