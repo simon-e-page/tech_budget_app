@@ -1,8 +1,8 @@
 import anvil.server
 import anvil.users
 
-from .. import Data
-from ..Data import AttributeToDict, AttributeToKey
+#from .. import Data
+from .BaseModel import AttributeToDict, AttributeToKey
 
 #####################################################################
 # VENDORS
@@ -172,7 +172,7 @@ class Vendors(AttributeToDict):
     vendor_ids = [ self.get_by_name(v).vendor_id for v in vendor_names ]
     try:
       num = anvil.server.call('Vendors', 'delete_vendor', vendor_ids)
-      Data.refresh_cache()
+      #Data.refresh_cache()
     except Exception as e:
       print(e)
       print("Error deleting vendors!")
