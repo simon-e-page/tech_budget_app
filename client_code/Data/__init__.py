@@ -21,42 +21,6 @@ class FinancialNumber:
             return format(self.number, format_spec)
 
 
-TEMPLATE_URL = '"_/theme/budget_template_202411.xlsx"'
-
-# TODO: Move into app_tables?
-#BRANDS = [ 'JB_AU', 'JB_NZ', 'TGG']
-BRANDS = anvil.server.call('Brands', 'get_brands')
-BRANDS_DD = [ (x['code'], x['code']) for x in BRANDS ]
-
-ATTRIBUTE_NAMES = ['account_code', 'cost_centre', 'lifecycle', 'category', 'service_change', 'billing_type']
-  
-#ACCOUNT_CODES = [  'Software Maintenance', 'Hardware Maintenance', 'Consulting', 'Salary', 'Communications' ]
-REFS = anvil.server.call('Reference', 'get_attributes', attribute_names=ATTRIBUTE_NAMES)
-ACCOUNT_CODES = REFS['account_code']
-ACCOUNT_CODES_DD = [ (x, x) for x in ACCOUNT_CODES ]
-
-#COST_CENTRES = [ 'IT', 'Online', 'Stores', 'HR', 'Commercial', 'Legal', 'Finance', 'Supply Chain' ]
-COST_CENTRES = REFS['cost_centre']
-COST_CENTRES_DD = [ (x, x) for x in COST_CENTRES ]
-
-#LIFECYCLES = [ 'Existing', 'Existing - Discretionary', 'New - Committed', 'New - Discretionary', 'Legacy', 'Peripherals', 'New - Ex-IT' ]
-LIFECYCLES = REFS['lifecycle']
-LIFECYCLES_DD = [ (x, x) for x in LIFECYCLES ]
-
-#CATEGORIES = [ 'Operations', 'Network & Infrastructure', 'E-Commerce & Marketing', 'Cybersecurity', 'Finance & HR', 'Supply Chain', 'SaaS Consulting', 'Non-IT', 'Commercial', 'Microsoft', 'API platform' ]
-CATEGORIES = REFS['category']
-CATEGORIES_DD = [ (x,x) for x in CATEGORIES ]
-
-#SERVICE_CHANGES = ['Organic growth', 'Strategic projects', 'Commercial', 'Decommissioning']
-SERVICE_CHANGES = REFS['service_change']
-SERVICE_CHANGES_DD = [ (x,x) for x in SERVICE_CHANGES ]
-
-#BILLING_TYPES = [ 'Prepayments', 'Consumption' ]
-BILLING_TYPES = REFS['billing_type']
-BILLING_TYPES_DD = [ (x,x) for x in BILLING_TYPES ]
-
-
-ACCEPTABLE_IMAGES = {'image/png': 'png', 'image/jpg': 'jpg', 'image/jpeg': 'jpeg'}
 
 class AttributeToKey:
   _defaults = {}
@@ -125,12 +89,6 @@ class AttributeToDict:
     return [ x.to_dict() for x in self.values() ]
 
 
-
-FIN_YEARS = None
-CURRENT_YEAR = None
-BUDGET_YEAR = None
-CURRENT_BRAND = None
-REFRESH_UI = False
 
 #def get_tracking_table(year):
 #  return anvil.server.call('Calendar', 'get_tracking_table', brand=CURRENT_BRAND, agg_column='vendor_name', year=year, keep_columns=['vendor_name', 'vendor_id'])
@@ -313,41 +271,48 @@ def apply_attribute_splits(vendor_name, forecast_ids, actual_ids, splits, year=N
   return ret
 
 
-## Create import config for JB_AU
-def create_import_config():
-  # TODO: do we need this anymore?
-  COST_CENTRE_MAP: dict = {
-          'SUPPORT - IT': 'IT',
-          'ONLINE': 'Online',
-          'SOLUTIONS': 'Commercial',
-          'STORES': 'Stores',
-          '(blank)': 'Other',
-          'MARKETPLACE': 'Marketplace',
-          'JB COMMERCIAL': 'Commercial',
-          'NZ RECHARGE': 'IT'
-      }
-  VENDOR_COLUMN = "VENDOR"
-  TOTAL_COLUMN = "Grand Total"
-  FILENAME_PATTERNS = [
-  r"FY\d\d IT Spend - \b(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{4})\b.xlsx",
-  r"FY\d\d IT Spend - \b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{4})\b.xlsx",    
-  ]
-  BRAND = 'JB_AU'
+
+
+#def callback(callback_obj, callback_func):
+#  #return anvil.server(callback_obj, callback_func)
+#  global TEST_CALLBACK
+#  TEST_CALLBACK += 1
+#  return TEST_CALLBACK
+
+#TEST_CALLBACK = 0
+
+ACCEPTABLE_IMAGES = {'image/png': 'png', 'image/jpg': 'jpg', 'image/jpeg': 'jpeg'}
+
+FIN_YEARS = None
+CURRENT_YEAR = None
+BUDGET_YEAR = None
+CURRENT_BRAND = None
+REFRESH_UI = False
+
+TEMPLATE_URL = '"_/theme/budget_template_202411.xlsx"'
+
+BRANDS = anvil.server.call('Brands', 'get_brands')
+BRANDS_DD = [ (x['code'], x['code']) for x in BRANDS ]
+
+ATTRIBUTE_NAMES = ['account_code', 'cost_centre', 'lifecycle', 'category', 'service_change', 'billing_type']
   
-  ret = anvil.server.call("Importer", 'add_import_config', brand=BRAND, cost_centre_map=COST_CENTRE_MAP, vendor_column=VENDOR_COLUMN, total_column=TOTAL_COLUMN, filename_patterns=FILENAME_PATTERNS)
-  if not ret:
-    print("Failed to make initial import config!")
+REFS = anvil.server.call('Reference', 'get_attributes', attribute_names=ATTRIBUTE_NAMES)
+ACCOUNT_CODES = REFS['account_code']
+ACCOUNT_CODES_DD = [ (x, x) for x in ACCOUNT_CODES ]
 
-TEST_CALLBACK = 0
+COST_CENTRES = REFS['cost_centre']
+COST_CENTRES_DD = [ (x, x) for x in COST_CENTRES ]
 
-def callback(callback_obj, callback_func):
-  #return anvil.server(callback_obj, callback_func)
-  global TEST_CALLBACK
-  TEST_CALLBACK += 1
-  return TEST_CALLBACK
+LIFECYCLES = REFS['lifecycle']
+LIFECYCLES_DD = [ (x, x) for x in LIFECYCLES ]
 
-create_import_config()
+CATEGORIES = REFS['category']
+CATEGORIES_DD = [ (x,x) for x in CATEGORIES ]
+
+SERVICE_CHANGES = REFS['service_change']
+SERVICE_CHANGES_DD = [ (x,x) for x in SERVICE_CHANGES ]
+
+BILLING_TYPES = REFS['billing_type']
+BILLING_TYPES_DD = [ (x,x) for x in BILLING_TYPES ]
+
 refresh()
-#obj = anvil.URLMedia("_/theme/{0}.png".format("JB_AU"))
-#create_brand('JB_AU', 'JB Australia')
-#add_brand_icon('JB_AU', obj)
