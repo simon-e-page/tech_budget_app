@@ -228,6 +228,7 @@ class Content(ContentTemplate):
     """This method is called when an item is selected"""
     self.action_menu.selected_value()
     self.action_menu.selected_value = None
+    self.reset()
 
   def review_attributes(self):
     """This method is called when the link is clicked"""

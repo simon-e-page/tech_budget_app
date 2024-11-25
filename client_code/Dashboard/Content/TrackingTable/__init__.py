@@ -555,7 +555,7 @@ class TrackingTable(TrackingTableTemplate):
   def form_show(self, **event_args):
     """This method is called when the form is shown on the page"""
     print("Tracking Table: show event")
-    self.parent.reset()
+    #self.parent.reset()
     
       
   
