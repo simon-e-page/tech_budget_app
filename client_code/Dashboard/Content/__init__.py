@@ -56,7 +56,7 @@ class Content(ContentTemplate):
     self.balance_data = {} 
     
     self.end_date = self.fin_year
-    self.add_event_handler('x-refresh-tables', self.reset)
+    self.add_event_handler('x-refresh-tables', self.refresh_tables)
     #self.set_overview_label_str()
     self.init_components(**properties)
 
@@ -72,7 +72,12 @@ class Content(ContentTemplate):
     d = self.load_quarterly_data()
     self.quarterly_table.prepare_data(d)
 
+  
+  def refresh_tables(self, sender, **event_args):
+    print("Got refresh event!")
+    self.refresh = True
     
+
   def load_quarterly_data(self):
     data = Data.get_quarterly_table()
     return data
