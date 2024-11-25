@@ -74,7 +74,7 @@ class Content(ContentTemplate):
 
   
   def refresh_tables(self, sender, **event_args):
-    print("Got refresh event!")
+    print(f"Got refresh tables event from {sender}")
     self.refresh = True
     
 

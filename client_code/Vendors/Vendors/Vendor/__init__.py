@@ -11,10 +11,10 @@ from ....Tickets.Transaction import Transaction
 from tabulator.Tabulator import row_selection_column
 
 class Vendor(VendorTemplate):
-  def __init__(self, parent, **properties):
+  def __init__(self, caller, **properties):
     #self.name_unique = False
     self.show_save = True
-    self.parent = parent
+    self.caller = caller
     self.icons = IconsModel.ICONS
     self.year = Data.get_year()
     self.vendors = VendorsModel.VENDORS
@@ -47,7 +47,7 @@ class Vendor(VendorTemplate):
       self.save(new=new)
 
   def refresh_tables(self, sender, **event_args):
-    self.parent.raise_event('x-refresh-tables')
+    self.caller.raise_event('x-refresh-tables')
     
   def get_icon(self, icon_id):
     if icon_id:
@@ -90,30 +90,7 @@ class Vendor(VendorTemplate):
   def save_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     # Remap altered attributes back after possible editing 
-
-    if not self.item.vendor_name:
-      alert("Nothing to update!")
-      return
-          
-    ret = None
-    try:
-      if self.item.vendor_id is not None:
-        self.item.save()
-      else:
-        self.item.vendor_id = self.item.vendor_name
-        ret = self.vendors.save_as_new(self.item)
-        if ret is not None:
-          self.item = ret
-        else:
-          alert("There is already an existing Vendor with that name!")
-      self.parent.raise_event('x-refresh-tables')
-    except Exception as e:
-      alert("Error adding/updating vendor! Check logs!")
-      print(e)
-      raise
-
-    self.refresh_data_bindings()
-      
+    self.raise_event('x-close-alert', value=True)      
 
   
   def icon_loader_change(self, file, **event_args):
@@ -182,10 +159,15 @@ class Vendor(VendorTemplate):
 
 
   def save(self, new=False):
+    if not self.item.vendor_name:
+      alert("Nothing to update!")
+      return
+
     if new:
       try:
         self.item.save_as_new()
         self.vendors.add(self.item.vendor_id, self.item)
+        self.caller.raise_event('x-refresh-tables')
       except Exception as e:
         print(f"Error saving vendor! {e}")
         alert(f"Error saving vendor! {e}")
@@ -193,6 +175,7 @@ class Vendor(VendorTemplate):
     else:
       try:
         self.item.save()
+        self.caller.raise_event('x-refresh-tables')
       except Exception as e:
         print(f"Error saving vendor! {e}")
         alert(f"Error saving vendor! {e}")

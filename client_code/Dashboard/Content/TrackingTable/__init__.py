@@ -64,6 +64,7 @@ class TrackingTable(TrackingTableTemplate):
     # Any code you write here will run before the form opens.
 
   def refresh_tables(self, sender, **event_args):
+    print(f"Got refresh tables event from {sender}")
     self.parent.raise_event('x-refresh-tables')
   
   def set_plot_layout(self):
@@ -235,7 +236,7 @@ class TrackingTable(TrackingTableTemplate):
 
     def open_vendor(sender, **event_args):
       print("Opening vendor: {0}".format(sender.tag.vendor_name))
-      vendor_form = Vendor(item=sender.tag, show_save=False, parent=self)
+      vendor_form = Vendor(item=sender.tag, show_save=False, caller=self)
       vendor_form.show(title=sender.tag.vendor_name)
       return
 
