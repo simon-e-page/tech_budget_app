@@ -4,7 +4,8 @@ import anvil.users
 import datetime as dt
 
 from .. import Data
-from ..Data import AttributeToDict, AttributeToKey, VendorsModel
+from .BaseModel import AttributeToDict, AttributeToKey
+from ..Data import VendorsModel
 
 #####################################################################
 # TRANSACTION
@@ -72,7 +73,7 @@ class Transaction(AttributeToKey):
   def delete(self):
     try:
       anvil.server.call('Transactions', 'delete_transactions', [self.transaction_id])
-      Data.refresh_cache()
+      #Data.refresh_cache()
     except Exception as e:
       print("Error deleting transaction")
       return False
@@ -109,7 +110,7 @@ class Transaction(AttributeToKey):
     self['updated'] = dt.datetime.now()
     try:
       anvil.server.call('Transactions', 'update', self.transaction_id, self.to_dict())
-      Data.refresh_cache()
+      #Data.refresh_cache()
     except Exception as e:
       print("Error updating transaction: {0}".format(self.transaction_id))
 
@@ -123,7 +124,7 @@ class Transaction(AttributeToKey):
   def add_entries(self, new_entries, overwrite=False):
     try:
       ret = anvil.server.call('Transactions', 'add_entries', self.transaction_id, new_entries, overwrite)
-      Data.refresh_cache()
+      #Data.refresh_cache()
     except Exception as e:
       print('Error updating entries!')
       ret = None
@@ -173,7 +174,7 @@ class LazyTransactionList(AttributeToDict):
     """ Adds a list of transactions present as a list of dictionaries """
     try:
       transaction_ids = anvil.server.call('Transactions', 'add_transaction', transactions, update=update)
-      Data.refresh_cache()
+      #Data.refresh_cache()
     except Exception as e:
       print("Error adding new transactions as bulk addition!")
       raise
@@ -182,7 +183,7 @@ class LazyTransactionList(AttributeToDict):
   def new(self, transaction, update=True):
     try:
       transaction_ids = anvil.server.call('Transactions', 'add_transaction', transaction.to_dict(), update=update)
-      Data.refresh_cache()
+      #Data.refresh_cache()
       new_trans_id = transaction_ids[0]
       transaction['transaction_id'] = new_trans_id
       self.__d__[transaction.transaction_id] = transaction
@@ -203,7 +204,7 @@ class LazyTransactionList(AttributeToDict):
       columns_changed = list(updates.keys())
     try:
       count = anvil.server.call('Transactions', 'update_all', transaction_ids, updates, columns_changed)
-      Data.refresh_cache()
+      #Data.refresh_cache()
     except Exception as e:
       print("Error in update_transactions_bulk")
     return count
@@ -242,7 +243,7 @@ class LazyTransactionList(AttributeToDict):
   def search_and_add_entries(self, entries, overwrite=False):
     try:
       ret = anvil.server.call('Transactions', 'search_and_add_entries', brand=Data.CURRENT_BRAND, entries=entries, overwrite=overwrite)
-      Data.refresh_cache()
+      #Data.refresh_cache()
     except Exception as e:
       print('Error updating entries!')
       ret = None
