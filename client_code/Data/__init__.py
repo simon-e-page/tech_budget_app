@@ -60,7 +60,7 @@ def refresh_cache():
   REFRESH_UI = True
 
 
-def refresh(brand=None):
+def refresh(brand=None, _fin_years=None):
   global FIN_YEARS, CURRENT_YEAR, BUDGET_YEAR, CURRENT_BRAND
   if brand is None:
     if len(BRANDS)>0:
@@ -71,8 +71,10 @@ def refresh(brand=None):
       return
   else:
     CURRENT_BRAND = brand
-    
-  FIN_YEARS, BUDGET_YEAR, CURRENT_YEAR = anvil.server.call('Calendar', 'get_fin_years', CURRENT_BRAND)
+
+  if _fin_years is None:
+    _fin_years = anvil.server.call('Calendar', 'get_fin_years', CURRENT_BRAND)
+    FIN_YEARS, BUDGET_YEAR, CURRENT_YEAR = _fin_years
   print(f"Fin Years: {FIN_YEARS}, Budget Year: {BUDGET_YEAR}, Current Year: {CURRENT_YEAR}")
   
 
@@ -220,10 +222,11 @@ initial_load = [
   { 'classname': 'Users', 'methodname': 'get_roles', 'kwargs': {} },
   { 'classname': 'Users', 'methodname': 'search', 'kwargs': {} },
   { 'classname': 'Vendors', 'methodname': 'get_vendors', 'kwargs': {} },
+  { 'classname': 'Calendar', 'methodname': 'get_fin_years', 'kwargs': {'brand': CURRENT_BRAND } },
 ]
 
 
-BRANDS, REFS, _roles, _users, _vendors = anvil.server.call('multi_launcher', initial_load)
+BRANDS, REFS, _roles, _users, _vendors, _fin_years = anvil.server.call('multi_launcher', initial_load)
 
 #BRANDS = anvil.server.call('Brands', 'get_brands')
 BRANDS_DD = [ (x['code'], x['code']) for x in BRANDS ]
@@ -253,4 +256,4 @@ UsersModel.ROLES.load(_roles=_roles)
 UsersModel.USERS.load(_users=_users)
 VendorsModel.VENDORS.load(_vendors=_vendors)
 
-refresh()
+refresh(_fin_years=_fin_years)
