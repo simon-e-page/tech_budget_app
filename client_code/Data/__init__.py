@@ -3,7 +3,8 @@ import anvil.users
 import re
 import datetime as dt
 
-#from . import VendorsModel
+from . import VendorsModel
+from . import UsersModel
 
 """This module collects global variables to be used throughout the app"""
 """
@@ -293,12 +294,15 @@ TEMPLATE_URL = '"_/theme/budget_template_202411.xlsx"'
 ATTRIBUTE_NAMES = ['account_code', 'cost_centre', 'lifecycle', 'category', 'service_change', 'billing_type']
 
 initial_load = [
-  { 'classname': 'Brands', 'methodname': 'get_brands', 'kwargs': None },
+  { 'classname': 'Brands', 'methodname': 'get_brands', 'kwargs': {} },
   { 'classname': 'Reference', 'methodname': 'get_attributes', 'kwargs': { 'attribute_names': ATTRIBUTE_NAMES } },  
+  { 'classname': 'Users', 'methodname': 'get_roles', 'kwargs': {} },
+  { 'classname': 'Users', 'methodname': 'search', 'kwargs': {} },
+  { 'classname': 'Vendors', 'methodname': 'get_vendors', 'kwargs': {} },
 ]
 
 
-BRANDS, REFS = anvil.server.call('multi_launcher', initial_load)
+BRANDS, REFS, _roles, _users, _vendors = anvil.server.call('multi_launcher', initial_load)
 
 #BRANDS = anvil.server.call('Brands', 'get_brands')
 BRANDS_DD = [ (x['code'], x['code']) for x in BRANDS ]
@@ -322,5 +326,10 @@ SERVICE_CHANGES_DD = [ (x,x) for x in SERVICE_CHANGES ]
 
 BILLING_TYPES = REFS['billing_type']
 BILLING_TYPES_DD = [ (x,x) for x in BILLING_TYPES ]
+
+
+UsersModel.ROLES.load(_roles=_roles)
+UsersModel.USERS.load(_users=_users)
+VendorsModel.VENDORS.load(_vendors=_vendors)
 
 refresh()

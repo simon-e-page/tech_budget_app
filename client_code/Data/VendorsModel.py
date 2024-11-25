@@ -118,9 +118,11 @@ class Vendors(AttributeToDict):
       self.add(vendor_id, Vendor(vendor_json=vendor_data))
       return self.get(vendor_id)
       
-  def load(self):
+  def load(self, _vendors=None):
     self.__d__ = {}
-    for vendor in anvil.server.call('Vendors', 'get_vendors'):
+    if _vendors is None:
+      _vendors = anvil.server.call('Vendors', 'get_vendors')
+    for vendor in _vendors:
       self.new(vendor)
 
     # Now follow internal references!
@@ -180,4 +182,4 @@ class Vendors(AttributeToDict):
     
     
 VENDORS = Vendors()
-VENDORS.load()
+#VENDORS.load()

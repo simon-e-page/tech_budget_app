@@ -72,9 +72,11 @@ class Users(AttributeToDict):
       self.add(email, User(user_json=user_data))
       return self.get(email)
       
-  def load(self):
+  def load(self, _users=None):
     self.__d__ = {}
-    for user in anvil.server.call('Users', 'search'):
+    if _users is None:
+      _users = anvil.server.call('Users', 'search')
+    for user in _users:
       self.new(user)
 
 
@@ -144,9 +146,11 @@ class Roles(AttributeToDict):
       self.add(role_name, Role(role_json=role_data))
       return self.get(role_name)
 
-  def load(self):
+  def load(self, _roles=None):
     self.__d__ = {}
-    for role in anvil.server.call('Users', 'get_roles'):
+    if _roles is None:
+      _roles = anvil.server.call('Users', 'get_roles')
+    for role in _roles:
       self.new(role)
 
 ############
@@ -172,5 +176,3 @@ TEAMS_DD = { k: [ (i, i) for i in v ] for k,v in TEAMS.items() }
 USERS = Users()
 ROLES = Roles()
 
-ROLES.load()
-USERS.load()
