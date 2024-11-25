@@ -222,13 +222,11 @@ initial_load = [
   { 'classname': 'Users', 'methodname': 'get_roles', 'kwargs': {} },
   { 'classname': 'Users', 'methodname': 'search', 'kwargs': {} },
   { 'classname': 'Vendors', 'methodname': 'get_vendors', 'kwargs': {} },
-  { 'classname': 'Calendar', 'methodname': 'get_fin_years', 'kwargs': {'brand': CURRENT_BRAND } },
 ]
 
 
-BRANDS, REFS, _roles, _users, _vendors, _fin_years = anvil.server.call('multi_launcher', initial_load)
+BRANDS, REFS, _roles, _users, _vendors = anvil.server.call('multi_launcher', initial_load)
 
-#BRANDS = anvil.server.call('Brands', 'get_brands')
 BRANDS_DD = [ (x['code'], x['code']) for x in BRANDS ]
 
   
@@ -256,4 +254,4 @@ UsersModel.ROLES.load(_roles=_roles)
 UsersModel.USERS.load(_users=_users)
 VendorsModel.VENDORS.load(_vendors=_vendors)
 
-refresh(_fin_years=_fin_years)
+refresh()
