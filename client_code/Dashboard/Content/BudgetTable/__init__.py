@@ -7,7 +7,8 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from .... import Data
-from ....Data import VendorsModel, TransactionsModel, FinancialNumber
+from ....Data import VendorsModel, TransactionsModel
+from ....Data.BaseModel import FinancialNumber
 
 # from ....Vendors.Vendors.Vendor import Vendor
 #from ....Ti import VendorDetailTable

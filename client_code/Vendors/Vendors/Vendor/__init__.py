@@ -4,7 +4,8 @@ from anvil import *
 import datetime as dt
 
 from .... import Data
-from ....Data import IconsModel, VendorsModel, ACCEPTABLE_IMAGES, TransactionsModel
+from ....Data import IconsModel, VendorsModel, TransactionsModel
+from ....Data.BaseModel import ACCEPTABLE_IMAGES
 from ....Tickets.Transaction.VendorDetailTable import VendorDetailTable
 from ....Tickets.Transaction import Transaction
 

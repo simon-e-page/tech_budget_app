@@ -3,8 +3,8 @@ import anvil.users
 import re
 import datetime as dt
 
-#from . import VendorsModel
-#from . import UsersModel
+from . import VendorsModel
+from . import UsersModel
 
 """This module collects global variables to be used throughout the app"""
 """

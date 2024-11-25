@@ -7,14 +7,12 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
-#from tabulator.Tabulator import row_selection_column
 
 from .... import Data
-from ....Data import VendorsModel, TransactionsModel, CURRENT_YEAR, FinancialNumber
+from ....Data import VendorsModel, TransactionsModel 
 from ....Vendors.Vendors import Vendor
-#from ....Vendors.Vendors.Vendor import Vendor
-#from ....Tickets.Transaction.VendorDetailTable import VendorDetailTable
-#from ..VendorDetailTable import VendorDetailTable
+from ....Data.BaseModel import FinancialNumber
+
 
 COL_WIDTH = 90
 
@@ -23,7 +21,7 @@ class TrackingTable(TrackingTableTemplate):
     # Set Form properties and Data Bindings.
     self.vendors = VendorsModel.VENDORS
     self.transactions = TransactionsModel.get_transactions()
-    self.year = properties.get('year', CURRENT_YEAR)
+    self.year = properties.get('year', Data.CURRENT_YEAR)
     self.task = None
     
     self.tracking_table.options = {

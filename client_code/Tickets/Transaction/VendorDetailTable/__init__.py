@@ -6,9 +6,9 @@ import anvil.users
 import datetime as dt
 
 from .... import Data
-from ....Data import VendorsModel, TransactionsModel, FinancialNumber
-#from ....Vendors.Vendors.Vendor import Vendor
-#from ....Tickets.Transaction import Transaction
+from ....Data import VendorsModel, TransactionsModel
+from ....Data.BaseModel import FinancialNumber
+
 
 class VendorDetailTable(VendorDetailTableTemplate):
   def __init__(self, mode='Actual', **properties):
