@@ -11,9 +11,10 @@ from ....Tickets.Transaction import Transaction
 from tabulator.Tabulator import row_selection_column
 
 class Vendor(VendorTemplate):
-  def __init__(self, **properties):
+  def __init__(self, parent, **properties):
     #self.name_unique = False
     self.show_save = True
+    self.parent = parent
     self.icons = IconsModel.ICONS
     self.year = Data.get_year()
     self.vendors = VendorsModel.VENDORS
@@ -31,6 +32,7 @@ class Vendor(VendorTemplate):
       {'title': 'Delete', 'field': 'delete', 'formatter': self.delete_formatter, 'formatterParams': {'key': 'synonyms'} }
     ]
 
+    self.add_event_handler('x-refresh-tables', self.refresh_tables)
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     # Any code you write here will run when the form opens.
@@ -44,7 +46,9 @@ class Vendor(VendorTemplate):
     if ret:
       self.save(new=new)
 
-  
+  def refresh_tables(self, sender, **event_args):
+    self.parent.raise_event('x-refresh-tables')
+    
   def get_icon(self, icon_id):
     if icon_id:
       return self.icons.get_content(icon_id)
@@ -105,6 +109,7 @@ class Vendor(VendorTemplate):
       self.parent.raise_event('x-refresh-tables')
     except Exception as e:
       alert("Error adding/updating vendor! Check logs!")
+      print(e)
       raise
 
     self.refresh_data_bindings()

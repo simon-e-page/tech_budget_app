@@ -43,7 +43,7 @@ class TrackingTable(TrackingTableTemplate):
       "css_class": ["table-striped", "table-bordered", "table-condensed"],
       'pagination': False,
       'frozenRows': 8,
-      'height': '40vh',
+      #'height': '30vh',
       
       #'autoResize': False,
       #"pagination_size": 10,
@@ -57,11 +57,14 @@ class TrackingTable(TrackingTableTemplate):
     self.data = None
     
     self.vendor_rows_selected = False
-    
+    self.add_event_handler('x-refresh-tables', self.refresh_tables)
+
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
 
+  def refresh_tables(self, sender, **event_args):
+    self.parent.raise_event('x-refresh-tables')
   
   def set_plot_layout(self):
     actuals = [ self.actuals_summary[x] for x in self.year_months if self.transaction_types[x]=='Actual' ]
@@ -232,7 +235,7 @@ class TrackingTable(TrackingTableTemplate):
 
     def open_vendor(sender, **event_args):
       print("Opening vendor: {0}".format(sender.tag.vendor_name))
-      vendor_form = Vendor(item=sender.tag, show_save=False)
+      vendor_form = Vendor(item=sender.tag, show_save=False, parent=self)
       vendor_form.show(title=sender.tag.vendor_name)
       return
 

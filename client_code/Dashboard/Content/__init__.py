@@ -56,6 +56,7 @@ class Content(ContentTemplate):
     self.balance_data = {} 
     
     self.end_date = self.fin_year
+    self.add_event_handler('x-refresh-tables', self.reset)
     #self.set_overview_label_str()
     self.init_components(**properties)
 
