@@ -290,13 +290,21 @@ CURRENT_BRAND = None
 REFRESH_UI = False
 
 TEMPLATE_URL = '"_/theme/budget_template_202411.xlsx"'
+ATTRIBUTE_NAMES = ['account_code', 'cost_centre', 'lifecycle', 'category', 'service_change', 'billing_type']
 
-BRANDS = anvil.server.call('Brands', 'get_brands')
+initial_load = [
+  { 'classname': 'Brands', 'methodname': 'get_brands', 'kwargs': None },
+  { 'classname': 'Reference', 'methodname': 'get_attributes', 'kwargs': { 'attribute_names': ATTRIBUTE_NAMES } },  
+]
+
+
+BRANDS, REFS = anvil.server.call('multi_launcher', initial_load)
+
+#BRANDS = anvil.server.call('Brands', 'get_brands')
 BRANDS_DD = [ (x['code'], x['code']) for x in BRANDS ]
 
-ATTRIBUTE_NAMES = ['account_code', 'cost_centre', 'lifecycle', 'category', 'service_change', 'billing_type']
   
-REFS = anvil.server.call('Reference', 'get_attributes', attribute_names=ATTRIBUTE_NAMES)
+#REFS = anvil.server.call('Reference', 'get_attributes', attribute_names=ATTRIBUTE_NAMES)
 ACCOUNT_CODES = REFS['account_code']
 ACCOUNT_CODES_DD = [ (x, x) for x in ACCOUNT_CODES ]
 
