@@ -143,6 +143,7 @@ class ImportActuals(ImportActualsTemplate):
     except Exception as e:
       alert("Import Error!")
       print(e)
+      raise
       return
       
     self.transaction_review.import_data = self.transactions_with_entries
