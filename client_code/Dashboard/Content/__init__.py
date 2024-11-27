@@ -12,6 +12,7 @@ from .HeadlineStats import HeadlineStats
 from ... import Data
 from datetime import datetime
 
+from ...Data import VendorsModel
 from ...Tickets.BudgetLines.ImportActuals import ImportActuals
 from .AttributeReview import AttributeReview
 
@@ -30,6 +31,7 @@ class Content(ContentTemplate):
   def __init__(self, fin_year_date=None, **properties):
     # Set Form properties and Data Bindings.    
     self.fin_year = Data.get_year()
+    self.vendors = VendorsModel.VENDORS
     
     self.budget_data = None
     self.overview_visible = True
