@@ -4,7 +4,6 @@ import anvil.server
 import anvil.users
 import anvil.media
 
-import traceback
 import datetime as dt
 
 from .... import Data
@@ -116,7 +115,7 @@ class ImportActuals(ImportActualsTemplate):
         self.render_vendor_table()
       except Exception as e:
         alert(f"Error parsing import file! Message: {e}")
-        print(traceback.format_exc())
+        print(e)
         
       #print(self.cost_centres)
     else:
