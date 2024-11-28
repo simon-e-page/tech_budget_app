@@ -224,13 +224,14 @@ class TrackingTable(TrackingTableTemplate):
               'actuals':   { 'total': a_data['total'], 'delta': p_data['total'] }, 
               'forecasts': { 'total': f_data['total'], 'delta': fp_total }
            }    
+
+
+
   
   # Vendor Formatter
   def vendor_formatter(self, cell, **params):
     vendor_id = cell.getData()['vendor_id']
     vendor = self.vendors.get(vendor_id, default='Unknown Vendor')
-    if vendor == 'Unknown Vendor':
-      print(f"Error: Issue with Vnedor record: {vendor_id}")
 
     def open_vendor(sender, **event_args):
       print("Opening vendor: {0}".format(sender.tag.vendor_name))
@@ -240,9 +241,14 @@ class TrackingTable(TrackingTableTemplate):
       return
 
     link = Link(text=cell.get_value(), tag=vendor)
-    link.set_event_handler("click", open_vendor)
+
+    if vendor == 'Unknown Vendor':
+      print(f"Error: Issue with Vendor record: {vendor_id}")
+    else:
+      link.set_event_handler("click", open_vendor)
     return link
 
+  
   # Summary formatter
   def format_summary(self, cell, **params):
     val = cell.getValue()

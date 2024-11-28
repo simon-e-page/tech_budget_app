@@ -4,6 +4,7 @@ import anvil.server
 import anvil.users
 import anvil.media
 
+import traceback
 import datetime as dt
 
 from .... import Data
@@ -114,8 +115,9 @@ class ImportActuals(ImportActualsTemplate):
         self.month_total = new_data['month_total']
         self.render_vendor_table()
       except Exception as e:
-        alert("Error importing file! Check logs!")
+        alert("Error parsing import file! Message: {}")
         print(e)
+        print(traceback.format_exc())
         
       #print(self.cost_centres)
     else:
@@ -141,9 +143,9 @@ class ImportActuals(ImportActualsTemplate):
       alert(v_mesg)
       return
     except Exception as e:
-      alert("Import Error!")
+      alert("Error while processing the import file!")
       print(e)
-      raise
+      self.back_to_vendor_button()
       return
       
     self.transaction_review.import_data = self.transactions_with_entries
