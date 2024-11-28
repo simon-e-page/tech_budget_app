@@ -115,8 +115,7 @@ class ImportActuals(ImportActualsTemplate):
         self.month_total = new_data['month_total']
         self.render_vendor_table()
       except Exception as e:
-        alert("Error parsing import file! Message: {}")
-        print(e)
+        alert(f"Error parsing import file! Message: {e}")
         print(traceback.format_exc())
         
       #print(self.cost_centres)
