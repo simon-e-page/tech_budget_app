@@ -27,30 +27,31 @@ class CrudForm(CrudFormTemplate):
       k = editable['key']
       v = self.item[k]
       flow_panel = None
-
+      label = editable.get('label', None)
+      
       if 'list' in editable:
-        flow_panel = self.get_dropdown(k, v, editable['list'])
+        flow_panel = self.get_dropdown(k, v, editable['list'], label=label)
         panel.add_component(flow_panel)
 
       elif v is None:
-        flow_panel = self.get_textbox(k, v, box_type='text')
+        flow_panel = self.get_textbox(k, v, box_type='text', label=label)
         panel.add_component(flow_panel)
 
       elif 'type' in editable:
-        flow_panel = self.get_textbox(k, v, box_type=type)
+        flow_panel = self.get_textbox(k, v, box_type=type, label=label)
         panel.add_component(flow_panel)
         
       elif isinstance(v, str):
-        flow_panel = self.get_textbox(k, v, box_type='text')
+        flow_panel = self.get_textbox(k, v, box_type='text', label=label)
         panel.add_component(flow_panel)
         
       elif isinstance(v, int):
-        flow_panel = self.get_textbox(k, v, box_type='number')
+        flow_panel = self.get_textbox(k, v, box_type='number', label=label)
         panel.add_component(flow_panel)
         
       elif isinstance(v, float):
         precision = editable.get('precision', 2)
-        flow_panel = self.get_textbox(k, v, box_type='text', precision=precision)
+        flow_panel = self.get_textbox(k, v, box_type='text', precision=precision, label=label)
         panel.add_component(flow_panel)
         
       else:
@@ -72,8 +73,11 @@ class CrudForm(CrudFormTemplate):
     ret = alert(self, title=title, large=True, buttons=[('Cancel', False)])
     return ret
   
-  def get_textbox(self, k, v, box_type='text', precision=None):
-    label = Label(text=f"{k}:")
+  def get_textbox(self, k, v, box_type='text', precision=None, label=None):
+    if label is None:
+      label = Label(text=f"{k}:")
+    else:
+      label = Label(text=label)
     placeholder = f"Enter {k}"
     format_string = "{0}"
     if precision is not None:
@@ -92,11 +96,15 @@ class CrudForm(CrudFormTemplate):
     return fp
 
 
-  def get_dropdown(self, k, v, items=None):
+  def get_dropdown(self, k, v, items=None, label=None):
     if items is None:
       items = []
 
-    label = Label(text=f"{k}:")
+    if label is None:
+      label = Label(text=f"{k}:")
+    else:
+      label = Label(text=label)
+      
     placeholder = f"Enter {k}"
     selected_value = v
     widget = DropDown(items=items, selected_value=selected_value, placeholder=placeholder, include_placeholder=True)
