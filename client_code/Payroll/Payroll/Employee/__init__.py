@@ -19,10 +19,15 @@ class Employee(EmployeeTemplate):
   def show(self, new=False):
     title = "Create New Employee" if new else "Edit Employee"
     ret = alert(self, buttons=[('Cancel', False)], large=True, title=title)
-
     if ret:
-      self.employees.save(self.item)
-      
+      pass      
+
   def save_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    pass
+    try:
+      self.item.save()
+      self.raise_event('x-close-alert', True)
+    except Exception as e:
+      print(e)
+      alert(f"Error wile saving: {e}")
+      raise      

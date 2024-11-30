@@ -14,6 +14,7 @@ from ..Tickets.BudgetLines import BudgetLines
 from ..Settings.Reference import Reference
 from .NewBrand import NewBrand
 from ..Tickets.BudgetLines.ImportBudget import ImportBudget 
+from ..Payroll.Payroll import Payroll
 from .. import Data
 
 
@@ -82,6 +83,13 @@ class Homepage(HomepageTemplate):
     self.current_form = BudgetLines(mode='Forecast', initial_filters=initial_filters, year=Data.get_year())
     self.transaction_panel.role = 'dash-link-selected'
     self.headline_label.text = f"Forecast Lines: {self.current_year}"
+    self.clear_page()
+    self.add_component(self.current_form, slot="default")
+
+  def open_payroll(self, **kwargs):
+    self.current_form = Payroll()
+    #self.transaction_panel.role = 'dash-link-selected'
+    self.headline_label.text = f"Payroll: {self.current_year}"
     self.clear_page()
     self.add_component(self.current_form, slot="default")
   
@@ -251,6 +259,10 @@ class Homepage(HomepageTemplate):
         if result:
           Data.refresh(brand=self.brand)
           self.next_button_click()
+
+  def payroll_link_click(self, **event_args):
+    """This method is called when the link is clicked"""
+    self.open_payroll()
 
       
 

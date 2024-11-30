@@ -94,6 +94,15 @@ components:
     name: users_link
     properties: {icon: 'fa:gear', text: Users}
     type: Link
+  - components:
+    - event_bindings: {click: payroll_link_click}
+      layout_properties: {}
+      name: payroll_link
+      properties: {icon: 'fa:user', text: Payroll}
+      type: Link
+    name: flow_panel_4
+    properties: {}
+    type: FlowPanel
   layout_properties: {slot: sidebar-items-2}
   name: links_panel
   properties: {}

@@ -47,7 +47,9 @@ components:
   properties: {}
   type: LinearPanel
 - components:
-  - event_bindings: {click: save_button_click}
+  - data_bindings:
+    - {code: 'self.item[''employee_id''] is not None', property: enabled, writeback: false}
+    event_bindings: {click: save_button_click}
     layout_properties: {}
     name: save_button
     properties: {bold: true, icon: 'fa:save', role: primary-button, text: Save}
