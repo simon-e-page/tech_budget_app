@@ -28,30 +28,33 @@ class CrudForm(CrudFormTemplate):
       v = self.item[k]
       flow_panel = None
       label = editable.get('label', None)
-      
+      enabled = editable.get('enabled', True)
+
+      params = { param: editable.get(param, None) for param in ['label', 'enabled', 'precision'] }
+        
       if 'list' in editable:
-        flow_panel = self.get_dropdown(k, v, editable['list'], label=label)
+        flow_panel = self.get_dropdown(k, v, editable['list'], **params)
         panel.add_component(flow_panel)
 
       elif v is None:
-        flow_panel = self.get_textbox(k, v, box_type='text', label=label)
+        flow_panel = self.get_textbox(k, v, box_type='text', **params)
         panel.add_component(flow_panel)
 
       elif 'type' in editable:
-        flow_panel = self.get_textbox(k, v, box_type=type, label=label)
+        flow_panel = self.get_textbox(k, v, box_type=type,**params)
         panel.add_component(flow_panel)
         
       elif isinstance(v, str):
-        flow_panel = self.get_textbox(k, v, box_type='text', label=label)
+        flow_panel = self.get_textbox(k, v, box_type='text', **params)
         panel.add_component(flow_panel)
         
       elif isinstance(v, int):
-        flow_panel = self.get_textbox(k, v, box_type='number', label=label)
+        flow_panel = self.get_textbox(k, v, box_type='number', **params)
         panel.add_component(flow_panel)
         
       elif isinstance(v, float):
         precision = editable.get('precision', 2)
-        flow_panel = self.get_textbox(k, v, box_type='text', precision=precision, label=label)
+        flow_panel = self.get_textbox(k, v, box_type='text', **params)
         panel.add_component(flow_panel)
         
       else:
@@ -73,22 +76,31 @@ class CrudForm(CrudFormTemplate):
     ret = alert(self, title=title, large=True, buttons=[('Cancel', False)])
     return ret
   
-  def get_textbox(self, k, v, box_type='text', precision=None, label=None):
+  def get_textbox(self, k, v, box_type='text', **params ):
+    label = params.get('label', None)
+    enabled = params.get('enabled', True)
+    precision = params.get('precision', None)
+    
     if label is None:
       label = Label(text=f"{k}:")
     else:
       label = Label(text=label)
+      
     placeholder = f"Enter {k}"
     format_string = "{0}"
+
     if precision is not None:
       format_string += f":,.{precision}f"
     if v is not None:
       text = format_string.format(v) 
     else:
       text = None
-    widget = TextBox(text=text, placeholder=placeholder, tag=k, type=box_type)
+      
+    widget = TextBox(text=text, placeholder=placeholder, tag=k, type=box_type, enabled=enabled)
+    
     def str_update_event(sender, **event_args):
       self.item[sender.tag] = sender.text
+
     widget.add_event_handler('lost_focus', str_update_event)
     fp = FlowPanel()
     fp.add_component(label)

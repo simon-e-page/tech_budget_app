@@ -21,10 +21,10 @@ class Position(AttributeToKey):
     'position_id': None,
     'brand': 'JB_AU',
     'title': '',
-    'role_type': '',
+    'role_type': 'Permanent',
     'description': '',
     'team': '',
-    'reason': 'backfill',
+    'reason': 'Backfill',
     'recruitment_code': None,
     'status': 'active'
   }
