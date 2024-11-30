@@ -28,7 +28,7 @@ class Employee(EmployeeTemplate):
       {'key': 'email' }
     ]
     
-    crud_form = CrudForm(editables=editables)
+    crud_form = CrudForm(item=self.item, editables=editables)
     title = "Create New Employee" if self.new else "Edit Employee"
     ret = crud_form.show(title=title)
     print(ret)
