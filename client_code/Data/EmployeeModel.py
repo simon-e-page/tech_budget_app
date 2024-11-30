@@ -116,3 +116,5 @@ class Employees(AttributeToDict):
       num = 0
     self.load()
     return num
+
+EMPLOYEES = Employees()
