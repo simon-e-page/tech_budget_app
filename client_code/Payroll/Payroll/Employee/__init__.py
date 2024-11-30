@@ -21,14 +21,32 @@ class Employee(EmployeeTemplate):
     # Any code you write here will run before the form opens.
   def show(self):
     editables = [
-      { 'key': 'employee_id' },
-      { 'key': 'firstname' },
-      {'key': 'lastname' },
-      {'key': 'gender', 'list': ['M', 'F'] },
-      {'key': 'email' }
+      { 
+        'key': 'employee_id', 
+        'label': 'Employee ID'
+      },
+      { 
+        'key': 'firstname',
+        'label': 'First name',
+      },
+      {
+        'key': 'lastname',
+        'label': 'Last name'
+      },
+      {
+        'key': 'gender',
+        'label': 'Gender',
+        'list': ['M', 'F']
+      },
+      {
+        'key': 'email',
+        'label': 'Email Address:',
+        'type': 'email'
+      }
     ]
     
     crud_form = CrudForm(item=self.item, editables=editables)
+    #crud_form.build_form()
     title = "Create New Employee" if self.new else "Edit Employee"
     ret = crud_form.show(title=title)
     print(ret)
