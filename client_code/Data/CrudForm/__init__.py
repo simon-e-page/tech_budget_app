@@ -83,14 +83,11 @@ class CrudForm(CrudFormTemplate):
     return ret
   
   def get_textbox(self, k, v, box_type='text', **params ):
-    label = params.get('label', None)
+    label = params.get('label', f"{k}")
     enabled = params.get('enabled', True)
     precision = params.get('precision', None)
     
-    if label is None:
-      label = Label(text=f"{k}:")
-    else:
-      label = Label(text=label)
+    label = Label(text=f"{label}:")
       
     placeholder = f"Enter {k}"
     format_string = "{0}"
@@ -114,15 +111,11 @@ class CrudForm(CrudFormTemplate):
     return fp
 
   def get_areabox(self, k, v, **params):
-    label = params.get('label', None)
+    label = params.get('label', f"{k}")
     enabled = params.get('enabled', True)
     height = params.get('height', '20vh')
     
-    if label is None:
-      label = Label(text=f"{k}:")
-    else:
-      label = Label(text=label)
-      
+    label = Label(text=f"{label}:")
     placeholder = f"Enter {k}"
 
     widget = TextArea(text=v, placeholder=placeholder, tag=k, enabled=enabled, height=height)
@@ -137,16 +130,16 @@ class CrudForm(CrudFormTemplate):
     return fp
   
   
-  def get_dropdown(self, k, v, items=None, label=None, enabled=True, **params):
+  def get_dropdown(self, k, v, items=None, **params):
+    label = params.get('label', f"{k}")
+    enabled = params.get('enabled', True)
+    
     if items is None:
       items = []
 
-    if label is None:
-      label = Label(text=f"{k}:")
-    else:
-      label = Label(text=label)
-      
+    label = Label(text=f"{label}:")  
     placeholder = f"Enter {k}"
+    
     selected_value = v
     widget = DropDown(items=items, selected_value=selected_value, placeholder=placeholder, include_placeholder=True, enabled=enabled)
 
