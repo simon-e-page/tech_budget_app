@@ -6,6 +6,12 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
+param_defaults = { 
+  'enabled': True,
+  'label': None,
+  'precision': None,
+  'type': None
+}
 
 class CrudForm(CrudFormTemplate):
   def __init__(self, **properties):
@@ -27,10 +33,8 @@ class CrudForm(CrudFormTemplate):
       k = editable['key']
       v = self.item[k]
       flow_panel = None
-      label = editable.get('label', None)
-      enabled = editable.get('enabled', True)
 
-      params = { param: editable.get(param, None) for param in ['label', 'enabled', 'precision'] }
+      params = { param: editable.get(param, default) for param, default in param_defaults.items() }
         
       if 'list' in editable:
         flow_panel = self.get_dropdown(k, v, editable['list'], **params)
@@ -41,7 +45,10 @@ class CrudForm(CrudFormTemplate):
         panel.add_component(flow_panel)
 
       elif 'type' in editable:
-        flow_panel = self.get_textbox(k, v, box_type=type,**params)
+        if editable['type']=='area':
+          flow_panel = self.get_areabox(k, v, **params)
+        else:
+          flow_panel = self.get_textbox(k, v, box_type=type,**params)
         panel.add_component(flow_panel)
         
       elif isinstance(v, str):
@@ -53,7 +60,6 @@ class CrudForm(CrudFormTemplate):
         panel.add_component(flow_panel)
         
       elif isinstance(v, float):
-        precision = editable.get('precision', 2)
         flow_panel = self.get_textbox(k, v, box_type='text', **params)
         panel.add_component(flow_panel)
         
@@ -107,8 +113,31 @@ class CrudForm(CrudFormTemplate):
     fp.add_component(widget)
     return fp
 
+  def get_areabox(self, k, v, **params):
+    label = params.get('label', None)
+    enabled = params.get('enabled', True)
+    height = params.get('height', '20vh')
+    
+    if label is None:
+      label = Label(text=f"{k}:")
+    else:
+      label = Label(text=label)
+      
+    placeholder = f"Enter {k}"
 
-  def get_dropdown(self, k, v, items=None, label=None):
+    widget = TextArea(text=v, placeholder=placeholder, tag=k, enabled=enabled, height=height)
+    
+    def str_update_event(sender, **event_args):
+      self.item[sender.tag] = sender.text
+
+    widget.add_event_handler('lost_focus', str_update_event)
+    fp = FlowPanel()
+    fp.add_component(label)
+    fp.add_component(widget)
+    return fp
+  
+  
+  def get_dropdown(self, k, v, items=None, label=None, enabled=True, **params):
     if items is None:
       items = []
 
@@ -119,7 +148,7 @@ class CrudForm(CrudFormTemplate):
       
     placeholder = f"Enter {k}"
     selected_value = v
-    widget = DropDown(items=items, selected_value=selected_value, placeholder=placeholder, include_placeholder=True)
+    widget = DropDown(items=items, selected_value=selected_value, placeholder=placeholder, include_placeholder=True, enabled=enabled)
 
     def dd_selected(sender, **event_args):
       self.itemp[sender.tag] = sender.selected_value
