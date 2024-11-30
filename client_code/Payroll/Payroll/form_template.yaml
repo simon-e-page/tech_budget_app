@@ -1,0 +1,42 @@
+components:
+- components:
+  - components:
+    - event_bindings: {click: add_employee_button_click}
+      layout_properties: {}
+      name: add_employee_button
+      properties: {icon: 'fa:plus', role: primary-button, text: Add Employee}
+      type: Button
+    - event_bindings: {click: add_position_button_click}
+      layout_properties: {}
+      name: add_position_button
+      properties: {icon: 'fa:lock', role: primary-button, text: Create Position}
+      type: Button
+    data_bindings:
+    - {code: self.mode=='Budget', property: visible, writeback: false}
+    layout_properties: {full_width_row: true, grid_position: 'TEPHPC,WWTWNI'}
+    name: flow_panel_2
+    properties: {}
+    type: FlowPanel
+  - components:
+    - components: []
+      layout_properties: {full_width_row: true, grid_position: 'AISRFA,BCCNIM'}
+      name: flow_panel_1
+      properties: {}
+      type: FlowPanel
+    layout_properties:
+      col_widths: {}
+      full_width_row: true
+      grid_position: JMIBRO,LGBGLH
+    name: column_panel_1_copy
+    properties: {background: '', border: '', col_spacing: medium, col_widths: '{}', foreground: '', role: null, spacing_above: small, spacing_below: small, tooltip: '', visible: true, wrap_on: mobile}
+    type: ColumnPanel
+  layout_properties: {slot: slot-1}
+  name: transaction_details
+  properties: {background: '', border: '', col_spacing: medium, col_widths: '{"LGBGLH":60}', foreground: '', role: filter-form-shadow, spacing_above: small, spacing_below: small, tooltip: '', visible: true, wrap_on: mobile}
+  type: ColumnPanel
+container:
+  event_bindings: {}
+  properties: {background: '', border: '', foreground: '', html: '@theme:budget_lines.html', role: null, tooltip: '', visible: true}
+  type: HtmlTemplate
+custom_component: false
+is_package: true

@@ -1,0 +1,60 @@
+components:
+- components:
+  - components:
+    - layout_properties: {}
+      name: label_1
+      properties: {text: 'Employee ID:'}
+      type: Label
+    - data_bindings:
+      - {code: 'self.item[''employee_id'']', property: text, writeback: true}
+      layout_properties: {}
+      name: employee_id_box
+      properties: {placeholder: Enter Employee ID}
+      type: TextBox
+    name: flow_panel_1
+    properties: {}
+    type: FlowPanel
+  - components:
+    - layout_properties: {}
+      name: label_2
+      properties: {text: 'First Name:'}
+      type: Label
+    - data_bindings:
+      - {code: 'self.item[''firstname'']', property: text, writeback: true}
+      layout_properties: {}
+      name: first_name_box
+      properties: {placeholder: Enter First Name}
+      type: TextBox
+    name: flow_panel_2
+    properties: {}
+    type: FlowPanel
+  - components:
+    - layout_properties: {}
+      name: label_3
+      properties: {text: 'Last Name:'}
+      type: Label
+    - data_bindings:
+      - {code: 'self.item[''lastname'']', property: text, writeback: true}
+      layout_properties: {}
+      name: last_name_box
+      properties: {placeholder: Enter Last Name}
+      type: TextBox
+    name: flow_panel_3
+    properties: {}
+    type: FlowPanel
+  layout_properties: {full_width_row: true, grid_position: 'ENKSSK,MIDJKY'}
+  name: linear_panel_1
+  properties: {}
+  type: LinearPanel
+- components:
+  - event_bindings: {click: save_button_click}
+    layout_properties: {}
+    name: save_button
+    properties: {bold: true, icon: 'fa:save', role: primary-button, text: Save}
+    type: Button
+  layout_properties: {full_width_row: true, grid_position: 'GMQMTV,BZXXLG'}
+  name: flow_panel_4
+  properties: {}
+  type: FlowPanel
+container: {type: ColumnPanel}
+is_package: true
