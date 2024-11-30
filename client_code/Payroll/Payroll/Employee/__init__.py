@@ -9,15 +9,17 @@ from anvil.tables import app_tables
 from ....Data import EmployeeModel
 
 class Employee(EmployeeTemplate):
-  def __init__(self, **properties):
+  def __init__(self, new=False, **properties):
     self.employees = EmployeeModel.EMPLOYEES
-    
+    self.new = new
+    if new:
+      self.item = self.employees.blank()
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
-  def show(self, new=False):
-    title = "Create New Employee" if new else "Edit Employee"
+  def show(self):
+    title = "Create New Employee" if self.new else "Edit Employee"
     ret = alert(self, buttons=[('Cancel', False)], large=True, title=title)
     if ret:
       pass      
