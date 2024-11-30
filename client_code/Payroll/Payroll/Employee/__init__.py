@@ -7,6 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from ....Data import EmployeeModel
+from ....Data.CrudForm import CrudForm
 
 class Employee(EmployeeTemplate):
   def __init__(self, new=False, **properties):
@@ -19,17 +20,25 @@ class Employee(EmployeeTemplate):
 
     # Any code you write here will run before the form opens.
   def show(self):
+    editables = [
+      { 'key': 'employee_id' },
+      { 'key': 'firstname' },
+      {'key': 'lastname' },
+      {'key': 'gender', 'list': ['M', 'F'] },
+      {'key': 'email' }
+    ]
+    
+    crud_form = CrudForm(editables=editables)
     title = "Create New Employee" if self.new else "Edit Employee"
-    ret = alert(self, buttons=[('Cancel', False)], large=True, title=title)
-    if ret:
-      pass      
-
-  def save_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    try:
-      self.item.save()
-      self.raise_event('x-close-alert', True)
-    except Exception as e:
-      print(e)
-      alert(f"Error wile saving: {e}")
-      raise      
+    ret = crud_form.show(title=title)
+    print(ret)
+    
+#  def save_button_click(self, **event_args):
+#    """This method is called when the button is clicked"""
+#    try:
+#      self.item.save()
+#      self.raise_event('x-close-alert', True)
+#    except Exception as e:
+#      print(e)
+#      alert(f"Error wile saving: {e}")
+#      raise      
