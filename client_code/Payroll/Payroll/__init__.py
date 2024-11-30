@@ -11,6 +11,7 @@ from tabulator.Tabulator import row_selection_column
 
 from ... import Data
 from .Employee import Employee
+from .Position import Position
 
 class Payroll(PayrollTemplate):
   def __init__(self, **properties):
@@ -18,9 +19,11 @@ class Payroll(PayrollTemplate):
     
   def add_employee_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    emp_form = Employee(new=True)
-    emp_form.show()
+    _form = Employee(new=True)
+    _form.show()
     
   def add_position_button_click(self, **event_args):
     """This method is called when the button is clicked"""
+    _form = Position(new=True)
+    _form.show()
     pass

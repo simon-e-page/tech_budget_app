@@ -83,7 +83,7 @@ class Employees(AttributeToDict):
     employee_id = emp_data['employee_id']
     if employee_id is None:
       print("Need to include a unique ID!")
-      raise ValueError("No Vendor ID!")
+      raise ValueError("No Employee ID!")
     if employee_id in self.__d__:
       print("Already an existing Employee with that ID!")
       return None

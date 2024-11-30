@@ -6,7 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
-from ....Data import EmployeeModel
+from ....Data import EmployeesModel
 from ....Data.CrudForm import CrudForm
 
 class Employee(EmployeeTemplate):
