@@ -8,13 +8,13 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
+
 from .HeadlineStats import HeadlineStats
 from ... import Data
-from datetime import datetime
-
-from ...Data import VendorsModel
+from ...Data import VendorsModel, ImporterModel
 from ...Tickets.BudgetLines.ImportActuals import ImportActuals
 from .AttributeReview import AttributeReview
+
 
 class Content(ContentTemplate):
   """This Form populates all the data and charts on the Dashboard.
@@ -32,6 +32,7 @@ class Content(ContentTemplate):
     # Set Form properties and Data Bindings.    
     self.fin_year = Data.get_year()
     self.vendors = VendorsModel.VENDORS
+    self.importer = ImporterModel.IMPORTER
     
     self.budget_data = None
     self.overview_visible = True
@@ -51,6 +52,7 @@ class Content(ContentTemplate):
     self.actions = [ 
       ('Import actuals', self.import_actuals),
       ('Refresh and reload', self.reset),
+      ('Download Finance reports', self.download_finance),
       ('Download quarterly report', self.download_quarterly),
       ('Analyse attributes', self.review_attributes),
       ('Export to Excel', self.export_excel),
@@ -62,6 +64,8 @@ class Content(ContentTemplate):
     self.add_event_handler('x-refresh-tables', self.refresh_tables)
     self.add_event_handler('x-reload', self.reset)
     #self.set_overview_label_str()
+
+    
     self.init_components(**properties)
 
     # Any code you write here will run when the form opens.
@@ -251,7 +255,24 @@ class Content(ContentTemplate):
         self.vendors.load()
       self.reset()
 
+  
   def export_excel(self):
     """This method is called when the link is clicked"""
     obj = Data.get_excel_table(self.fin_year)
     anvil.media.download(obj)
+
+  
+  def download_finance(self):
+    import_months = self.importer.get_import_months(Data.CURRENT_YEAR)
+    download_months = [ (str(x), x) for x in import_months ]
+    panel = FlowPanel()
+    label=Label(text="Select month to download:")
+    dropdown = DropDown(items=download_months)
+    panel.add_component(label)
+    panel.add_component(dropdown)
+    if alert(panel, title="Download Finance report", buttons=[('OK', True), ('Cancel', False)]):
+      year_month = self.download_dropdown.selected_value
+      media_object = self.importer.get_import_file(year_month)
+      if media_object is not None:
+        anvil.media.download(media_object)
+  
