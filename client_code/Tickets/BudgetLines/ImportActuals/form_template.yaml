@@ -12,24 +12,6 @@ components:
       name: delete_button
       properties: {role: secondary-button, text: Delete}
       type: Button
-    - layout_properties: {}
-      name: label_3
-      properties: {text: 'Download Import file:'}
-      type: Label
-    - data_bindings:
-      - {code: self.download_months, property: items, writeback: false}
-      event_bindings: {change: download_dropdown_change}
-      layout_properties: {width: 207.23046875}
-      name: download_dropdown
-      properties: {include_placeholder: true, placeholder: Select month to download}
-      type: DropDown
-    - data_bindings:
-      - {code: self.download_dropdown.selected_value is not None, property: enabled, writeback: false}
-      event_bindings: {click: download_button_click}
-      layout_properties: {}
-      name: download_button
-      properties: {icon: 'fa:download', role: secondary-button, text: ''}
-      type: Button
     layout_properties: {grid_position: 'XXZMFY,UWVPOI'}
     name: prior_panel
     properties: {}

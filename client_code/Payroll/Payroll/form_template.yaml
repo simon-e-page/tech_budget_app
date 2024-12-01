@@ -18,21 +18,28 @@ components:
     properties: {}
     type: FlowPanel
   - components:
-    - components: []
-      layout_properties: {full_width_row: true, grid_position: 'AISRFA,BCCNIM'}
+    - components:
+      - layout_properties: {}
+        name: label_1
+        properties: {text: 'Positions:'}
+        type: Label
       name: flow_panel_1
       properties: {}
       type: FlowPanel
-    layout_properties:
-      col_widths: {}
-      full_width_row: true
-      grid_position: JMIBRO,LGBGLH
-    name: column_panel_1_copy
-    properties: {background: '', border: '', col_spacing: medium, col_widths: '{}', foreground: '', role: null, spacing_above: small, spacing_below: small, tooltip: '', visible: true, wrap_on: mobile}
-    type: ColumnPanel
+    - components:
+      - name: positions_table
+        properties: {}
+        type: form:Payroll.Payroll.Positions
+      name: flow_panel_3
+      properties: {}
+      type: FlowPanel
+    layout_properties: {full_width_row: true, grid_position: 'MZGPDT,FWMEOJ'}
+    name: linear_panel_1
+    properties: {}
+    type: LinearPanel
   layout_properties: {slot: slot-1}
   name: transaction_details
-  properties: {background: '', border: '', col_spacing: medium, col_widths: '{"LGBGLH":60}', foreground: '', role: filter-form-shadow, spacing_above: small, spacing_below: small, tooltip: '', visible: true, wrap_on: mobile}
+  properties: {background: '', border: '', col_spacing: medium, col_widths: '{}', foreground: '', role: filter-form-shadow, spacing_above: small, spacing_below: small, tooltip: '', visible: true, wrap_on: mobile}
   type: ColumnPanel
 container:
   event_bindings: {}

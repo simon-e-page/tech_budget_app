@@ -52,7 +52,7 @@ class Content(ContentTemplate):
     self.actions = [ 
       ('Import actuals', self.import_actuals),
       ('Refresh and reload', self.reset),
-      ('Download Finance reports', self.download_finance),
+      ('Download finance reports', self.download_finance),
       ('Download quarterly report', self.download_quarterly),
       ('Analyse attributes', self.review_attributes),
       ('Export to Excel', self.export_excel),
@@ -265,14 +265,15 @@ class Content(ContentTemplate):
   def download_finance(self):
     import_months = self.importer.get_import_months(Data.CURRENT_YEAR)
     download_months = [ (str(x), x) for x in import_months ]
+    
     panel = FlowPanel()
     label=Label(text="Select month to download:")
     dropdown = DropDown(items=download_months)
     panel.add_component(label)
     panel.add_component(dropdown)
-    if alert(panel, title="Download Finance report", buttons=[('OK', True), ('Cancel', False)]):
-      year_month = self.download_dropdown.selected_value
-      media_object = self.importer.get_import_file(year_month)
+
+    if alert(panel, title="Download Finance report", large=True, buttons=[('OK', True), ('Cancel', False)]):
+      media_object = self.importer.get_import_file(dropdown.selected_value)
       if media_object is not None:
         anvil.media.download(media_object)
   

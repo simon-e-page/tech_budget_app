@@ -39,8 +39,6 @@ class ImportActuals(ImportActualsTemplate):
     self.transactions = TransactionsModel.get_transactions()
 
     self.actuals_to_date = Data.get_actuals_updated(Data.CURRENT_YEAR)
-    import_months = self.importer.get_import_months(Data.CURRENT_YEAR)
-    self.download_months = [ (str(x), x) for x in import_months ]
 
     self.new_entries = []
     self.new_year_month = None
@@ -158,25 +156,9 @@ class ImportActuals(ImportActualsTemplate):
     if confirm("This will delete the current month Actuals! Are you sure?"):
       pass
 
-  def download_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    year_month = self.download_dropdown.selected_value
-    media_object = self.importer.get_import_file(year_month)
-    if media_object is not None:
-      #filename = file_info['filename']
-      #content = file_info('excel_file')
-      #content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-      #media_object = anvil.BlobMedia(content_type=content_type, content=content, name=filename)
-      anvil.media.download(media_object)
 
 
   
-  def download_dropdown_change(self, **event_args):
-    """This method is called when an item is selected"""
-    if self.download_dropdown.selected_value is not None:
-      self.download_button.enabled = True
-    else:
-      self.download_button.enabled = False
 
   
   def run_import(self):

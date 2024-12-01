@@ -62,6 +62,7 @@ unique_ids:
     Payroll.Payroll: '1732927424514293104102609.7223'
     Payroll.Payroll.Employee: '1732927619720615042984906.1301'
     Payroll.Payroll.Position: '1732946545699356677113318.06573'
+    Payroll.Payroll.Positions: '1733091528310489389518440.84924'
     Settings.Reference: '1724904839518797258691536.122'
     Tickets.BudgetLines: '1717480909221978303826534.8241'
     Tickets.BudgetLines.ImportActuals: '1717820048970750783981212.4346'

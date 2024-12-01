@@ -1,0 +1,8 @@
+components:
+- event_bindings: {table_built: positions_table_table_built}
+  layout_properties: {full_width_row: true, grid_position: 'JUNQTJ,TFYBOK'}
+  name: positions_table
+  properties: {}
+  type: form:TGQCF3WT6FVL2EM2:Tabulator
+container: {type: ColumnPanel}
+is_package: true
