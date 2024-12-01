@@ -33,6 +33,21 @@ components:
       name: flow_panel_3
       properties: {}
       type: FlowPanel
+    - components:
+      - layout_properties: {}
+        name: label_2
+        properties: {text: 'Employees:'}
+        type: Label
+      name: flow_panel_4
+      properties: {}
+      type: FlowPanel
+    - components:
+      - name: employees_table
+        properties: {}
+        type: form:Payroll.Payroll.Employees
+      name: flow_panel_5
+      properties: {}
+      type: FlowPanel
     layout_properties: {full_width_row: true, grid_position: 'MZGPDT,FWMEOJ'}
     name: linear_panel_1
     properties: {}

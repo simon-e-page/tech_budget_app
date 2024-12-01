@@ -102,6 +102,8 @@ class Employees(AttributeToDict):
   def blank(self, emp_data=None):
     return Employee(emp_json=emp_data)
 
+  def all(self):
+    return [ x.to_dict() for x in self.__d__.values() ]
   
   def get_dropdown(self, **filters):
     ret = [ (f"{x.lastname}, {x.firstname}", x.employee_id) for x in sorted(self.__d__, key=attrgetter('lastname', 'firstname')) ]
@@ -118,3 +120,4 @@ class Employees(AttributeToDict):
     return num
 
 EMPLOYEES = Employees()
+EMPLOYEES.load()

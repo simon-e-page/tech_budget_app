@@ -79,7 +79,7 @@ class Positions(AttributeToDict):
       raise KeyError(f"Cant find Position with ID: {position_id}")
 
   def all(self):
-    return [ self.to_dict(x) for x in self.__d__.values() ]
+    return [ x.to_dict() for x in self.__d__.values() ]
       
   def new(self, _data):
     position_id = _data['position_id']
@@ -120,3 +120,4 @@ class Positions(AttributeToDict):
     return num
 
 POSITIONS = Positions()
+POSITIONS.load()
