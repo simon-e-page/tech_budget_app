@@ -51,7 +51,7 @@ class Position(AttributeToKey):
     # Saves to backend as new or updated object
       
     try:
-      ret = anvil.server.call('Positions', 'add_position', [self.to_dict()])
+      ret = anvil.server.call('Positions', 'add_position', self.to_dict())
     except Exception as e:
       ret = None
       print("Error saving Position!")

@@ -153,10 +153,10 @@ class CrudForm(CrudFormTemplate):
     return fp
 
   
-  def save(self):
+  def save(self, **event_args):
     try:
       self.item.save()
-      self.raise_event('x-close-alert', True)
+      self.raise_event('x-close-alert', value=True)
     except Exception as e:
       alert(f"Error saving object: {e}")
       print(e)

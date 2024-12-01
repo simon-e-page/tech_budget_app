@@ -54,6 +54,11 @@ class Position(PositionTemplate):
         'key': 'recruitment_code',
         'label': 'Recruitment Code',
       },
+      {
+        'key': 'status',
+        'label': 'Status',
+        'list': ['active', 'inactive']
+      },
       
     ]
     
