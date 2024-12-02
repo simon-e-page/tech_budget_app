@@ -123,4 +123,4 @@ class Positions(AttributeToDict):
     return anvil.server.call("Positions", 'get_salaries', start_year_month=start_year_month, end_year_month=end_year_month, include_positions=include_positions, brand=Data.CURRENT_BRAND)
     
 POSITIONS = Positions()
-POSITIONS.load()
+#POSITIONS.load()

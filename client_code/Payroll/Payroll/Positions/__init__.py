@@ -75,12 +75,13 @@ class Positions(PositionsTemplate):
       return label
 
     salary_cols = [ {
-        'title': year_month,
-        'field': year_month,
+        'title': str(year_month),
+        'field': str(year_month),
         'formatter': salary_formatter
       } for year_month in self.year_months ]
     
     columns += salary_cols
-      
+    #print(columns)
+    
     self.positions_table.columns = columns
     self.positions_table.data = self.data

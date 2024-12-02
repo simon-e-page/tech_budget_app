@@ -10,12 +10,17 @@ import datetime as dt
 from tabulator.Tabulator import row_selection_column
 
 from ... import Data
+from ...Data import EmployeesModel
+from ...Data import PositionsModel
 from .Employee import Employee
 from .Position import Position
 
 class Payroll(PayrollTemplate):
   def __init__(self, **properties):
-    pass
+    self.employees = EmployeesModel.EMPLOYEES
+    self.positions = PositionsModel.POSITIONS
+    self.employees.load()
+    self.positions.load()
     
   def add_employee_button_click(self, **event_args):
     """This method is called when the button is clicked"""
