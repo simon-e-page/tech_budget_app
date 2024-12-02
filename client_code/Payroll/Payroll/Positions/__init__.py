@@ -7,10 +7,14 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from ....Data import PositionsModel
+from .... import Data
 
 class Positions(PositionsTemplate):
   def __init__(self, **properties):
     self.positions = PositionsModel.POSITIONS
+
+    self.year = Data.CURRENT_YEAR
+    self.year_months = [ (self.year - (x>6))* 100 + x for x in [ 7,8,9,10,11,12,1,2,3,4,5,6 ]  ]
     
     self.positions_table.options = {
       "index": "position_id",  # or set the index property here
@@ -30,8 +34,11 @@ class Positions(PositionsTemplate):
 
     # Any code you write here will run before the form opens.
   def get_data(self):
-    self.data = self.positions.all()
+    start = self.year_months[0]
+    end = self.year_months[-1]  
+    self.data = self.positions.get_salaries(start_year_month=start, end_year_month=end, include_positions=True)
 
+  
   def positions_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
     columns = [
@@ -62,5 +69,18 @@ class Positions(PositionsTemplate):
       
     ]
 
+    def salary_formatter(cell, **params):
+      val = cell.get_value()
+      label = Label(text=f"{val:,.0f}")
+      return label
+
+    salary_cols = [ {
+        'title': year_month,
+        'field': year_month,
+        'formatter': salary_formatter
+      } for year_month in self.year_months ]
+    
+    columns += salary_cols
+      
     self.positions_table.columns = columns
     self.positions_table.data = self.data
