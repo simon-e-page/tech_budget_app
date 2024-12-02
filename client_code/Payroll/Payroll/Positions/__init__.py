@@ -49,6 +49,12 @@ class Positions(PositionsTemplate):
         "headerFilterFunc": "starts",
       },
       {
+        'title': 'Line Manager',
+        'field': 'line_manager_title',
+        "headerFilter": "input",
+        "headerFilterFunc": "starts",
+      },
+      {
         'title': 'Team',
         'field': 'team',
         "headerFilter": "input",

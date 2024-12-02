@@ -35,7 +35,12 @@ class CrudForm(CrudFormTemplate):
       flow_panel = None
 
       params = { param: editable.get(param, default) for param, default in param_defaults.items() }
-        
+
+      # Follow a reference to an attribute (unique key) in another object!
+      # TODO: object needs to understand this on Save!
+      if 'reference' in editable:
+        v = v.get(editable['reference'], None)
+                  
       if 'list' in editable:
         flow_panel = self.get_dropdown(k, v, editable['list'], **params)
         panel.add_component(flow_panel)

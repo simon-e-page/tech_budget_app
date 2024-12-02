@@ -21,6 +21,7 @@ class Position(AttributeToKey):
     'position_id': None,
     'brand': 'JB_AU',
     'title': '',
+    'line_manager_position_id': None,
     'role_type': 'Permanent',
     'description': '',
     'team': '',
@@ -40,6 +41,7 @@ class Position(AttributeToKey):
     item = { k:v for k,v in item.items() if v is not None }
 
     self['position_id'] = item.get('position_id', None)
+      
     for field, default in self._defaults.items():
       if default is not None:
         self[field] = item.get(field, default)
@@ -57,6 +59,16 @@ class Position(AttributeToKey):
       print("Error saving Position!")
       raise
     return ret
+
+  def to_dict(self):
+    d = { x: self[x] for x in self._defaults }
+    line_manager_position_id = d.pop['line_manager_position_id', None]
+    if line_manager_position_id:
+      try:
+        d['line_manager'] = POSITIONS.get(line_manager_position_id)
+      except KeyError:
+        print("Issue with line manager mapping!")
+        d['line_manager'] = None
 
 
 class Positions(AttributeToDict):
@@ -121,6 +133,11 @@ class Positions(AttributeToDict):
 
   def get_salaries(self, start_year_month, end_year_month, include_positions=True):
     return anvil.server.call("Positions", 'get_salaries', start_year_month=start_year_month, end_year_month=end_year_month, include_positions=include_positions, brand=Data.CURRENT_BRAND)
+
+  def get_line_managers(self):
+    line_manager_ids = set(p['line_manager_position_id'] for p in self.__d__ if p['line_manager_position_id'] is not None)
+    line_managers = [ self.get(x) for x in line_manager_ids ]
+    return line_managers
     
 POSITIONS = Positions()
 #POSITIONS.load()

@@ -13,6 +13,8 @@ from ....Data import PositionsModel
 class Position(PositionTemplate):
   def __init__(self, new=False, **properties):
     self.positions = PositionsModel.POSITIONS
+    self.line_manager_titles = [ x.title for x in self.positions.get_line_managers() ]
+    
     self.new = new
     if new:
       self.item = self.positions.blank()
@@ -34,6 +36,12 @@ class Position(PositionTemplate):
       {
         'key': 'team',
         'label': 'Team'
+      },
+      {
+        'key': 'line_manager',
+        'label': 'Line Manager',
+        'reference': 'title',
+        'list': self.line_manager_titles
       },
       {
         'key': 'description',
