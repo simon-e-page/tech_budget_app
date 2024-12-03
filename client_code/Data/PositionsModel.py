@@ -131,7 +131,7 @@ class Positions(AttributeToDict):
     return num
 
   def get_salaries(self, start_year_month, end_year_month, include_positions=True, brand=None):
-    return anvil.server.call("Positions", 'get_salaries', start_year_month=start_year_month, end_year_month=end_year_month, include_positions=include_positions, brand=brand
+    return anvil.server.call("Positions", 'get_salaries', start_year_month=start_year_month, end_year_month=end_year_month, include_positions=include_positions, brand=brand)
 
   def get_line_managers(self):
     line_manager_ids = set(p['line_manager_position_id'] for p in self.__d__.values() if p['line_manager_position_id'] is not None)

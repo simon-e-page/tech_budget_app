@@ -37,7 +37,7 @@ class Positions(PositionsTemplate):
   def get_data(self):
     start = self.year_months[0]
     end = self.year_months[-1]  
-    self.data = self.positions.get_salaries(start_year_month=start, end_year_month=end, include_positions=True)
+    self.data = self.positions.get_salaries(start_year_month=start, end_year_month=end, include_positions=True, brand=Data.CURRENT_BRAND)
 
   
   def positions_table_table_built(self, **event_args):
