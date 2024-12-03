@@ -19,8 +19,8 @@ class Payroll(PayrollTemplate):
   def __init__(self, **properties):
     self.employees = EmployeesModel.EMPLOYEES
     self.positions = PositionsModel.POSITIONS
-    self.employees.load()
-    self.positions.load()
+    #self.employees.load()
+    #self.positions.load()
     
   def add_employee_button_click(self, **event_args):
     """This method is called when the button is clicked"""

@@ -7,13 +7,14 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from ....Data.CrudForm import CrudForm
-from ....Data import PositionsModel
+from ....Data.PositionsModel import POSITIONS
 
 
 class Position(PositionTemplate):
   def __init__(self, new=False, **properties):
-    self.positions = PositionsModel.POSITIONS
-    self.line_manager_titles = [ x.title for x in self.positions.get_line_managers() ]
+    self.positions = POSITIONS
+    self.line_manager_titles = [ x.title for x in self.positions.get_line_managers() if x is not None ]
+    print(f"Titles: {self.line_manager_titles}")
     
     self.new = new
     if new:

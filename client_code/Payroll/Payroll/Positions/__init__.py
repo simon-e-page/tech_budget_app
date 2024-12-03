@@ -13,7 +13,7 @@ from ..Position import Position
 class Positions(PositionsTemplate):
   def __init__(self, **properties):
     self.positions = PositionsModel.POSITIONS
-
+    self.po_index = self.positions.__d__
     self.year = Data.CURRENT_YEAR
     self.year_months = [ (self.year - (x>6))* 100 + x for x in [ 7,8,9,10,11,12,1,2,3,4,5,6 ]  ]
     
@@ -48,9 +48,9 @@ class Positions(PositionsTemplate):
       cell = sender.tag
       data = cell.get_data()
       position_id = data['position_id']
-      all_ids = self.positions.__d__.keys()
-      print(f"All IDS: {all_ids}")
-      position = self.positions.get(position_id)
+      #all_ids = self.po_index.keys()
+      #print(f"All IDS: {all_ids}")
+      position = self.po_index[position_id]
       _form = Position(item=position)
       _form.show()
       

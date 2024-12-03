@@ -73,8 +73,8 @@ def refresh(brand=None, _fin_years=None):
       return
   else:
     CURRENT_BRAND = brand
-    PositionsModel.POSITIONS.load(brand=brand)
-    EmployeesModel.EMPLOYEES.load(brand=brand)
+    #PositionsModel.POSITIONS.load(brand=brand)
+    #EmployeesModel.EMPLOYEES.load(brand=brand)
     
   if _fin_years is None:
     _fin_years = anvil.server.call('Calendar', 'get_fin_years', CURRENT_BRAND)
@@ -261,5 +261,5 @@ UsersModel.USERS.load(_users=_users)
 VendorsModel.VENDORS.load(_vendors=_vendors)
 PositionsModel.POSITIONS.load(_list=_positions, brand=CURRENT_BRAND)
 EmployeesModel.EMPLOYEES.load(_list=_employees, brand=CURRENT_BRAND)
-print(PositionsModel.POSITIONS.all())
+#print(PositionsModel.POSITIONS.all())
 refresh()

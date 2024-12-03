@@ -40,6 +40,7 @@ class CrudForm(CrudFormTemplate):
       # TODO: object needs to understand this on Save!
       if 'reference' in editable:
         v = v.get(editable['reference'], None)
+        print(f"Reference -> {v}")
                   
       if 'list' in editable:
         flow_panel = self.get_dropdown(k, v, editable['list'], **params)

@@ -20,7 +20,7 @@ class Position(AttributeToKey):
     'position_id': None,
     'brand': 'JB_AU',
     'title': '',
-    'line_manager_position_id': None,
+    'line_manager': None,
     'role_type': 'Permanent',
     'description': '',
     'team': '',
@@ -56,14 +56,7 @@ class Position(AttributeToKey):
 
   def to_dict(self):
     d = { x: self[x] for x in self._defaults.keys() }
-    print(d)
-    line_manager_position_id = d.pop('line_manager_position_id', None)
-    if line_manager_position_id is not None:
-      try:
-        d['line_manager'] = POSITIONS.get(line_manager_position_id)
-      except KeyError:
-        print("Issue with line manager mapping!")
-        d['line_manager'] = None
+    #print(d)
     return d
 
 
@@ -98,6 +91,8 @@ class Positions(AttributeToDict):
       print("Already an existing Position with that ID!")
       return None
     else:
+      line_manager_position_id = _data.pop('line_manager_position_id', None)
+      _data['line_manager'] = self.__d__.get(line_manager_position_id, None)
       p = Position(json=_data)
       self.add(position_id, p)
       return self.get(position_id)
@@ -108,7 +103,6 @@ class Positions(AttributeToDict):
       _list = anvil.server.call('Positions', 'get_positions', brand=brand)
     for _dict in _list:
       new_obj = self.new(_dict)
-      print(f"Added: {new_obj.title}")
 
   
   def blank(self, _data=None):
@@ -133,8 +127,7 @@ class Positions(AttributeToDict):
     return anvil.server.call("Positions", 'get_salaries', start_year_month=start_year_month, end_year_month=end_year_month, include_positions=include_positions, brand=brand)
 
   def get_line_managers(self):
-    line_manager_ids = set(p['line_manager_position_id'] for p in self.__d__.values() if p['line_manager_position_id'] is not None)
-    line_managers = [ self.get(x) for x in line_manager_ids ]
+    line_managers = list(set(p.line_manager for p in self.__d__.values()))
     return line_managers
     
 POSITIONS = Positions()
