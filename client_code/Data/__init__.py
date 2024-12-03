@@ -5,6 +5,8 @@ import datetime as dt
 
 from . import VendorsModel
 from . import UsersModel
+from . import EmployeesModel
+from . import PositionsModel
 
 """This module collects global variables to be used throughout the app"""
 """
@@ -71,7 +73,9 @@ def refresh(brand=None, _fin_years=None):
       return
   else:
     CURRENT_BRAND = brand
-
+    PositionsModel.POSITIONS.load(brand=brand)
+    EmployeesModel.EMPLOYEES.load(brand=brand)
+    
   if _fin_years is None:
     _fin_years = anvil.server.call('Calendar', 'get_fin_years', CURRENT_BRAND)
     FIN_YEARS, BUDGET_YEAR, CURRENT_YEAR = _fin_years
@@ -222,10 +226,12 @@ initial_load = [
   { 'classname': 'Users', 'methodname': 'get_roles', 'kwargs': {} },
   { 'classname': 'Users', 'methodname': 'search', 'kwargs': {} },
   { 'classname': 'Vendors', 'methodname': 'get_vendors', 'kwargs': {} },
+  { 'classname': 'Positions', 'methodname': 'get_positions', 'kwargs': {} },
+  { 'classname': 'Employees', 'methodname': 'get_employees', 'kwargs': {} },
 ]
 
 
-BRANDS, REFS, _roles, _users, _vendors = anvil.server.call('multi_launcher', initial_load)
+BRANDS, REFS, _roles, _users, _vendors, _positions, _employees = anvil.server.call('multi_launcher', initial_load)
 
 BRANDS_DD = [ (x['code'], x['code']) for x in BRANDS ]
 
@@ -253,5 +259,7 @@ BILLING_TYPES_DD = [ (x,x) for x in BILLING_TYPES ]
 UsersModel.ROLES.load(_roles=_roles)
 UsersModel.USERS.load(_users=_users)
 VendorsModel.VENDORS.load(_vendors=_vendors)
+PositionsModel.POSITIONS.load(_list=_positions, brand=CURRENT_BRAND)
+EmployeesModel.EMPLOYEES.load(_list=_employees, brand=CURRENT_BRAND)
 
 refresh()

@@ -14,7 +14,6 @@ from operator import attrgetter
 #
 
 from .BaseModel import AttributeToDict, AttributeToKey
-from .. import Data
 
 class Position(AttributeToKey):
   _defaults = {
@@ -105,10 +104,10 @@ class Positions(AttributeToDict):
       self.add(position_id, Position(json=_data))
       return self.get(position_id)
       
-  def load(self, _list=None):
+  def load(self, _list=None, brand=None):
     self.__d__ = {}
     if _list is None:
-      _list = anvil.server.call('Positions', 'get_positions', brand=Data.CURRENT_BRAND)
+      _list = anvil.server.call('Positions', 'get_positions', brand=brand)
     for position in _list:
       self.new(position)
 
@@ -131,8 +130,8 @@ class Positions(AttributeToDict):
     self.load()
     return num
 
-  def get_salaries(self, start_year_month, end_year_month, include_positions=True):
-    return anvil.server.call("Positions", 'get_salaries', start_year_month=start_year_month, end_year_month=end_year_month, include_positions=include_positions, brand=Data.CURRENT_BRAND)
+  def get_salaries(self, start_year_month, end_year_month, include_positions=True, brand=None):
+    return anvil.server.call("Positions", 'get_salaries', start_year_month=start_year_month, end_year_month=end_year_month, include_positions=include_positions, brand=brand
 
   def get_line_managers(self):
     line_manager_ids = set(p['line_manager_position_id'] for p in self.__d__.values() if p['line_manager_position_id'] is not None)

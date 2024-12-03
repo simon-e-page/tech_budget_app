@@ -14,7 +14,6 @@ from operator import attrgetter
 #
 
 from .BaseModel import AttributeToDict, AttributeToKey
-from .. import Data
 
 class Employee(AttributeToKey):
   _defaults = {
@@ -91,10 +90,10 @@ class Employees(AttributeToDict):
       self.add(employee_id, Employee(emp_json=emp_data))
       return self.get(employee_id)
       
-  def load(self, _employees=None):
+  def load(self, _employees=None, brand=None):
     self.__d__ = {}
     if _employees is None:
-      _employees = anvil.server.call('Employees', 'get_employees', brand=Data.CURRENT_BRAND)
+      _employees = anvil.server.call('Employees', 'get_employees', brand=brand)
     for employee in _employees:
       self.new(employee)
 
