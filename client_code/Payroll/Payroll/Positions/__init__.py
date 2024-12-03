@@ -44,6 +44,7 @@ class Positions(PositionsTemplate):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
 
     def open_position(sender, **event_args):
+      print(f"Got link for {sender.text}")
       cell = sender.tag
       data = cell.get_data()
       position_id = data['position_id']
@@ -53,7 +54,8 @@ class Positions(PositionsTemplate):
       
     def title_formatter(cell, **params):
       val = cell.get_value()
-      link = Link(url=open_position, text=val, tag=cell)
+      link = Link(text=val, tag=cell)
+      link.add_event_handler('click', open_position)
       return link
       
     columns = [
