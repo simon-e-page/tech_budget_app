@@ -48,6 +48,8 @@ class Positions(PositionsTemplate):
       cell = sender.tag
       data = cell.get_data()
       position_id = data['position_id']
+      all_ids = self.positions.__d__.keys()
+      print(f"All IDS: {all_ids}")
       position = self.positions.get(position_id)
       _form = Position(item=position)
       _form.show()

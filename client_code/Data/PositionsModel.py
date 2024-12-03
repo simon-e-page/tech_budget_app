@@ -38,14 +38,9 @@ class Position(AttributeToKey):
       
     # Remove any None values to force defaults to be used
     item = { k:v for k,v in item.items() if v is not None }
-
-    self['position_id'] = item.get('position_id', None)
       
     for field, default in self._defaults.items():
-      if default is not None:
         self[field] = item.get(field, default)
-      else:
-        self[field] = item.get(field, None)
 
   
   def save(self):
@@ -60,14 +55,16 @@ class Position(AttributeToKey):
     return ret
 
   def to_dict(self):
-    d = { x: self[x] for x in self._defaults }
-    line_manager_position_id = d.pop['line_manager_position_id', None]
-    if line_manager_position_id:
+    d = { x: self[x] for x in self._defaults.keys() }
+    print(d)
+    line_manager_position_id = d.pop('line_manager_position_id', None)
+    if line_manager_position_id is not None:
       try:
         d['line_manager'] = POSITIONS.get(line_manager_position_id)
       except KeyError:
         print("Issue with line manager mapping!")
         d['line_manager'] = None
+    return d
 
 
 class Positions(AttributeToDict):
@@ -78,8 +75,8 @@ class Positions(AttributeToDict):
       for e in _list:
         self.add(e['position_id'], e)
 
-  def add(self, position_id, _data):
-    self.__d__[position_id] = _data
+  def add(self, position_id, position):
+    self.__d__[position_id] = position
   
   def get(self, position_id, **kwargs):
     if position_id in self.__d__:
@@ -101,15 +98,17 @@ class Positions(AttributeToDict):
       print("Already an existing Position with that ID!")
       return None
     else:
-      self.add(position_id, Position(json=_data))
+      p = Position(json=_data)
+      self.add(position_id, p)
       return self.get(position_id)
       
   def load(self, _list=None, brand=None):
     self.__d__ = {}
     if _list is None:
       _list = anvil.server.call('Positions', 'get_positions', brand=brand)
-    for position in _list:
-      self.new(position)
+    for _dict in _list:
+      new_obj = self.new(_dict)
+      print(f"Added: {new_obj.title}")
 
   
   def blank(self, _data=None):

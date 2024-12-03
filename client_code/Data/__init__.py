@@ -214,7 +214,7 @@ def apply_attribute_splits(vendor_name, forecast_ids, actual_ids, splits, year=N
 FIN_YEARS = None
 CURRENT_YEAR = None
 BUDGET_YEAR = None
-CURRENT_BRAND = None
+CURRENT_BRAND = 'JB_AU'
 REFRESH_UI = False
 
 TEMPLATE_URL = '"_/theme/budget_template_202411.xlsx"'
@@ -226,8 +226,8 @@ initial_load = [
   { 'classname': 'Users', 'methodname': 'get_roles', 'kwargs': {} },
   { 'classname': 'Users', 'methodname': 'search', 'kwargs': {} },
   { 'classname': 'Vendors', 'methodname': 'get_vendors', 'kwargs': {} },
-  { 'classname': 'Positions', 'methodname': 'get_positions', 'kwargs': {} },
-  { 'classname': 'Employees', 'methodname': 'get_employees', 'kwargs': {} },
+  { 'classname': 'Positions', 'methodname': 'get_positions', 'kwargs': { 'brand': CURRENT_BRAND } },
+  { 'classname': 'Employees', 'methodname': 'get_employees', 'kwargs': { 'brand': CURRENT_BRAND } },
 ]
 
 
@@ -261,5 +261,5 @@ UsersModel.USERS.load(_users=_users)
 VendorsModel.VENDORS.load(_vendors=_vendors)
 PositionsModel.POSITIONS.load(_list=_positions, brand=CURRENT_BRAND)
 EmployeesModel.EMPLOYEES.load(_list=_employees, brand=CURRENT_BRAND)
-
+print(PositionsModel.POSITIONS.all())
 refresh()
