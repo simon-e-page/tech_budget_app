@@ -18,6 +18,8 @@ class Position(PositionTemplate):
     self.new = new
     if new:
       self.item = self.positions.blank()
+    else:
+      self.item = properties['item']
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 

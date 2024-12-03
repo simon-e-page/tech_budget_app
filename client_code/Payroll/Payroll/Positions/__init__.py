@@ -8,6 +8,7 @@ from anvil.tables import app_tables
 
 from ....Data import PositionsModel
 from .... import Data
+from ..Position import Position
 
 class Positions(PositionsTemplate):
   def __init__(self, **properties):
@@ -41,18 +42,35 @@ class Positions(PositionsTemplate):
   
   def positions_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
+
+    def open_position(sender, **event_args):
+      cell = sender.tag
+      data = cell.get_data()
+      position_id = data['position_id']
+      position = self.positions.get(position_id)
+      _form = Position(item=position)
+      _form.show()
+      
+    def title_formatter(cell, **params):
+      val = cell.get_value()
+      link = Link(url=open_position, text=val, tag=cell)
+      return link
+      
     columns = [
       {
         'title': 'Title',
         'field': 'title',
         "headerFilter": "input",
         "headerFilterFunc": "starts",
+        'width': 250,
+        'formatter': title_formatter
       },
       {
         'title': 'Line Manager',
         'field': 'line_manager_title',
         "headerFilter": "input",
         "headerFilterFunc": "starts",
+        'width': 250
       },
       {
         'title': 'Team',
