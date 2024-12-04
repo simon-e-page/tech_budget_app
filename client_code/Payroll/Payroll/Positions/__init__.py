@@ -6,13 +6,17 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
-from ....Data import PositionsModel
+from ....Data import PositionsModel, EmployeesModel
 from .... import Data
 from ..Position import Position
+from ..Employee import Employee
+
 
 class Positions(PositionsTemplate):
   def __init__(self, **properties):
     self.positions = PositionsModel.POSITIONS
+    self.employees = EmployeesModel.EMPLOYEES
+    
     self.po_index = self.positions.__d__
     self.year = Data.CURRENT_YEAR
     self.year_months = [ (self.year - (x>6))* 100 + x for x in [ 7,8,9,10,11,12,1,2,3,4,5,6 ]  ]
@@ -53,12 +57,36 @@ class Positions(PositionsTemplate):
       position = self.po_index[position_id]
       _form = Position(item=position)
       _form.show()
+
+    def open_employee(sender, **event_args):
+      employee_id = sender.tag
+      print(f"Opening employee: {employee_id}")
+      employee = self.employees.get(employee_id)
+      emp_form = Employee(item=employee)
+      emp_form.show()
       
     def title_formatter(cell, **params):
       val = cell.get_value()
       link = Link(text=val, tag=cell)
       link.add_event_handler('click', open_position)
       return link
+
+    def salary_formatter(cell, **params):
+      # Each value should be a dict with the following keys: salary, employee_id, prev_employee_id
+      # Where if employee_id and prev_employee_id differ then we know there is a new employee in the position
+      val = cell.get_value()
+      field = cell.get_field()
+      salary = val['salary']
+      employee_id = val['employee_id']
+      prev_id = val['prev_employee_id']
+      
+      # Idenfity if this column is a change in employment (or the first column)
+      if employee_id != prev_id or field[4:] == '07':
+        label = Link(text=f"{salary:,.0f}", icon="fa:user", tag=employee_id )
+        label.add_event_handler('click', open_employee)
+      else:
+        label = Label(text=f"{salary:,.0f}")
+      return label
       
     columns = [
       {
@@ -97,10 +125,6 @@ class Positions(PositionsTemplate):
       
     ]
 
-    def salary_formatter(cell, **params):
-      val = cell.get_value()
-      label = Label(text=f"{val:,.0f}")
-      return label
 
     salary_cols = [ {
         'title': str(year_month),
