@@ -58,12 +58,21 @@ class Positions(PositionsTemplate):
       _form = Position(item=position)
       _form.show()
 
+    def change_assignment(sender, **event_args):
+        assignment = sender.tag
+        employee_id = assignment['employee_id']
+        if employee_id is not None:
+            open_employee(sender)
+        else:
+            self.open_assignment_form(assignment)
+
     def open_employee(sender, **event_args):
-      employee_id = sender.tag
+      assignment = sender.tag
+      employee_id = assignment['employee_id']
       print(f"Opening employee: {employee_id}")
       employee = self.employees.get(employee_id)
       emp_form = Employee(item=employee)
-      emp_form.show()
+      result = emp_form.show()
       
     def title_formatter(cell, **params):
       val = cell.get_value()
@@ -72,20 +81,34 @@ class Positions(PositionsTemplate):
       return link
 
     def salary_formatter(cell, **params):
-      # Each value should be a dict with the following keys: salary, employee_id, prev_employee_id
+      # Each value should be a dict with the following keys: cost, employee_id, full_name, prev_employee_id, cost_type
       # Where if employee_id and prev_employee_id differ then we know there is a new employee in the position
+      # Cost type: actual, forecast, costed vacancy, uncosted vacancy
       val = cell.get_value()
       field = cell.get_field()
+      data = cell.get_data()
+      position_id = data['position_id']
+      title = data['title']
       salary = val['salary']
       employee_id = val['employee_id']
+      full_name = val['full_name'] or None
       prev_id = val['prev_employee_id']
+      cost_type = val['cost_type']
       
+      tag = {
+        'position_id': position_id,
+        'title': title,
+        'employee_id': employee_id,
+        'cost_type': cost_type
+      }
+
       # Idenfity if this column is a change in employment (or the first column)
       if employee_id != prev_id or field[4:] == '07':
-        label = Link(text=f"{salary:,.0f}", icon="fa:user", tag=employee_id )
-        label.add_event_handler('click', open_employee)
+        icon = "fa:user"
       else:
-        label = Label(text=f"{salary:,.0f}")
+        icon = None
+      label = Link(text=f"{salary:,.0f}", icon=icon, tag=tag, tooltip=full_name )
+      label.add_event_handler('click', change_assignment)
       return label
       
     columns = [
@@ -137,3 +160,18 @@ class Positions(PositionsTemplate):
     
     self.positions_table.columns = columns
     self.positions_table.data = self.data
+
+  def open_assignment_form(self, assignment):
+    # Only for unassigned (vacant) positions
+    # Choice is to set a projected start date to forecast costs
+    # 
+
+    month_list = ['Leave Uncosted'] + self.year_momths
+    
+    form_title = f"Manage vacant position: {title}"
+    label = Label(text=f"Select start month: ")
+    dd = DropDown(items=month_list, selected_value=year_month)
+    panel = FlowPanel()
+    panel.add_component(label)
+    panel.add_component(dd)
+    
