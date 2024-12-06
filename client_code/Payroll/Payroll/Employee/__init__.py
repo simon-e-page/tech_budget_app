@@ -11,7 +11,7 @@ from ....Data.CrudForm import CrudForm
 
 class Employee(EmployeeTemplate):
   def __init__(self, new=False, **properties):
-    self.employees = EmployeeModel.EMPLOYEES
+    self.employees = EmployeesModel.EMPLOYEES
     self.new = new
     if new:
       self.item = self.employees.blank()

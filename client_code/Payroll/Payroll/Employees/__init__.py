@@ -20,6 +20,8 @@ COLORS={
 class Employees(EmployeesTemplate):
   def __init__(self, **properties):
     self.employees = EmployeesModel.EMPLOYEES
+    self.positions = PositionsModel.POSITIONS
+    
     self.year = Data.CURRENT_YEAR
     self.year_months = [ (self.year - (x>6))* 100 + x for x in [ 7,8,9,10,11,12,1,2,3,4,5,6 ]  ]
 
