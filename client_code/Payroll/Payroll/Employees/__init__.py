@@ -30,7 +30,7 @@ class Employees(EmployeesTemplate):
       "selectable": "highlight",
       "css_class": ["table-striped", "table-bordered", "table-condensed"],
       "pagination": True,
-      "paginationSize": 20,
+      "paginationSize": 5,
       #"frozenRows": 0,
       #"height": "50vh",
       #'autoResize': False,
@@ -160,7 +160,7 @@ class Employees(EmployeesTemplate):
     year_month = assignment['year_month']
     brand = Data.CURRENT_BRAND
     
-    position_list = [(0, 'Exit')]
+    position_list = [('Exit', 0)]
     # TODO: implement method to return vacant positions
     position_list += self.positions.get_vacant(brand, year_month)
     last_month = self.year_months[-1]
