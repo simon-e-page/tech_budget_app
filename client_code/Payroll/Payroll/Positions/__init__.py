@@ -25,10 +25,10 @@ class Positions(PositionsTemplate):
       "index": "position_id",  # or set the index property here
       "selectable": "highlight",
       "css_class": ["table-striped", "table-bordered", "table-condensed"],
-      'pagination': False,
-      'paginationSize': 250,
+      'pagination': True,
+      'paginationSize': 15,
       'frozenRows': 0,
-      'height': '50vh',
+      #'height': '30vh',
       #'autoResize': False,
       #"pagination_size": 10,
     }
