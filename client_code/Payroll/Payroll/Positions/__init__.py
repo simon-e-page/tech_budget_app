@@ -11,6 +11,11 @@ from .... import Data
 from ..Position import Position
 from ..Employee import Employee
 
+COLORS={
+  'active': '#ffffcc',
+  'inactive': 'grey',
+  'forecast': '#ccffcc'
+}
 
 class Positions(PositionsTemplate):
   def __init__(self, **properties):
@@ -93,6 +98,7 @@ class Positions(PositionsTemplate):
       full_name = val['full_name'] or None
       prev_id = val['prev_employee_id']
       cost_type = val['cost_type']
+      background = COLORS.get(cost_type, 'white')
       
       tag = {
         'position_id': position_id,
@@ -106,6 +112,9 @@ class Positions(PositionsTemplate):
         icon = "fa:user"
       else:
         icon = None
+      
+      cell.getElement().style.backgroundColor = background
+
       label = Link(text=f"{salary:,.0f}", icon=icon, tag=tag, tooltip=full_name )
       label.add_event_handler('click', change_assignment)
       return label

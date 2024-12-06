@@ -105,6 +105,7 @@ class Employees(EmployeesTemplate):
         icon = None
 
       background = COLORS.get(cost_type, 'white')
+      cell.getElement().style.backgroundColor = background
       
       label = Link(text=f"{cost:,.0f}", icon=icon, tag=tag, tooltip=title, background=background)
       label.add_event_handler('click', change_assignment)

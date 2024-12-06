@@ -27,7 +27,8 @@ components:
       properties: {}
       type: FlowPanel
     - components:
-      - name: positions_table
+      - layout_properties: {expand: true}
+        name: positions_table
         properties: {}
         type: form:Payroll.Payroll.Positions
       name: flow_panel_3
@@ -42,7 +43,8 @@ components:
       properties: {}
       type: FlowPanel
     - components:
-      - name: employees_table
+      - layout_properties: {expand: true}
+        name: employees_table
         properties: {}
         type: form:Payroll.Payroll.Employees
       name: flow_panel_5
@@ -52,13 +54,13 @@ components:
     name: linear_panel_1
     properties: {}
     type: LinearPanel
-  layout_properties: {slot: slot-1}
+  layout_properties: {slot: slot-content}
   name: transaction_details
   properties: {background: '', border: '', col_spacing: medium, col_widths: '{}', foreground: '', role: filter-form-shadow, spacing_above: small, spacing_below: small, tooltip: '', visible: true, wrap_on: mobile}
   type: ColumnPanel
 container:
   event_bindings: {}
-  properties: {background: '', border: '', foreground: '', html: '@theme:budget_lines.html', role: null, tooltip: '', visible: true}
+  properties: {background: '', border: '', foreground: '', html: '@theme:scroll_pane.html', role: null, tooltip: '', visible: true}
   type: HtmlTemplate
 custom_component: false
 is_package: true
