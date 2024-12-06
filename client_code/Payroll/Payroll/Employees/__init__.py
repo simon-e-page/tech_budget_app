@@ -11,6 +11,11 @@ from .... import Data
 from ..Position import Position
 from ..Employee import Employee
 
+COLORS={
+  'active': '#ffffcc',
+  'inactive': 'grey',
+  'forecast': '#ccffcc'
+}
 
 class Employees(EmployeesTemplate):
   def __init__(self, **properties):
@@ -22,12 +27,11 @@ class Employees(EmployeesTemplate):
       "index": "employee_id",  # or set the index property here
       "selectable": "highlight",
       "css_class": ["table-striped", "table-bordered", "table-condensed"],
-      "pagination": False,
-      "paginationSize": 250,
-      "frozenRows": 0,
-      "height": "50vh",
+      "pagination": True,
+      "paginationSize": 20,
+      #"frozenRows": 0,
+      #"height": "50vh",
       #'autoResize': False,
-      # "pagination_size": 10,
     }
 
     self.get_data()
@@ -41,10 +45,13 @@ class Employees(EmployeesTemplate):
     self.data = self.employees.get_employees_with_costs(self.year_months)
     
   def rebuild_table(self, set_focus=None):
+    current_page = self.employees_table.get_page()
     self.employees_table_table_built()
+    self.employees_table.set_page(current_page)
+    
     if set_focus is not None:
       index, column = set_focus
-      self.employees_table.set_focus(index, column)
+      self.employees_table.scrollToColumn(column, 'middle')
 
   def employees_table_table_built(self, **event_args):
     """This method is called when the tabulator instance has been built - it is safe to call tabulator methods"""
@@ -95,16 +102,19 @@ class Employees(EmployeesTemplate):
       else:
         icon = None
 
-      label = Link(text=f"{cost:,.0f}", icon=icon, tag=tag, tooltip=title )
+      background = COLORS.get(cost_type, 'white')
+      
+      label = Link(text=f"{cost:,.0f}", icon=icon, tag=tag, tooltip=title, background=background)
       label.add_event_handler('click', change_assignment)
       return label
 
     columns = [
       {
-        "title": "Employee ID",
+        "title": "ID",
         "field": "employee_id",
         "headerFilter": "input",
         "headerFilterFunc": "starts",
+        'width': 100,
         "formatter": emp_formatter
       },
       {
@@ -112,25 +122,29 @@ class Employees(EmployeesTemplate):
         "field": "lastname",
         "headerFilter": "input",
         "headerFilterFunc": "starts",
+        "width": 200
       },
       {
         "title": "First Name",
         "field": "firstname",
         "headerFilter": "input",
         "headerFilterFunc": "starts",
+        "width": 200
       },
       {
         "title": "Gender",
         "field": "gender",
         "headerFilter": "input",
         "headerFilterFunc": "starts",
+        "width": 60        
       },
     ]
 
     cost_cols = [ {
         'title': str(year_month),
         'field': str(year_month),
-        'formatter': cost_formatter
+        'formatter': cost_formatter,
+        'width': 100
       } for year_month in self.year_months ]
     
     columns += cost_cols
