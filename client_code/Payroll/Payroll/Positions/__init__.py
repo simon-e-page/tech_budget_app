@@ -39,9 +39,7 @@ class Positions(PositionsTemplate):
 
     # Any code you write here will run before the form opens.
   def get_data(self):
-    start = self.year_months[0]
-    end = self.year_months[-1]  
-    self.data = self.positions.get_salaries(start_year_month=start, end_year_month=end, include_positions=True, brand=Data.CURRENT_BRAND)
+    self.data = self.employees.get_position_view(brand=Data.CURRENT_BRAND, year_months=self.year_months)
 
   
   def positions_table_table_built(self, **event_args):
@@ -85,11 +83,12 @@ class Positions(PositionsTemplate):
       # Where if employee_id and prev_employee_id differ then we know there is a new employee in the position
       # Cost type: actual, forecast, costed vacancy, uncosted vacancy
       val = cell.get_value()
+      print(f"Formatting: {val}")
       field = cell.get_field()
       data = cell.get_data()
       position_id = data['position_id']
       title = data['title']
-      salary = val['salary']
+      salary = val['amount']
       employee_id = val['employee_id']
       full_name = val['full_name'] or None
       prev_id = val['prev_employee_id']
@@ -165,7 +164,7 @@ class Positions(PositionsTemplate):
     # Only for unassigned (vacant) positions
     # Choice is to set a projected start date to forecast costs
     # 
-
+    return
     month_list = ['Leave Uncosted'] + self.year_momths
     
     form_title = f"Manage vacant position: {title}"

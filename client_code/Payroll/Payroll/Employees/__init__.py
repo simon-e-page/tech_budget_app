@@ -42,7 +42,7 @@ class Employees(EmployeesTemplate):
 
   def get_data(self):
     #self.data = self.employees.all()
-    self.data = self.employees.get_employee_view(self.year_months, brand=Data.CURRENT_BRAND)
+    self.data = self.employees.get_employee_view(brand=Data.CURRENT_BRAND, year_months=self.year_months)
     
   def rebuild_table(self, set_focus=None):
     current_page = self.employees_table.get_page()
