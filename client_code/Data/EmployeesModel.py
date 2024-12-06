@@ -42,6 +42,9 @@ class Employee(AttributeToKey):
       else:
         self[field] = item.get(field, None)
 
+  @property
+  def full_name(self):
+    return f"{self['firstname']} {self['lastname']}"
   
   def save(self):
     # Saves to backend as new or updated object
@@ -118,5 +121,8 @@ class Employees(AttributeToDict):
     self.load()
     return num
 
+  def get_employee_view(self, year_months, brand):
+    return anvil.server.call('Employees', 'get_employee_view', year_months=year_months, brand=brand)
+    
 EMPLOYEES = Employees()
 #EMPLOYEES.load()

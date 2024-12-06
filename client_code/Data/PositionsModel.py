@@ -129,6 +129,10 @@ class Positions(AttributeToDict):
   def get_line_managers(self):
     line_managers = list(set(p.line_manager for p in self.__d__.values()))
     return line_managers
+
+  def get_vacant(self, brand, year_month):
+    #TODO: implement..
+    return []
     
 POSITIONS = Positions()
 #POSITIONS.load()

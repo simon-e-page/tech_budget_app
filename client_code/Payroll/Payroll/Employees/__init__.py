@@ -42,7 +42,7 @@ class Employees(EmployeesTemplate):
 
   def get_data(self):
     #self.data = self.employees.all()
-    self.data = self.employees.get_employees_with_costs(self.year_months)
+    self.data = self.employees.get_employee_view(self.year_months, brand=Data.CURRENT_BRAND)
     
   def rebuild_table(self, set_focus=None):
     current_page = self.employees_table.get_page()
@@ -78,14 +78,14 @@ class Employees(EmployeesTemplate):
       return link
 
     def cost_formatter(cell, **params):
-      # Each value should be a dict with the following keys: cost, position_id, prev_position_id, cost_type, title
+      # Each value should be a dict with the following keys: amount, position_id, prev_position_id, cost_type, title
       # Where if position_id and prev_position_id differ then we know there is a new role for this employee in the period
-      # The type field should be either 'actual' or 'forecast'
+      # The type field should be either 'actual', 'forecast', or 'unassigned' (is the last valid?)
       val = cell.get_value()
       data = cell.get_data()
       employee_id = data['employee_id']
       field = cell.get_field()
-      cost = val['cost']
+      cost = val['amount']
       position_id = val['position_id']
       title = val['title']
       prev_position_id = val['prev_position_id']
@@ -156,16 +156,16 @@ class Employees(EmployeesTemplate):
     position_id = assignment['position_id']
     employee_id = assignment['employee_id']
     year_month = assignment['year_month']
-
+    brand = Data.CURRENT_BRAND
+    
     position_list = [(0, 'Exit')]
     # TODO: implement method to return vacant positions
-    position_list += self.positions.get_vacant(year_month)
+    position_list += self.positions.get_vacant(brand, year_month)
     last_month = self.year_months[-1]
     index = self.year_months.index(year_month)
     remaining = self.year_months[index:]
     employee = self.employees.get(employee_id)
 
-    # TODO: Add full_name property to EmployeesModel
     form_title = f"Change assignment for {employee.full_name}"
     label1 = Label(text=f"From {year_month} to {last_month}")
     label2 = Label(text="Select new position or Exit: ")
