@@ -21,7 +21,7 @@ components:
     - components:
       - layout_properties: {}
         name: label_1
-        properties: {text: 'Positions:'}
+        properties: {text: 'Positions and Position Salaries:'}
         type: Label
       name: flow_panel_1
       properties: {}
@@ -37,7 +37,7 @@ components:
     - components:
       - layout_properties: {}
         name: label_2
-        properties: {text: 'Employees:'}
+        properties: {text: 'Employees and Payroll Costs:'}
         type: Label
       name: flow_panel_4
       properties: {}

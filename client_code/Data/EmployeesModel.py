@@ -59,6 +59,12 @@ class Employee(AttributeToKey):
       raise
     return ret
 
+  def unassign(self, year_months):
+    return anvil.server.call('Employees', 'unassign', employee_id=self.employee_id, year_months=year_months)
+
+  def assign(self, position_id, year_months):
+    return anvil.server.call('Employees', 'assign', employee_id=self.employee_id, position_id=position_id, year_months=year_months)
+
 
 class Employees(AttributeToDict):
   def __init__(self, emp_list=None):
@@ -121,11 +127,11 @@ class Employees(AttributeToDict):
     self.load()
     return num
 
-  def get_employee_view(self, brand, year_months):
-    return anvil.server.call('Employees', 'get_employee_view', year_months=year_months, brand=brand)
+  def get_employee_view(self, brand, year):
+    return anvil.server.call('Employees', 'get_employee_view', year=year, brand=brand)
 
-  def get_position_view(self, brand, year_months):
-    return anvil.server.call('Employees', 'get_position_view', year_months=year_months, brand=brand)
+  def get_position_view(self, brand, year):
+    return anvil.server.call('Employees', 'get_position_view', year=year, brand=brand)
 
 EMPLOYEES = Employees()
 #EMPLOYEES.load()

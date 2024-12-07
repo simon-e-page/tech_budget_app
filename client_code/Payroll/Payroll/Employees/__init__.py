@@ -44,7 +44,7 @@ class Employees(EmployeesTemplate):
 
   def get_data(self):
     #self.data = self.employees.all()
-    self.data = self.employees.get_employee_view(brand=Data.CURRENT_BRAND, year_months=self.year_months)
+    self.data = self.employees.get_employee_view(brand=Data.CURRENT_BRAND, year=self.year)
     
   def rebuild_table(self, set_focus=None):
     current_page = self.employees_table.get_page()
@@ -172,7 +172,7 @@ class Employees(EmployeesTemplate):
     form_title = f"Change assignment for {employee.full_name}"
     label1 = Label(text=f"From {year_month} to {last_month}")
     label2 = Label(text="Select new position or Exit: ")
-    dd = DropDown(items=position_list, selected_value=position_id)
+    dd = DropDown(items=position_list, selected_value=None, include_placeholder=True, placeholder="Select vacant position")
 
     panel = LinearPanel()
     panel.add_component(label1)
@@ -181,13 +181,17 @@ class Employees(EmployeesTemplate):
     fp.add_component(dd)
     panel.add_component(fp)
 
-    result = alert(title=form_title, text=panel, large=True, buttons=[('OK', True), ('Cancel', False)])
+    result = alert(content=panel, title=form_title, large=True, buttons=[('OK', True), ('Cancel', False)])
     if result:
       new_position_id = dd.selected_value
       if new_position_id == 0:
         new_position_id = None
         # TODO: Catch errors..
-        ok = self.employees.assign(employee_id, new_position_id, remaining)
-        coord = (employee_id, str(year_month))
-        self.rebuild_table(set_focus=coord)
+        ok = employee.unassign(remaining)
+      else:
+        # TODO: Catch errors..
+        ok = employee.assign(new_position_id, remaining)
+      
+      coord = (employee_id, str(year_month))
+      self.rebuild_table(set_focus=coord)
 

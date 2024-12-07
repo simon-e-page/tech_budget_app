@@ -44,7 +44,7 @@ class Positions(PositionsTemplate):
 
     # Any code you write here will run before the form opens.
   def get_data(self):
-    self.data = self.employees.get_position_view(brand=Data.CURRENT_BRAND, year_months=self.year_months)
+    self.data = self.employees.get_position_view(brand=Data.CURRENT_BRAND, year=self.year)
 
   
   def positions_table_table_built(self, **event_args):
