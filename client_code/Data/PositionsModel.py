@@ -59,6 +59,24 @@ class Position(AttributeToKey):
     #print(d)
     return d
 
+  def set_salary(self, salary, year_months):
+    # TODO: Update salary
+    return anvil.server.call('Positions', 'set_salaries', position_id=self.position_id, year_months=year_months, salary=salary)
+
+  def unassign(self, year_months):
+    # TODO: Delete any assignments involving this position
+    return anvil.server.call('Employees', 'unassign_position', position_id=self.position_id, year_months=year_months)
+
+  def set_costed_vacancy(self, year_months):
+    # TODO: create assignments with employee=None
+    return anvil.server.call('Employees', 'assign', position_id=self.position_id, employee_id=None, year_months=year_months)
+
+  def get_salary(self, year_month):
+    salary_dict = anvil.server.call('Positions', 'get_salary', position_id=self.position_id, year_month=year_month)
+    if salary_dict is not None:
+      return salary_dict['salary']
+    else:
+      return None
 
 class Positions(AttributeToDict):
   def __init__(self, _list=None):

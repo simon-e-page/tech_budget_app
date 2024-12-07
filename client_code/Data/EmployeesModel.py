@@ -60,7 +60,7 @@ class Employee(AttributeToKey):
     return ret
 
   def unassign(self, year_months):
-    return anvil.server.call('Employees', 'unassign', employee_id=self.employee_id, year_months=year_months)
+    return anvil.server.call('Employees', 'unassign_employee', employee_id=self.employee_id, year_months=year_months)
 
   def assign(self, position_id, year_months):
     return anvil.server.call('Employees', 'assign', employee_id=self.employee_id, position_id=position_id, year_months=year_months)

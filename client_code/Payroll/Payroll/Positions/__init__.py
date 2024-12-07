@@ -67,7 +67,7 @@ class Positions(PositionsTemplate):
         if employee_id is not None:
             open_employee(sender)
         else:
-            self.open_assignment_form(assignment)
+            self.open_vacancy_form(assignment)
 
     def open_employee(sender, **event_args):
       assignment = sender.tag
@@ -89,12 +89,12 @@ class Positions(PositionsTemplate):
       # Cost type: actual, forecast, costed vacancy, uncosted vacancy
       val = cell.get_value()
       #print(f"Formatting: {val}")
-      field = cell.get_field()
+      year_month = cell.get_field()
       data = cell.get_data()
       position_id = data['position_id']
       title = data['title']
       salary = val['amount']
-      employee_id = val['employee_id']
+      employee_id = val.get('employee_id', None)
       full_name = val['full_name'] or None
       prev_id = val['prev_employee_id']
       cost_type = val['cost_type']
@@ -102,13 +102,14 @@ class Positions(PositionsTemplate):
       
       tag = {
         'position_id': position_id,
+        'year_month': int(year_month),
         'title': title,
         'employee_id': employee_id,
         'cost_type': cost_type
       }
 
       # Idenfity if this column is a change in employment (or the first column)
-      if employee_id != prev_id or field[4:] == '07':
+      if employee_id != prev_id or year_month[4:] == '07':
         icon = "fa:user"
       else:
         icon = None
@@ -169,17 +170,45 @@ class Positions(PositionsTemplate):
     self.positions_table.columns = columns
     self.positions_table.data = self.data
 
-  def open_assignment_form(self, assignment):
+  def open_vacancy_form(self, assignment):
     # Only for unassigned (vacant) positions
-    # Choice is to set a projected start date to forecast costs
-    # 
-    return
-    month_list = ['Leave Uncosted'] + self.year_momths
+    # Choice is between an costed and uncosted vacancy, and to set the salary
+    # Costed vacancies are for expected start dates for new assignments / recruits
+    position_id = assignment['position_id']
+    year_month = assignment['year_month']
+    position = self.positions.get(position_id)
+    title = assignment['title']
+    salary = position.get_salary(year_month)
+    items = ['Uncosted vacancy', 'Costed Vacancy']
+    last_month = self.year_months[-1]
+    index = self.year_months.index(year_month)
+    remaining = self.year_months[index:]
+
     
-    form_title = f"Manage vacant position: {title}"
-    label = Label(text=f"Select start month: ")
-    dd = DropDown(items=month_list, selected_value=year_month)
-    panel = FlowPanel()
+    form_title = f"Manage vacancy for {title}"
+    label = Label(text=f"Period: From {year_month} to {last_month}")
+    label2 = Label(text="Select vacancy type: ")
+    dd = DropDown(items=items, selected_value=items[0])
+    label3 = Label(text="Set Salary:")
+    textbox = TextBox(text=salary if salary else 0, type='number')
+    panel = LinearPanel()
+    fp1 = FlowPanel()
+    fp1.add_component(label2)
+    fp1.add_component(dd)
+    fp2 = FlowPanel()
+    fp2.add_component(label3)
+    fp2.add_component(textbox)
     panel.add_component(label)
-    panel.add_component(dd)
+    panel.add_component(fp1)
+    panel.add_component(fp2)
+
+    result = alert(content=panel, title=form_title, large=True, buttons=[('OK', True), ('Cancel', False)])
+    if result:
+      new_salary = int(textbox.text)
+      if new_salary != salary:
+        position.set_salary(new_salary, remaining)
+      if dd.selected_value == 'Uncosted vacancy':
+        position.unassign(remaining)
+      else:
+        position.set_costed_vacancy(remaining)
     
