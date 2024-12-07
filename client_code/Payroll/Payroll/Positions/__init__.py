@@ -72,9 +72,10 @@ class Positions(PositionsTemplate):
     def open_employee(sender, **event_args):
       assignment = sender.tag
       employee_id = assignment['employee_id']
+      year_month = assignment.get('year_month', None)
       print(f"Opening employee: {employee_id}")
       employee = self.employees.get(employee_id)
-      emp_form = Employee(item=employee)
+      emp_form = Employee(item=employee, year_month=year_month)
       result = emp_form.show()
       
     def title_formatter(cell, **params):

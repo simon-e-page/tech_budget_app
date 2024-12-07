@@ -10,9 +10,10 @@ from ....Data import EmployeesModel
 from ....Data.CrudForm import CrudForm
 
 class Employee(EmployeeTemplate):
-  def __init__(self, new=False, **properties):
+  def __init__(self, new=False, year_month=None, **properties):
     self.employees = EmployeesModel.EMPLOYEES
     self.new = new
+    self.year_month = year_month
     if new:
       self.item = self.employees.blank()
     # Set Form properties and Data Bindings.
@@ -46,6 +47,9 @@ class Employee(EmployeeTemplate):
     ]
     
     crud_form = CrudForm(item=self.item, editables=editables)
+    if not self.new and self.year_month:
+      label=Label(text=f"Adjust salary from {self.year_month}")
+      crud_form.add_component(label)
     #crud_form.build_form()
     title = "Create New Employee" if self.new else "Edit Employee"
     ret = crud_form.show(title=title)

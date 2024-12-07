@@ -162,8 +162,10 @@ class Employees(EmployeesTemplate):
     brand = Data.CURRENT_BRAND
     
     position_list = [('Exit', 0)]
+    position_ids = self.positions.get_vacant(brand, year_month)
+    position_list += [ (self.positions.get(x).title, x) for x in position_ids ]
+    
     # TODO: implement method to return vacant positions
-    position_list += self.positions.get_vacant(brand, year_month)
     last_month = self.year_months[-1]
     index = self.year_months.index(year_month)
     remaining = self.year_months[index:]

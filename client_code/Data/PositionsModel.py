@@ -150,7 +150,8 @@ class Positions(AttributeToDict):
 
   def get_vacant(self, brand, year_month):
     #TODO: implement..
-    return []
+    position_ids = anvil.server.call('Employees', 'get_vacancies', brand=brand, year_month=year_month)
+    return position_ids
     
 POSITIONS = Positions()
 #POSITIONS.load()

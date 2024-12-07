@@ -11,12 +11,14 @@ from ....Data.PositionsModel import POSITIONS
 
 
 class Position(PositionTemplate):
-  def __init__(self, new=False, **properties):
+  def __init__(self, new=False, year_month=None, **properties):
     self.positions = POSITIONS
     self.line_manager_titles = [ x.title for x in self.positions.get_line_managers() if x is not None ]
     print(f"Titles: {self.line_manager_titles}")
     
     self.new = new
+    self.year_month = year_month
+    
     if new:
       self.item = self.positions.blank()
     else:
@@ -74,7 +76,6 @@ class Position(PositionTemplate):
     ]
     
     crud_form = CrudForm(item=self.item, editables=editables)
-    #crud_form.build_form()
     title = "Create New Position" if self.new else "Edit Position"
     ret = crud_form.show(title=title)
     print(ret)
