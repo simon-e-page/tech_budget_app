@@ -88,7 +88,7 @@ class Positions(PositionsTemplate):
       # Where if employee_id and prev_employee_id differ then we know there is a new employee in the position
       # Cost type: actual, forecast, costed vacancy, uncosted vacancy
       val = cell.get_value()
-      print(f"Formatting: {val}")
+      #print(f"Formatting: {val}")
       field = cell.get_field()
       data = cell.get_data()
       position_id = data['position_id']
