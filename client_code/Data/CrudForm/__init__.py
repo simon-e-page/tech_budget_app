@@ -73,11 +73,6 @@ class CrudForm(CrudFormTemplate):
         print(f"Got: {v} of type {type(v)}")
         pass
 
-    save_button = Button(text='Save', icon='fa:save', role='primary-button')
-    save_button.add_event_handler('click', self.save)
-    flow_panel = FlowPanel()
-    flow_panel.add_component(save_button)
-    panel.add_component(flow_panel)
     
     self.add_component(panel)
     self.refresh_data_bindings()
@@ -159,11 +154,3 @@ class CrudForm(CrudFormTemplate):
     return fp
 
   
-  def save(self, **event_args):
-    try:
-      self.item.save()
-      self.raise_event('x-close-alert', value=True)
-    except Exception as e:
-      alert(f"Error saving object: {e}")
-      print(e)
-      raise

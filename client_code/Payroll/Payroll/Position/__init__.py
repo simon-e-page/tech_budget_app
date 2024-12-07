@@ -76,6 +76,22 @@ class Position(PositionTemplate):
     ]
     
     crud_form = CrudForm(item=self.item, editables=editables)
+    
+    save_button = Button(text='Save', icon='fa:save', role='primary-button', bold=True, tag=crud_form)
+    save_button.add_event_handler('click', self.save)
+    fp2 = FlowPanel()
+    fp2.add_component(save_button)
+    crud_form.add_component(fp2)
+
     title = "Create New Position" if self.new else "Edit Position"
     ret = crud_form.show(title=title)
-    print(ret)
+    
+
+  def save(self, sender, **event_args):
+    crud_form = sender.tag
+    try:
+      self.item.save()
+      crud_form.raise_event('x-close-alert', value=True)
+    except Exception as e:
+      print(e)
+      raise

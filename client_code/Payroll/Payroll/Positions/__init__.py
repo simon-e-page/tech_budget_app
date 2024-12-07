@@ -73,9 +73,11 @@ class Positions(PositionsTemplate):
       assignment = sender.tag
       employee_id = assignment['employee_id']
       year_month = assignment.get('year_month', None)
+      position_id = assignment.get('position_id', None)
+      salary = assignment.get('salary')
       print(f"Opening employee: {employee_id}")
       employee = self.employees.get(employee_id)
-      emp_form = Employee(item=employee, year_month=year_month)
+      emp_form = Employee(item=employee, year_month=year_month, position_id=position_id, salary=salary)
       result = emp_form.show()
       
     def title_formatter(cell, **params):
@@ -94,7 +96,8 @@ class Positions(PositionsTemplate):
       data = cell.get_data()
       position_id = data['position_id']
       title = data['title']
-      salary = val['amount']
+      amount = val['amount']
+      salary = val['salary']
       employee_id = val.get('employee_id', None)
       full_name = val['full_name'] or None
       prev_id = val['prev_employee_id']
@@ -106,7 +109,8 @@ class Positions(PositionsTemplate):
         'year_month': int(year_month),
         'title': title,
         'employee_id': employee_id,
-        'cost_type': cost_type
+        'cost_type': cost_type,
+        'salary': salary
       }
 
       # Idenfity if this column is a change in employment (or the first column)
@@ -141,7 +145,7 @@ class Positions(PositionsTemplate):
         'title': 'Team',
         'field': 'team',
         "headerFilter": "input",
-        "headerFilterFunc": "starts",
+        "headerFilterFunc": "contains",
       },
       {
         'title': 'Type',

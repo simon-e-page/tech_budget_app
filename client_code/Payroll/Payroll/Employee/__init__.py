@@ -6,14 +6,23 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
-from ....Data import EmployeesModel
+from ....Data import EmployeesModel, PositionsModel
 from ....Data.CrudForm import CrudForm
 
 class Employee(EmployeeTemplate):
-  def __init__(self, new=False, year_month=None, **properties):
+  def __init__(self, new=False, **properties):
     self.employees = EmployeesModel.EMPLOYEES
+    self.positions = PositionsModel.POSITIONS
+    
     self.new = new
-    self.year_month = year_month
+    self.year_month = properties.get('year_month', None)
+    position_id = properties.get('position_id', None)
+    self.salary = properties.get('salary', None)
+    if position_id:
+      self.position = self.positions.get(position_id)
+    else:
+      self.position = None
+    
     if new:
       self.item = self.employees.blank()
     # Set Form properties and Data Bindings.
@@ -47,20 +56,46 @@ class Employee(EmployeeTemplate):
     ]
     
     crud_form = CrudForm(item=self.item, editables=editables)
-    if not self.new and self.year_month:
-      label=Label(text=f"Adjust salary from {self.year_month}")
-      crud_form.add_component(label)
+    if not self.new and self.year_month and self.position is not None:
+      title = self.position.title
+      salary = self.salary
+      fp1 = FlowPanel()
+      label = Label(text=f"Adjust salary for {title} from {self.year_month}:")
+      textbox = TextBox(text=salary, type='number', tag=salary)
+      fp1.add_component(label)
+      fp1.add_component(textbox)
+      crud_form.add_component(fp1)
+    else:
+      textbox = None
+
+    save_button = Button(text='Save', icon='fa:save', role='primary-button', bold=True, tag=(crud_form, textbox))
+    save_button.add_event_handler('click', self.save)
+    fp2 = FlowPanel()
+    fp2.add_component(save_button)
+    crud_form.add_component(fp2)
+    
     #crud_form.build_form()
     title = "Create New Employee" if self.new else "Edit Employee"
     ret = crud_form.show(title=title)
     print(ret)
-    
-#  def save_button_click(self, **event_args):
-#    """This method is called when the button is clicked"""
-#    try:
-#      self.item.save()
-#      self.raise_event('x-close-alert', True)
-#    except Exception as e:
-#      print(e)
-#      alert(f"Error wile saving: {e}")
-#      raise      
+
+  def save(self, sender, **event_args):
+    crud_form, salary_box = sender.tag
+    try:
+      self.item.save()
+      
+      new_salary = int(salary_box.text)
+      if salary_box is not None and new_salary != salary_box.tag:
+        month = self.year_month % 100
+        year = (self.year_month // 100) + (month>6)
+        year_months = [ (year - (x>6))*100+6 for x in [7,8,9,10,11,12,1,2,3,4,5,6] ]
+        index = year_months.index(self.year_month)
+        remaining = year_months[index:]
+        self.position.set_salary(new_salary, remaining)
+        print(f"Salary updated to {new_salary} for {remaining}")
+        
+      crud_form.raise_event('x-close-alert', value=True)
+    except Exception as e:
+      alert(f"Error saving object: {e}")
+      print(e)
+      raise    
