@@ -38,7 +38,7 @@ class CrudForm(CrudFormTemplate):
 
       # Follow a reference to an attribute (unique key) in another object!
       # TODO: object needs to understand this on Save!
-      if 'reference' in editable:
+      if 'reference' in editable and v is not None:
         v = v.get(editable['reference'], None)
         print(f"Reference -> {v}")
                   
