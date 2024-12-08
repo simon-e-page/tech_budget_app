@@ -1,0 +1,30 @@
+components:
+- components:
+  - components:
+    - data_bindings:
+      - {code: 'f"{self.brand} Payroll import - next month: {self.next_month}"', property: text, writeback: false}
+      layout_properties: {}
+      name: label_1
+      properties: {text: 'Payroll Import - next month:'}
+      type: Label
+    - event_bindings: {change: payroll_loader_change}
+      name: payroll_loader
+      properties: {}
+      type: FileLoader
+    name: flow_panel_1
+    properties: {}
+    type: FlowPanel
+  layout_properties: {full_width_row: true, grid_position: 'DWZFJR,KOLJYE'}
+  name: linear_panel_1
+  properties: {}
+  type: LinearPanel
+- components:
+  - name: unassigned_table
+    properties: {}
+    type: form:TGQCF3WT6FVL2EM2:Tabulator
+  layout_properties: {full_width_row: true, grid_position: 'KRMCKD,KPEQSD'}
+  name: linear_panel_2
+  properties: {}
+  type: LinearPanel
+container: {type: ColumnPanel}
+is_package: true

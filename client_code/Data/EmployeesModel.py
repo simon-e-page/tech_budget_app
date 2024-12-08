@@ -133,5 +133,8 @@ class Employees(AttributeToDict):
   def get_position_view(self, brand, year):
     return anvil.server.call('Employees', 'get_position_view', year=year, brand=brand)
 
+  def get_actuals_updated(self, brand, year):
+    return anvil.server.call('Employees', 'get_actuals_updated', brand=brand, year=year)
+    
 EMPLOYEES = Employees()
 #EMPLOYEES.load()
