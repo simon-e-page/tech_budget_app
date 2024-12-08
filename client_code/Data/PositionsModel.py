@@ -56,6 +56,11 @@ class Position(AttributeToKey):
 
   def to_dict(self):
     d = { x: self[x] for x in self._defaults.keys() }
+    if d['line_manager'] is not None:
+      d['line_manager_title'] = d['line_manager']['title']
+    else:
+      d['line_manager_title'] = None
+    d.pop('line_manager', None)
     #print(d)
     return d
 

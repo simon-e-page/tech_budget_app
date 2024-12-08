@@ -145,7 +145,7 @@ class CrudForm(CrudFormTemplate):
     widget = DropDown(items=items, selected_value=selected_value, placeholder=placeholder, include_placeholder=True, enabled=enabled)
 
     def dd_selected(sender, **event_args):
-      self.itemp[sender.tag] = sender.selected_value
+      self.item[sender.tag] = sender.selected_value
 
     widget.add_event_handler('change', dd_selected)
     fp = FlowPanel()
