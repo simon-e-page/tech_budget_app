@@ -14,6 +14,7 @@ from ...Data import EmployeesModel
 from ...Data import PositionsModel
 from .Employee import Employee
 from .Position import Position
+from .PayrollImport import PayrollImport
 
 class Payroll(PayrollTemplate):
   def __init__(self, **properties):
@@ -32,3 +33,8 @@ class Payroll(PayrollTemplate):
     _form = Position(new=True)
     _form.show()
     pass
+
+  def button_1_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    import_form = PayrollImport()
+    import_form.show()

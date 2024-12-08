@@ -33,6 +33,9 @@ class PayrollImport(PayrollImportTemplate):
 
     # Any code you write here will run before the form opens.
 
+  def show(self):
+    res = alert(self, title='Import Actuals', buttons=[('Cancel', False)], large=True)
+    
   def payroll_loader_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
     year_month = self.importer.check_brand(file.name)

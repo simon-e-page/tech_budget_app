@@ -11,6 +11,11 @@ components:
       name: add_position_button
       properties: {icon: 'fa:lock', role: primary-button, text: Create Position}
       type: Button
+    - event_bindings: {click: button_1_click}
+      layout_properties: {}
+      name: button_1
+      properties: {text: Import Actuals}
+      type: Button
     data_bindings:
     - {code: self.mode=='Budget', property: visible, writeback: false}
     layout_properties: {full_width_row: true, grid_position: 'TEPHPC,WWTWNI'}
