@@ -67,12 +67,13 @@ class Employee(EmployeeTemplate):
       salary = self.salary
       fp1 = FlowPanel()
       label = Label(text=f"Adjust salary for {title} from {self.year_month}:")
-      textbox = TextBox(text=salary, type='number', tag=salary)
+      salary_box = TextBox(text=salary, type='number', tag=salary)
       fp1.add_component(label)
-      fp1.add_component(textbox)
+      fp1.add_component(salary_box)
       crud_form.add_component(fp1)
+      position_dd = None
     else:
-      label_text = f"ASsign Position from {self.year_month}:"
+      label_text = f"Assign Position from {self.year_month}:"
       vacant_ids = self.positions.get_vacant(self.brand, self.year_month)
       position_list = [ (self.positions.get(x).title, x) for x in vacant_ids ]
       fp1 = FlowPanel()
@@ -83,19 +84,16 @@ class Employee(EmployeeTemplate):
         new_position = sender.selected_value
         year_month = sender.tag
         print(f"Assigning {employee.full_name} to {new_position.title} from {year_month}")
-        year_months = [ (self.year-(x>6)) * 100 + x for x in [7,8,9,10,11,12,1,2,3,4,5,6]]
-        index = year_months.index(year_month)
-        remaining = year_months[index:]
-        employee.assign(new_position.position_id, remaining)
         
-      dd = DropDown(items=position_list, placeholder="Select Position title", include_placeholder=True, tag=self.year_month)
-      dd.add_event_handler('change', position_selected)
+      position_dd = DropDown(items=position_list, placeholder="Select Position title", include_placeholder=True, tag=self.year_month)
+      position_dd.add_event_handler('change', position_selected)
       fp1.add_component(label)
-      fp1.add_component(dd)
+      fp1.add_component(position_dd)
       crud_form.add_component(fp1)
+      salary_box = None
       
 
-    save_button = Button(text='Save', icon='fa:save', role='primary-button', bold=True, tag=(crud_form, textbox))
+    save_button = Button(text='Save', icon='fa:save', role='primary-button', bold=True, tag=(crud_form, salary_box, position_dd))
     save_button.add_event_handler('click', self.save)
     fp2 = FlowPanel()
     fp2.add_component(save_button)
@@ -107,20 +105,29 @@ class Employee(EmployeeTemplate):
     print(ret)
 
   def save(self, sender, **event_args):
-    crud_form, salary_box = sender.tag
+    crud_form, salary_box, position_dd = sender.tag
     try:
       self.item.save()
       
-      new_salary = int(salary_box.text)
-      if salary_box is not None and new_salary != salary_box.tag:
-        month = self.year_month % 100
-        year = (self.year_month // 100) + (month>6)
-        year_months = [ (year - (x>6))*100+6 for x in [7,8,9,10,11,12,1,2,3,4,5,6] ]
-        index = year_months.index(self.year_month)
-        remaining = year_months[index:]
-        self.position.set_salary(new_salary, remaining)
-        print(f"Salary updated to {new_salary} for {remaining}")
-        
+      if salary_box is not None:
+        new_salary = int(salary_box.text)
+        if new_salary != salary_box.tag:
+          month = self.year_month % 100
+          year = (self.year_month // 100) + (month>6)
+          year_months = [ (year - (x>6))*100+6 for x in [7,8,9,10,11,12,1,2,3,4,5,6] ]
+          index = year_months.index(self.year_month)
+          remaining = year_months[index:]
+          self.position.set_salary(new_salary, remaining)
+          print(f"Salary updated to {new_salary} for {remaining}")
+
+      if position_dd is not None:
+        new_position = position_dd.selected_value
+        if new_position is not None:
+          year_months = [ (self.year-(x>6)) * 100 + x for x in [7,8,9,10,11,12,1,2,3,4,5,6]]
+          index = year_months.index(self.year_month)
+          remaining = year_months[index:]
+          self.item.assign(new_position.position_id, remaining)
+      
       crud_form.raise_event('x-close-alert', value=True)
     except Exception as e:
       alert(f"Error saving object: {e}")
