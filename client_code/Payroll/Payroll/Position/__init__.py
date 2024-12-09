@@ -97,17 +97,26 @@ class Position(PositionTemplate):
     crud_form.add_component(fp1)
     
     save_button = Button(text='Save', icon='fa:save', role='primary-button', bold=True, tag=(crud_form, textbox))
-    save_button.add_event_handler('click', self.save)
+    save_button.add_event_handler('click', self.save_button_click)
     fp2 = FlowPanel()
     fp2.add_component(save_button)
     crud_form.add_component(fp2)
 
     title = "Create New Position" if self.new else "Edit Position"
     ret = crud_form.show(title=title)
+    if ret:
+      return self.item, self.salary
     
-
-  def save(self, sender, **event_args):
+  def save_button_click(self, sender, **event_args):
     crud_form, salary_box = sender.tag
+    self.salary = salary_box.text
+    
+    if self.save:
+      crud_form, salary_box = sender.tag
+      self.save(crud_form, salary_box)
+    
+    
+  def save(self, crud_form, salary_box):
     try:
       self.item.save()
       
