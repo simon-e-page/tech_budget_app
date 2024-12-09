@@ -81,7 +81,7 @@ class Employee(EmployeeTemplate):
 
       def position_selected(sender, **event_args):
         employee = self.item
-        new_position = sender.selected_value
+        new_position = self.positions.get(sender.selected_value)
         year_month = sender.tag
         print(f"Assigning {employee.full_name} to {new_position.title} from {year_month}")
         
@@ -121,12 +121,12 @@ class Employee(EmployeeTemplate):
           print(f"Salary updated to {new_salary} for {remaining}")
 
       if position_dd is not None:
-        new_position = position_dd.selected_value
-        if new_position is not None:
+        position_id = position_dd.selected_value
+        if position_id is not None:
           year_months = [ (self.year-(x>6)) * 100 + x for x in [7,8,9,10,11,12,1,2,3,4,5,6]]
           index = year_months.index(self.year_month)
           remaining = year_months[index:]
-          self.item.assign(new_position.position_id, remaining)
+          self.item.assign(position_id, remaining)
       
       crud_form.raise_event('x-close-alert', value=True)
     except Exception as e:

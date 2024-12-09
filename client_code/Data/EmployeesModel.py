@@ -17,6 +17,7 @@ from .BaseModel import AttributeToDict, AttributeToKey
 
 class Employee(AttributeToKey):
   _defaults = {
+    'brand': 'JB_AU',
     'employee_id': None,
     'firstname': '',
     'lastname': '',
@@ -52,7 +53,7 @@ class Employee(AttributeToKey):
       return None
       
     try:
-      ret = anvil.server.call('Employees', 'add_employee', [self.to_dict()])
+      ret = anvil.server.call('Employees', 'add_employee', self.to_dict())
     except Exception as e:
       ret = None
       print("Error saving Employee!")
