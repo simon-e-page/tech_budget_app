@@ -22,6 +22,19 @@ components:
   - name: unassigned_table
     properties: {}
     type: form:TGQCF3WT6FVL2EM2:Tabulator
+  - components:
+    - components:
+      - event_bindings: {click: move_to_import_click}
+        layout_properties: {}
+        name: move_to_import
+        properties: {icon: 'fa:arrow-right', role: primary-button, text: Next}
+        type: Button
+      name: flow_panel_2
+      properties: {}
+      type: FlowPanel
+    name: linear_panel_3
+    properties: {}
+    type: LinearPanel
   layout_properties: {full_width_row: true, grid_position: 'KRMCKD,KPEQSD'}
   name: linear_panel_2
   properties: {}

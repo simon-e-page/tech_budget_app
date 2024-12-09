@@ -12,12 +12,14 @@ from ....Data.PositionsModel import POSITIONS
 
 
 class Position(PositionTemplate):
-  def __init__(self, new=False, year_month=None, **properties):
+  def __init__(self, new=False, year_month=None, save=True, **properties):
     self.positions = POSITIONS
     self.line_manager_titles = [ (x.title, x) for x in self.positions.get_line_managers() if x is not None ]
     #print(f"Titles: {self.line_manager_titles}")
     
     self.new = new
+    self.save = save
+    
     if year_month is not None:
       self.year_month = year_month
     else:
