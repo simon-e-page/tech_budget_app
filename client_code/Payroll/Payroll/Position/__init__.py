@@ -18,12 +18,14 @@ class Position(PositionTemplate):
     print(f"Titles: {self.line_manager_titles}")
     
     self.new = new
-    self.year_month = year_month
+    if year_month is not None:
+      self.year_month = year_month
+    else:
+      self.year_month = (Data.CURRENT_YEAR -1) * 100 + 7
     self.salary = 0.0
     
     if new:
       self.item = self.positions.blank()
-      self.year_month = (Data.CURRENT_YEAR -1) * 100 + 7
     else:
       self.item = properties['item']
       self.salary = self.item.get_salary(year_month)
@@ -106,6 +108,7 @@ class Position(PositionTemplate):
     crud_form, salary_box = sender.tag
     try:
       self.item.save()
+      
       if salary_box.text != salary_box.tag:
         year_months = [ (Data.CURRENT_YEAR - (x>6)) * 100 + x for x in [7,8,9,10,11,12,1,2,3,4,5,6]]
         index = year_months.index(self.year_month)

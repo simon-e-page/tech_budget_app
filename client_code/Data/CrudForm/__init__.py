@@ -142,9 +142,10 @@ class CrudForm(CrudFormTemplate):
     placeholder = f"Enter {k}"
     
     selected_value = v
-    widget = DropDown(items=items, selected_value=selected_value, placeholder=placeholder, include_placeholder=True, enabled=enabled)
+    widget = DropDown(items=items, selected_value=selected_value, placeholder=placeholder, include_placeholder=True, enabled=enabled, tag=k)
 
     def dd_selected(sender, **event_args):
+      print(f"Updating {sender.tag} with {sender.selected_value}")
       self.item[sender.tag] = sender.selected_value
 
     widget.add_event_handler('change', dd_selected)

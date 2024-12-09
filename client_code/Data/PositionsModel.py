@@ -48,6 +48,8 @@ class Position(AttributeToKey):
       
     try:
       ret = anvil.server.call('Positions', 'add_position', self.to_dict())
+      if self.position_id is None:
+        self.position_id = ret['position_id']
     except Exception as e:
       ret = None
       print("Error saving Position!")
