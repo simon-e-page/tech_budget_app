@@ -14,8 +14,8 @@ from ....Data.PositionsModel import POSITIONS
 class Position(PositionTemplate):
   def __init__(self, new=False, year_month=None, **properties):
     self.positions = POSITIONS
-    self.line_manager_titles = [ x.title for x in self.positions.get_line_managers() if x is not None ]
-    print(f"Titles: {self.line_manager_titles}")
+    self.line_manager_titles = [ (x.title, x) for x in self.positions.get_line_managers() if x is not None ]
+    #print(f"Titles: {self.line_manager_titles}")
     
     self.new = new
     if year_month is not None:
@@ -28,7 +28,7 @@ class Position(PositionTemplate):
       self.item = self.positions.blank()
     else:
       self.item = properties['item']
-      self.salary = self.item.get_salary(year_month)
+      self.salary = self.item.get_salary(self.year_month)
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
