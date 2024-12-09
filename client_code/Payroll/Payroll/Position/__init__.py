@@ -6,6 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
+from .... import Data
 from ....Data.CrudForm import CrudForm
 from ....Data.PositionsModel import POSITIONS
 
@@ -18,11 +19,13 @@ class Position(PositionTemplate):
     
     self.new = new
     self.year_month = year_month
+    self.salary = 0.0
     
     if new:
       self.item = self.positions.blank()
     else:
       self.item = properties['item']
+      self.salary = self.item.get_salary(year_month)
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
@@ -77,7 +80,14 @@ class Position(PositionTemplate):
     
     crud_form = CrudForm(item=self.item, editables=editables)
     
-    save_button = Button(text='Save', icon='fa:save', role='primary-button', bold=True, tag=crud_form)
+    fp1 = FlowPanel()
+    label = Label(text=f"Adjust salary for {self.item.title} from {self.year_month}:")
+    textbox = TextBox(text=self.salary, type='number', tag=self.salary)
+    fp1.add_component(label)
+    fp1.add_component(textbox)
+    crud_form.add_component(fp1)
+    
+    save_button = Button(text='Save', icon='fa:save', role='primary-button', bold=True, tag=(crud_form, textbox))
     save_button.add_event_handler('click', self.save)
     fp2 = FlowPanel()
     fp2.add_component(save_button)
@@ -88,9 +98,15 @@ class Position(PositionTemplate):
     
 
   def save(self, sender, **event_args):
-    crud_form = sender.tag
+    crud_form, salary_box = sender.tag
     try:
       self.item.save()
+      if salary_box.text != salary_box.tag:
+        year_months = [ (Data.CURRENT_YEAR - (x>6)) * 100 + x for x in [7,8,9,10,11,12,1,2,3,4,5,6]]
+        index = year_months.index(self.year_month)
+        remaining = year_months[index:]
+        print(f"Salary updated to: {salary_box.text} for {remaining}")
+        self.item.set_salary(salary_box.text, remaining)
       crud_form.raise_event('x-close-alert', value=True)
     except Exception as e:
       print(e)
