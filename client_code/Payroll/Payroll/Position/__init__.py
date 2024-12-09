@@ -23,6 +23,7 @@ class Position(PositionTemplate):
     
     if new:
       self.item = self.positions.blank()
+      self.year_month = (Data.CURRENT_YEAR -1) * 100 + 7
     else:
       self.item = properties['item']
       self.salary = self.item.get_salary(year_month)
@@ -81,7 +82,11 @@ class Position(PositionTemplate):
     crud_form = CrudForm(item=self.item, editables=editables)
     
     fp1 = FlowPanel()
-    label = Label(text=f"Adjust salary for {self.item.title} from {self.year_month}:")
+    if self.new:
+      label_text = f"Set salary from {self.year_month}"
+    else:
+      label_text = f"Adjust salary for {self.item.title} from {self.year_month}:"
+    label = Label(text=label_text)
     textbox = TextBox(text=self.salary, type='number', tag=self.salary)
     fp1.add_component(label)
     fp1.add_component(textbox)
