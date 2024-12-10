@@ -48,12 +48,14 @@ class Position(AttributeToKey):
       
     try:
       ret = anvil.server.call('Positions', 'add_position', self.to_dict())
-      if self.position_id is None:
-        self.position_id = ret['position_id']
+      if ret is not None and self.position_id is None:
+        self.position_id = ret
     except Exception as e:
       ret = None
+      
+    if ret is None:
       print("Error saving Position!")
-      raise
+      
     return ret
 
   def to_dict(self):
@@ -104,8 +106,12 @@ class Positions(AttributeToDict):
     else:
       raise KeyError(f"Cant find Position with ID: {position_id}")
 
-  def all(self):
-    return [ x.to_dict() for x in self.__d__.values() ]
+  def all(self, brand=None):
+    if brand is not None:
+      ret = [ x.to_dict() for x in self.__d__.values() if x.brand == brand ]
+    else:
+      ret = [ x.to_dict() for x in self.__d__.values() ]
+    return ret
       
   def new(self, _data):
     position_id = _data['position_id']
@@ -122,10 +128,10 @@ class Positions(AttributeToDict):
       self.add(position_id, p)
       return self.get(position_id)
       
-  def load(self, _list=None, brand=None):
+  def load(self, _list=None, **kwargs):
     self.__d__ = {}
     if _list is None:
-      _list = anvil.server.call('Positions', 'get_positions', brand=brand)
+      _list = anvil.server.call('Positions', 'get_positions', **kwargs)
     for _dict in _list:
       new_obj = self.new(_dict)
 
@@ -160,8 +166,11 @@ class Positions(AttributeToDict):
     position_ids = anvil.server.call('Employees', 'get_vacancies', brand=brand, year_month=year_month)
     return position_ids
 
-  def get_teams(self, brand):
-    teams = list(set(x.team for x in self.__d__.values() if x.brand == brand))
+  def get_teams(self, brand=None):
+    if brand is not None:
+      teams = list(set(x.team for x in self.__d__.values() if x.brand == brand))
+    else:
+      teams = list(set(x.team for x in self.__d__.values()))      
     return teams
     
 POSITIONS = Positions()

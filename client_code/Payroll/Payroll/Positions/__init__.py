@@ -184,18 +184,24 @@ class Positions(PositionsTemplate):
     position = self.positions.get(position_id)
     title = assignment['title']
     salary = position.get_salary(year_month)
-    items = ['Uncosted vacancy', 'Costed Vacancy']
+    items = ['Uncosted vacancy', 'Costed Vacancy', 'Make Inactive']
     last_month = self.year_months[-1]
     index = self.year_months.index(year_month)
     remaining = self.year_months[index:]
 
+    def hide_salary(sender, **event_args):
+      visible = False if sender.selected_value == 'Make Inactive' else True    
+      for widget in sender.tag:
+        widget.visible = visible
+      
     
     form_title = f"Manage vacancy for {title}"
     label = Label(text=f"Period: From {year_month} to {last_month}")
     label2 = Label(text="Select vacancy type: ")
-    dd = DropDown(items=items, selected_value=items[0])
     label3 = Label(text="Set Salary:")
     textbox = TextBox(text=salary if salary else 0, type='number')
+    dd = DropDown(items=items, selected_value=items[0])
+    dd.add_event_handler('change', hide_salary, tag=[label3, textbox])
     panel = LinearPanel()
     fp1 = FlowPanel()
     fp1.add_component(label2)
@@ -210,7 +216,11 @@ class Positions(PositionsTemplate):
     result = alert(content=panel, title=form_title, large=True, buttons=[('OK', True), ('Cancel', False)])
     if result:
       new_salary = int(textbox.text)
-      if new_salary != salary:
+      if dd.selected_value == 'Make Inactive':
+        position.unassign(remaining)
+        position.status = 'Inactive'
+        position.save()
+      elif new_salary != salary:
         position.set_salary(new_salary, remaining)
       if dd.selected_value == 'Uncosted vacancy':
         position.unassign(remaining)

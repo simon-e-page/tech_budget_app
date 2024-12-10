@@ -17,7 +17,7 @@ class Position(PositionTemplate):
     self.brand = Data.CURRENT_BRAND
     self.line_manager_titles = [ (x.title, x) for x in self.positions.get_line_managers() if x is not None ]
     #print(f"Titles: {self.line_manager_titles}")
-    self.team_list = self.positions.get_teams(self.brand)
+    self.team_list = self.positions.get_teams()
     
     self.new = new
     self.save = save
@@ -118,15 +118,16 @@ class Position(PositionTemplate):
     
     if self.save:
       crud_form, salary_box = sender.tag
-      self.save(crud_form, salary_box)
+      self.save_position(crud_form, salary_box)
     else:
       crud_form.raise_event('x-close-alert', value=True)
     
     
-  def save(self, crud_form, salary_box):
+  def save_position(self, crud_form, salary_box):
     try:
-      self.item.save()
-      
+      if self.item.save():
+        self.positions.add(self.item.position_id, self.item)
+        
       if salary_box.text != salary_box.tag:
         year_months = [ (Data.CURRENT_YEAR - (x>6)) * 100 + x for x in [7,8,9,10,11,12,1,2,3,4,5,6]]
         index = year_months.index(self.year_month)

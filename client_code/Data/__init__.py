@@ -259,7 +259,7 @@ BILLING_TYPES_DD = [ (x,x) for x in BILLING_TYPES ]
 UsersModel.ROLES.load(_roles=_roles)
 UsersModel.USERS.load(_users=_users)
 VendorsModel.VENDORS.load(_vendors=_vendors)
-PositionsModel.POSITIONS.load(_list=_positions, brand=CURRENT_BRAND)
+PositionsModel.POSITIONS.load(_list=_positions)
 EmployeesModel.EMPLOYEES.load(_list=_employees, brand=CURRENT_BRAND)
 #print(PositionsModel.POSITIONS.all())
 refresh()

@@ -16,6 +16,11 @@ components:
       name: button_1
       properties: {text: Import Actuals}
       type: Button
+    - event_bindings: {click: button_2_click}
+      layout_properties: {}
+      name: button_2
+      properties: {text: Reload}
+      type: Button
     data_bindings:
     - {code: self.mode=='Budget', property: visible, writeback: false}
     layout_properties: {full_width_row: true, grid_position: 'TEPHPC,WWTWNI'}

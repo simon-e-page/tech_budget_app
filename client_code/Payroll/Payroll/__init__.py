@@ -38,3 +38,7 @@ class Payroll(PayrollTemplate):
     """This method is called when the button is clicked"""
     import_form = PayrollImport()
     import_form.show()
+
+  def button_2_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.employees.refresh_cache()
