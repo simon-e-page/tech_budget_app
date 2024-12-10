@@ -48,7 +48,7 @@ class PayrollImporter:
   def check_brand(self, filename):
     #year_month = anvil.server.call('PayrollImporter', 'check_filename_patterns', brand=Data.CURRENT_BRAND, filename=filename)
     if Data.CURRENT_BRAND == 'JB_AU':
-      pattern = r'([A-Z]{3})(\d{2})!'
+      pattern = r'P.*IT Payroll Costs ([A-Z]{3})(\d{2}).xlsx$'
     match = re.search(pattern, filename)
     
     if match:
@@ -56,9 +56,11 @@ class PayrollImporter:
       year = int(match.group(2))
       month_num = MONTHS[month]
       year_month = (2000 + year) * 100 + month_num
+    else:
+      year_month = None
+      
     if year_month is None:
       print(f"Filename does not match expected pattern(s) for {Data.CURRENT_BRAND}!")
-      year_month = None
     return year_month
     
     
