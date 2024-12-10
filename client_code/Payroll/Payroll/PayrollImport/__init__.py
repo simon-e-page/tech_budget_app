@@ -70,6 +70,7 @@ class PayrollImport(PayrollImportTemplate):
         self.unassigned = new_data['unassigned']
         if len(self.unassigned)>0:
           self.generate_vacancies()
+          self.set_initial_table_data()
           self.render_unassigned_table()
         else:
           self.move_to_import_click()
@@ -84,6 +85,13 @@ class PayrollImport(PayrollImportTemplate):
   def generate_vacancies(self):
     vacant_postions = [ self.positions.get(x) for x in  self.positions.get_vacant(self.brand, self.year_month) ]
     self.vacancies += [ (x.title, x) for x in vacant_postions ]
+
+
+  def set_initial_table_data(self):
+    data = [ x for x in self.employees if x['employee_id'] in self.unassigned ]
+    for item in data:
+      item['position'] = { 'choice': None, 'position': None }
+    self.unassigned_table.data = data
     
   def render_unassigned_table(self):
     
@@ -139,12 +147,8 @@ class PayrollImport(PayrollImportTemplate):
       },
     ]
     
-    print(self.unassigned)
-    data = [ x for x in self.employees if x['employee_id'] in self.unassigned ]
-    for item in data:
-      item['position'] = { 'choice': None, 'position': None }
     self.unassigned_table.columns = columns
-    self.unassigned_table.data = data
+    self.unassigned_table.data = self.unassigned_table.data
 
   def get_new_position(self):
     position_form = Position(new=True, year_month=self.year_month, save=False)

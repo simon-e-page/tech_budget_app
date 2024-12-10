@@ -14,8 +14,10 @@ from ....Data.PositionsModel import POSITIONS
 class Position(PositionTemplate):
   def __init__(self, new=False, year_month=None, save=True, **properties):
     self.positions = POSITIONS
+    self.brand = Data.CURRENT_BRAND
     self.line_manager_titles = [ (x.title, x) for x in self.positions.get_line_managers() if x is not None ]
     #print(f"Titles: {self.line_manager_titles}")
+    self.team_list = self.positions.get_teams(self.brand)
     
     self.new = new
     self.save = save
@@ -48,7 +50,8 @@ class Position(PositionTemplate):
       },
       {
         'key': 'team',
-        'label': 'Team'
+        'label': 'Team',
+        'list': self.team_list
       },
       {
         'key': 'line_manager',
@@ -116,6 +119,8 @@ class Position(PositionTemplate):
     if self.save:
       crud_form, salary_box = sender.tag
       self.save(crud_form, salary_box)
+    else:
+      crud_form.raise_event('x-close-alert', value=True)
     
     
   def save(self, crud_form, salary_box):

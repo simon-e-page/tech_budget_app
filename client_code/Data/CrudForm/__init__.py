@@ -137,7 +137,10 @@ class CrudForm(CrudFormTemplate):
     
     if items is None:
       items = []
-
+      
+    if v == '':
+      v = None
+      
     label = Label(text=f"{label}:")  
     placeholder = f"Enter {k}"
     
