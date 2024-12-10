@@ -106,6 +106,8 @@ class Position(PositionTemplate):
     ret = crud_form.show(title=title)
     if ret:
       return self.item, self.salary
+    else:
+      return None, None
     
   def save_button_click(self, sender, **event_args):
     crud_form, salary_box = sender.tag

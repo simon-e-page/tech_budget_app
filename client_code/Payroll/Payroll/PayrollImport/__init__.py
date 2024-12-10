@@ -94,13 +94,15 @@ class PayrollImport(PayrollImportTemplate):
       choice = sender.selected_value
       print(f"Got action {choice} for {employee_id}")
       if choice == 0:
-        new_position = self.get_new_position()
+        new_position, new_salary = self.get_new_position()
         if new_position is not None:
           data['position']['position'] = new_position
           data['position']['choice'] = 'new'
+          data['position']['salary'] = new_salary
       else:
           data['position']['position'] = sender.selected_value
           data['position']['choice'] = 'existing'
+          data['position']['salary'] = None
           self.remove_vacancy(sender.selected_value)
       self.render_unassigned_table()
       
@@ -145,9 +147,10 @@ class PayrollImport(PayrollImportTemplate):
 
   def get_new_position(self):
     position_form = Position(new=True, year_month=self.year_month, save=False)
-    res = position_form.show()
-    if res:
-      return 
+    return position_form.show()
+
+  def remove_vacancy(self, position):
+    self.vacancies = [ x for x in self.vacancies if x[1] != position ]
     
   def move_to_import_click(self, **event_args):
     """This method is called when the button is clicked"""
