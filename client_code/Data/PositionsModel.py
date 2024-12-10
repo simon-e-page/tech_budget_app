@@ -76,6 +76,9 @@ class Position(AttributeToKey):
     # TODO: Delete any assignments involving this position
     return anvil.server.call('Employees', 'unassign_position', position_id=self.position_id, year_months=year_months)
 
+  def assign(self, employee_id, year_months):
+    return anvil.server.call('Employees', 'assign', employee_id=employee_id, position_id=self.position_id, year_months=year_months)
+    
   def set_costed_vacancy(self, year_months):
     # TODO: create assignments with employee=None
     return anvil.server.call('Employees', 'assign', position_id=self.position_id, employee_id=None, year_months=year_months)

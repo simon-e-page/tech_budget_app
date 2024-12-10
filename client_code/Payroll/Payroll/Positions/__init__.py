@@ -218,7 +218,7 @@ class Positions(PositionsTemplate):
       new_salary = int(textbox.text)
       if dd.selected_value == 'Make Inactive':
         position.unassign(remaining)
-        position.status = 'Inactive'
+        position.status = 'inactive'
         position.save()
       elif new_salary != salary:
         position.set_salary(new_salary, remaining)

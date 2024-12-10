@@ -159,17 +159,23 @@ class PayrollImport(PayrollImportTemplate):
     
   def move_to_import_click(self, **event_args):
     """This method is called when the button is clicked"""
-    new_positions = []
-    new_assignments = []
+    new_positions = {}
+    new_assignments = {}
 
     for emp in self.unassigned_table.data:
       if emp['position']['position'] is None:
         alert("Need to assign employees to a position to continue!")
         return
       elif emp['position']['choice'] == 'new':
-        new_positions.append(emp['position']['position'])
+        new_positions[emp['employee_id']] = {
+          'position': emp['position']['position'],
+          'salary': emp['position']['salary']
+        }
+        
       else:
-        new_assignments.append(emp['position']['position'])
+        new_assignments[emp['employee_id']] = {
+          'position': emp['position']['position']
+        }
 
     finance_total = self.totals[str(self.year_month)]
     costs_total = sum(x[str(self.year_month)] for x in self.costs[str(self.year_month)] )
@@ -183,7 +189,47 @@ class PayrollImport(PayrollImportTemplate):
       """
       if confirm(message):
         print("Ready to go!")
+        self.add_new_positions(new_positions)
+        self.make_assignments(new_assignments)
+        self.add_costs(self.costs[str(self.year_month)])
         pass
     else:
       alert("Costs do not match!")
       return
+
+  def add_new_positions(self, pos_dict):
+    index = self.year_months.index(self.year_month)
+    remaining = self.year_months[index:]
+    ret = False
+    try:
+      for employee_id, info in pos_dict:
+        position = info['position']
+        new_id = position.save()
+        if new_id is not None:
+          position.set_salary(info['salary'], remaining)
+          position.assign(employee_id, remaining)
+      ret = True
+    except Exception as e:
+      print(e)
+    return ret
+    
+  def make_assignments(self, pos_dict):
+    index = self.year_months.index(self.year_month)
+    remaining = self.year_months[index:]
+    ret = False
+    try:
+      for employee_id, info in pos_dict:
+        position = info['position']
+        pos_id = position.position_id
+        if pos_id is not None:
+          position.assign(employee_id, remaining)
+      ret = True
+    except Exception as e:
+      print(e)
+    return ret
+
+  def add_costs(costs):
+    for cost_entry in costs:
+      employee_id = cost_entry['employee_id']
+      cost = cost_entry['amount']
+      
