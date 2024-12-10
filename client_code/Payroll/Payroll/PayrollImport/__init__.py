@@ -139,6 +139,7 @@ class PayrollImport(PayrollImportTemplate):
       },
     ]
     
+    print(self.unassigned)
     data = [ x for x in self.employees if x['employee_id'] in self.unassigned ]
     for item in data:
       item['position'] = { 'choice': None, 'position': None }
