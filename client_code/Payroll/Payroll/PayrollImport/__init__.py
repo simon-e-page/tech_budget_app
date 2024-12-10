@@ -52,7 +52,7 @@ class PayrollImport(PayrollImportTemplate):
       if year_month == self.next_month:
         process = True
       elif year_month > self.next_month:
-        print(f"{year_month} > {self.actuals_to_date}??")
+        print(f"{year_month} > {self.next_month}??")
         alert(f"File is for for a non-consecutive future month! Please choose a file for {self.next_month}")
       elif year_month == self.actuals_to_date and confirm("Importing this file will overwrite existing records. Are you sure?"):
         process = True

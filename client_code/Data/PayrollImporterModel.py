@@ -4,6 +4,21 @@ import re
 
 from .. import Data
 
+MONTHS = {
+  'JUL': 7,
+  'AUG': 8,
+  'SEP': 9,
+  'OCT': 10,
+  'NOV': 11,
+  'DEC': 12,
+  'JAN': 1,
+  'FEB': 2,
+  'MAR': 3,
+  'APR': 4,
+  'MAY': 5,
+  'JUN': 6,  
+}
+
 #####################################################################
 # PAYROLL IMPORTER
 #####################################################################
@@ -31,10 +46,19 @@ class PayrollImporter:
     return patterns
   
   def check_brand(self, filename):
-    return 202407
-    year_month = anvil.server.call('PayrollImporter', 'check_filename_patterns', brand=Data.CURRENT_BRAND, filename=filename)
+    #year_month = anvil.server.call('PayrollImporter', 'check_filename_patterns', brand=Data.CURRENT_BRAND, filename=filename)
+    if Data.CURRENT_BRAND == 'JB_AU':
+      pattern = r'([A-Z]{3})(\d{2})!'
+    match = re.search(pattern, filename)
+    
+    if match:
+      month = match.group(1)
+      year = int(match.group(2))
+      month_num = MONTHS[month]
+      year_month = (2000 + year) * 100 + month_num
     if year_month is None:
       print(f"Filename does not match expected pattern(s) for {Data.CURRENT_BRAND}!")
+      year_month = None
     return year_month
     
     
