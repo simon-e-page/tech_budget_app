@@ -11,8 +11,8 @@ from ....Data import EmployeesModel, PositionsModel, PayrollImporterModel
 from ..Position import Position
 
 COLORS = {
-  'new': 'green',
-  'existing': 'grey'
+  'new': '#ccffcc',
+  'existing': '#E7E7E7'
 }
 
 class PayrollImport(PayrollImportTemplate):
@@ -182,7 +182,7 @@ class PayrollImport(PayrollImportTemplate):
     finance_total = self.totals[str(self.year_month)]
     costs_total = sum(x[str(self.year_month)] for x in self.costs[str(self.year_month)] )
 
-    if costs_total == finance_total:
+    if abs(costs_total - finance_total)<=1:
       message = f"""Ready to execute:
       - {len(new_positions)} new positions to create
       - {len(new_assignments)} assignments to existing vacancies
@@ -205,7 +205,8 @@ class PayrollImport(PayrollImportTemplate):
         else:
           self.raise_event('x-close-alert',  value=True)
     else:
-      alert("Costs do not match!")
+      message = f"Total as per payroll report: {finance_total}. Sum of employee costs: {costs_total}"
+      alert(f"Costs do not match! {message}")
       return
 
   def add_new_positions(self, pos_dict):
