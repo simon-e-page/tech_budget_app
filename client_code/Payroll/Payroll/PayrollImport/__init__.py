@@ -143,17 +143,16 @@ class PayrollImport(PayrollImportTemplate):
       choice = data['position']['choice']
       if choice == 'existing':
         self.add_vacancy(position)
-      data['position'] = None
-      data['choice'] = None
+      data['position'] = { 'position': None, 'choice': None }
       self.render_unassigned_table()
       
     def reset_formatter(cell, **params):
       data = cell.get_data()
-      position = data['position']['position']
+      position = data['position'].get('position', None)
       if position is not None:
         icon = 'fa:undo'
-        obj = Link(icon=icon)
-        obj.add_event_handler('click', reset_action, tag=cell)
+        obj = Link(icon=icon, tag=cell)
+        obj.add_event_handler('click', reset_action)
       else:
         obj = None
       return obj
@@ -190,7 +189,7 @@ class PayrollImport(PayrollImportTemplate):
     position_form = Position(new=True, year_month=self.year_month, save=False)
     return position_form.show()
 
-  def add_vanancy(self, position):
+  def add_vacancy(self, position):
     self.vacancies.append((position.title, position))
     
   def remove_vacancy(self, position):
