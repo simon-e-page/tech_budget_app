@@ -16,6 +16,11 @@ COLORS = {
   'existing': '#E7E7E7'
 }
 
+ICONS = {
+  'new': 'fa:star',
+  'existing': None
+}
+
 class PayrollImport(PayrollImportTemplate):
   def __init__(self, **properties):
     self.employees = EmployeesModel.EMPLOYEES
@@ -123,13 +128,36 @@ class PayrollImport(PayrollImportTemplate):
       position = data['position']['position']
       choice = data['position']['choice']
       if position is not None:
-        obj = Label(text=position.title)
-        cell.getElement().style.backgroundColor = COLORS[choice]
+        icon = ICONS.get(choice, None)
+        obj = Label(text=position.title, icon=icon)
+        #cell.getElement().style.backgroundColor = COLORS[choice]
       else:
         obj = DropDown(items=self.vacancies, include_placeholder=True, placeholder='Select Position', tag=cell)
         obj.add_event_handler('change', position_selected)
       return obj
+
+    def reset_action(sender, **event_args):
+      cell = sender.tag
+      data = cell.get_data()
+      position = data['position']['position']
+      choice = data['position']['choice']
+      if choice == 'existing':
+        self.add_vacancy(position)
+      data['position'] = None
+      data['choice'] = None
+      self.render_unassigned_table()
       
+    def reset_formatter(cell, **params):
+      data = cell.get_data()
+      position = data['position']['position']
+      if position is not None:
+        icon = 'fa:undo'
+        obj = Link(icon=icon)
+        obj.add_event_handler('click', reset_action, tag=cell)
+      else:
+        obj = None
+      return obj
+        
     columns = [
       {
         'title': 'Employee ID',
@@ -148,6 +176,11 @@ class PayrollImport(PayrollImportTemplate):
         'field': '',
         'formatter': action_formatter
       },
+      {
+        'title': 'Reset',
+        'field': '',
+        'formatter': reset_formatter
+      },
     ]
     
     self.unassigned_table.columns = columns
@@ -157,6 +190,9 @@ class PayrollImport(PayrollImportTemplate):
     position_form = Position(new=True, year_month=self.year_month, save=False)
     return position_form.show()
 
+  def add_vanancy(self, position):
+    self.vacancies.append((position.title, position))
+    
   def remove_vacancy(self, position):
     self.vacancies = [ x for x in self.vacancies if x[1] != position ]
     
