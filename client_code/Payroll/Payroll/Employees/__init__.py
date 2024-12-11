@@ -12,8 +12,8 @@ from ..Position import Position
 from ..Employee import Employee
 
 COLORS={
-  'active': '#ffffcc',
-  'inactive': 'grey',
+  'actual': '#ffffcc',
+  'unassigned': '#E7E7E7',
   'forecast': '#ccffcc'
 }
 
