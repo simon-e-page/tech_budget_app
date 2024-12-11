@@ -9,6 +9,7 @@ from anvil.tables import app_tables
 from .... import Data
 from ....Data import EmployeesModel, PositionsModel, PayrollImporterModel
 from ..Position import Position
+from ....Tickets.BudgetLines.ImportActuals.ProgressForm import ProgressForm
 
 COLORS = {
   'new': '#ccffcc',
@@ -241,13 +242,15 @@ class PayrollImport(PayrollImportTemplate):
     return ret
 
   def add_costs(self, costs):
-    ret = True
+    progress = ProgressForm()
+    progress.initiate(1, len(costs), 1)
+    result = progress.begin(self.importer.background_bulk_actuals, self.year_month, costs)
     
-    for cost_entry in costs:
-      employee_id = cost_entry['employee_id']
-      amount = cost_entry[str(self.year_month)]
-      employee = self.employees.get(employee_id)
-      ret = ret and employee.add_actual(self.year_month, amount)
-    return ret
+    #for cost_entry in costs:
+    #  employee_id = cost_entry['employee_id']
+    #  amount = cost_entry[str(self.year_month)]
+    #  employee = self.employees.get(employee_id)
+    #  ret = ret and employee.add_actual(self.year_month, amount)
+    return result
       
       

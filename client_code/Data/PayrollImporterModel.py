@@ -82,5 +82,8 @@ class PayrollImporter:
       raise
     return file_obj
 
+  def background_bulk_actuals(self, year_month, employee_costs):
+    result = anvil.server.call("PayrollImporter_launcher", 'background_bulk_actuals', year_month, employee_costs)
+    return result
     
 PAYROLL_IMPORTER = PayrollImporter()
