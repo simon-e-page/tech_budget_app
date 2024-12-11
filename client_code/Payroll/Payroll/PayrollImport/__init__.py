@@ -42,6 +42,8 @@ class PayrollImport(PayrollImportTemplate):
 
   def show(self):
     res = alert(self, title='Import Actuals', buttons=[('Cancel', False)], large=True)
+    if res:
+      Notification("Import successful!").show()
     
   def payroll_loader_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
@@ -64,7 +66,7 @@ class PayrollImport(PayrollImportTemplate):
       new_data = self.importer.parse(year_month, file)
       try:
         self.new_data = new_data
-        self.employees = new_data['employees']
+        self.employee_data = new_data['employees']
         self.totals = new_data['totals']
         self.costs = new_data['costs']
         self.unassigned = new_data['unassigned']
@@ -88,7 +90,7 @@ class PayrollImport(PayrollImportTemplate):
 
 
   def set_initial_table_data(self):
-    data = [ x for x in self.employees if x['employee_id'] in self.unassigned ]
+    data = [ x for x in self.employee_data if x['employee_id'] in self.unassigned ]
     for item in data:
       item['position'] = { 'choice': None, 'position': None }
     self.unassigned_table.data = data
@@ -187,12 +189,21 @@ class PayrollImport(PayrollImportTemplate):
       - {len(self.costs[str(self.year_month)])} payroll entries to add
       Total payroll costs for {self.year_month}: {costs_total}
       """
+      
       if confirm(message):
-        print("Ready to go!")
-        self.add_new_positions(new_positions)
-        self.make_assignments(new_assignments)
-        self.add_costs(self.costs[str(self.year_month)])
-        pass
+        results = {}
+        results['New Positions'] = self.add_new_positions(new_positions)
+        results['Assignments'] = self.make_assignments(new_assignments)
+        if not all(results.values()):
+          error_message = [ f"Error in step: {k}\m" for k,v in results.items() if not v ]
+          alert(f"Errors: {error_message}")
+          return
+        result = self.add_costs(self.costs[str(self.year_month)])
+        if not result:
+          alert(f"Error saving actuals for {self.year_month}!")
+          return
+        else:
+          self.raise_event('x-close-alert',  value=True)
     else:
       alert("Costs do not match!")
       return
@@ -202,7 +213,7 @@ class PayrollImport(PayrollImportTemplate):
     remaining = self.year_months[index:]
     ret = False
     try:
-      for employee_id, info in pos_dict:
+      for employee_id, info in pos_dict.items():
         position = info['position']
         new_id = position.save()
         if new_id is not None:
@@ -218,7 +229,7 @@ class PayrollImport(PayrollImportTemplate):
     remaining = self.year_months[index:]
     ret = False
     try:
-      for employee_id, info in pos_dict:
+      for employee_id, info in pos_dict.items():
         position = info['position']
         pos_id = position.position_id
         if pos_id is not None:
@@ -228,8 +239,14 @@ class PayrollImport(PayrollImportTemplate):
       print(e)
     return ret
 
-  def add_costs(costs):
+  def add_costs(self, costs):
+    ret = True
+    
     for cost_entry in costs:
       employee_id = cost_entry['employee_id']
-      cost = cost_entry['amount']
+      amount = cost_entry[str(self.year_month)]
+      employee = self.employees.get(employee_id)
+      ret = ret and employee.add_actual(self.year_month, amount)
+    return ret
+      
       

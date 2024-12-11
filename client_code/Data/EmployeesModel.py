@@ -66,6 +66,15 @@ class Employee(AttributeToKey):
   def assign(self, position_id, year_months):
     return anvil.server.call('Employees', 'assign', employee_id=self.employee_id, position_id=position_id, year_months=year_months)
 
+  def add_actual(self, year_month, amount):
+    return anvil.server.call('Employees', 'add_actual', employee_id=self.employee_id, year_month=year_month, amount=amount)
+
+
+
+
+
+
+
 
 class Employees(AttributeToDict):
   def __init__(self, emp_list=None):
