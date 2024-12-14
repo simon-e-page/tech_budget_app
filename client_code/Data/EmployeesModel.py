@@ -148,6 +148,9 @@ class Employees(AttributeToDict):
 
   def refresh_cache(self):
     return anvil.server.call('Employees', 'refresh_cache')
-    
+
+  def get_annual_summary(self, brand, year):
+    return anvil.server.call('Employees', 'get_annual_summary', brand=brand, year=year)
+
 EMPLOYEES = Employees()
 #EMPLOYEES.load()

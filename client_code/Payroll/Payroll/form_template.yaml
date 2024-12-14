@@ -29,6 +29,13 @@ components:
     type: FlowPanel
   - components:
     - components:
+      - name: summary_table
+        properties: {}
+        type: form:Payroll.Payroll.SummaryTable
+      name: linear_panel_2
+      properties: {}
+      type: LinearPanel
+    - components:
       - layout_properties: {}
         name: label_1
         properties: {text: 'Positions and Position Salaries:'}

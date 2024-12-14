@@ -1,5 +1,6 @@
 components:
-- layout_properties: {full_width_row: true, grid_position: 'BKNSTS,KZKBCH'}
+- event_bindings: {table_built: summary_table_table_built}
+  layout_properties: {full_width_row: true, grid_position: 'BKNSTS,KZKBCH'}
   name: summary_table
   properties: {}
   type: form:TGQCF3WT6FVL2EM2:Tabulator
