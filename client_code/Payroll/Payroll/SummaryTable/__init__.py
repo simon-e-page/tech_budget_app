@@ -48,15 +48,18 @@ class SummaryTable(SummaryTableTemplate):
     
     for row in self.data:
       actuals_map = { ym: current or (row[str(ym)]['actual'] != 0) for ym, current in actuals_map.items() }
-      row_total = sum(row[str(year_month)][cost_type] for year_month, cost_type in self.year_months)
+      row_total = sum(row[str(year_month)][cost_type] for year_month, cost_type in self.year_months.items())
       row['total'] = { 'total': row_total }
 
     self.year_months = { ym: actuals_map[ym] and 'actual' or 'forecast' for ym in self.year_months.keys() }
     totals_map = { str(ym): 0 for ym in self.year_months.keys() }
+    py_totals_map = { str(ym): 0 for ym in self.year_months.keys() }
     for row in self.data:
-      totals_map = { str(ym): totals_map[ym] + row[str(ym)][cost_type] for ym, cost_type in self.year_months.keys()}      
-    totals_map['team'] = 'Total'
-    row.append(totals_map)
+      totals_map = { str(ym): totals_map[str(ym)] + row[str(ym)][cost_type] for ym, cost_type in self.year_months.items()}      
+      py_totals_map = { str(ym): totals_map[str(ym)] + row[str(ym)]['prior_year_actual'] for ym in self.year_months.keys()}
+      
+    total_row = { str(ym): { 'total': totals_map[str(ym)], 'prior_year_actual': py_totals_map[str(ym)] } for ym in self.year_months.keys() }
+    self.data.append(total_row)
   
   def prepare_summary_table(self):
     def cy_formatter(cell, **params):
