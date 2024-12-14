@@ -59,13 +59,14 @@ class PayrollImport(PayrollImportTemplate):
     if year_month is not None:
       if year_month == self.next_month:
         process = True
-      elif year_month > self.next_month:
+      elif self.next_month != "N/A" and year_month > self.next_month:
         print(f"{year_month} > {self.next_month}??")
         alert(f"File is for for a non-consecutive future month! Please choose a file for {self.next_month}")
-      elif year_month == self.actuals_to_date and confirm("Importing this file will overwrite existing records. Are you sure?"):
+      elif year_month in self.year_months and confirm(f"Importing this file for {year_month} will overwrite existing records. Are you sure?"):
         process = True
-      elif confirm(f"File is for a previous month. Proceeding will delete all months after {year_month}. Are you sure?"):
-        process = True
+      else:
+        alert("File is for a different year?!")
+        process = False
         
     if process:
       self.year_month = year_month
