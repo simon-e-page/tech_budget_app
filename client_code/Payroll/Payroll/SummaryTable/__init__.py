@@ -48,8 +48,8 @@ class SummaryTable(SummaryTableTemplate):
     
     for row in self.data:
       actuals_map = { ym: current or (row[str(ym)]['actual'] != 0) for ym, current in actuals_map.items() }
-      row_total = sum(row[str(year_month)][cost_type] for year_month, cost_type in self.year_months.items())
-      prior_total = sum(row[str(year_month)]['prior_year_actual'] for year_month in self.year_months.keys())
+      row_total = sum(row[str(ym)][cost_type] for ym, cost_type in self.year_months.items())
+      prior_total = sum(row[str(ym)]['prior_year_actual'] for ym in self.year_months.keys())
       row['total'] = { 'total': row_total, 'prior_year_actual': prior_total }
 
     self.year_months = { ym: actuals_map[ym] and 'actual' or 'forecast' for ym in self.year_months.keys() }
@@ -57,11 +57,11 @@ class SummaryTable(SummaryTableTemplate):
     py_totals_map = { str(ym): 0 for ym in self.year_months.keys() }
     for row in self.data:
       totals_map = { str(ym): totals_map[str(ym)] + row[str(ym)][cost_type] for ym, cost_type in self.year_months.items()}      
-      py_totals_map = { str(ym): totals_map[str(ym)] + row[str(ym)]['prior_year_actual'] for ym in self.year_months.keys()}
+      py_totals_map = { str(ym): py_totals_map[str(ym)] + row[str(ym)]['prior_year_actual'] for ym in self.year_months.keys()}
       
     total_row = { str(ym): { 'total': totals_map[str(ym)], 'prior_year_actual': py_totals_map[str(ym)], 'cost_type': 'total' } for ym in self.year_months.keys() }
-    grand_total =  sum(total_row[str(year_month)]['total'] for year_month in self.year_months.keys())
-    prior_grand_total =  sum(total_row[str(year_month)]['prior_year_actual'] for year_month in self.year_months.keys())
+    grand_total =  sum(total_row[str(ym)]['total'] for ym in self.year_months.keys())
+    prior_grand_total =  sum(total_row[str(ym)]['prior_year_actual'] for ym in self.year_months.keys())
     total_row['team'] = 'Total'
     total_row['total'] = { 'total': grand_total, 'prior_year_actual': prior_grand_total }
     self.data.append(total_row)
@@ -95,7 +95,7 @@ class SummaryTable(SummaryTableTemplate):
         display = 'NA' 
         
       #cell.getElement().style.backgroundColor = COLORS[cost_type]  
-      obj = Label(text=display, bold=bold, tooltip=prior_amount)
+      obj = Label(text=display, bold=bold, tooltip=FinancialNumber(prior_amount))
       return obj
 
     def team_formatter(cell, **params):
@@ -156,6 +156,13 @@ class SummaryTable(SummaryTableTemplate):
     self.summary_table.columns = columns
     self.summary_table.data = self.data
 
+    def zero_filter(data, **params):
+      d = dict(data)
+      actuals = abs(d['total']['total']) > 1
+      prior_actuals =  abs(d['total']['prior_year_actual']) > 1
+      return (actuals or prior_actuals)
+
+    self.summary_table.set_filter(zero_filter)
     # Any code you write here will run before the form opens.
 
   def summary_table_table_built(self, **event_args):

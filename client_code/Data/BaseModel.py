@@ -21,6 +21,9 @@ class FinancialNumber:
     def __str__(self):
       return f"{self:,.0f}"
 
+    def __repr__(self):
+      return f"{self:,.0f}"
+
 
 class AttributeToKey:
   _defaults = {}
