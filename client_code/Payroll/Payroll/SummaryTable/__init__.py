@@ -12,7 +12,8 @@ from .... import Data
 
 COLORS={
   'actual': '#ffffcc',
-  'forecast': '#ccffcc'
+  'forecast': '#ccffcc',
+  'total': 'white'
 }
 
 class SummaryTable(SummaryTableTemplate):
@@ -27,7 +28,7 @@ class SummaryTable(SummaryTableTemplate):
     self.year_months = { k: 'forecast' for k in year_months_keys }
     #self.year_months = [ (self.year - (x>6))* 100 + x for x in [ 7,8,9,10,11,12,1,2,3,4,5,6 ]  ]
     
-    self.positions_table.options = {
+    self.summary_table.options = {
       "index": "position_id",  # or set the index property here
       "selectable": "highlight",
       "css_class": ["table-striped", "table-bordered", "table-condensed"],
@@ -41,15 +42,28 @@ class SummaryTable(SummaryTableTemplate):
   
   def get_data(self):
     self.data = self.employees.get_annual_summary(brand=self.brand, year=self.year)
-    # TODO: identify Actual columns, create total row
+    # TODO: identify Actual columns, create total row, create total column
 
+    actuals_map = { ym: False for ym in self.year_months.keys() }
     
+    for row in self.data:
+      actuals_map = { ym: current or (row[str(ym)]['actual'] != 0) for ym, current in actuals_map.items() }
+      row_total = sum(row[str(year_month)][cost_type] for year_month, cost_type in self.year_months)
+      row['total'] = { 'total': row_total }
+
+    self.year_months = { ym: actuals_map[ym] and 'actual' or 'forecast' for ym in self.year_months.keys() }
+    totals_map = { str(ym): 0 for ym in self.year_months.keys() }
+    for row in self.data:
+      totals_map = { str(ym): totals_map[ym] + row[str(ym)][cost_type] for ym, cost_type in self.year_months.keys()}      
+    totals_map['team'] = 'Total'
+    row.append(totals_map)
+  
   def prepare_summary_table(self):
     def cy_formatter(cell, **params):
       values = cell.get_value()
       data = cell.get_data()
-      bold = (data['team'] == 'Total')
       cost_type = params.get('cost_type', 'forecast')
+      bold = (data['team'] == 'Total') or (cost_type == 'total')
       amount = values[cost_type]
 
       cell.getElement().style.backgroundColor = COLORS[cost_type]  
@@ -61,7 +75,7 @@ class SummaryTable(SummaryTableTemplate):
       year_month = params.get('year_month')
       data = cell.get_data()
       values = data[year_month]
-      bold = (data['team'] == 'Total')
+      bold = (data['team'] == 'Total') or (cost_type == 'total')
       amount = values[cost_type]
       prior_amount = values['prior_year_actual']
       if prior_amount != 0:
@@ -88,17 +102,33 @@ class SummaryTable(SummaryTableTemplate):
       month_cols = [ {
           'title': str(year_month),
           'field': str(year_month),
+          'width': 100,
           'formatter': cy_formatter,
-          'formatter_params': { 'cost_type': cost_type }
+          'formatterParams': { 'cost_type': cost_type }
         }, {
-          'title': 'LY Delta',
+          'title': 'LY',
           'field': '',
+          'width': 50,
           'formatter': ly_formatter,
-          'formatter_params': { 'cost_type': cost_type, 'year_month': str(year_month) }
+          'formatterParams': { 'cost_type': cost_type, 'year_month': str(year_month) }
         } ]
     
       columns += month_cols
-    #print(columns)
+
+    total_cols = [{
+          'title': 'Total',
+          'field': 'total',
+          'width': 50,
+          'formatter': cy_formatter,
+          'formatterParams': { 'cost_type': 'total' }      
+    },{
+          'title': 'LY',
+          'field': '',
+          'width': 50,
+          'formatter': ly_formatter,
+          'formatterParams': { 'year_month': 'total', 'cost_type': 'total' }            
+    }]            
+    columns += total_cols
     
     self.summary_table.columns = columns
     self.summary_table.data = self.data

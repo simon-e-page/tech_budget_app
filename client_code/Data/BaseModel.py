@@ -18,6 +18,8 @@ class FinancialNumber:
         else:
             return format(self.number, format_spec)
 
+    def __str__(self):
+      return f"{self:,.0f}"
 
 
 class AttributeToKey:
