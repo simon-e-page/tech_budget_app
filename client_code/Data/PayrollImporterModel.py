@@ -49,6 +49,9 @@ class PayrollImporter:
     #year_month = anvil.server.call('PayrollImporter', 'check_filename_patterns', brand=Data.CURRENT_BRAND, filename=filename)
     if Data.CURRENT_BRAND == 'JB_AU':
       pattern = r'P.*IT Payroll Costs ([A-Z]{3})(\d{2}).xlsx$'
+    elif Data.CURRENT_BRAND == 'TGG':
+      pattern = r'Employee Earnings Extract ([A-Z]{3})(\d{2}).xlsx$'
+      
     match = re.search(pattern, filename)
     
     if match:
