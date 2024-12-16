@@ -33,7 +33,8 @@ class SummaryTable(SummaryTableTemplate):
       "selectable": "highlight",
       "css_class": ["table-striped", "table-bordered", "table-condensed"],
       'pagination': True,
-      'paginationSize': 5
+      'paginationSize': 5,
+      'frozenRows': 1
     }
     # Set Form properties and Data Bindings.
     self.get_data()
@@ -64,7 +65,7 @@ class SummaryTable(SummaryTableTemplate):
     prior_grand_total =  sum(total_row[str(ym)]['prior_year_actual'] for ym in self.year_months.keys())
     total_row['team'] = 'Total'
     total_row['total'] = { 'total': grand_total, 'prior_year_actual': prior_grand_total }
-    self.data.append(total_row)
+    self.data = [total_row] + self.data
   
   def prepare_summary_table(self):
     def cy_formatter(cell, **params):

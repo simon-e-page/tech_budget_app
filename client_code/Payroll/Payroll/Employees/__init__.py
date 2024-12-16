@@ -171,16 +171,25 @@ class Employees(EmployeesTemplate):
     remaining = self.year_months[index:]
     employee = self.employees.get(employee_id)
 
+    def update_team_label(sender, **event_args):
+      position_id = sender.selected_value
+      if position_id != 0:
+        position = self.positions.get(position_id)
+        sender.tag.text = position.team
+        
     form_title = f"Change assignment for {employee.full_name}"
     label1 = Label(text=f"From {year_month} to {last_month}")
     label2 = Label(text="Select new position or Exit: ")
-    dd = DropDown(items=position_list, selected_value=None, include_placeholder=True, placeholder="Select vacant position")
-
+    team_label = Label(text="")
+    dd = DropDown(items=position_list, selected_value=None, include_placeholder=True, placeholder="Select vacant position", tag=team_label)
+    dd.add_event_handler('change', update_team_label)
+    
     panel = LinearPanel()
     panel.add_component(label1)
     fp = FlowPanel()
     fp.add_component(label2)
     fp.add_component(dd)
+    fp.add_component(team_label)
     panel.add_component(fp)
 
     result = alert(content=panel, title=form_title, large=True, buttons=[('OK', True), ('Cancel', False)])
