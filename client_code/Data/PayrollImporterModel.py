@@ -24,9 +24,9 @@ MONTHS = {
 #####################################################################
 
 class PayrollImporter:
-  def parse(self, year_month, file_obj):
+  def parse(self, year_month, file_obj, password=None):
     try:
-      new_data = anvil.server.call('PayrollImporter', 'parse', Data.CURRENT_BRAND, year_month, file_obj)
+      new_data = anvil.server.call('PayrollImporter', 'parse', Data.CURRENT_BRAND, year_month, file_obj, password=password)
     except Exception as e:
       print("Error importing file!")
       print(e)

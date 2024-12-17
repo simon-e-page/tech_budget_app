@@ -74,8 +74,15 @@ class PayrollImport(PayrollImportTemplate):
         process = False
         
     if process:
+      input_form, input_box = self.get_input_box()
+      result = alert(input_form, title='Enter password', buttons=[('OK', True), ('Cancel', False)], large=True)
+      if result:
+        password = input_box.text
+      else:
+        password = None
+        
       self.year_month = year_month
-      new_data = self.importer.parse(year_month, file)
+      new_data = self.importer.parse(year_month, file, password=password)
       try:
         self.new_data = new_data
         self.employee_data = new_data['employees']
