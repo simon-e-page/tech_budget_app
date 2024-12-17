@@ -55,6 +55,9 @@ class PayrollImport(PayrollImportTemplate):
     
   def payroll_loader_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
+    if file is None:
+      return
+
     year_month = self.importer.check_brand(file.name)
     process = False
     
