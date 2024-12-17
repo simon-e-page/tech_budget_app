@@ -226,8 +226,8 @@ initial_load = [
   { 'classname': 'Users', 'methodname': 'get_roles', 'kwargs': {} },
   { 'classname': 'Users', 'methodname': 'search', 'kwargs': {} },
   { 'classname': 'Vendors', 'methodname': 'get_vendors', 'kwargs': {} },
-  { 'classname': 'Positions', 'methodname': 'get_positions', 'kwargs': { 'brand': CURRENT_BRAND } },
-  { 'classname': 'Employees', 'methodname': 'get_employees', 'kwargs': { 'brand': CURRENT_BRAND } },
+  { 'classname': 'Positions', 'methodname': 'get_positions', 'kwargs': {} },
+  { 'classname': 'Employees', 'methodname': 'get_employees', 'kwargs': {} },
 ]
 
 
@@ -260,6 +260,6 @@ UsersModel.ROLES.load(_roles=_roles)
 UsersModel.USERS.load(_users=_users)
 VendorsModel.VENDORS.load(_vendors=_vendors)
 PositionsModel.POSITIONS.load(_list=_positions)
-EmployeesModel.EMPLOYEES.load(_list=_employees, brand=CURRENT_BRAND)
+EmployeesModel.EMPLOYEES.load(_list=_employees)
 #print(PositionsModel.POSITIONS.all())
 refresh()

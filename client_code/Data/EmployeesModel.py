@@ -109,10 +109,10 @@ class Employees(AttributeToDict):
       self.add(employee_id, Employee(emp_json=emp_data))
       return self.get(employee_id)
       
-  def load(self, _list=None, brand=None):
+  def load(self, _list=None, **kwargs):
     self.__d__ = {}
     if _list is None:
-      _list = anvil.server.call('Employees', 'get_employees', brand=brand)
+      _list = anvil.server.call('Employees', 'get_employees', **kwargs)
     for employee in _list:
       self.new(employee)
 
