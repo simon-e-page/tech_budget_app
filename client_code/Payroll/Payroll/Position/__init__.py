@@ -30,6 +30,7 @@ class Position(PositionTemplate):
     
     if new:
       self.item = self.positions.blank()
+      self.item.brand = self.brand
     else:
       self.item = properties['item']
       self.salary = self.item.get_salary(self.year_month)

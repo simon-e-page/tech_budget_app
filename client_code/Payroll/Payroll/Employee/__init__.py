@@ -31,12 +31,20 @@ class Employee(EmployeeTemplate):
     
     if new:
       self.item = self.employees.blank()
+      self.item.brand = self.brand
+
+    print(f"Opening Employee for {self.brand}")
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
   def show(self):
     editables = [
+      { 
+        'key': 'brand', 
+        'label': 'Brand',
+        'enabled': False
+      },
       { 
         'key': 'employee_id', 
         'label': 'Employee ID'

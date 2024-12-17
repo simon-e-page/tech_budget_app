@@ -157,11 +157,41 @@ class PayrollImport(PayrollImportTemplate):
       else:
         obj = None
       return obj
-        
+
+    def id_formatter(cell, **params):
+      employee_id = cell.get_value()
+      data = cell.get_data()
+      if self.employees.get(employee_id, default=None) is None:
+        icon='fa:star'
+        data['position']['employee'] = 'new'
+      else:
+        icon = None
+        data['position']['employee'] = 'existing'
+      obj = Label(text=employee_id, icon=icon)
+      return obj
+
+    def set_gender(sender, **event_args):
+      sender.tag['gender'] = sender.selected_value
+      
+    def gender_formatter(cell, **params):
+      employee_id = cell.get_value()
+      data = cell.get_data()
+      employee = self.employees.get(employee_id, default=None)
+      if employee is None:
+        items = ['M', 'F']
+        obj = DropDown(items=items, selected_value=items[0], tag=data)
+        obj.add_event_handler('change', set_gender)
+      else:
+        data['gender'] = employee.gender
+        obj = Label(text=employee.gender)
+      return obj
+
+    
     columns = [
       {
         'title': 'Employee ID',
-        'field': 'employee_id'
+        'field': 'employee_id',
+        'formatter': id_formatter
       },
       {
         'title': 'Last Name',
@@ -170,6 +200,11 @@ class PayrollImport(PayrollImportTemplate):
       {
         'title': 'First Name',
         'field': 'firstname'
+      },
+      {
+        'title': 'Gender',
+        'field': 'gender',
+        'formatter': gender_formatter
       },
       {
         'title': 'Action',
@@ -200,7 +235,8 @@ class PayrollImport(PayrollImportTemplate):
     """This method is called when the button is clicked"""
     new_positions = {}
     new_assignments = {}
-
+    new_employees = {}
+    
     for emp in self.unassigned_table.data:
       if emp['position']['position'] is None:
         alert("Need to assign employees to a position to continue!")
@@ -209,18 +245,21 @@ class PayrollImport(PayrollImportTemplate):
         new_positions[emp['employee_id']] = {
           'position': emp['position']['position'],
           'salary': emp['position']['salary']
-        }
-        
+        }        
       else:
         new_assignments[emp['employee_id']] = {
           'position': emp['position']['position']
         }
-
+        
+      if emp['position']['employee'] == 'new':
+        new_employees[emp['employee_id']] = emp
+    
     finance_total = self.totals[str(self.year_month)]
     costs_total = sum(x[str(self.year_month)] for x in self.costs[str(self.year_month)] )
 
     if abs(costs_total - finance_total)<=1:
       message = f"""Ready to execute:
+      - {len(new_employees)} employees to create
       - {len(new_positions)} new positions to create
       - {len(new_assignments)} assignments to existing vacancies
       - {len(self.costs[str(self.year_month)])} payroll entries to add
@@ -229,6 +268,7 @@ class PayrollImport(PayrollImportTemplate):
       
       if confirm(message):
         results = {}
+        results['New Employees'] = self.add_new_employees(new_employees)
         results['New Positions'] = self.add_new_positions(new_positions)
         results['Assignments'] = self.make_assignments(new_assignments)
         if not all(results.values()):
@@ -249,7 +289,7 @@ class PayrollImport(PayrollImportTemplate):
   def add_new_positions(self, pos_dict):
     index = self.year_months.index(self.year_month)
     remaining = self.year_months[index:]
-    ret = False
+    ret = True
     try:
       for employee_id, info in pos_dict.items():
         position = info['position']
@@ -257,11 +297,37 @@ class PayrollImport(PayrollImportTemplate):
         if new_id is not None:
           position.set_salary(info['salary'], remaining)
           position.assign(employee_id, remaining)
-      ret = True
+          ret = ret and True
+        else:
+          ret = False
+      
     except Exception as e:
       print(e)
+      ret = False
     return ret
-    
+
+  def add_new_employees(self, emp_dict):
+    ret = True
+    try:
+      for employee_id, info in emp_dict.items():
+        employee = self.employees.blank()
+        employee.brand = self.brand
+        employee.employee_id = employee_id
+        employee.firstname = info['firstname']
+        employee.lastname = info['lastname']
+        employee.gender = info.get('gender', 'M')
+        new_id = employee.save()
+        if new_id is not None:
+          ret = ret and True
+        else:
+          ret = False
+    except Exception as e:
+      print(e)
+      ret = False
+
+    return ret
+
+  
   def make_assignments(self, pos_dict):
     index = self.year_months.index(self.year_month)
     remaining = self.year_months[index:]
@@ -277,6 +343,8 @@ class PayrollImport(PayrollImportTemplate):
       print(e)
     return ret
 
+
+  
   def add_costs(self, costs):
     progress = ProgressForm()
     progress.initiate(1, len(costs), 1)
