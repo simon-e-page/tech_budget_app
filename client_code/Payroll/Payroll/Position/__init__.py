@@ -41,6 +41,11 @@ class Position(PositionTemplate):
   def show(self):
     editables = [
       { 
+        'key': 'brand', 
+        'label': 'Brand',
+        'enabled': False
+      },
+      { 
         'key': 'position_id', 
         'label': 'Position ID',
         'enabled': False

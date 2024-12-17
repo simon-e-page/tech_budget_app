@@ -21,6 +21,8 @@ ICONS = {
   'existing': None
 }
 
+GENDERS = ['M', 'F']
+
 class PayrollImport(PayrollImportTemplate):
   def __init__(self, **properties):
     self.employees = EmployeesModel.EMPLOYEES
@@ -174,12 +176,13 @@ class PayrollImport(PayrollImportTemplate):
       sender.tag['gender'] = sender.selected_value
       
     def gender_formatter(cell, **params):
-      employee_id = cell.get_value()
       data = cell.get_data()
+      employee_id = data['employee_id']
       employee = self.employees.get(employee_id, default=None)
       if employee is None:
-        items = ['M', 'F']
-        obj = DropDown(items=items, selected_value=items[0], tag=data)
+        gender = data.get('gender') or 'M'
+        print(f"Gender value for {employee_id}: {gender}")
+        obj = DropDown(items=GENDERS, selected_value=gender, tag=data)
         obj.add_event_handler('change', set_gender)
       else:
         data['gender'] = employee.gender
@@ -315,7 +318,10 @@ class PayrollImport(PayrollImportTemplate):
         employee.employee_id = employee_id
         employee.firstname = info['firstname']
         employee.lastname = info['lastname']
-        employee.gender = info.get('gender', 'M')
+        gender = info.get('gender')
+        if gender is None:
+          gender= 'M'
+        employee.gender = gender
         new_id = employee.save()
         if new_id is not None:
           ret = ret and True
