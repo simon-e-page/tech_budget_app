@@ -95,7 +95,7 @@ class PayrollImport(PayrollImportTemplate):
         if new_data is None:
           raise ValueError("Error parsing file - wrong password?")
       except Exception as e:
-        alert("Error parsing file - wrong passowrd?")
+        alert("Error parsing file - wrong password?")
         return None
 
         
