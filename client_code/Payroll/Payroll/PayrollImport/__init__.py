@@ -52,6 +52,14 @@ class PayrollImport(PayrollImportTemplate):
     res = alert(self, title='Import Actuals', buttons=[('Cancel', False)], large=True)
     if res:
       Notification("Import successful!").show()
+
+  def get_input_box(self):
+    input_box = TextBox(placeholder="Enter Password")
+    label = Label(text="Excel Password: ")
+    fp = FlowPanel()
+    fp.add_component(label)
+    fp.add_component(input_box)
+    return fp, input_box
     
   def payroll_loader_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
