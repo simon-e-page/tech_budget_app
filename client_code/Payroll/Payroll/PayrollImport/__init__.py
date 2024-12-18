@@ -90,7 +90,15 @@ class PayrollImport(PayrollImportTemplate):
         password = None
         
       self.year_month = year_month
-      new_data = self.importer.parse(year_month, file, password=password)
+      try:
+        new_data = self.importer.parse(year_month, file, password=password)
+        if new_data is None:
+          raise ValueError("Error parsing file - wrong password?")
+      except Exception as e:
+        alert("Error parsing file - wrong passowrd?")
+        return None
+
+        
       try:
         self.new_data = new_data
         self.employee_data = new_data['employees']
