@@ -21,6 +21,7 @@ class Payroll(PayrollTemplate):
     self.employees = EmployeesModel.EMPLOYEES
     self.positions = PositionsModel.POSITIONS
     self.year = Data.CURRENT_YEAR
+    self.brand = Data.CURRENT_BRAND
     #self.employees.load()
     #self.positions.load()
     
@@ -47,4 +48,4 @@ class Payroll(PayrollTemplate):
   def update_budget_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     if confirm(f'Update all actuals and forecasts for each month in {self.year}?'):
-      Data.update_payroll_budget(self.year)
+      Data.update_payroll_budget(self.brand, self.year)

@@ -199,8 +199,8 @@ def apply_attribute_splits(vendor_name, forecast_ids, actual_ids, splits, year=N
     ret = False
   return ret
 
-def update_payroll_budget(year):
-  return anvil.server.call('Calendar', 'update_payroll_budget', year=year)
+def update_payroll_budget(brand, year):
+  return anvil.server.call('Calendar', 'update_payroll_budget', brand=brand, year=year)
 
 
 #def callback(callback_obj, callback_func):
