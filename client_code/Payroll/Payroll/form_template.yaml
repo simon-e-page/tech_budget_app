@@ -21,6 +21,11 @@ components:
       name: button_2
       properties: {text: Reload}
       type: Button
+    - event_bindings: {click: update_budget_button_click}
+      layout_properties: {}
+      name: update_budget_button
+      properties: {text: Update Budget}
+      type: Button
     data_bindings:
     - {code: self.mode=='Budget', property: visible, writeback: false}
     layout_properties: {full_width_row: true, grid_position: 'TEPHPC,WWTWNI'}
