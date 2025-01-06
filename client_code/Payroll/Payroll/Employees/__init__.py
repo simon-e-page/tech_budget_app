@@ -161,9 +161,16 @@ class Employees(EmployeesTemplate):
     year_month = assignment['year_month']
     brand = Data.CURRENT_BRAND
     
+    current_position = self.positions.get(position_id)
+    
     position_list = [('Exit', 0)]
     position_ids = self.positions.get_vacant(brand, year_month)
-    position_list += [ (self.positions.get(x).title, x) for x in position_ids ]
+    
+    def position_desc(position_id):
+      p = self.positions.get(position_id)
+      return f"{p.title} in {p.team}"
+      
+    position_list += [ (position_desc(x), x) for x in position_ids ]
     
     # TODO: implement method to return vacant positions
     last_month = self.year_months[-1]
@@ -175,9 +182,12 @@ class Employees(EmployeesTemplate):
       position_id = sender.selected_value
       if position_id != 0:
         position = self.positions.get(position_id)
+        line_manager = position.line_manager
+        manager_employee = self.positions.
         sender.tag.text = position.team
         
     form_title = f"Change assignment for {employee.full_name}"
+    label_current = Label(text=f"Current Position: {current_position.title} in {current_position.team}")
     label1 = Label(text=f"From {year_month} to {last_month}")
     label2 = Label(text="Select new position or Exit: ")
     team_label = Label(text="")
@@ -185,6 +195,7 @@ class Employees(EmployeesTemplate):
     dd.add_event_handler('change', update_team_label)
     
     panel = LinearPanel()
+    panel.add_component(label_current)
     panel.add_component(label1)
     fp = FlowPanel()
     fp.add_component(label2)

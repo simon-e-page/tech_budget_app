@@ -78,7 +78,9 @@ class Position(AttributeToKey):
 
   def assign(self, employee_id, year_months):
     return anvil.server.call('Employees', 'assign', employee_id=employee_id, position_id=self.position_id, year_months=year_months)
-    
+
+  def get_assigned_employee(self, year_month):
+    employee_id = 
   def set_costed_vacancy(self, year_months):
     # TODO: create assignments with employee=None
     return anvil.server.call('Employees', 'assign', position_id=self.position_id, employee_id=None, year_months=year_months)
